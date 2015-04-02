@@ -20,10 +20,11 @@
         <td class="text-center">
             <div ng-hide="isExpExc(exception.id)">{{exception.datems | date : 'MMM d, y'}}</div>
             <div ng-show="isExpExc(exception.id)">
+<!--
                 <input type="text" class="form-control" size="8" datepicker-popup="{{format}}" ng-click="toggleDP1($event)" show-button-bar="false"
                        ng-model="exception.datems" is-open="openedDP1" datepicker-options="dateOptions"
                        close-on-date-selection="false" ng-required="true" />
-            </div>
+-->            </div>
         </td>
         <td class="text-center">
             <div ng-hide="isExpExc(exception.id)">{{exception.days}}</div>
@@ -54,10 +55,11 @@
             <input type="text" class="form-control" size="30" ng-model="newException.desc" placeholder="Exception Description" ng-required />
         </td>
         <td class="text-center">
+<!--
             <input type="text" class="form-control" size="8" datepicker-popup="{{format}}" ng-click="toggleDP2($event)" show-button-bar="false"
                    ng-model="newException.datems" is-open="openedDP2" datepicker-options="dateOptions"
                    close-on-date-selection="false" ng-required="true" placeholder="MM/DD/YYYY" />
-        </td>
+-->        </td>
         <td class="text-center">
             <input type="text" class="form-control" size="2" ng-model="newException.days" placeholder="Days" ng-required />
         </td>
