@@ -207,7 +207,7 @@ angular.module('manage.manageHours', [])
         return {
             restrict: 'AC',
             controller: 'semListCtrl',
-            templateUrl: 'manageSem.tpl.html'
+            templateUrl: 'manageHours/manageSem.tpl.html'
         };
     })
 
@@ -321,6 +321,6 @@ angular.module('manage.manageHours', [])
         return {
             restrict: 'AC',
             controller: 'exListCtrl',
-            templateUrl: 'manageEx.tpl.html'
+            templateUrl: 'manageHours/manageEx.tpl.html'
         };
     })
