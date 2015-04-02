@@ -105,6 +105,9 @@ angular.module('manage.manageHours', [])
                 .success(function(data) {
                     console.dir(data);
                     $scope.allowedLibraries = data;
+                    for (var lib = 0; lib < data.exc.length; lib++)
+                        for (var ex = 0; ex < data.exc[lib].ex.length; ex++)
+                            data.exc[lib].ex[ex].datems = new Date(data.exc[lib].ex[ex].date * 1000);
                 })
                 .error(function(data, status, headers, config) {
                     console.log(data);
