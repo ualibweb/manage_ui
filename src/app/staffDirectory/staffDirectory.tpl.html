@@ -2,46 +2,50 @@
 
 <div>
     <form ng-submit="addPerson()">
-        <input type="text" class="form-control" placeholder="First Name" size="25" maxlength="25" ng-model="formData.first" required>
-        <input type="text" class="form-control" placeholder="Last Name" size="25" maxlength="25" ng-model="formData.last" required><br>
-        <input type="text" class="form-control" placeholder="Email" size="40" maxlength="255" ng-model="formData.email" required>
-        <input type="text" class="form-control" placeholder="Title" size="40" maxlength="150" ng-model="formData.title" required><br>
-        <select class="form-control" ng-model="formData.rank" required>
-            <option value="0">No Rank</option>
-            <option value="Prof.">Professor</option>
-            <option value="Asso. Prof.">Associate Professor</option>
-            <option value="Asst. Prof.">Assistant Professor</option>
-        </select>
-        <select class="form-control" ng-model="formData.dept" required>
-            <option value="Acquisitions">Acquisitions</option>
-            <option value="Annex Services">Annex Services</option>
-            <option value="Area Computing Services">Area Computing Services</option>
-            <option value="Business Library">Business Library</option>
-            <option value="Business Office">Business Office</option>
-            <option value="Cataloging &amp; Metadata Services">Cataloging &amp; Metadata Services</option>
-            <option value="Collection Management">Collection Management</option>
-            <option value="Digital Humanities Center">Digital Humanities Center</option>
-            <option value="Digital Services">Digital Services</option>
-            <option value="Education Library">Education Library</option>
-            <option value="Electronic Resources">Electronic Resources</option>
-            <option value="Gorgas Information Services">Gorgas Information Services</option>
-            <option value="Gorgas Library, Circulation Department">Gorgas Library, Circulation Department</option>
-            <option value="Government Documents">Government Documents</option>
-            <option value="Health Sciences Library">Health Sciences Library</option>
-            <option value="ILS &amp; E-Resources Management">ILS &amp; E-Resources Management</option>
-            <option value="Interlibrary Loan">Interlibrary Loan</option>
-            <option value="Library Administration">Library Administration</option>
-            <option value="Music Library">Music Library</option>
-            <option value="Office of Library Technology">Office of Library Technology</option>
-            <option value="Sanford Media Center">Sanford Media Center</option>
-            <option value="School of Social Work">School of Social Work</option>
-            <option value="Science and Engineering Library">Science and Engineering Library</option>
-            <option value="Special Collections">Special Collections</option>
-            <option value="Web Infrastructure &amp; Application Development">Web Infrastructure &amp; Application Development</option>
-            <option value="Web Services">Web Services</option>
-        </select>
-        <input type="text" class="form-control" placeholder="Phone" size="8" maxlength="8" ng-model="formData.phone" required>
-        <input type="text" class="form-control" placeholder="Fax" size="8" maxlength="8" ng-model="formData.fax" required><br>
+        <form class="form-inline">
+            <input type="text" class="form-control" placeholder="First Name" size="25" maxlength="25" ng-model="formData.first" required>
+            <input type="text" class="form-control" placeholder="Last Name" size="25" maxlength="25" ng-model="formData.last" required>
+            <input type="text" class="form-control" placeholder="Email" size="40" maxlength="255" ng-model="formData.email" required>
+            <input type="text" class="form-control" placeholder="Title" size="40" maxlength="150" ng-model="formData.title" required>
+        </form>
+        <form class="form-inline">
+            <select class="form-control" ng-model="formData.rank" required>
+                <option value="0">No Rank</option>
+                <option value="Prof.">Professor</option>
+                <option value="Asso. Prof.">Associate Professor</option>
+                <option value="Asst. Prof.">Assistant Professor</option>
+            </select>
+            <select class="form-control" ng-model="formData.dept" required>
+                <option value="Acquisitions">Acquisitions</option>
+                <option value="Annex Services">Annex Services</option>
+                <option value="Area Computing Services">Area Computing Services</option>
+                <option value="Business Library">Business Library</option>
+                <option value="Business Office">Business Office</option>
+                <option value="Cataloging &amp; Metadata Services">Cataloging &amp; Metadata Services</option>
+                <option value="Collection Management">Collection Management</option>
+                <option value="Digital Humanities Center">Digital Humanities Center</option>
+                <option value="Digital Services">Digital Services</option>
+                <option value="Education Library">Education Library</option>
+                <option value="Electronic Resources">Electronic Resources</option>
+                <option value="Gorgas Information Services">Gorgas Information Services</option>
+                <option value="Gorgas Library, Circulation Department">Gorgas Library, Circulation Department</option>
+                <option value="Government Documents">Government Documents</option>
+                <option value="Health Sciences Library">Health Sciences Library</option>
+                <option value="ILS &amp; E-Resources Management">ILS &amp; E-Resources Management</option>
+                <option value="Interlibrary Loan">Interlibrary Loan</option>
+                <option value="Library Administration">Library Administration</option>
+                <option value="Music Library">Music Library</option>
+                <option value="Office of Library Technology">Office of Library Technology</option>
+                <option value="Sanford Media Center">Sanford Media Center</option>
+                <option value="School of Social Work">School of Social Work</option>
+                <option value="Science and Engineering Library">Science and Engineering Library</option>
+                <option value="Special Collections">Special Collections</option>
+                <option value="Web Infrastructure &amp; Application Development">Web Infrastructure &amp; Application Development</option>
+                <option value="Web Services">Web Services</option>
+            </select>
+            <input type="text" class="form-control" placeholder="Phone" size="8" maxlength="8" ng-model="formData.phone" required>
+            <input type="text" class="form-control" placeholder="Fax" size="8" maxlength="8" ng-model="formData.fax" required>
+        </form>
         <button type="submit" class="btn btn-primary" ng-click="addPerson()">Add New Person</button>
     </form>
     <span ng-model="formResponse">{{formResponse}}</span>

@@ -912,15 +912,13 @@ angular.module('manage.staffDirectory', [])
                 }
             };
             $scope.addSubject = function(person){
-                if (person.newSubject > 0){
-                    sdFactory.postData({addSubject : 1}, person)
-                        .success(function(data, status, headers, config) {
-                            $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects.push($scope.selSubj);
-                        })
-                        .error(function(data, status, headers, config) {
-                            $scope.subjResponse = "Error: Could not add subject! " + data;
-                        });
-                }
+                sdFactory.postData({addSubject : 1}, person)
+                    .success(function(data, status, headers, config) {
+                        $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects.push($scope.selSubj);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.subjResponse = "Error: Could not add subject! " + data;
+                    });
             };
 
             $scope.formData = {};
