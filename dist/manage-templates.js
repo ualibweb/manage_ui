@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html']);
+angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageUserGroups/manageUG.tpl.html']);
 
 angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageEx.tpl.html",
@@ -223,7 +223,7 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "        <th scope=\"row\">{{user.name}}\n" +
     "        </th>\n" +
     "        <td class=\"text-center\">\n" +
-    "            <input type=\"checkbox\" ng-model=\"user.role\" ng-true-value=\"1\" ng-false-value=\"0\">\n" +
+    "            <input type=\"checkbox\" ng-model=\"user.role\">\n" +
     "        </td>\n" +
     "        <td class=\"text-left\">\n" +
     "            <div class=\"row\" ng-repeat=\"lib in dataUL.locations\">\n" +
@@ -271,5 +271,99 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "        </td>\n" +
     "    </tr>\n" +
     "</table>\n" +
+    "");
+}]);
+
+angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageUserGroups/manageUG.tpl.html",
+    "<tabset justified=\"true\">\n" +
+    "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
+    "        <div ng-show=\"tab.number == 0\">\n" +
+    "            <table class=\"table table-hover table-condensed\">\n" +
+    "                <thead>\n" +
+    "                <tr>\n" +
+    "                    <th>User Login</th>\n" +
+    "                    <th class=\"text-center\">Name</th>\n" +
+    "                    <th class=\"text-center\">Access Rights to Web Applications</th>\n" +
+    "                    <th class=\"text-center\">Action</th>\n" +
+    "                </tr>\n" +
+    "                </thead>\n" +
+    "                <tr ng-repeat=\"user in users\" ng-click=\"expandUser(user)\">\n" +
+    "                    <th scope=\"row\">\n" +
+    "                        {{user.wpLogin}}\n" +
+    "                    </th>\n" +
+    "                    <td class=\"text-center\">\n" +
+    "                        {{user.name}}\n" +
+    "                    </td>\n" +
+    "                    <td class=\"text-center\">\n" +
+    "                        <div ng-show=\"isExpUser(user.id) && $index > 0\">\n" +
+    "                            <div class=\"row\" ng-repeat=\"app in apps\">\n" +
+    "                                <div class=\"col-xs-4 text-right\">\n" +
+    "                                    <input type=\"checkbox\" ng-model=\"user.access[$index]\">\n" +
+    "                                </div>\n" +
+    "                                <div class=\"col-xs-8\">\n" +
+    "                                    <a href=\"{{app.link}}\">{{app.appName}}</a>\n" +
+    "                                </div>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                        <div ng-hide=\"isExpUser(user.id) && $index > 0\">\n" +
+    "                            <div class=\"row\" ng-repeat=\"app in apps\">\n" +
+    "                                <div class=\"col-xs-4 text-right\">\n" +
+    "\n" +
+    "                                </div>\n" +
+    "                                <div class=\"col-xs-8\">\n" +
+    "                                    <div ng-show=\"user.access[$index]\">\n" +
+    "                                        <a href=\"{{app.link}}\">{{app.appName}}</a>\n" +
+    "                                    </div>\n" +
+    "                                </div>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                    </td>\n" +
+    "                    <td class=\"text-center\">\n" +
+    "                        <div ng-show=\"isExpUser(user.id)\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"updateUser(user)\" ng-disabled=\"isLoading\"\n" +
+    "                                    ng-show=\"$index > 0\">Save</button>\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteUser(user, $index)\" ng-disabled=\"isLoading\"\n" +
+    "                                    ng-show=\"$index > 0\">Remove</button><br>\n" +
+    "                            {{result}}\n" +
+    "                        </div>\n" +
+    "                    </td>\n" +
+    "                </tr>\n" +
+    "                <tr>\n" +
+    "                    <th scope=\"row\">\n" +
+    "                        <select class=\"form-control\" ng-model=\"newUser\" ng-options=\"user.name for user in wpUsers\">\n" +
+    "                        </select>\n" +
+    "                    </th>\n" +
+    "                    <td class=\"text-center\">\n" +
+    "\n" +
+    "                    </td>\n" +
+    "                    <td class=\"text-center\">\n" +
+    "                        <div class=\"row\" ng-repeat=\"app in apps\">\n" +
+    "                            <div class=\"col-xs-4 text-right\">\n" +
+    "                                <input type=\"checkbox\" ng-model=\"newUserAccess[$index]\">\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-xs-8\">\n" +
+    "                                <a href=\"{{app.link}}\">{{app.appName}}</a>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                    </td>\n" +
+    "                    <td class=\"text-center\">\n" +
+    "                        <div>\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"createUser(newUser)\" ng-disabled=\"isLoading\">Grant Access Rights</button><br>\n" +
+    "                            {{result2}}\n" +
+    "                        </div>\n" +
+    "                    </td>\n" +
+    "                </tr>\n" +
+    "            </table>\n" +
+    "        </div>\n" +
+    "        <div ng-show=\"tab.number == 1\">\n" +
+    "            <h4>Web applications with data manageable by users:</h4>\n" +
+    "            <h4 class=\"text-center\" ng-repeat=\"app in apps\" ng-show=\"$index > 0\">\n" +
+    "                <a href=\"{{app.link}}\">{{app.appName}}</a>\n" +
+    "            </h4>\n" +
+    "            <p>When we create new web application it has to be added to the database manually.</p>\n" +
+    "        </div>\n" +
+    "    </tab>\n" +
+    "</tabset>\n" +
     "");
 }]);

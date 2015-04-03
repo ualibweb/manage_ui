@@ -129,7 +129,7 @@ angular.module('manage.manageHoursUsers', [])
                     .success(function(data) {
                         if (data == 1){
                             $scope.result = "User access deleted!";
-                            $scope.getData();
+                            $scope.dataUL.users.splice(user);
                         } else
                             $scope.result = "Error! Could not delete user access!";
                         $scope.isLoading = false;

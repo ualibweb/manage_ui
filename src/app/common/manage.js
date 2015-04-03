@@ -11,4 +11,13 @@ angular.module('common.manage', [])
                 return $http({method: 'POST', url: url + file, params: params, data: data})
             }
         }
+    }])
+
+    .factory('ugFactory', ['$http', 'USER_GROUPS_URL', function ugFactory($http, url){
+        return {
+            postData: function(params, data){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'POST', url: url, params: params, data: data})
+            }
+        }
     }]);
