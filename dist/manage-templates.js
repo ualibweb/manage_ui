@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'siteFeedback/siteFeedback.tpl.html']);
+angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'siteFeedback/siteFeedback.tpl.html']);
 
 angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageEx.tpl.html",
@@ -274,6 +274,30 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "");
 }]);
 
+angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageOneSearch/manageOneSearch.tpl.html",
+    "<h3>OneSearch Recommended Links</h3>\n" +
+    "\n" +
+    "<form class=\"form-inline\" ng-submit=\"addRecommendation()\">\n" +
+    "    <div class=\"form-group\">\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Keyword\" size=\"30\" maxlength=\"200\" ng-model=\"addRec.keyword\" required>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" size=\"30\" maxlength=\"1024\" ng-model=\"addRec.link\" required>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\" size=\"30\" maxlength=\"100\" ng-model=\"addRec.title\" required>\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary\">Add Recommended Link</button>\n" +
+    "    </div>\n" +
+    "</form>\n" +
+    "<div ng-show=\"response.length > 0\">\n" +
+    "    {{response}}\n" +
+    "</div>\n" +
+    "\n" +
+    "<div ng-repeat=\"rec in recList.RecList\">\n" +
+    "    <div>\n" +
+    "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteRec(rec)\">Delete</button>\n" +
+    "        <span>{{rec.keyword}} = <a href=\"{{rec.link}}\">{{rec.description}}</a></span>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
 angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageUserGroups/manageUG.tpl.html",
     "<tabset justified=\"true\">\n" +
@@ -376,7 +400,7 @@ angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", 
     "    <div class=\"col-xs-1\">\n" +
     "        <button type=\"button\" class=\"btn btn-primary\"\n" +
     "                ng-click=\"delete(record)\"\n" +
-    "                ng-show=\"<?php echo $isAdmin; ?>\">\n" +
+    "                ng-show=\"false\">\n" +
     "            Delete\n" +
     "        </button>\n" +
     "    </div>\n" +

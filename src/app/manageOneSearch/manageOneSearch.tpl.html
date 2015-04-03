@@ -1,0 +1,20 @@
+<h3>OneSearch Recommended Links</h3>
+
+<form class="form-inline" ng-submit="addRecommendation()">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Keyword" size="30" maxlength="200" ng-model="addRec.keyword" required>
+        <input type="text" class="form-control" placeholder="http://www.example.com/" size="30" maxlength="1024" ng-model="addRec.link" required>
+        <input type="text" class="form-control" placeholder="Link Title" size="30" maxlength="100" ng-model="addRec.title" required>
+        <button type="submit" class="btn btn-primary">Add Recommended Link</button>
+    </div>
+</form>
+<div ng-show="response.length > 0">
+    {{response}}
+</div>
+
+<div ng-repeat="rec in recList.RecList">
+    <div>
+        <button type="button" class="btn btn-primary" ng-click="deleteRec(rec)">Delete</button>
+        <span>{{rec.keyword}} = <a href="{{rec.link}}">{{rec.description}}</a></span>
+    </div>
+</div>
