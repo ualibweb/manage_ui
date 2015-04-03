@@ -3,10 +3,8 @@ angular.module('manage', [
     'ui.bootstrap',
     'manage.common',
     'manage.templates',
-    'manage.manageHours'
+    'manage.manageHours',
+    'manage.manageHoursUsers'
 ])
 
 .constant('HOURS_MANAGE_URL', '//wwwdev2.lib.ua.edu/libhours2/')
-
-
-

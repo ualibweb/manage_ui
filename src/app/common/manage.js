@@ -6,9 +6,9 @@ angular.module('common.manage', [])
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'GET', url: url + "getJSON.php", params: params})
             },
-            postData: function(params, data){
+            postData: function(file, params, data){
                 params = angular.isDefined(params) ? params : {};
-                return $http({method: 'POST', url: url + "manageHours.php", params: params, data: data})
+                return $http({method: 'POST', url: url + file, params: params, data: data})
             }
         }
     }]);

@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageSem.tpl.html']);
+angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html']);
 
 angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageEx.tpl.html",
@@ -84,6 +84,53 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "");
 }]);
 
+angular.module("manageHours/manageLoc.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageHours/manageLoc.tpl.html",
+    "<table class=\"table table-hover table-condensed\">\n" +
+    "    <thead>\n" +
+    "    <tr>\n" +
+    "        <th>Library Name</th>\n" +
+    "        <th class=\"text-center\">ID</th>\n" +
+    "        <th class=\"text-center\">Parent ID</th>\n" +
+    "        <th class=\"text-center\">Action</th>\n" +
+    "    </tr>\n" +
+    "    </thead>\n" +
+    "    <tr ng-repeat=\"lib in dataUL.locations\" ng-click=\"expandLoc(lib)\">\n" +
+    "        <td>\n" +
+    "            {{lib.name}}\n" +
+    "        </td>\n" +
+    "        <td class=\"text-center\">\n" +
+    "            {{lib.lid}}\n" +
+    "        </td>\n" +
+    "        <td class=\"text-center\">\n" +
+    "            {{lib.parent}}\n" +
+    "        </td>\n" +
+    "        <td class=\"text-right\">\n" +
+    "            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"updateExc(exception)\" ng-show=\"isExpExc(exception.id)\" ng-disabled=\"isLoading\">Save</button>\n" +
+    "            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteExc(exception, $index)\" ng-show=\"isExpExc(exception.id)\" ng-disabled=\"isLoading\">Delete</button>\n" +
+    "            <div ng-show=\"isExpExc(exception.id)\"><br>{{result}}</div>\n" +
+    "        </td>\n" +
+    "    </tr>\n" +
+    "    <tr>\n" +
+    "        <td>\n" +
+    "            <input type=\"text\" class=\"form-control\" size=\"30\" ng-model=\"newLocation\" placeholder=\"Library Name\" ng-required />\n" +
+    "        </td>\n" +
+    "        <td class=\"text-center\">\n" +
+    "        </td>\n" +
+    "        <td class=\"text-center\">\n" +
+    "            <select class=\"form-control\" ng-model=\"newParent\" ng-options=\"lib.name for lib in dataUL.locations\">\n" +
+    "                <option value=\"\" selected>Select parent library</option>\n" +
+    "            </select>\n" +
+    "        </td>\n" +
+    "        <td class=\"text-right\">\n" +
+    "            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"createLoc(newLocation, newParent)\" ng-disabled=\"isLoading\">Create Location</button>\n" +
+    "            <br>{{result2}}\n" +
+    "        </td>\n" +
+    "    </tr>\n" +
+    "</table>\n" +
+    "");
+}]);
+
 angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageSem.tpl.html",
     "<table class=\"table table-hover table-condensed\">\n" +
@@ -155,6 +202,72 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "            <select class=\"form-control\" ng-model=\"day.to\">\n" +
     "                <option ng-repeat=\"hours in hrsTo\" ng-selected=\"{{day.to == hours.value}}\" ng-value=\"{{hours.value}}\">{{hours.name}}</option>\n" +
     "            </select>\n" +
+    "        </td>\n" +
+    "    </tr>\n" +
+    "</table>\n" +
+    "");
+}]);
+
+angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageHours/manageUsers.tpl.html",
+    "<table class=\"table table-hover table-condensed\">\n" +
+    "    <thead>\n" +
+    "    <tr>\n" +
+    "        <th>User Login</th>\n" +
+    "        <th class=\"text-center\">Access to This Page</th>\n" +
+    "        <th class=\"text-center\">Library Access</th>\n" +
+    "        <th class=\"text-center\">Action</th>\n" +
+    "    </tr>\n" +
+    "    </thead>\n" +
+    "    <tr ng-repeat=\"user in dataUL.users\" ng-click=\"expandUser(user)\">\n" +
+    "        <th scope=\"row\">{{user.name}}\n" +
+    "        </th>\n" +
+    "        <td class=\"text-center\">\n" +
+    "            <input type=\"checkbox\" ng-model=\"user.role\" ng-true-value=\"1\" ng-false-value=\"0\" ng-click=\"toggleUserAdmin(user)\">\n" +
+    "        </td>\n" +
+    "        <td class=\"text-left\">\n" +
+    "            <div class=\"row\" ng-repeat=\"lib in dataUL.locations\">\n" +
+    "                <div class=\"col-md-2\">\n" +
+    "                    <input type=\"checkbox\" ng-model=\"user.access[$index]\" ng-click=\"toggleCheckBox($index)\" ng-show=\"isExpUser(user.uid)\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-10\">\n" +
+    "                    <div ng-show=\"isExpUser(user.uid) || user.access[$index]\">{{lib.name}}</div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "        <td class=\"text-center\">\n" +
+    "            <div ng-show=\"isExpUser(user.uid)\">\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"updateUser(user)\" ng-disabled=\"isLoading\"\n" +
+    "                        ng-hide=\"expUserIndex == 0\">Save</button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteUser(user)\" ng-disabled=\"isLoading\"\n" +
+    "                        ng-hide=\"expUserIndex == 0\">Delete</button><br>\n" +
+    "                {{result}}\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "    </tr>\n" +
+    "    <tr>\n" +
+    "        <th scope=\"row\">\n" +
+    "            <select class=\"form-control\" ng-model=\"newUser\" ng-options=\"user.name for user in users\">\n" +
+    "            </select>\n" +
+    "        </th>\n" +
+    "        <td class=\"text-center\">\n" +
+    "            <input type=\"checkbox\" ng-model=\"newUserAdmin\" ng-click=\"toggleAdmin()\">\n" +
+    "        </td>\n" +
+    "        <td class=\"text-left\">\n" +
+    "            <div class=\"row\" ng-repeat=\"lib in dataUL.locations\">\n" +
+    "                <div class=\"col-md-2\">\n" +
+    "                    <input type=\"checkbox\" ng-model=\"newUserAccess[$index]\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-10\">\n" +
+    "                    {{lib.name}}\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "        <td class=\"text-center\">\n" +
+    "            <div>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"createUser(newUser)\" ng-disabled=\"isLoading\">Grant Access</button><br>\n" +
+    "                {{result2}}\n" +
+    "            </div>\n" +
     "        </td>\n" +
     "    </tr>\n" +
     "</table>\n" +

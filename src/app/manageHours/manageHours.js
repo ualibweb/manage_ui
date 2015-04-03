@@ -62,25 +62,13 @@ angular.module('manage.manageHours', [])
         {name:'Midnight', value:'2400'}
     ])
 
-    .controller('manageHrsCtrl', ['$scope', '$http', 'hmFactory', 'HOURS_FROM', 'HOURS_TO',
-        function manageHrsCtrl($scope, $http, hmFactory, hoursFrom, hoursTo){
+    .controller('manageHrsCtrl', ['$scope', '$http', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO',
+        function manageHrsCtrl($scope, $http, $animate, hmFactory, hoursFrom, hoursTo){
             $scope.allowedLibraries = [];
             $scope.isLoading = false;
             $scope.hrsFrom = hoursFrom;
             $scope.hrsTo = hoursTo;
             $scope.selLib = 0;
-
-            hmFactory.getData({manage : 1})
-                .success(function(data) {
-                    console.dir(data);
-                    $scope.allowedLibraries = data;
-                    for (var lib = 0; lib < data.exc.length; lib++)
-                        for (var ex = 0; ex < data.exc[lib].ex.length; ex++)
-                            data.exc[lib].ex[ex].datems = new Date(data.exc[lib].ex[ex].date * 1000);
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
 
             var cookies;
             $scope.GetCookie = function (name,c,C,i){
@@ -97,6 +85,18 @@ angular.module('manage.manageHours', [])
                 return cookies[name];
             };
             $http.defaults.headers.post = { 'X-CSRF-libHours' : $scope.GetCookie("CSRF-libHours") };
+
+            hmFactory.getData({manage : 1})
+                .success(function(data) {
+                    console.dir(data);
+                    $scope.allowedLibraries = data;
+                    for (var lib = 0; lib < data.exc.length; lib++)
+                        for (var ex = 0; ex < data.exc[lib].ex.length; ex++)
+                            data.exc[lib].ex[ex].datems = new Date(data.exc[lib].ex[ex].date * 1000);
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                });
 
             $scope.tabs = [
                 { name: 'Semesters',
@@ -158,7 +158,7 @@ angular.module('manage.manageHours', [])
         $scope.saveChanges = function(semester){
             semester.lid = $scope.allowedLibraries.sem[$scope.selLib].library.lid;
             $scope.loading = true;
-            hmFactory.postData({action : 1}, semester)
+            hmFactory.postData("manageHours.php", {action : 1}, semester)
                 .success(function(data) {
                     if (data == 1){
                         $scope.result = "Saved";
@@ -174,7 +174,7 @@ angular.module('manage.manageHours', [])
             if (confirm("Are you sure you want to delete " + semester.name + " semester?")){
                 $scope.loading = true;
                 semester.lid = $scope.allowedLibraries.sem[$scope.selLib].library.lid;
-                hmFactory.postData({action : 3}, semester)
+                hmFactory.postData("manageHours.php", {action : 3}, semester)
                     .success(function(data) {
                         if ((typeof data === 'object') && (data !== null)){
                             $scope.result = "Semester deleted";
@@ -191,7 +191,7 @@ angular.module('manage.manageHours', [])
         $scope.createSem = function(){
             $scope.loading = true;
             $scope.newSemester.lid = $scope.allowedLibraries.sem[$scope.selLib].library.lid;
-            hmFactory.postData({action : 2}, $scope.newSemester)
+            hmFactory.postData("manageHours.php", {action : 2}, $scope.newSemester)
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.result = "Semester created";
@@ -254,7 +254,7 @@ angular.module('manage.manageHours', [])
         };
         $scope.updateExc = function(exception){
             $scope.loading = true;
-            hmFactory.postData({action : 4}, exception)
+            hmFactory.postData("manageHours.php", {action : 4}, exception)
                 .success(function(data) {
                     if ( data == 1){
                         $scope.result = "Saved";
@@ -270,7 +270,7 @@ angular.module('manage.manageHours', [])
         $scope.deleteExc = function(exception, index){
             if (confirm("Are you sure you want to delete " + exception.desc + " exception?")){
                 $scope.loading = true;
-                hmFactory.postData({action : 5}, exception)
+                hmFactory.postData("manageHours.php", {action : 5}, exception)
                     .success(function(data) {
                         if ( data == 1){
                             $scope.allowedLibraries.exc[$scope.selLib].ex.splice(index, 1);
@@ -288,7 +288,7 @@ angular.module('manage.manageHours', [])
         $scope.createExc = function(){
             $scope.loading = true;
             $scope.newException.lid = $scope.allowedLibraries.sem[$scope.selLib].library.lid;
-            hmFactory.postData({action : 6}, $scope.newException)
+            hmFactory.postData("manageHours.php", {action : 6}, $scope.newException)
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.result = "Exception created";
@@ -305,7 +305,7 @@ angular.module('manage.manageHours', [])
 
         $scope.deleteOldExc = function(){
             $scope.loading = true;
-            hmFactory.postData({action : 7}, $scope.allowedLibraries.sem[$scope.selLib].library.lid)
+            hmFactory.postData("manageHours.php", {action : 7}, $scope.allowedLibraries.sem[$scope.selLib].library.lid)
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.expExc = -1;

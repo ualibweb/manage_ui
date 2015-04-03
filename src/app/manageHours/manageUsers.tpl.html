@@ -1,0 +1,61 @@
+<table class="table table-hover table-condensed">
+    <thead>
+    <tr>
+        <th>User Login</th>
+        <th class="text-center">Access to This Page</th>
+        <th class="text-center">Library Access</th>
+        <th class="text-center">Action</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="user in dataUL.users" ng-click="expandUser(user)">
+        <th scope="row">{{user.name}}
+        </th>
+        <td class="text-center">
+            <input type="checkbox" ng-model="user.role" ng-true-value="1" ng-false-value="0" ng-click="toggleUserAdmin(user)">
+        </td>
+        <td class="text-left">
+            <div class="row" ng-repeat="lib in dataUL.locations">
+                <div class="col-md-2">
+                    <input type="checkbox" ng-model="user.access[$index]" ng-click="toggleCheckBox($index)" ng-show="isExpUser(user.uid)">
+                </div>
+                <div class="col-md-10">
+                    <div ng-show="isExpUser(user.uid) || user.access[$index]">{{lib.name}}</div>
+                </div>
+            </div>
+        </td>
+        <td class="text-center">
+            <div ng-show="isExpUser(user.uid)">
+                <button type="button" class="btn btn-primary" ng-click="updateUser(user)" ng-disabled="isLoading"
+                        ng-hide="expUserIndex == 0">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="deleteUser(user)" ng-disabled="isLoading"
+                        ng-hide="expUserIndex == 0">Delete</button><br>
+                {{result}}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
+            <select class="form-control" ng-model="newUser" ng-options="user.name for user in users">
+            </select>
+        </th>
+        <td class="text-center">
+            <input type="checkbox" ng-model="newUserAdmin" ng-click="toggleAdmin()">
+        </td>
+        <td class="text-left">
+            <div class="row" ng-repeat="lib in dataUL.locations">
+                <div class="col-md-2">
+                    <input type="checkbox" ng-model="newUserAccess[$index]">
+                </div>
+                <div class="col-md-10">
+                    {{lib.name}}
+                </div>
+            </div>
+        </td>
+        <td class="text-center">
+            <div>
+                <button type="button" class="btn btn-primary" ng-click="createUser(newUser)" ng-disabled="isLoading">Grant Access</button><br>
+                {{result2}}
+            </div>
+        </td>
+    </tr>
+</table>

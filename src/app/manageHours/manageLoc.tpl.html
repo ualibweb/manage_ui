@@ -1,0 +1,42 @@
+<table class="table table-hover table-condensed">
+    <thead>
+    <tr>
+        <th>Library Name</th>
+        <th class="text-center">ID</th>
+        <th class="text-center">Parent ID</th>
+        <th class="text-center">Action</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="lib in dataUL.locations" ng-click="expandLoc(lib)">
+        <td>
+            {{lib.name}}
+        </td>
+        <td class="text-center">
+            {{lib.lid}}
+        </td>
+        <td class="text-center">
+            {{lib.parent}}
+        </td>
+        <td class="text-right">
+            <button type="button" class="btn btn-primary" ng-click="updateExc(exception)" ng-show="isExpExc(exception.id)" ng-disabled="isLoading">Save</button>
+            <button type="button" class="btn btn-primary" ng-click="deleteExc(exception, $index)" ng-show="isExpExc(exception.id)" ng-disabled="isLoading">Delete</button>
+            <div ng-show="isExpExc(exception.id)"><br>{{result}}</div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" class="form-control" size="30" ng-model="newLocation" placeholder="Library Name" ng-required />
+        </td>
+        <td class="text-center">
+        </td>
+        <td class="text-center">
+            <select class="form-control" ng-model="newParent" ng-options="lib.name for lib in dataUL.locations">
+                <option value="" selected>Select parent library</option>
+            </select>
+        </td>
+        <td class="text-right">
+            <button type="button" class="btn btn-primary" ng-click="createLoc(newLocation, newParent)" ng-disabled="isLoading">Create Location</button>
+            <br>{{result2}}
+        </td>
+    </tr>
+</table>
