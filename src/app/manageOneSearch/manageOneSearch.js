@@ -68,7 +68,7 @@ angular.module('manage.manageOneSearch', [])
                 }
             };
         }])
-    .directive('siteFeedbackList', function() {
+    .directive('recommendeLinksList', function() {
         return {
             restrict: 'AC',
             scope: {},
