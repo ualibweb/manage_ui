@@ -1,5 +1,7 @@
+<h2>Library Staff Directory</h2>
+
 <div>
-    <form id="fAddPerson" ng-submit="addPerson()">
+    <form ng-submit="addPerson()">
         <input type="text" class="form-control" placeholder="First Name" size="25" maxlength="25" ng-model="formData.first" required>
         <input type="text" class="form-control" placeholder="Last Name" size="25" maxlength="25" ng-model="formData.last" required><br>
         <input type="text" class="form-control" placeholder="Email" size="40" maxlength="255" ng-model="formData.email" required>
@@ -45,6 +47,7 @@
     <span ng-model="formResponse">{{formResponse}}</span>
 </div>
 
+<h3>Full list</h3>
 <div>
     <ul class="list-inline">Sort By:
         <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'first'" ng-click="sortMode='firstname'">First Name</button></li>
@@ -57,7 +60,7 @@
     <dl ng-repeat="person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode">
         <h4 ng-click="person.show = !person.show"><a>{{person.firstname}} {{person.lastname}}</a>,
             <span style="font-size: 14px;">{{person.title}} : {{person.department}}</span></h4>
-        <div class="personExp" id="{{person.id}}" ng-show="person.show && hasAccess">
+        <div class="personExp" id="{{person.id}}" ng-show="person.show && hasAccess == 1">
             <dt>Title</dt>
             <dd><input type="text" class="form-control" placeholder="{{person.title}}" size="40" maxlength="150" ng-model="person.title" required></dd>
             <dt>Rank</dt>
@@ -95,7 +98,7 @@
                 </div>
             </dd>
         </div>
-        <div class="personExp" id="{{person.id}}" ng-click="person.show = !person.show" ng-show="person.show && !hasAccess">
+        <div class="personExp" id="{{person.id}}" ng-click="person.show = !person.show" ng-show="person.show && hasAccess == 0">
             <dt>Title</dt>  <dd>{{person.title}}</dd>
             <dt ng-show="person.rank.length > 0">Rank</dt>  <dd>{{person.rank}}</dd>
             <dt>Departent</dt>  <dd>{{person.department}}</dd>
