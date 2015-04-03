@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'siteFeedback/siteFeedback.tpl.html']);
+angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
 
 angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageEx.tpl.html",
@@ -416,6 +416,127 @@ angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", 
     "    <div class=\"col-md-12\">\n" +
     "        Comments: {{record.comments}}\n" +
     "    </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+
+angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("staffDirectory/staffDirectory.tpl.html",
+    "<div>\n" +
+    "    <form id=\"fAddPerson\" ng-submit=\"addPerson()\">\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"First Name\" size=\"25\" maxlength=\"25\" ng-model=\"formData.first\" required>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Last Name\" size=\"25\" maxlength=\"25\" ng-model=\"formData.last\" required><br>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Email\" size=\"40\" maxlength=\"255\" ng-model=\"formData.email\" required>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Title\" size=\"40\" maxlength=\"150\" ng-model=\"formData.title\" required><br>\n" +
+    "        <select class=\"form-control\" ng-model=\"formData.rank\" required>\n" +
+    "            <option value=\"0\">No Rank</option>\n" +
+    "            <option value=\"Prof.\">Professor</option>\n" +
+    "            <option value=\"Asso. Prof.\">Associate Professor</option>\n" +
+    "            <option value=\"Asst. Prof.\">Assistant Professor</option>\n" +
+    "        </select>\n" +
+    "        <select class=\"form-control\" ng-model=\"formData.dept\" required>\n" +
+    "            <option value=\"Acquisitions\">Acquisitions</option>\n" +
+    "            <option value=\"Annex Services\">Annex Services</option>\n" +
+    "            <option value=\"Area Computing Services\">Area Computing Services</option>\n" +
+    "            <option value=\"Business Library\">Business Library</option>\n" +
+    "            <option value=\"Business Office\">Business Office</option>\n" +
+    "            <option value=\"Cataloging &amp; Metadata Services\">Cataloging &amp; Metadata Services</option>\n" +
+    "            <option value=\"Collection Management\">Collection Management</option>\n" +
+    "            <option value=\"Digital Humanities Center\">Digital Humanities Center</option>\n" +
+    "            <option value=\"Digital Services\">Digital Services</option>\n" +
+    "            <option value=\"Education Library\">Education Library</option>\n" +
+    "            <option value=\"Electronic Resources\">Electronic Resources</option>\n" +
+    "            <option value=\"Gorgas Information Services\">Gorgas Information Services</option>\n" +
+    "            <option value=\"Gorgas Library, Circulation Department\">Gorgas Library, Circulation Department</option>\n" +
+    "            <option value=\"Government Documents\">Government Documents</option>\n" +
+    "            <option value=\"Health Sciences Library\">Health Sciences Library</option>\n" +
+    "            <option value=\"ILS &amp; E-Resources Management\">ILS &amp; E-Resources Management</option>\n" +
+    "            <option value=\"Interlibrary Loan\">Interlibrary Loan</option>\n" +
+    "            <option value=\"Library Administration\">Library Administration</option>\n" +
+    "            <option value=\"Music Library\">Music Library</option>\n" +
+    "            <option value=\"Office of Library Technology\">Office of Library Technology</option>\n" +
+    "            <option value=\"Sanford Media Center\">Sanford Media Center</option>\n" +
+    "            <option value=\"School of Social Work\">School of Social Work</option>\n" +
+    "            <option value=\"Science and Engineering Library\">Science and Engineering Library</option>\n" +
+    "            <option value=\"Special Collections\">Special Collections</option>\n" +
+    "            <option value=\"Web Infrastructure &amp; Application Development\">Web Infrastructure &amp; Application Development</option>\n" +
+    "            <option value=\"Web Services\">Web Services</option>\n" +
+    "        </select>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Phone\" size=\"8\" maxlength=\"8\" ng-model=\"formData.phone\" required>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Fax\" size=\"8\" maxlength=\"8\" ng-model=\"formData.fax\" required><br>\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"addPerson()\">Add New Person</button>\n" +
+    "    </form>\n" +
+    "    <span ng-model=\"formResponse\">{{formResponse}}</span>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div>\n" +
+    "    <ul class=\"list-inline\">Sort By:\n" +
+    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'first'\" ng-click=\"sortMode='firstname'\">First Name</button></li>\n" +
+    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'last'\" ng-click=\"sortMode='lastname'\">Last Name</button></li>\n" +
+    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'title'\" ng-click=\"sortMode='title'\">Title</button></li>\n" +
+    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'dept'\" ng-click=\"sortMode='department'\">Department</button></li>\n" +
+    "        <li><input type=\"text\" placeholder=\"Filter by Last Name\" size=\"25\" maxlength=\"25\" ng-model=\"filterBy\"></li>\n" +
+    "    </ul>\n" +
+    "\n" +
+    "    <dl ng-repeat=\"person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode\">\n" +
+    "        <h4 ng-click=\"person.show = !person.show\"><a>{{person.firstname}} {{person.lastname}}</a>,\n" +
+    "            <span style=\"font-size: 14px;\">{{person.title}} : {{person.department}}</span></h4>\n" +
+    "        <div class=\"personExp\" id=\"{{person.id}}\" ng-show=\"person.show && hasAccess\">\n" +
+    "            <dt>Title</dt>\n" +
+    "            <dd><input type=\"text\" class=\"form-control\" placeholder=\"{{person.title}}\" size=\"40\" maxlength=\"150\" ng-model=\"person.title\" required></dd>\n" +
+    "            <dt>Rank</dt>\n" +
+    "            <dd><input type=\"text\" class=\"form-control\" placeholder=\"{{person.rank}}\" size=\"40\" maxlength=\"150\" ng-model=\"person.rank\"></dd>\n" +
+    "            <dt>Department</dt>\n" +
+    "            <dd><input type=\"text\" class=\"form-control\" placeholder=\"{{person.department}}\" size=\"40\" maxlength=\"150\" ng-model=\"person.department\" required></dd>\n" +
+    "            <dt>Division</dt>\n" +
+    "            <dd><input type=\"text\" class=\"form-control\" placeholder=\"{{person.division}}\" size=\"40\" maxlength=\"150\" ng-model=\"person.division\"></dd>\n" +
+    "            <dt>Phone</dt>\n" +
+    "            <dd><input type=\"text\" class=\"form-control\" placeholder=\"{{person.phone}}\" size=\"8\" maxlength=\"8\" ng-model=\"person.phone\" required></dd>\n" +
+    "            <dt>Email</dt>\n" +
+    "            <dd><input type=\"text\" class=\"form-control\" placeholder=\"{{person.email}}\" size=\"40\" maxlength=\"255\" ng-model=\"person.email\" required></dd>\n" +
+    "            <dt>Fax</dt>\n" +
+    "            <dd><input type=\"text\" class=\"form-control\" placeholder=\"{{person.fax}}\" size=\"8\" maxlength=\"8\" ng-model=\"person.fax\" required></dd>\n" +
+    "            <dt>&nbsp</dt><dd>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"updatePerson(person)\">Update information</button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deletePerson(person, $index)\">\n" +
+    "                    Delete {{person.firstname}} {{person.lastname}} record\n" +
+    "                </button>\n" +
+    "            </dd>\n" +
+    "            <dt>Subjects</dt>\n" +
+    "            <dd>\n" +
+    "                <ul class=\"list-unstyled\">\n" +
+    "                    <li  ng-repeat=\"subject in person.subjects\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteSubject(person, subject.id, $index)\">\n" +
+    "                            Delete\n" +
+    "                        </button>\n" +
+    "                        <a href=\"{{subject.link}}\">{{subject.subject}}</a>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "                <div>\n" +
+    "                    <select class=\"form-control\" ng-model=\"selSubj\" ng-options=\"sub.subject for sub in Directory.subjects\">\n" +
+    "                    </select>\n" +
+    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addSubject(person)\">Add Subject</button>\n" +
+    "                </div>\n" +
+    "            </dd>\n" +
+    "        </div>\n" +
+    "        <div class=\"personExp\" id=\"{{person.id}}\" ng-click=\"person.show = !person.show\" ng-show=\"person.show && !hasAccess\">\n" +
+    "            <dt>Title</dt>  <dd>{{person.title}}</dd>\n" +
+    "            <dt ng-show=\"person.rank.length > 0\">Rank</dt>  <dd>{{person.rank}}</dd>\n" +
+    "            <dt>Departent</dt>  <dd>{{person.department}}</dd>\n" +
+    "            <dt ng-show=\"person.division.length > 0\">Division</dt>  <dd>{{person.division}}</dd>\n" +
+    "            <dt>Phone</dt>  <dd>{{person.phone}}</dd>\n" +
+    "            <dt>Email</dt>  <dd>{{person.email}}</dd>\n" +
+    "            <dt>Fax</dt>  <dd>{{person.fax}}</dd>\n" +
+    "            <dt>Subjects</dt>\n" +
+    "            <dd>\n" +
+    "                <ul class=\"list-inline\">\n" +
+    "                    <li ng-repeat=\"subject in person.subjects\">\n" +
+    "                        <a href=\"{{subject.link}}\">{{subject.subject}}</a>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "            </dd>\n" +
+    "        </div>\n" +
+    "    </dl>\n" +
     "</div>\n" +
     "");
 }]);

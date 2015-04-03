@@ -1,0 +1,116 @@
+<div>
+    <form id="fAddPerson" ng-submit="addPerson()">
+        <input type="text" class="form-control" placeholder="First Name" size="25" maxlength="25" ng-model="formData.first" required>
+        <input type="text" class="form-control" placeholder="Last Name" size="25" maxlength="25" ng-model="formData.last" required><br>
+        <input type="text" class="form-control" placeholder="Email" size="40" maxlength="255" ng-model="formData.email" required>
+        <input type="text" class="form-control" placeholder="Title" size="40" maxlength="150" ng-model="formData.title" required><br>
+        <select class="form-control" ng-model="formData.rank" required>
+            <option value="0">No Rank</option>
+            <option value="Prof.">Professor</option>
+            <option value="Asso. Prof.">Associate Professor</option>
+            <option value="Asst. Prof.">Assistant Professor</option>
+        </select>
+        <select class="form-control" ng-model="formData.dept" required>
+            <option value="Acquisitions">Acquisitions</option>
+            <option value="Annex Services">Annex Services</option>
+            <option value="Area Computing Services">Area Computing Services</option>
+            <option value="Business Library">Business Library</option>
+            <option value="Business Office">Business Office</option>
+            <option value="Cataloging &amp; Metadata Services">Cataloging &amp; Metadata Services</option>
+            <option value="Collection Management">Collection Management</option>
+            <option value="Digital Humanities Center">Digital Humanities Center</option>
+            <option value="Digital Services">Digital Services</option>
+            <option value="Education Library">Education Library</option>
+            <option value="Electronic Resources">Electronic Resources</option>
+            <option value="Gorgas Information Services">Gorgas Information Services</option>
+            <option value="Gorgas Library, Circulation Department">Gorgas Library, Circulation Department</option>
+            <option value="Government Documents">Government Documents</option>
+            <option value="Health Sciences Library">Health Sciences Library</option>
+            <option value="ILS &amp; E-Resources Management">ILS &amp; E-Resources Management</option>
+            <option value="Interlibrary Loan">Interlibrary Loan</option>
+            <option value="Library Administration">Library Administration</option>
+            <option value="Music Library">Music Library</option>
+            <option value="Office of Library Technology">Office of Library Technology</option>
+            <option value="Sanford Media Center">Sanford Media Center</option>
+            <option value="School of Social Work">School of Social Work</option>
+            <option value="Science and Engineering Library">Science and Engineering Library</option>
+            <option value="Special Collections">Special Collections</option>
+            <option value="Web Infrastructure &amp; Application Development">Web Infrastructure &amp; Application Development</option>
+            <option value="Web Services">Web Services</option>
+        </select>
+        <input type="text" class="form-control" placeholder="Phone" size="8" maxlength="8" ng-model="formData.phone" required>
+        <input type="text" class="form-control" placeholder="Fax" size="8" maxlength="8" ng-model="formData.fax" required><br>
+        <button type="submit" class="btn btn-primary" ng-click="addPerson()">Add New Person</button>
+    </form>
+    <span ng-model="formResponse">{{formResponse}}</span>
+</div>
+
+<div>
+    <ul class="list-inline">Sort By:
+        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'first'" ng-click="sortMode='firstname'">First Name</button></li>
+        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'last'" ng-click="sortMode='lastname'">Last Name</button></li>
+        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'title'" ng-click="sortMode='title'">Title</button></li>
+        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'dept'" ng-click="sortMode='department'">Department</button></li>
+        <li><input type="text" placeholder="Filter by Last Name" size="25" maxlength="25" ng-model="filterBy"></li>
+    </ul>
+
+    <dl ng-repeat="person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode">
+        <h4 ng-click="person.show = !person.show"><a>{{person.firstname}} {{person.lastname}}</a>,
+            <span style="font-size: 14px;">{{person.title}} : {{person.department}}</span></h4>
+        <div class="personExp" id="{{person.id}}" ng-show="person.show && hasAccess">
+            <dt>Title</dt>
+            <dd><input type="text" class="form-control" placeholder="{{person.title}}" size="40" maxlength="150" ng-model="person.title" required></dd>
+            <dt>Rank</dt>
+            <dd><input type="text" class="form-control" placeholder="{{person.rank}}" size="40" maxlength="150" ng-model="person.rank"></dd>
+            <dt>Department</dt>
+            <dd><input type="text" class="form-control" placeholder="{{person.department}}" size="40" maxlength="150" ng-model="person.department" required></dd>
+            <dt>Division</dt>
+            <dd><input type="text" class="form-control" placeholder="{{person.division}}" size="40" maxlength="150" ng-model="person.division"></dd>
+            <dt>Phone</dt>
+            <dd><input type="text" class="form-control" placeholder="{{person.phone}}" size="8" maxlength="8" ng-model="person.phone" required></dd>
+            <dt>Email</dt>
+            <dd><input type="text" class="form-control" placeholder="{{person.email}}" size="40" maxlength="255" ng-model="person.email" required></dd>
+            <dt>Fax</dt>
+            <dd><input type="text" class="form-control" placeholder="{{person.fax}}" size="8" maxlength="8" ng-model="person.fax" required></dd>
+            <dt>&nbsp</dt><dd>
+                <button type="button" class="btn btn-primary" ng-click="updatePerson(person)">Update information</button>
+                <button type="button" class="btn btn-primary" ng-click="deletePerson(person, $index)">
+                    Delete {{person.firstname}} {{person.lastname}} record
+                </button>
+            </dd>
+            <dt>Subjects</dt>
+            <dd>
+                <ul class="list-unstyled">
+                    <li  ng-repeat="subject in person.subjects">
+                        <button type="button" class="btn btn-primary" ng-click="deleteSubject(person, subject.id, $index)">
+                            Delete
+                        </button>
+                        <a href="{{subject.link}}">{{subject.subject}}</a>
+                    </li>
+                </ul>
+                <div>
+                    <select class="form-control" ng-model="selSubj" ng-options="sub.subject for sub in Directory.subjects">
+                    </select>
+                    <button type="button" class="btn btn-primary" ng-click="addSubject(person)">Add Subject</button>
+                </div>
+            </dd>
+        </div>
+        <div class="personExp" id="{{person.id}}" ng-click="person.show = !person.show" ng-show="person.show && !hasAccess">
+            <dt>Title</dt>  <dd>{{person.title}}</dd>
+            <dt ng-show="person.rank.length > 0">Rank</dt>  <dd>{{person.rank}}</dd>
+            <dt>Departent</dt>  <dd>{{person.department}}</dd>
+            <dt ng-show="person.division.length > 0">Division</dt>  <dd>{{person.division}}</dd>
+            <dt>Phone</dt>  <dd>{{person.phone}}</dd>
+            <dt>Email</dt>  <dd>{{person.email}}</dd>
+            <dt>Fax</dt>  <dd>{{person.fax}}</dd>
+            <dt>Subjects</dt>
+            <dd>
+                <ul class="list-inline">
+                    <li ng-repeat="subject in person.subjects">
+                        <a href="{{subject.link}}">{{subject.subject}}</a>
+                    </li>
+                </ul>
+            </dd>
+        </div>
+    </dl>
+</div>
