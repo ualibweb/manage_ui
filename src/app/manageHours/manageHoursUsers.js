@@ -71,22 +71,6 @@ angular.module('manage.manageHoursUsers', [])
             return false;
         };
 
-        $scope.toggleAdmin = function(){
-            $scope.newUserAdmin = !$scope.newUserAdmin;
-        };
-        $scope.toggleUserAdmin = function(user){
-            if (user.role == "1")
-                $scope.dataUL.users[$scope.expUserIndex].role = "0";
-            else
-                $scope.dataUL.users[$scope.expUserIndex].role = "1";
-        };
-        $scope.toggleCheckBox = function(index){
-            if ($scope.expUserIndex >= 0)
-                $scope.dataUL.users[$scope.expUserIndex].access[index] = !$scope.dataUL.users[$scope.expUserIndex].access[index];
-            else
-                console.log("Bad User!");
-        };
-
         $scope.updateUser = function(user){
             $scope.isLoading = true;
             user.locations = $scope.dataUL.locations;

@@ -11,12 +11,12 @@
         <th scope="row">{{user.name}}
         </th>
         <td class="text-center">
-            <input type="checkbox" ng-model="user.role" ng-true-value="1" ng-false-value="0" ng-click="toggleUserAdmin(user)">
+            <input type="checkbox" ng-model="user.role" ng-true-value="1" ng-false-value="0">
         </td>
         <td class="text-left">
             <div class="row" ng-repeat="lib in dataUL.locations">
                 <div class="col-md-2">
-                    <input type="checkbox" ng-model="user.access[$index]" ng-click="toggleCheckBox($index)" ng-show="isExpUser(user.uid)">
+                    <input type="checkbox" ng-model="user.access[$index]" ng-show="isExpUser(user.uid)">
                 </div>
                 <div class="col-md-10">
                     <div ng-show="isExpUser(user.uid) || user.access[$index]">{{lib.name}}</div>
@@ -39,7 +39,7 @@
             </select>
         </th>
         <td class="text-center">
-            <input type="checkbox" ng-model="newUserAdmin" ng-click="toggleAdmin()">
+            <input type="checkbox" ng-model="newUserAdmin">
         </td>
         <td class="text-left">
             <div class="row" ng-repeat="lib in dataUL.locations">

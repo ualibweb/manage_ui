@@ -223,12 +223,12 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "        <th scope=\"row\">{{user.name}}\n" +
     "        </th>\n" +
     "        <td class=\"text-center\">\n" +
-    "            <input type=\"checkbox\" ng-model=\"user.role\" ng-true-value=\"1\" ng-false-value=\"0\" ng-click=\"toggleUserAdmin(user)\">\n" +
+    "            <input type=\"checkbox\" ng-model=\"user.role\" ng-true-value=\"1\" ng-false-value=\"0\">\n" +
     "        </td>\n" +
     "        <td class=\"text-left\">\n" +
     "            <div class=\"row\" ng-repeat=\"lib in dataUL.locations\">\n" +
     "                <div class=\"col-md-2\">\n" +
-    "                    <input type=\"checkbox\" ng-model=\"user.access[$index]\" ng-click=\"toggleCheckBox($index)\" ng-show=\"isExpUser(user.uid)\">\n" +
+    "                    <input type=\"checkbox\" ng-model=\"user.access[$index]\" ng-show=\"isExpUser(user.uid)\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-10\">\n" +
     "                    <div ng-show=\"isExpUser(user.uid) || user.access[$index]\">{{lib.name}}</div>\n" +
@@ -251,7 +251,7 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "            </select>\n" +
     "        </th>\n" +
     "        <td class=\"text-center\">\n" +
-    "            <input type=\"checkbox\" ng-model=\"newUserAdmin\" ng-click=\"toggleAdmin()\">\n" +
+    "            <input type=\"checkbox\" ng-model=\"newUserAdmin\">\n" +
     "        </td>\n" +
     "        <td class=\"text-left\">\n" +
     "            <div class=\"row\" ng-repeat=\"lib in dataUL.locations\">\n" +
