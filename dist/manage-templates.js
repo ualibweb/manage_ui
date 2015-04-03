@@ -276,7 +276,7 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
 
 angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageOneSearch/manageOneSearch.tpl.html",
-    "<h3>OneSearch Recommended Links</h3>\n" +
+    "<h3>OneSearch Recommended Links Management</h3>\n" +
     "\n" +
     "<form class=\"form-inline\" ng-submit=\"addRecommendation()\">\n" +
     "    <div class=\"form-group\">\n" +
@@ -289,9 +289,9 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
     "<div ng-show=\"response.length > 0\">\n" +
     "    {{response}}\n" +
     "</div>\n" +
-    "\n" +
-    "<div ng-repeat=\"rec in recList.RecList\">\n" +
-    "    <div>\n" +
+    "<h4>Full list</h4>\n" +
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-6\" ng-repeat=\"rec in recList.RecList\">\n" +
     "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteRec(rec)\">Delete</button>\n" +
     "        <span>{{rec.keyword}} = <a href=\"{{rec.link}}\">{{rec.description}}</a></span>\n" +
     "    </div>\n" +

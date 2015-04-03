@@ -58,11 +58,11 @@ angular.module('manage.manageOneSearch', [])
             $scope.deleteRec = function(rec){
                 if (confirm("Are you sure you want to delete " + rec.description + " link?")){
                     osFactory.postData({delRec : 1}, rec)
-                        success(function(data, status, headers, config) {
+                        .success(function(data, status, headers, config) {
                             $scope.response = data;
                             $scope.recList.splice(rec);
-                        }).
-                        error(function(data, status, headers, config) {
+                        })
+                        .error(function(data, status, headers, config) {
                             $scope.response = "Error: Could not delete recommendation! " + data;
                         });
                 }

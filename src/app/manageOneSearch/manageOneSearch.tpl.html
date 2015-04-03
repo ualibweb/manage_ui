@@ -1,4 +1,4 @@
-<h3>OneSearch Recommended Links</h3>
+<h3>OneSearch Recommended Links Management</h3>
 
 <form class="form-inline" ng-submit="addRecommendation()">
     <div class="form-group">
@@ -11,9 +11,9 @@
 <div ng-show="response.length > 0">
     {{response}}
 </div>
-
-<div ng-repeat="rec in recList.RecList">
-    <div>
+<h4>Full list</h4>
+<div class="row">
+    <div class="col-md-6" ng-repeat="rec in recList.RecList">
         <button type="button" class="btn btn-primary" ng-click="deleteRec(rec)">Delete</button>
         <span>{{rec.keyword}} = <a href="{{rec.link}}">{{rec.description}}</a></span>
     </div>
