@@ -625,6 +625,7 @@ angular.module('manage.manageOneSearch', [])
                 {
                     osFactory.postData({addRec : 1}, $scope.addRec)
                         .success(function(data, status, headers, config) {
+                            console.dir(data);
                             if ((typeof data === 'object') && (data !== null)){
                                 var newRec = {};
                                 newRec.id = data.rid;
@@ -632,11 +633,10 @@ angular.module('manage.manageOneSearch', [])
                                 newRec.keyword = $scope.addRec.keyword;
                                 newRec.link = $scope.addRec.link;
                                 newRec.description = $scope.addRec.title;
-                                $scope.recList.push(newRec);
+                                $scope.recList.RecList.push(newRec);
                                 $scope.response = data.text;
                             } else
                                 $scope.response = data;
-                            console.dir(data);
                         })
                         .error(function(data, status, headers, config) {
                             $scope.response = "Error: Could not add recommendation link! " + data;
@@ -648,7 +648,7 @@ angular.module('manage.manageOneSearch', [])
                     osFactory.postData({delRec : 1}, rec)
                         .success(function(data, status, headers, config) {
                             $scope.response = data;
-                            $scope.recList.splice(rec);
+                            $scope.recList.RecList.splice(rec);
                         })
                         .error(function(data, status, headers, config) {
                             $scope.response = "Error: Could not delete recommendation! " + data;
