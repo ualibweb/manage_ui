@@ -5,8 +5,10 @@ angular.module('manage', [
     'manage.templates',
     'manage.manageHours',
     'manage.manageHoursUsers',
-    'manage.manageUserGroups'
+    'manage.manageUserGroups',
+    'manage.siteFeedback'
 ])
 
     .constant('HOURS_MANAGE_URL', '//wwwdev2.lib.ua.edu/libhours2/')
     .constant('USER_GROUPS_URL', '//wwwdev2.lib.ua.edu/userGroupsAdmin/')
+    .constant('SITE_FEEDBACK_URL', '//wwwdev2.lib.ua.edu/siteSurvey/')

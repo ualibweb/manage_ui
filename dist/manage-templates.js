@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageUserGroups/manageUG.tpl.html']);
+angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'siteFeedback/siteFeedback.tpl.html']);
 
 angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageEx.tpl.html",
@@ -365,5 +365,33 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
     "        </div>\n" +
     "    </tab>\n" +
     "</tabset>\n" +
+    "");
+}]);
+
+angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("siteFeedback/siteFeedback.tpl.html",
+    "<h3>Received Feedback</h3>\n" +
+    "<div class=\"row\" ng-repeat=\"record in responses\">\n" +
+    "    <h4><a href=\"{{record.pageurl}}\">{{record.pageurl}}</a></h4>\n" +
+    "    <div class=\"col-xs-1\">\n" +
+    "        <button type=\"button\" class=\"btn btn-primary\"\n" +
+    "                ng-click=\"delete(record)\"\n" +
+    "                ng-show=\"<?php echo $isAdmin; ?>\">\n" +
+    "            Delete\n" +
+    "        </button>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-xs-1\">\n" +
+    "        Score: {{record.score}}\n" +
+    "    </div>\n" +
+    "    <div class=\"col-xs-2\">\n" +
+    "        {{record.when}}\n" +
+    "    </div>\n" +
+    "    <div class=\"col-xs-2\">\n" +
+    "        {{record.ip}}\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-12\">\n" +
+    "        Comments: {{record.comments}}\n" +
+    "    </div>\n" +
+    "</div>\n" +
     "");
 }]);

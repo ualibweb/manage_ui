@@ -100,10 +100,7 @@ angular.module('manage.manageHoursUsers', [])
                         var createdUser = {};
                         createdUser.name = user.login;
                         createdUser.uid = data.uid;
-                        if (user.admin)
-                            createdUser.role = "1";
-                        else
-                            createdUser.role = "0";
+                        createdUser.role = user.admin;
                         createdUser.access = [];
                         for (var i = 0; i < user.access.length; i++)
                             if (user.access[i])

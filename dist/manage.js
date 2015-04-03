@@ -5,11 +5,13 @@ angular.module('manage', [
     'manage.templates',
     'manage.manageHours',
     'manage.manageHoursUsers',
-    'manage.manageUserGroups'
+    'manage.manageUserGroups',
+    'manage.siteFeedback'
 ])
 
     .constant('HOURS_MANAGE_URL', '//wwwdev2.lib.ua.edu/libhours2/')
     .constant('USER_GROUPS_URL', '//wwwdev2.lib.ua.edu/userGroupsAdmin/')
+    .constant('SITE_FEEDBACK_URL', '//wwwdev2.lib.ua.edu/siteSurvey/')
 
 angular.module('manage.common', [
     'common.manage'
@@ -28,12 +30,19 @@ angular.module('common.manage', [])
             }
         }
     }])
-
     .factory('ugFactory', ['$http', 'USER_GROUPS_URL', function ugFactory($http, url){
         return {
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url, params: params, data: data})
+            }
+        }
+    }])
+    .factory('sfFactory', ['$http', 'SITE_FEEDBACK_URL', function sfFactory($http, url){
+        return {
+            getData: function(params){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'GET', url: url, params: params})
             }
         }
     }]);
@@ -470,10 +479,7 @@ angular.module('manage.manageHoursUsers', [])
                         var createdUser = {};
                         createdUser.name = user.login;
                         createdUser.uid = data.uid;
-                        if (user.admin)
-                            createdUser.role = "1";
-                        else
-                            createdUser.role = "0";
+                        createdUser.role = user.admin;
                         createdUser.access = [];
                         for (var i = 0; i < user.access.length; i++)
                             if (user.access[i])
@@ -688,5 +694,43 @@ angular.module('manage.manageUserGroups', [])
             scope: {},
             controller: 'userGroupsCtrl',
             templateUrl: 'manageUserGroups/manageUG.tpl.html'
+        };
+    })
+
+angular.module('manage.siteFeedback', [])
+    .controller('siteFeedbackCtrl', ['$scope', '$http', 'sfFactory',
+        function siteFeedbackCtrl($scope, $http, sfFactory){
+            $scope.responses = [];
+
+            var cookies;
+            $scope.GetCSRFCookie = function (name,c,C,i){
+                if(cookies){ return cookies[name]; }
+
+                c = document.cookie.split('; ');
+                cookies = {};
+
+                for(i=c.length-1; i>=0; i--){
+                    C = c[i].split('=');
+                    cookies[C[0]] = C[1];
+                }
+                return cookies[name];
+            };
+            $http.defaults.headers.post = { "X-CSRF-libSiteFeedback" : $scope.GetCSRFCookie("CSRF-libSiteFeedback") };
+
+            sfFactory.getData({json : 1})
+                .success(function(data) {
+                    console.dir(data);
+                    $scope.responses = data;
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                });
+        }])
+    .directive('siteFeedbackList', function() {
+        return {
+            restrict: 'AC',
+            scope: {},
+            controller: 'siteFeedbackCtrl',
+            templateUrl: 'siteFeedback/siteFeedback.tpl.html'
         };
     })
