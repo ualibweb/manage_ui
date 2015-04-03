@@ -239,7 +239,7 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "            <div ng-show=\"isExpUser(user.uid)\">\n" +
     "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"updateUser(user)\" ng-disabled=\"isLoading\"\n" +
     "                        ng-hide=\"expUserIndex == 0\">Save</button>\n" +
-    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteUser(user)\" ng-disabled=\"isLoading\"\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteUser(user, $index)\" ng-disabled=\"isLoading\"\n" +
     "                        ng-hide=\"expUserIndex == 0\">Delete</button><br>\n" +
     "                {{result}}\n" +
     "            </div>\n" +
@@ -292,7 +292,7 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
     "<h4>Full list</h4>\n" +
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-6\" ng-repeat=\"rec in recList.RecList\">\n" +
-    "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteRec(rec)\">Delete</button>\n" +
+    "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteRec(rec, $index)\">Delete</button>\n" +
     "        <span>{{rec.keyword}} = <a href=\"{{rec.link}}\">{{rec.description}}</a></span>\n" +
     "    </div>\n" +
     "</div>");

@@ -119,14 +119,14 @@ angular.module('manage.manageHoursUsers', [])
                 });
         };
 
-        $scope.deleteUser = function(user){
+        $scope.deleteUser = function(user, index){
             if (confirm("Are you sure you want to remove access for " + user.name + "?")){
                 $scope.isLoading = true;
                 hmFactory.postData("manageHours.php", {action : 10}, user)
                     .success(function(data) {
                         if (data == 1){
                             $scope.result = "User access deleted!";
-                            $scope.dataUL.users.splice(user);
+                            $scope.dataUL.users.splice(index, 1);
                         } else
                             $scope.result = "Error! Could not delete user access!";
                         $scope.isLoading = false;

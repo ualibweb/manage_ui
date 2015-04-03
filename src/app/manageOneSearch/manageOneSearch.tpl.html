@@ -14,7 +14,7 @@
 <h4>Full list</h4>
 <div class="row">
     <div class="col-md-6" ng-repeat="rec in recList.RecList">
-        <button type="button" class="btn btn-primary" ng-click="deleteRec(rec)">Delete</button>
+        <button type="button" class="btn btn-primary" ng-click="deleteRec(rec, $index)">Delete</button>
         <span>{{rec.keyword}} = <a href="{{rec.link}}">{{rec.description}}</a></span>
     </div>
 </div>

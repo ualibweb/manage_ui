@@ -55,12 +55,12 @@ angular.module('manage.manageOneSearch', [])
                         });
                 }
             };
-            $scope.deleteRec = function(rec){
+            $scope.deleteRec = function(rec, index){
                 if (confirm("Are you sure you want to delete " + rec.description + " link?")){
                     osFactory.postData({delRec : 1}, rec)
                         .success(function(data, status, headers, config) {
                             $scope.response = data;
-                            $scope.recList.RecList.splice(rec);
+                            $scope.recList.RecList.splice(index, 1);
                         })
                         .error(function(data, status, headers, config) {
                             $scope.response = "Error: Could not delete recommendation! " + data;
