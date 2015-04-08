@@ -1,12 +1,48 @@
 angular.module('manage.staffDirectory', [])
-    .controller('staffDirCtrl', ['$scope', '$http', '$window', 'sdFactory',
-        function staffDirCtrl($scope, $http, $window, sdFactory){
+    .constant('STAFF_DIR_RANKS', [
+        "",
+        "Prof.",
+        "Asso. Prof.",
+        "Asst. Prof."
+    ])
+    .constant('STAFF_DIR_DEPTS', [
+        "Acquisitions",
+        "Annex Services",
+        "Area Computing Services",
+        "Business Library",
+        "Business Office",
+        "Cataloging & Metadata Services",
+        "Collection Management",
+        "Digital Humanities Center",
+        "Digital Services",
+        "Education Library",
+        "Electronic Resources",
+        "Gorgas Information Services",
+        "Gorgas Library, Circulation Department",
+        "Government Documents",
+        "Health Sciences Library",
+        "ILS & E-Resources Management",
+        "Interlibrary Loan",
+        "Library Administration",
+        "Office of Library Technology",
+        "Sanford Media Center",
+        "School of Social Work",
+        "Science and Engineering Library",
+        "Special Collections",
+        "Web Infrastructure & Application Development",
+        "Web Services"
+    ])
+
+    .controller('staffDirCtrl', ['$scope', '$http', '$window', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_DEPTS',
+        function staffDirCtrl($scope, $http, $window, sdFactory, ranks, departments){
             $scope.sortMode = 'lastname';
             $scope.filterBy = '';
             $scope.sortButton = 'last';
             $scope.Directory = {};
             $scope.selSubj = {};
             $scope.hasAccess = $window.isAdmin;
+            $scope.ranks = ranks;
+            $scope.departments = departments;
 
             var cookies;
             $scope.GetCookie = function (name,c,C,i){
@@ -33,14 +69,24 @@ angular.module('manage.staffDirectory', [])
                     console.log(data);
                 });
 
+            $scope.togglePerson = function(person){
+                $scope.Directory.list[$scope.Directory.list.indexOf(person)].show =
+                    !$scope.Directory.list[$scope.Directory.list.indexOf(person)].show;
+            };
+
+            $scope.resetNewPersonForm = function(){
+                $scope.formData.first = "";
+                $scope.formData.last = "";
+                $scope.formData.email = "";
+                $scope.formData.phone = "";
+                $scope.formData.fax = "";
+            };
+
             $scope.deletePerson = function(person, index){
                 if (confirm("Delete this record permanently?") == true){
                     sdFactory.postData({delete : person.id}, {})
                         .success(function(data, status, headers, config) {
                             $scope.formResponse = data;
-                            $scope.formData = {};
-                            $scope.formData.rank = "0";
-                            $scope.formData.dept = "Acquisitions";
                             $scope.Directory.list.splice(index, 1);
                         })
                         .error(function(data, status, headers, config) {
@@ -76,6 +122,7 @@ angular.module('manage.staffDirectory', [])
                         newSubj.subject = $scope.selSubj.subject;
                         newSubj.link = $scope.selSubj.link;
                         $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects.push(newSubj);
+                        console.log(data);
                     })
                     .error(function(data, status, headers, config) {
                         $scope.subjResponse = "Error: Could not add subject! " + data;
@@ -89,8 +136,8 @@ angular.module('manage.staffDirectory', [])
             $scope.formData.title = "";
             $scope.formData.phone = "";
             $scope.formData.fax = "";
-            $scope.formData.rank = "0";
-            $scope.formData.dept = "Acquisitions";
+            $scope.formData.rank = ranks[0];
+            $scope.formData.dept = departments[0];
             $scope.formResponse = '';
 
             $scope.isValidEmailAddress = function(emailAddress) {
@@ -129,10 +176,7 @@ angular.module('manage.staffDirectory', [])
                                                     createdUser.subjects = [];
                                                     createdUser.show = false;
                                                     $scope.Directory.list.push(createdUser);
-
-                                                    $scope.formData = {};
-                                                    $scope.formData.rank = "0";
-                                                    $scope.formData.dept = "Acquisitions";
+                                                    $scope.resetNewPersonForm();
                                                     $scope.formResponse = "Person has been added!";
                                                 } else
                                                     $scope.formResponse = "Error: Person could not be added! " + data;

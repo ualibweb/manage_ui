@@ -9,7 +9,9 @@
     <link rel="stylesheet" type="text/css" href="manage.css">
 </head>
 <body>
-
+<script>
+    var isAdmin = 1;
+</script>
 <div ng-controller="manageHrsCtrl" ng-click="closeDP()">
 
     <h2><a href="../">Hours</a> Management
@@ -33,7 +35,9 @@
             </div>
         </tab>
     </tabset>
+</div>
 
+<div staff-directory-list>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0/angular.min.js"></script>
