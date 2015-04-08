@@ -42,6 +42,7 @@ angular.module('manage.staffDirectory', [])
             $scope.hasAccess = $window.isAdmin;
             $scope.ranks = ranks;
             $scope.departments = departments;
+            $scope.mOver = 0;
 
             var cookies;
             $scope.GetCookie = function (name,c,C,i){
@@ -78,10 +79,8 @@ angular.module('manage.staffDirectory', [])
                 $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse = "";
             };
 
-            $scope.setClass = function(index){
-                for (var i = 0; i < $scope.Directory.list.length; i++)
-                    $scope.Directory.list[i].class = "";
-                $scope.Directory.list[index].class = "active";
+            $scope.setOver = function(person){
+                $scope.mOver = person.id;
             };
 
             $scope.resetNewPersonForm = function(){

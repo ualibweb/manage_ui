@@ -1,48 +1,48 @@
 <h2>Library Staff Directory</h2>
 
-<div ng-show="hasAccess">
-    <div class="row">
-        <div class="col-md-3 form-group">
-            <label for="firstName">Firts Name</label>
-            <input type="text" class="form-control" placeholder="First Name" maxlength="25"
-                   ng-model="formData.first" id="firstName" required>
+<div>
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <label for="firstName">Firts Name</label>
+                <input type="text" class="form-control" placeholder="First Name" maxlength="25"
+                       ng-model="formData.first" id="firstName" required>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" placeholder="Last Name" maxlength="25"
+                       ng-model="formData.last" id="lastName" required>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" placeholder="Email" maxlength="255"
+                       ng-model="formData.email" id="email" required>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" placeholder="Title" maxlength="150"
+                       ng-model="formData.title" id="title" required>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="rank">Rank</label>
+                <select class="form-control" ng-model="formData.rank" ng-options="rank for rank in ranks" id="rank">
+                </select>
+            </div>
+            <div class="col-md-5 form-group">
+                <label for="dept">Department</label>
+                <select class="form-control" ng-model="formData.dept" ng-options="dept for dept in departments" id="dept">
+                </select>
+            </div>
+            <div class="col-md-2 form-group">
+                <label for="phone">Phone</label>
+                <input type="text" class="form-control" placeholder="Phone" maxlength="8"
+                       ng-model="formData.phone" id="phone" required>
+            </div>
+            <div class="col-md-2 form-group">
+                <label for="fax">Fax</label>
+                <input type="text" class="form-control" placeholder="Fax" maxlength="8" ng-model="formData.fax" id="fax">
+            </div>
         </div>
-        <div class="col-md-3 form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" class="form-control" placeholder="Last Name" maxlength="25"
-                   ng-model="formData.last" id="lastName" required>
-        </div>
-        <div class="col-md-3 form-group">
-            <label for="email">Email</label>
-            <input type="text" class="form-control" placeholder="Email" maxlength="255"
-                   ng-model="formData.email" id="email" required>
-        </div>
-        <div class="col-md-3 form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" placeholder="Title" maxlength="150"
-                   ng-model="formData.title" id="title" required>
-        </div>
-        <div class="col-md-3 form-group">
-            <label for="rank">Rank</label>
-            <select class="form-control" ng-model="formData.rank" ng-options="rank for rank in ranks" id="rank">
-            </select>
-        </div>
-        <div class="col-md-5 form-group">
-            <label for="dept">Department</label>
-            <select class="form-control" ng-model="formData.dept" ng-options="dept for dept in departments" id="dept">
-            </select>
-        </div>
-        <div class="col-md-2 form-group">
-            <label for="phone">Phone</label>
-            <input type="text" class="form-control" placeholder="Phone" maxlength="8"
-                   ng-model="formData.phone" id="phone" required>
-        </div>
-        <div class="col-md-2 form-group">
-            <label for="fax">Fax</label>
-            <input type="text" class="form-control" placeholder="Fax" maxlength="8" ng-model="formData.fax" id="fax">
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary" ng-click="addPerson()">Add New Person</button>
+        <button type="submit" class="btn btn-primary" ng-click="addPerson()">Add New Person</button>
 
     <span ng-model="formResponse">{{formResponse}}</span>
 </div>
@@ -56,109 +56,105 @@
         <li><input type="text" placeholder="Filter by Last Name" size="25" maxlength="25" ng-model="filterBy"></li>
     </ul>
 
-    <ul class="nav nav-pills nav-stacked">
-        <li role="presentation" ng-repeat="person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode"
-            ng-class="{active: person.show}">
-            <div class="row">
-                <div class="col-md-8">
-                    <h4 ng-click="togglePerson(person)">
-                        <span class="fa fa-fw fa-caret-right" ng-hide="person.show"></span>
-                        <span class="fa fa-fw fa-caret-down" ng-show="person.show"></span>
-                        {{person.firstname}} {{person.lastname}} <small>{{person.title}}</small>
-                    </h4>
+    <div class="row" ng-repeat="person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode"
+         ng-class="{sdOpen: person.show, sdOver: person.id == mOver}" ng-mouseenter="setOver(person)">
+        <div class="col-md-8">
+            <h4 ng-click="togglePerson(person)">
+                <span class="fa fa-fw fa-caret-right" ng-hide="person.show"></span>
+                <span class="fa fa-fw fa-caret-down" ng-show="person.show"></span>
+                {{person.firstname}} {{person.lastname}} <small>{{person.title}}</small>
+            </h4>
+        </div>
+        <div class="col-md-4">
+            <h4 ng-click="togglePerson(person)">{{person.department}}</h4>
+        </div>
+        <div class="col-md-12" ng-show="person.show">
+            <div class="col-md-3">
+                <img ng-src="{{person.image}}" style="height:250px;" alt="{{person.firstname}} {{person.lastname}}"/>
+            </div>
+            <div class="col-md-9" ng-show="person.show && hasAccess == 1">
+                <div class="col-md-4 form-group">
+                    <label for="{{person.id}}_title">Title</label>
+                    <input type="text" class="form-control" placeholder="{{person.title}}" maxlength="150" ng-model="person.title" required
+                           id="{{person.id}}_title">
                 </div>
-                <div class="col-md-4">
-                    <h4 ng-click="togglePerson(person)">{{person.department}}</h4>
+                <div class="col-md-2 form-group">
+                    <label for="{{person.id}}_rank">Rank</label>
+                    <select class="form-control" id="{{person.id}}_rank" ng-model="person.rank"
+                            ng-options="rank for rank in ranks">
+                    </select>
                 </div>
-                <div class="col-md-12" ng-show="person.show">
-                    <div class="col-md-3">
-                        <img ng-src="{{person.image}}" style="height:250px;" alt="{{person.firstname}} {{person.lastname}}"/>
-                    </div>
-                    <div class="col-md-9" ng-show="person.show && hasAccess == 1">
-                        <div class="col-md-4 form-group">
-                            <label for="{{person.id}}_title">Title</label>
-                            <input type="text" class="form-control" placeholder="{{person.title}}" maxlength="150" ng-model="person.title" required
-                                   id="{{person.id}}_title">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label for="{{person.id}}_rank">Rank</label>
-                            <select class="form-control" id="{{person.id}}_rank" ng-model="person.rank"
-                                    ng-options="rank for rank in ranks">
+                <div class="col-md-6 form-group">
+                    <label for="{{person.id}}_dept">Department</label>
+                    <select class="form-control" id="{{person.id}}_dept" ng-model="person.department"
+                            ng-options="dept for dept in departments">
+                    </select>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="{{person.id}}_email">Email</label>
+                    <input type="text" class="form-control" placeholder="{{person.email}}" maxlength="1024" ng-model="person.email" required
+                           id="{{person.id}}_email">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="{{person.id}}_phone">Phone</label>
+                    <input type="text" class="form-control" placeholder="{{person.phone}}" maxlength="8" ng-model="person.phone" required
+                           id="{{person.id}}_phone">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="{{person.id}}_fax">Fax</label>
+                    <input type="text" class="form-control" placeholder="{{person.fax}}" maxlength="8" ng-model="person.fax"
+                           id="{{person.id}}_fax">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="{{person.id}}_div">Division</label>
+                    <input type="text" class="form-control" placeholder="{{person.division}}" maxlength="150" ng-model="person.division"
+                           id="{{person.id}}_div">
+                </div>
+                <div class="col-md-6 text-center">
+                    <button type="button" class="btn btn-primary" ng-click="updatePerson(person)">Update information</button>
+                </div>
+                <div class="col-md-6 text-center">
+                    <button type="button" class="btn btn-primary" ng-click="deletePerson(person, $index)">
+                        Delete {{person.firstname}} {{person.lastname}} record
+                    </button>
+                </div>
+                <div class="col-md-12">
+                    <h5>LibGuide Subjects</h5>
+                    <dd>
+                        <ul class="list-unstyled">
+                            <li  ng-repeat="subject in person.subjects">
+                                <button type="button" class="btn btn-primary" ng-click="deleteSubject(person, subject.id, $index)">
+                                    Delete
+                                </button>
+                                <a href="{{subject.link}}">{{subject.subject}}</a>
+                            </li>
+                        </ul>
+                        <form class="form-inline">
+                            <select class="form-control" ng-model="person.selSubj" ng-options="sub.subject for sub in Directory.subjects">
                             </select>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label for="{{person.id}}_dept">Department</label>
-                            <select class="form-control" id="{{person.id}}_dept" ng-model="person.department"
-                                    ng-options="dept for dept in departments">
-                            </select>
-                        </div>
-                        <div class="col-md-3 form-group">
-                            <label for="{{person.id}}_email">Email</label>
-                            <input type="text" class="form-control" placeholder="{{person.email}}" maxlength="1024" ng-model="person.email" required
-                                   id="{{person.id}}_email">
-                        </div>
-                        <div class="col-md-3 form-group">
-                            <label for="{{person.id}}_phone">Phone</label>
-                            <input type="text" class="form-control" placeholder="{{person.phone}}" maxlength="8" ng-model="person.phone" required
-                                   id="{{person.id}}_phone">
-                        </div>
-                        <div class="col-md-3 form-group">
-                            <label for="{{person.id}}_fax">Fax</label>
-                            <input type="text" class="form-control" placeholder="{{person.fax}}" maxlength="8" ng-model="person.fax"
-                                   id="{{person.id}}_fax">
-                        </div>
-                        <div class="col-md-3 form-group">
-                            <label for="{{person.id}}_div">Division</label>
-                            <input type="text" class="form-control" placeholder="{{person.division}}" maxlength="150" ng-model="person.division"
-                                   id="{{person.id}}_div">
-                        </div>
-                        <div class="col-md-6 text-center">
-                            <button type="button" class="btn btn-primary" ng-click="updatePerson(person)">Update information</button>
-                        </div>
-                        <div class="col-md-6 text-center">
-                            <button type="button" class="btn btn-primary" ng-click="deletePerson(person, $index)">
-                                Delete {{person.firstname}} {{person.lastname}} record
-                            </button>
-                        </div>
-                        <div class="col-md-12">
-                            <h5>LibGuide Subjects</h5>
-                            <dd>
-                                <ul class="list-unstyled">
-                                    <li  ng-repeat="subject in person.subjects">
-                                        <button type="button" class="btn btn-primary" ng-click="deleteSubject(person, subject.id, $index)">
-                                            Delete
-                                        </button>
-                                        <a href="{{subject.link}}">{{subject.subject}}</a>
-                                    </li>
-                                </ul>
-                                <form class="form-inline">
-                                    <select class="form-control" ng-model="person.selSubj" ng-options="sub.subject for sub in Directory.subjects">
-                                    </select>
-                                    <button type="button" class="btn btn-primary" ng-click="addSubject(person)">Add Subject</button>
-                                    <p>{{person.subjResponse}}</p>
-                                </form>
-                            </dd>
-                        </div>
-                    </div>
-                    <div class="col-md-9" ng-click="togglePerson(person)" ng-show="person.show && hasAccess == 0">
-                        <dt>Title</dt><dd>{{person.title}}</dd>
-                        <dt ng-show="person.rank.length > 0">Rank</dt>  <dd>{{person.rank}}</dd>
-                        <dt>Departent</dt>  <dd>{{person.department}}</dd>
-                        <dt ng-show="person.division.length > 0">Division</dt>  <dd>{{person.division}}</dd>
-                        <dt>Email</dt>  <dd>{{person.email}}</dd>
-                        <dt>Phone</dt>  <dd>{{person.phone}}</dd>
-                        <dt ng-show="person.fax.length > 0">Fax</dt>  <dd>{{person.fax}}</dd>
-                        <dt ng-show="person.subjects.length > 0">LibGuide Subjects</dt>
-                        <dd>
-                            <ul class="list-inline">
-                                <li ng-repeat="subject in person.subjects">
-                                    <a href="{{subject.link}}">{{subject.subject}}</a>
-                                </li>
-                            </ul>
-                        </dd>
-                    </div>
+                            <button type="button" class="btn btn-primary" ng-click="addSubject(person)">Add Subject</button>
+                            <p>{{person.subjResponse}}</p>
+                        </form>
+                    </dd>
                 </div>
             </div>
-        </li>
-    </ul>
+            <div class="col-md-9" ng-show="person.show && hasAccess == 0">
+                <dt>Title</dt><dd>{{person.title}}</dd>
+                <dt ng-show="person.rank.length > 0">Rank</dt>  <dd>{{person.rank}}</dd>
+                <dt>Departent</dt>  <dd>{{person.department}}</dd>
+                <dt ng-show="person.division.length > 0">Division</dt>  <dd>{{person.division}}</dd>
+                <dt>Email</dt>  <dd>{{person.email}}</dd>
+                <dt>Phone</dt>  <dd>{{person.phone}}</dd>
+                <dt ng-show="person.fax.length > 0">Fax</dt>  <dd>{{person.fax}}</dd>
+                <dt ng-show="person.subjects.length > 0">LibGuide Subjects</dt>
+                <dd>
+                    <ul class="list-inline">
+                        <li ng-repeat="subject in person.subjects">
+                            <a href="{{subject.link}}">{{subject.subject}}</a>
+                        </li>
+                    </ul>
+                </dd>
+            </div>
+        </div>
+    </div>
 </div>
