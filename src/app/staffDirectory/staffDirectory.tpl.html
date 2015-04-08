@@ -1,48 +1,48 @@
 <h2>Library Staff Directory</h2>
 
-<div>
-        <div class="row">
-            <div class="col-md-3 form-group">
-                <label for="firstName">Firts Name</label>
-                <input type="text" class="form-control" placeholder="First Name" maxlength="25"
-                       ng-model="formData.first" id="firstName" required>
-            </div>
-            <div class="col-md-3 form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" class="form-control" placeholder="Last Name" maxlength="25"
-                       ng-model="formData.last" id="lastName" required>
-            </div>
-            <div class="col-md-3 form-group">
-                <label for="email">Email</label>
-                <input type="text" class="form-control" placeholder="Email" maxlength="255"
-                       ng-model="formData.email" id="email" required>
-            </div>
-            <div class="col-md-3 form-group">
-                <label for="title">Title</label>
-                <input type="text" class="form-control" placeholder="Title" maxlength="150"
-                       ng-model="formData.title" id="title" required>
-            </div>
-            <div class="col-md-3 form-group">
-                <label for="rank">Rank</label>
-                <select class="form-control" ng-model="formData.rank" ng-options="rank for rank in ranks" id="rank">
-                </select>
-            </div>
-            <div class="col-md-5 form-group">
-                <label for="dept">Department</label>
-                <select class="form-control" ng-model="formData.dept" ng-options="dept for dept in departments" id="dept">
-                </select>
-            </div>
-            <div class="col-md-2 form-group">
-                <label for="phone">Phone</label>
-                <input type="text" class="form-control" placeholder="Phone" maxlength="8"
-                       ng-model="formData.phone" id="phone" required>
-            </div>
-            <div class="col-md-2 form-group">
-                <label for="fax">Fax</label>
-                <input type="text" class="form-control" placeholder="Fax" maxlength="8" ng-model="formData.fax" id="fax">
-            </div>
+<div ng-show="hasAccess">
+    <div class="row">
+        <div class="col-md-3 form-group">
+            <label for="firstName">Firts Name</label>
+            <input type="text" class="form-control" placeholder="First Name" maxlength="25"
+                   ng-model="formData.first" id="firstName" required>
         </div>
-        <button type="submit" class="btn btn-primary" ng-click="addPerson()">Add New Person</button>
+        <div class="col-md-3 form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" placeholder="Last Name" maxlength="25"
+                   ng-model="formData.last" id="lastName" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" placeholder="Email" maxlength="255"
+                   ng-model="formData.email" id="email" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" placeholder="Title" maxlength="150"
+                   ng-model="formData.title" id="title" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="rank">Rank</label>
+            <select class="form-control" ng-model="formData.rank" ng-options="rank for rank in ranks" id="rank">
+            </select>
+        </div>
+        <div class="col-md-5 form-group">
+            <label for="dept">Department</label>
+            <select class="form-control" ng-model="formData.dept" ng-options="dept for dept in departments" id="dept">
+            </select>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" placeholder="Phone" maxlength="8"
+                   ng-model="formData.phone" id="phone" required>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="fax">Fax</label>
+            <input type="text" class="form-control" placeholder="Fax" maxlength="8" ng-model="formData.fax" id="fax">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" ng-click="addPerson()">Add New Person</button>
 
     <span ng-model="formResponse">{{formResponse}}</span>
 </div>
