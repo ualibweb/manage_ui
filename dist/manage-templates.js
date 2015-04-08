@@ -513,6 +513,7 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "                    <select class=\"form-control\" ng-model=\"selSubj\" ng-options=\"sub.subject for sub in Directory.subjects\">\n" +
     "                    </select>\n" +
     "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addSubject(person)\">Add Subject</button>\n" +
+    "                    <p>{{person.subjResponse}}</p>\n" +
     "                </div>\n" +
     "            </dd>\n" +
     "        </div>\n" +
