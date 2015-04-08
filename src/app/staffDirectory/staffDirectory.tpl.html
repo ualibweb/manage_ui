@@ -57,7 +57,7 @@
     </ul>
 
     <div class="row" ng-repeat="person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode"
-         ng-class="{sdOpen: person.show, sdOver: person.id == mOver}" ng-mouseenter="setOver(person)">
+         ng-class="{sdOpen: person.show, sdOver: person.id == mOver}" ng-mouseover="setOver(person)">
         <div class="col-md-8">
             <h4 ng-click="togglePerson(person)">
                 <span class="fa fa-fw fa-caret-right" ng-hide="person.show"></span>
