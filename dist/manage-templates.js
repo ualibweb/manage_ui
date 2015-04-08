@@ -482,15 +482,15 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "\n" +
     "    <div class=\"row\" ng-repeat=\"person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode\"\n" +
     "         ng-class=\"{sdOpen: person.show, sdOver: person.id == mOver}\" ng-mouseover=\"setOver(person)\">\n" +
-    "        <div class=\"col-md-8\">\n" +
-    "            <h4 ng-click=\"togglePerson(person)\">\n" +
+    "        <div class=\"col-md-7\" ng-click=\"togglePerson(person)\">\n" +
+    "            <h4>\n" +
     "                <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"person.show\"></span>\n" +
     "                <span class=\"fa fa-fw fa-caret-down\" ng-show=\"person.show\"></span>\n" +
     "                {{person.firstname}} {{person.lastname}} <small>{{person.title}}</small>\n" +
     "            </h4>\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-4\">\n" +
-    "            <h4 ng-click=\"togglePerson(person)\">{{person.department}}</h4>\n" +
+    "        <div class=\"col-md-5\" ng-click=\"togglePerson(person)\">\n" +
+    "            <h4>{{person.department}}</h4>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-12\" ng-show=\"person.show\">\n" +
     "            <div class=\"col-md-3\">\n" +
