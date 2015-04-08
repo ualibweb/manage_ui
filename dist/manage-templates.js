@@ -470,8 +470,8 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "    </ul>\n" +
     "\n" +
     "    <dl ng-repeat=\"person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode\">\n" +
-    "        <h4 ng-click=\"togglePerson(person)\"><a>{{person.firstname}} {{person.lastname}}</a>,\n" +
-    "            <span style=\"font-size: 14px;\">{{person.title}} : {{person.department}}</span></h4>\n" +
+    "        <h4 ng-click=\"togglePerson(person)\">{{person.firstname}} {{person.lastname}} <small>{{person.title}}</small>\n" +
+    "            : {{person.department}}</h4>\n" +
     "        <div class=\"personExp\" ng-show=\"person.show && hasAccess == 1\">\n" +
     "            <dt>Title</dt>\n" +
     "            <dd><input type=\"text\" class=\"form-control\" placeholder=\"{{person.title}}\" maxlength=\"150\" ng-model=\"person.title\" required></dd>\n" +
@@ -510,7 +510,7 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "                    </li>\n" +
     "                </ul>\n" +
     "                <div>\n" +
-    "                    <select class=\"form-control\" ng-model=\"selSubj\" ng-options=\"sub.subject for sub in Directory.subjects\">\n" +
+    "                    <select class=\"form-control\" ng-model=\"person.selSubj\" ng-options=\"sub.subject for sub in Directory.subjects\">\n" +
     "                    </select>\n" +
     "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addSubject(person)\">Add Subject</button>\n" +
     "                    <p>{{person.subjResponse}}</p>\n" +

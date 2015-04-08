@@ -881,7 +881,6 @@ angular.module('manage.staffDirectory', [])
             $scope.filterBy = '';
             $scope.sortButton = 'last';
             $scope.Directory = {};
-            $scope.selSubj = {};
             $scope.hasAccess = $window.isAdmin;
             $scope.ranks = ranks;
             $scope.departments = departments;
@@ -905,7 +904,8 @@ angular.module('manage.staffDirectory', [])
                 .success(function(data) {
                     console.dir(data);
                     $scope.Directory = data;
-                    $scope.selSubj = $scope.Directory.subjects[0];
+                    for (var i = 0; i < $scope.Directory.list.length; i++)
+                        $scope.Directory.list[i].selSubj = $scope.Directory.subjects[0];
                 })
                 .error(function(data, status, headers, config) {
                     console.log(data);
@@ -961,13 +961,12 @@ angular.module('manage.staffDirectory', [])
                 }
             };
             $scope.addSubject = function(person){
-                person.newSubjID = $scope.selSubj.id;
                 sdFactory.postData({addSubject : 1}, person)
                     .success(function(data, status, headers, config) {
                         var newSubj = {};
-                        newSubj.id = $scope.selSubj.id;
-                        newSubj.subject = $scope.selSubj.subject;
-                        newSubj.link = $scope.selSubj.link;
+                        newSubj.id = person.selSubj.id;
+                        newSubj.subject = person.selSubj.subject;
+                        newSubj.link = person.selSubj.link;
                         $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects.push(newSubj);
                         $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse = "Subject Added!";
                         console.log(data);
@@ -1024,6 +1023,7 @@ angular.module('manage.staffDirectory', [])
                                                     createdUser.fax = $scope.formData.fax;
                                                     createdUser.subjects = [];
                                                     createdUser.show = false;
+                                                    createdUser.selSubj = $scope.Directory.subjects[0];
                                                     $scope.Directory.list.push(createdUser);
                                                     $scope.resetNewPersonForm();
                                                     $scope.formResponse = "Person has been added!";
