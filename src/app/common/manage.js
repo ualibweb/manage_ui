@@ -42,9 +42,8 @@ angular.module('common.manage', [])
     }])
     .factory('sdFactory', ['$http', 'STAFF_DIR_URL', function sdFactory($http, url){
         return {
-            getData: function(params){
-                params = angular.isDefined(params) ? params : {};
-                return $http({method: 'GET', url: url + "getJSON.php", params: params})
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/people", params: {}})
             },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};

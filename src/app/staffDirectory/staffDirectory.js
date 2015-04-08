@@ -72,6 +72,7 @@ angular.module('manage.staffDirectory', [])
             $scope.togglePerson = function(person){
                 $scope.Directory.list[$scope.Directory.list.indexOf(person)].show =
                     !$scope.Directory.list[$scope.Directory.list.indexOf(person)].show;
+                $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse = "";
             };
 
             $scope.resetNewPersonForm = function(){
@@ -118,6 +119,7 @@ angular.module('manage.staffDirectory', [])
                 }
             };
             $scope.addSubject = function(person){
+                person.newSubjID = $scope.selSubj.id;
                 sdFactory.postData({addSubject : 1}, person)
                     .success(function(data, status, headers, config) {
                         var newSubj = {};
