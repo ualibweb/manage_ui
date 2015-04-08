@@ -875,8 +875,8 @@ angular.module('manage.staffDirectory', [])
         "Web Services"
     ])
 
-    .controller('staffDirCtrl', ['$scope', '$http', '$window', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_DEPTS',
-        function staffDirCtrl($scope, $http, $window, sdFactory, ranks, departments){
+    .controller('staffDirCtrl', ['$scope', '$http', '$window', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_DEPTS', 'STAFF_DIR_URL',
+        function staffDirCtrl($scope, $http, $window, sdFactory, ranks, departments, appUrl){
             $scope.sortMode = 'lastname';
             $scope.filterBy = '';
             $scope.sortButton = 'last';
@@ -904,8 +904,11 @@ angular.module('manage.staffDirectory', [])
                 .success(function(data) {
                     console.dir(data);
                     $scope.Directory = data;
-                    for (var i = 0; i < $scope.Directory.list.length; i++)
+                    for (var i = 0; i < $scope.Directory.list.length; i++){
                         $scope.Directory.list[i].selSubj = $scope.Directory.subjects[0];
+                        $scope.Directory.list[i].class = "";
+                        $scope.Directory.list[i].image = appUrl + "staffImages/" + $scope.Directory.list[i].id + ".jpg";
+                    }
                 })
                 .error(function(data, status, headers, config) {
                     console.log(data);
@@ -917,6 +920,12 @@ angular.module('manage.staffDirectory', [])
                 $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse = "";
             };
 
+            $scope.setClass = function(index){
+                for (var i = 0; i < $scope.Directory.list.length; i++)
+                    $scope.Directory.list[i].class = "";
+                $scope.Directory.list[index].class = "active";
+            };
+
             $scope.resetNewPersonForm = function(){
                 $scope.formData.first = "";
                 $scope.formData.last = "";
@@ -926,8 +935,8 @@ angular.module('manage.staffDirectory', [])
             };
 
             $scope.deletePerson = function(person, index){
-                if (confirm("Delete this record permanently?") == true){
-                    sdFactory.postData({delete : person.id}, {})
+                if (confirm("Delete " + person.lastname + ", " + person.firstname  + " record permanently?") == true){
+                    sdFactory.postData({delete : 1}, person)
                         .success(function(data, status, headers, config) {
                             $scope.formResponse = data;
                             $scope.Directory.list.splice(index, 1);
@@ -1024,6 +1033,8 @@ angular.module('manage.staffDirectory', [])
                                                     createdUser.subjects = [];
                                                     createdUser.show = false;
                                                     createdUser.selSubj = $scope.Directory.subjects[0];
+                                                    createdUser.class = "";
+                                                    createdUser.image = appUrl + "staffImages/" + createdUser.id + ".jpg";
                                                     $scope.Directory.list.push(createdUser);
                                                     $scope.resetNewPersonForm();
                                                     $scope.formResponse = "Person has been added!";
