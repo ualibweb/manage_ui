@@ -1,6 +1,14 @@
 {
   "name": "manage-ui",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ualibweb/manage_ui.git"
+  },
+  "license": "ECL-2.0",
+  "bugs": {
+    "url": "https://github.com/ualibweb/manage_ui/issues"
+  },
   "deDependencies": {
     "grunt": "~0.4.5"
   },
