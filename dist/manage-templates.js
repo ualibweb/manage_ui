@@ -326,9 +326,22 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
     "<div ng-show=\"response.length > 0\">\n" +
     "    {{response}}\n" +
     "</div>\n" +
-    "<h4>Full list</h4>\n" +
     "<div class=\"row\">\n" +
-    "    <div class=\"col-md-6\" ng-repeat=\"rec in recList.RecList\">\n" +
+    "    <div class=\"col-md-1\">\n" +
+    "        Filter by:\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-3 form-group\">\n" +
+    "        <label for=\"filterK\">Keyword</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Keyword\" id=\"filterK\" ng-model=\"filterKeyword\">\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-3 form-group\">\n" +
+    "        <label for=\"filterL\">Link</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Link\" id=\"filterL\" ng-model=\"filterLink\">\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-6\" ng-repeat=\"rec in recList.RecList | filter:{keyword:filterKeyword} | filter:{link:filterLink}\">\n" +
     "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteRec(rec, $index)\">Delete</button>\n" +
     "        <span>{{rec.keyword}} = <a href=\"{{rec.link}}\">{{rec.description}}</a></span>\n" +
     "    </div>\n" +
@@ -434,23 +447,24 @@ angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", 
     "<h3>Received Feedback</h3>\n" +
     "<div class=\"row\" ng-repeat=\"record in responses\">\n" +
     "    <h4><a href=\"{{record.pageurl}}\">{{record.pageurl}}</a></h4>\n" +
-    "    <div class=\"col-xs-1\">\n" +
-    "        <button type=\"button\" class=\"btn btn-primary\"\n" +
-    "                ng-click=\"delete(record)\"\n" +
-    "                ng-show=\"false\">\n" +
-    "            Delete\n" +
-    "        </button>\n" +
+    "    <div class=\"col-md-6\">\n" +
+    "        <div class=\"col-md-2\">\n" +
+    "            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delete(record)\"\n" +
+    "                    ng-show=\"false\">\n" +
+    "                Delete\n" +
+    "            </button>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-2\">\n" +
+    "            Score: {{record.score}}\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-4\">\n" +
+    "            {{record.when}}\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-4\">\n" +
+    "            {{record.ip}}\n" +
+    "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"col-xs-1\">\n" +
-    "        Score: {{record.score}}\n" +
-    "    </div>\n" +
-    "    <div class=\"col-xs-2\">\n" +
-    "        {{record.when}}\n" +
-    "    </div>\n" +
-    "    <div class=\"col-xs-2\">\n" +
-    "        {{record.ip}}\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-12\">\n" +
+    "    <div class=\"col-md-6\">\n" +
     "        Comments: {{record.comments}}\n" +
     "    </div>\n" +
     "</div>\n" +
@@ -516,7 +530,7 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'last'\" ng-click=\"sortMode='lastname'\">Last Name</button></li>\n" +
     "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'title'\" ng-click=\"sortMode='title'\">Title</button></li>\n" +
     "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'dept'\" ng-click=\"sortMode='department'\">Department</button></li>\n" +
-    "        <li><input type=\"text\" placeholder=\"Filter by Last Name\" size=\"25\" maxlength=\"25\" ng-model=\"filterBy\"></li>\n" +
+    "        <li><input type=\"text\" class=\"form-control\" placeholder=\"Filter by Last Name\" maxlength=\"25\" ng-model=\"filterBy\"></li>\n" +
     "    </ul>\n" +
     "\n" +
     "    <div class=\"row\" ng-repeat=\"person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode\"\n" +
@@ -577,7 +591,7 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"updatePerson(person)\">Update information</button>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-6 text-center\">\n" +
-    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deletePerson(person, $index)\">\n" +
+    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deletePerson(person)\">\n" +
     "                        Delete {{person.firstname}} {{person.lastname}} record\n" +
     "                    </button>\n" +
     "                </div>\n" +

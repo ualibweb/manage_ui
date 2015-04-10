@@ -55,7 +55,7 @@
         <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'last'" ng-click="sortMode='lastname'">Last Name</button></li>
         <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'title'" ng-click="sortMode='title'">Title</button></li>
         <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'dept'" ng-click="sortMode='department'">Department</button></li>
-        <li><input type="text" placeholder="Filter by Last Name" size="25" maxlength="25" ng-model="filterBy"></li>
+        <li><input type="text" class="form-control" placeholder="Filter by Last Name" maxlength="25" ng-model="filterBy"></li>
     </ul>
 
     <div class="row" ng-repeat="person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode"

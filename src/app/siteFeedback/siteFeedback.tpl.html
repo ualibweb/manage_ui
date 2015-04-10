@@ -1,23 +1,24 @@
 <h3>Received Feedback</h3>
 <div class="row" ng-repeat="record in responses">
     <h4><a href="{{record.pageurl}}">{{record.pageurl}}</a></h4>
-    <div class="col-xs-1">
-        <button type="button" class="btn btn-primary"
-                ng-click="delete(record)"
-                ng-show="false">
-            Delete
-        </button>
+    <div class="col-md-6">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary" ng-click="delete(record)"
+                    ng-show="false">
+                Delete
+            </button>
+        </div>
+        <div class="col-md-2">
+            Score: {{record.score}}
+        </div>
+        <div class="col-md-4">
+            {{record.when}}
+        </div>
+        <div class="col-md-4">
+            {{record.ip}}
+        </div>
     </div>
-    <div class="col-xs-1">
-        Score: {{record.score}}
-    </div>
-    <div class="col-xs-2">
-        {{record.when}}
-    </div>
-    <div class="col-xs-2">
-        {{record.ip}}
-    </div>
-    <div class="col-md-12">
+    <div class="col-md-6">
         Comments: {{record.comments}}
     </div>
 </div>

@@ -7,6 +7,8 @@ angular.module('manage.manageOneSearch', [])
             $scope.addRec.link = "";
             $scope.addRec.title = "";
             $scope.response = "";
+            $scope.filterKeyword = '';
+            $scope.filterLink = '';
 
             var cookies;
             $scope.GetCookie = function (name,c,C,i){
