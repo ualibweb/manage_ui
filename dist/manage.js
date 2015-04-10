@@ -136,11 +136,12 @@ angular.module('manage.manageHours', [])
         {name:'11:00 pm', value:'2300'},
         {name:'Midnight', value:'2400'}
     ])
+    .constant('DP_FORMAT', 'MM/dd/yyyy')
 
-    .controller('manageHrsCtrl', ['$scope', '$http', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO',
-        function manageHrsCtrl($scope, $http, $animate, hmFactory, hoursFrom, hoursTo){
+    .controller('manageHrsCtrl', ['$scope', '$http', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT',
+        function manageHrsCtrl($scope, $http, $animate, hmFactory, hoursFrom, hoursTo, dpFormat){
             $scope.allowedLibraries = [];
-            $scope.isLoading = false;
+            $scope.format = dpFormat;
             $scope.hrsFrom = hoursFrom;
             $scope.hrsTo = hoursTo;
             $scope.selLib = 0;
@@ -189,13 +190,11 @@ angular.module('manage.manageHours', [])
                     number: 1,
                     active: false
                 }];
-
-            $scope.format = 'MM/dd/yyyy';
     }])
 
     .directive('manageHours', function($animate) {
         return {
-            restrict: 'AC',
+            restrict: 'A',
             scope: {},
             controller: 'manageHrsCtrl',
             link: function(scope, elm, attrs){
@@ -213,7 +212,8 @@ angular.module('manage.manageHours', [])
                             $animate.leave(spinner);
                             console.log("Hours loaded");
                         }
-                    }
+                    },
+                    true
                 );
             },
             templateUrl: 'manageHours/manageHours.tpl.html'
@@ -329,7 +329,7 @@ angular.module('manage.manageHours', [])
     .directive('semesterList', function() {
         return {
             require: '^manageHours',
-            restrict: 'AC',
+            restrict: 'A',
             controller: 'semListCtrl',
             templateUrl: 'manageHours/manageSem.tpl.html'
         };
@@ -436,7 +436,7 @@ angular.module('manage.manageHours', [])
     .directive('exceptionList', function($timeout) {
         return {
             require: '^manageHours',
-            restrict: 'AC',
+            restrict: 'A',
             controller: 'exListCtrl',
             link: function(scope, elem, attrs) {
 
