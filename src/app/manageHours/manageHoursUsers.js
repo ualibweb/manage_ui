@@ -24,7 +24,7 @@ angular.module('manage.manageHoursUsers', [])
             };
             $http.defaults.headers.post = { 'X-CSRF-libHours' : $scope.GetCookie("CSRF-libHours") };
 
-            hmFactory.postData("getJSON.php", {ul : 1}, $scope.user)
+            hmFactory.getData("users")
                 .success(function(data){
                     $scope.dataUL = data;
                     $scope.isLoading = false;
@@ -74,7 +74,7 @@ angular.module('manage.manageHoursUsers', [])
         $scope.updateUser = function(user){
             $scope.isLoading = true;
             user.locations = $scope.dataUL.locations;
-            hmFactory.postData("manageHours.php", {action : 8}, user)
+            hmFactory.postData({action : 8}, user)
                 .success(function(data) {
                     if (data == 1){
                         $scope.result = "Saved";
@@ -93,7 +93,7 @@ angular.module('manage.manageHoursUsers', [])
             user.admin = $scope.newUserAdmin;
             user.access = $scope.newUserAccess;
             user.locations = $scope.dataUL.locations;
-            hmFactory.postData("manageHours.php", {action : 9}, user)
+            hmFactory.postData({action : 9}, user)
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.result2 = "Access granted!";
@@ -122,7 +122,7 @@ angular.module('manage.manageHoursUsers', [])
         $scope.deleteUser = function(user, index){
             if (confirm("Are you sure you want to remove access for " + user.name + "?")){
                 $scope.isLoading = true;
-                hmFactory.postData("manageHours.php", {action : 10}, user)
+                hmFactory.postData({action : 10}, user)
                     .success(function(data) {
                         if (data == 1){
                             $scope.result = "User access deleted!";
@@ -169,7 +169,7 @@ angular.module('manage.manageHoursUsers', [])
                 newLoc.parent = par.lid;
             else
                 newLoc.parent = "0";
-            hmFactory.postData("manageHours.php", {action : 11}, newLoc)
+            hmFactory.postData({action : 11}, newLoc)
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         newLoc.lid = data.lid;

@@ -2,13 +2,12 @@ angular.module('common.manage', [])
 
     .factory('hmFactory', ['$http', 'HOURS_MANAGE_URL', function hmFactory($http, url){
         return {
-            getData: function(params){
-                params = angular.isDefined(params) ? params : {};
-                return $http({method: 'GET', url: url + "getJSON.php", params: params})
+            getData: function(pPoint){
+                return $http({method: 'GET', url: url + "api/" + pPoint, params: {}})
             },
-            postData: function(file, params, data){
+            postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
-                return $http({method: 'POST', url: url + file, params: params, data: data})
+                return $http({method: 'POST', url: url + "manageHours.php", params: params, data: data})
             }
         }
     }])
