@@ -504,7 +504,7 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "        </div>\n" +
     "        <div class=\"col-md-2 form-group text-right\">\n" +
     "            <label for=\"addButton\">&nbsp</label><br>\n" +
-    "            <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"addPerson()\" id=\"addButton\">Add New Person</button>\n" +
+    "            <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"addPerson()\" id=\"addButton\">Create New Record</button>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "    <p ng-model=\"formResponse\">{{formResponse}}</p>\n" +

@@ -91,12 +91,12 @@ angular.module('manage.staffDirectory', [])
                 $scope.formData.fax = "";
             };
 
-            $scope.deletePerson = function(person, index){
+            $scope.deletePerson = function(person){
                 if (confirm("Delete " + person.lastname + ", " + person.firstname  + " record permanently?") == true){
                     sdFactory.postData({delete : 1}, person)
                         .success(function(data, status, headers, config) {
                             $scope.formResponse = data;
-                            $scope.Directory.list.splice(index, 1);
+                            $scope.Directory.list.splice($scope.Directory.list.indexOf(person), 1);
                         })
                         .error(function(data, status, headers, config) {
                             $scope.formResponse = "Error: Could not delete person data! " + data;

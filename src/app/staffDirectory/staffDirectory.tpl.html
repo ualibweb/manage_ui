@@ -43,7 +43,7 @@
         </div>
         <div class="col-md-2 form-group text-right">
             <label for="addButton">&nbsp</label><br>
-            <button type="submit" class="btn btn-primary" ng-click="addPerson()" id="addButton">Add New Person</button>
+            <button type="submit" class="btn btn-primary" ng-click="addPerson()" id="addButton">Create New Record</button>
         </div>
     </div>
     <p ng-model="formResponse">{{formResponse}}</p>
@@ -116,7 +116,7 @@
                     <button type="button" class="btn btn-primary" ng-click="updatePerson(person)">Update information</button>
                 </div>
                 <div class="col-md-6 text-center">
-                    <button type="button" class="btn btn-primary" ng-click="deletePerson(person, $index)">
+                    <button type="button" class="btn btn-primary" ng-click="deletePerson(person)">
                         Delete {{person.firstname}} {{person.lastname}} record
                     </button>
                 </div>
