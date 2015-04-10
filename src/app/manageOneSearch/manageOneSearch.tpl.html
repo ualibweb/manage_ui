@@ -12,21 +12,23 @@
     {{response}}
 </div>
 <div class="row">
-    <div class="col-md-1">
-        Filter by:
-    </div>
     <div class="col-md-3 form-group">
-        <label for="filterK">Keyword</label>
+        <label for="filterK">Filter by Keyword</label>
         <input type="text" class="form-control" placeholder="Keyword" id="filterK" ng-model="filterKeyword">
     </div>
     <div class="col-md-3 form-group">
-        <label for="filterL">Link</label>
+        <label for="filterLT">Filter by Link Title</label>
+        <input type="text" class="form-control" placeholder="Link Title" id="filterLT" ng-model="filterLinkTitle">
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="filterL">Filter by Link</label>
         <input type="text" class="form-control" placeholder="Link" id="filterL" ng-model="filterLink">
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-6" ng-repeat="rec in recList.RecList | filter:{keyword:filterKeyword} | filter:{link:filterLink}">
+    <div class="col-md-6"
+         ng-repeat="rec in recList.RecList | filter:{keyword:filterKeyword} | filter:{link:filterLink} | filter:{description:filterLinkTitle}">
         <button type="button" class="btn btn-primary" ng-click="deleteRec(rec, $index)">Delete</button>
         <span>{{rec.keyword}} = <a href="{{rec.link}}">{{rec.description}}</a></span>
     </div>
