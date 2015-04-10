@@ -12,7 +12,7 @@
         <th class="text-center">Action</th>
     </tr>
     </thead>
-    <tr ng-repeat="exception in allowedLibraries.exc[selLib].ex track by exception.id" ng-click="expandExc(exception)">
+    <tr ng-repeat="exception in allowedLibraries.exc[selLib].ex track by exception.id" ng-click="expandExc($event, exception)">
         <td style="width:30%">
             <div ng-hide="isExpExc(exception.id)">{{exception.desc}}</div>
             <div ng-show="isExpExc(exception.id)"><input type="text" class="form-control" ng-model="exception.desc" ng-required /></div>
@@ -21,10 +21,10 @@
             <div ng-hide="isExpExc(exception.id)">{{exception.datems | date : 'MMM d, y'}}</div>
             <div ng-show="isExpExc(exception.id)">
 
-                <input type="text" class="form-control" datepicker-popup="{{format}}" show-button-bar="false"
-                       ng-model="exception.datems" is-open="dpOpen" datepicker-options="dateOptions"
-                       close-on-date-selection="false" ng-required="true"
-                       ng-focus="onExcFocus($event)" ng-blur="onExcBlur($event)" />
+                <input type="text" class="form-control" datepicker-popup="{{format}}"
+                       ng-model="exception.datems" is-open="exception.dp"
+                       ng-required="true" close-text="Close"
+                       ng-focus="onExcFocus($event, $index)" />
             </div>
         </td>
         <td class="text-center">
@@ -58,8 +58,8 @@
         <td class="text-center">
 
             <input type="text" class="form-control" datepicker-popup="{{format}}" show-button-bar="false"
-                   ng-model="newException.datems" is-open="newException.datepicker" datepicker-options="dateOptions"
-                   close-on-date-selection="false" ng-required="true" placeholder="MM/DD/YYYY" />
+                   ng-model="newException.datems" is-open="newException.dp" close-text="Close"
+                   ng-required="true" placeholder="MM/DD/YYYY" ng-focus="onExcFocus($event)" />
         </td>
         <td class="text-center">
             <input type="text" class="form-control" ng-model="newException.days" placeholder="Days" ng-required />

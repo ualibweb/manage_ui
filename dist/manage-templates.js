@@ -16,7 +16,7 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "        <th class=\"text-center\">Action</th>\n" +
     "    </tr>\n" +
     "    </thead>\n" +
-    "    <tr ng-repeat=\"exception in allowedLibraries.exc[selLib].ex track by exception.id\" ng-click=\"expandExc(exception)\">\n" +
+    "    <tr ng-repeat=\"exception in allowedLibraries.exc[selLib].ex track by exception.id\" ng-click=\"expandExc($event, exception)\">\n" +
     "        <td style=\"width:30%\">\n" +
     "            <div ng-hide=\"isExpExc(exception.id)\">{{exception.desc}}</div>\n" +
     "            <div ng-show=\"isExpExc(exception.id)\"><input type=\"text\" class=\"form-control\" ng-model=\"exception.desc\" ng-required /></div>\n" +
@@ -25,10 +25,10 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "            <div ng-hide=\"isExpExc(exception.id)\">{{exception.datems | date : 'MMM d, y'}}</div>\n" +
     "            <div ng-show=\"isExpExc(exception.id)\">\n" +
     "\n" +
-    "                <input type=\"text\" class=\"form-control\" datepicker-popup=\"{{format}}\" show-button-bar=\"false\"\n" +
-    "                       ng-model=\"exception.datems\" is-open=\"dpOpen\" datepicker-options=\"dateOptions\"\n" +
-    "                       close-on-date-selection=\"false\" ng-required=\"true\"\n" +
-    "                       ng-focus=\"onExcFocus($event)\" ng-blur=\"onExcBlur($event)\" />\n" +
+    "                <input type=\"text\" class=\"form-control\" datepicker-popup=\"{{format}}\"\n" +
+    "                       ng-model=\"exception.datems\" is-open=\"exception.dp\"\n" +
+    "                       ng-required=\"true\" close-text=\"Close\"\n" +
+    "                       ng-focus=\"onExcFocus($event, $index)\" />\n" +
     "            </div>\n" +
     "        </td>\n" +
     "        <td class=\"text-center\">\n" +
@@ -62,8 +62,8 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "        <td class=\"text-center\">\n" +
     "\n" +
     "            <input type=\"text\" class=\"form-control\" datepicker-popup=\"{{format}}\" show-button-bar=\"false\"\n" +
-    "                   ng-model=\"newException.datems\" is-open=\"newException.datepicker\" datepicker-options=\"dateOptions\"\n" +
-    "                   close-on-date-selection=\"false\" ng-required=\"true\" placeholder=\"MM/DD/YYYY\" />\n" +
+    "                   ng-model=\"newException.datems\" is-open=\"newException.dp\" close-text=\"Close\"\n" +
+    "                   ng-required=\"true\" placeholder=\"MM/DD/YYYY\" ng-focus=\"onExcFocus($event)\" />\n" +
     "        </td>\n" +
     "        <td class=\"text-center\">\n" +
     "            <input type=\"text\" class=\"form-control\" ng-model=\"newException.days\" placeholder=\"Days\" ng-required />\n" +
@@ -179,13 +179,15 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "        <th class=\"text-center\">Sat</th>\n" +
     "    </tr>\n" +
     "    </thead>\n" +
-    "    <tr ng-repeat=\"sem in allowedLibraries.sem[selLib].sem\" ng-click=\"expandSem(sem)\">\n" +
+    "    <tr ng-repeat=\"sem in allowedLibraries.sem[selLib].sem\" ng-click=\"expandSem($event, sem)\">\n" +
     "        <th scope=\"row\" ng-hide=\"isExpSem(sem.dsid)\">{{sem.name}}<br>\n" +
-    "            {{sem.startdate}}<br>{{sem.enddate}}\n" +
+    "            {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate}}\n" +
     "        </th>\n" +
     "        <th scope=\"row\" ng-show=\"isExpSem(sem.dsid)\">{{sem.name}}<br>\n" +
     "            <div class=\"input-group\">\n" +
-    "                <input type=\"text\" class=\"form-control dp\" size=\"8\" ng-minlength=\"8\" ng-maxlength=\"10\" ng-model=\"sem.startdate\" ng-required />\n" +
+    "                <input type=\"text\" class=\"form-control\" datepicker-popup=\"{{format}}\" size=\"3\"\n" +
+    "                       ng-model=\"sem.startdate\" is-open=\"sem.dp\" ng-required=\"true\" close-text=\"Close\"\n" +
+    "                       ng-focus=\"onSemFocus($event, $index)\" />\n" +
     "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"saveChanges(sem)\" ng-disabled=\"loading\">Save</button>\n" +
     "                {{result}}\n" +
     "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteSem(sem)\" ng-disabled=\"loading\">Delete {{sem.name}}</button>\n" +
@@ -222,8 +224,10 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "    <tr>\n" +
     "        <th scope=\"row\">\n" +
     "            <div class=\"input-group\">\n" +
-    "                <input type=\"text\" class=\"form-control\" size=\"12\" ng-minlength=\"4\" ng-maxlength=\"32\" ng-model=\"newSemester.name\" placeholder=\"Semester Name\" ng-required /><br>\n" +
-    "                <input type=\"text\" class=\"form-control dp\" size=\"8\" ng-minlength=\"8\" ng-maxlength=\"10\" ng-model=\"newSemester.startdate\" placeholder=\"mm/dd/yyyy\" ng-required />\n" +
+    "                <input type=\"text\" class=\"form-control\" ng-minlength=\"4\" ng-maxlength=\"32\" ng-model=\"newSemester.name\" placeholder=\"Semester Name\" ng-required /><br>\n" +
+    "                <input type=\"text\" class=\"form-control\" datepicker-popup=\"{{format}}\"\n" +
+    "                       ng-model=\"newSemester.startdate\" is-open=\"newSemester.dp\" ng-required=\"true\" close-text=\"Close\"\n" +
+    "                       ng-focus=\"onSemFocus($event)\" />\n" +
     "            </div>\n" +
     "            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"createSem()\" ng-disabled=\"loading\">Create New Semester</button>\n" +
     "            {{result}}\n" +

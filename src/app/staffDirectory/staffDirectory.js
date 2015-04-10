@@ -215,7 +215,7 @@ angular.module('manage.staffDirectory', [])
                     alert("First Name is too short!");
             };
         }])
-    .directive('staffDirectoryList', function() {
+    .directive('staffDirectoryList', function($animate) {
         return {
             restrict: 'AC',
             scope: {},
@@ -226,7 +226,7 @@ angular.module('manage.staffDirectory', [])
                 //Preload the location of the boxe's title element (needs to be more dynamic in the future)
                 var titleElm = elm.find('h2');
                 //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm);
+                $animate.enter(spinner, titleElm[0]);
 
                 var loadingWatcher = scope.$watch(
                     'allowedLibraries',

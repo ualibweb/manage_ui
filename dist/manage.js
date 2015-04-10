@@ -164,10 +164,16 @@ angular.module('manage.manageHours', [])
             hmFactory.getData("semesters")
                 .success(function(data) {
                     console.dir(data);
-                    for (var lib = 0; lib < data.exc.length; lib++)
+                    for (var lib = 0; lib < data.exc.length; lib++){
                         for (var ex = 0; ex < data.exc[lib].ex.length; ex++){
                             data.exc[lib].ex[ex].datems = new Date(data.exc[lib].ex[ex].date * 1000);
+                            data.exc[lib].ex[ex].dp = false;
                         }
+                        for (var sem = 0; sem < data.sem[lib].sem.length; sem++){
+                            data.sem[lib].sem[sem].startdate = new Date(data.sem[lib].sem[sem].startdate);
+                            data.sem[lib].sem[sem].dp = false;
+                        }
+                    }
                     $scope.allowedLibraries = data;
                 })
                 .error(function(data, status, headers, config) {
@@ -184,8 +190,7 @@ angular.module('manage.manageHours', [])
                     active: false
                 }];
 
-            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate', 'MM/dd/yyyy'];
-            $scope.format = $scope.formats[4];
+            $scope.format = 'MM/dd/yyyy';
     }])
 
     .directive('manageHours', function($animate) {
@@ -199,7 +204,7 @@ angular.module('manage.manageHours', [])
                 //Preload the location of the boxe's title element (needs to be more dynamic in the future)
                 var titleElm = elm.find('h2');
                 //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm);
+                $animate.enter(spinner, titleElm[0]);
 
                 var loadingWatcher = scope.$watch(
                     'allowedLibraries',
@@ -220,6 +225,7 @@ angular.module('manage.manageHours', [])
         $scope.weekHrs = [];
         $scope.loading = false;
         $scope.newSemester = {};
+        $scope.newSemester.dp = false;
         $scope.newSemester.dow = [];
 
         function init(){
@@ -230,8 +236,16 @@ angular.module('manage.manageHours', [])
             }
         }
         init();
+        $scope.onSemFocus = function($event, index){
+            $event.preventDefault();
+            $event.stopPropagation();
+            if (typeof index != 'undefined' && index >= 0)
+                $scope.allowedLibraries.sem[$scope.selLib].sem[index].dp = true;
+            else
+                $scope.newSemester.dp = true;
+        };
 
-        $scope.expandSem = function(semester){
+        $scope.expandSem = function($event, semester){
             if ($scope.expSem !== semester.dsid) {
                 $scope.result = "";
                 $scope.resultDel = "";
@@ -249,6 +263,9 @@ angular.module('manage.manageHours', [])
                         }
                     }
                 }
+            } else {
+                $event.preventDefault();
+                $event.stopPropagation();
             }
             $scope.expSem = semester.dsid;
         };
@@ -322,32 +339,24 @@ angular.module('manage.manageHours', [])
         $scope.newException = {};
         $scope.newException.from = -1;
         $scope.newException.to = 0;
-        $scope.newException.datepicker = false;
-        $scope.dpOpen = false;
+        $scope.newException.dp = false;
         $scope.expExc = -1;
-        $scope.blurCount = 0;
 
-        $scope.onExcFocus = function($event){
+        $scope.onExcFocus = function($event, index){
             $event.preventDefault();
             $event.stopPropagation();
-            $scope.dpOpen = true;
-            $scope.blurCount = 0;
-            console.log("focus = " + $scope.dpOpen);
+            if (typeof index != 'undefined' && index >= 0)
+                $scope.allowedLibraries.exc[$scope.selLib].ex[index].dp = true;
+            else
+                $scope.newException.dp = true;
         };
-        $scope.onExcBlur = function($event){
-            if ($scope.blurCount > 0){
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.dpOpen = false;
-            }
-            $scope.blurCount++;
-            console.log("blur = " + $scope.dpOpen + ", count = " + $scope.blurCount);
-        };
-        $scope.expandExc = function(exception){
+        $scope.expandExc = function($event, exception){
             if ($scope.expExc != exception.id){
                 $scope.result = "";
                 $scope.resultDel = "";
-                $scope.dpOpen = false;
+            } else {
+                $event.preventDefault();
+                $event.stopPropagation();
             }
             $scope.expExc = exception.id;
         };
@@ -1089,7 +1098,7 @@ angular.module('manage.staffDirectory', [])
                     alert("First Name is too short!");
             };
         }])
-    .directive('staffDirectoryList', function() {
+    .directive('staffDirectoryList', function($animate) {
         return {
             restrict: 'AC',
             scope: {},
@@ -1100,7 +1109,7 @@ angular.module('manage.staffDirectory', [])
                 //Preload the location of the boxe's title element (needs to be more dynamic in the future)
                 var titleElm = elm.find('h2');
                 //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm);
+                $animate.enter(spinner, titleElm[0]);
 
                 var loadingWatcher = scope.$watch(
                     'allowedLibraries',
