@@ -316,11 +316,26 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
     "<h3>OneSearch Recommended Links Management</h3>\n" +
     "\n" +
     "<form class=\"form-inline\" ng-submit=\"addRecommendation()\">\n" +
-    "    <div class=\"form-group\">\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Keyword\" size=\"30\" maxlength=\"200\" ng-model=\"addRec.keyword\" required>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" size=\"30\" maxlength=\"1024\" ng-model=\"addRec.link\" required>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\" size=\"30\" maxlength=\"100\" ng-model=\"addRec.title\" required>\n" +
-    "        <button type=\"submit\" class=\"btn btn-primary\">Add Recommended Link</button>\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"K\">Keyword</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Keyword\" maxlength=\"200\" ng-model=\"addRec.keyword\"\n" +
+    "                   id=\"K\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"L\">Link</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" maxlength=\"1024\"\n" +
+    "                   id=\"L\" ng-model=\"addRec.link\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"LT\">Link Title</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\" maxlength=\"100\" ng-model=\"addRec.title\"\n" +
+    "                   id=\"LT\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"B\">&nbsp</label><br>\n" +
+    "            <button type=\"submit\" class=\"btn btn-primary\" id=\"B\">Add Recommended Link</button>\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "</form>\n" +
     "<div ng-show=\"response.length > 0\">\n" +

@@ -1,11 +1,26 @@
 <h3>OneSearch Recommended Links Management</h3>
 
 <form class="form-inline" ng-submit="addRecommendation()">
-    <div class="form-group">
-        <input type="text" class="form-control" placeholder="Keyword" size="30" maxlength="200" ng-model="addRec.keyword" required>
-        <input type="text" class="form-control" placeholder="http://www.example.com/" size="30" maxlength="1024" ng-model="addRec.link" required>
-        <input type="text" class="form-control" placeholder="Link Title" size="30" maxlength="100" ng-model="addRec.title" required>
-        <button type="submit" class="btn btn-primary">Add Recommended Link</button>
+    <div class="row">
+        <div class="col-md-3 form-group">
+            <label for="K">Keyword</label>
+            <input type="text" class="form-control" placeholder="Keyword" maxlength="200" ng-model="addRec.keyword"
+                   id="K" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="L">Link</label>
+            <input type="text" class="form-control" placeholder="http://www.example.com/" maxlength="1024"
+                   id="L" ng-model="addRec.link" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="LT">Link Title</label>
+            <input type="text" class="form-control" placeholder="Link Title" maxlength="100" ng-model="addRec.title"
+                   id="LT" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="B">&nbsp</label><br>
+            <button type="submit" class="btn btn-primary" id="B">Add Recommended Link</button>
+        </div>
     </div>
 </form>
 <div ng-show="response.length > 0">
