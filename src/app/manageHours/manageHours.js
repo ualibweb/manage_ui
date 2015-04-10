@@ -89,10 +89,11 @@ angular.module('manage.manageHours', [])
             hmFactory.getData({manage : 1})
                 .success(function(data) {
                     console.dir(data);
-                    $scope.allowedLibraries = data;
                     for (var lib = 0; lib < data.exc.length; lib++)
-                        for (var ex = 0; ex < data.exc[lib].ex.length; ex++)
+                        for (var ex = 0; ex < data.exc[lib].ex.length; ex++){
                             data.exc[lib].ex[ex].datems = new Date(data.exc[lib].ex[ex].date * 1000);
+                        }
+                    $scope.allowedLibraries = data;
                 })
                 .error(function(data, status, headers, config) {
                     console.log(data);
@@ -111,6 +112,15 @@ angular.module('manage.manageHours', [])
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate', 'MM/dd/yyyy'];
             $scope.format = $scope.formats[4];
     }])
+
+    .directive('manageHours', function() {
+        return {
+            restrict: 'AC',
+            scope: {},
+            controller: 'manageHrsCtrl',
+            templateUrl: 'manageHours/manageHours.tpl.html'
+        };
+    })
 
     .controller('semListCtrl', ['$scope', 'hmFactory', function semListCtrl($scope, hmFactory) {
         $scope.expSem = -1;
@@ -208,6 +218,7 @@ angular.module('manage.manageHours', [])
 
     .directive('semesterList', function() {
         return {
+            require: '^manageHours',
             restrict: 'AC',
             controller: 'semListCtrl',
             templateUrl: 'manageHours/manageSem.tpl.html'
@@ -218,33 +229,33 @@ angular.module('manage.manageHours', [])
         $scope.newException = {};
         $scope.newException.from = -1;
         $scope.newException.to = 0;
+        $scope.newException.datepicker = false;
+        $scope.dpOpen = false;
         $scope.expExc = -1;
-        $scope.openedDP1 = false;
-        $scope.openedDP2 = false;
+        $scope.blurCount = 0;
 
-        $scope.toggleDP1 = function($event) {
+        $scope.onExcFocus = function($event){
             $event.preventDefault();
             $event.stopPropagation();
-            $scope.openedDP1 = !$scope.openedDP1;
+            $scope.dpOpen = true;
+            $scope.blurCount = 0;
+            console.log("focus = " + $scope.dpOpen);
         };
-        $scope.toggleDP2 = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.openedDP2 = !$scope.openedDP2;
-        };
-        $scope.closeDP = function(){
-            $scope.result = "";
-            $scope.resultDel = "";
-            $scope.openedDP1 = false;
-            $scope.openedDP2 = false;
+        $scope.onExcBlur = function($event){
+            if ($scope.blurCount > 0){
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.dpOpen = false;
+            }
+            $scope.blurCount++;
+            console.log("blur = " + $scope.dpOpen + ", count = " + $scope.blurCount);
         };
         $scope.expandExc = function(exception){
             if ($scope.expExc != exception.id){
                 $scope.result = "";
                 $scope.resultDel = "";
+                $scope.dpOpen = false;
             }
-            $scope.openedDP1 = false;
-            $scope.openedDP2 = false;
             $scope.expExc = exception.id;
         };
         $scope.isExpExc = function(excID){
@@ -320,10 +331,14 @@ angular.module('manage.manageHours', [])
                 });
         };
     }])
-    .directive('exceptionList', function() {
+    .directive('exceptionList', function($timeout) {
         return {
+            require: '^manageHours',
             restrict: 'AC',
             controller: 'exListCtrl',
+            link: function(scope, elem, attrs) {
+
+            },
             templateUrl: 'manageHours/manageEx.tpl.html'
         };
     })
