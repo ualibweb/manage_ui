@@ -347,6 +347,10 @@ angular.module('manage.manageHours', [])
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.expExc = -1;
+                        for (var ex = 0; ex < data.ex.length; ex++){
+                            data.ex[ex].datems = new Date(data.ex[ex].date * 1000);
+                            data.ex[ex].dp = false;
+                        }
                         $scope.allowedLibraries.exc[$scope.selLib] = data;
                         $scope.resultDel = "Outdated exceptions deleted";
                     } else
