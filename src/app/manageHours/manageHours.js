@@ -129,12 +129,11 @@ angular.module('manage.manageHours', [])
                 var loadingWatcher = scope.$watch(
                     'allowedLibraries',
                     function(newVal, oldVal){
-                        if (scope.allowedLibraries.length > 0){
+                        if (scope.allowedLibraries.totalTime > 0){
                             $animate.leave(spinner);
                             console.log("Hours loaded");
                         }
-                    },
-                    true
+                    }
                 );
             },
             templateUrl: 'manageHours/manageHours.tpl.html'
