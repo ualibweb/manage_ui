@@ -1,6 +1,6 @@
 <h2>Library Staff Directory</h2>
 
-<div ng-show="hasAccess">
+<div ng-show="hasAccess" style="background-color:#f9f9f9;">
     <div class="row">
         <div class="col-md-3 form-group">
             <label for="firstName">Firts Name</label>
@@ -22,12 +22,12 @@
             <input type="text" class="form-control" placeholder="Title" maxlength="150"
                    ng-model="formData.title" id="title" required>
         </div>
-        <div class="col-md-3 form-group">
+        <div class="col-md-2 form-group">
             <label for="rank">Rank</label>
             <select class="form-control" ng-model="formData.rank" ng-options="rank for rank in ranks" id="rank">
             </select>
         </div>
-        <div class="col-md-5 form-group">
+        <div class="col-md-4 form-group">
             <label for="dept">Department</label>
             <select class="form-control" ng-model="formData.dept" ng-options="dept for dept in departments" id="dept">
             </select>
@@ -41,9 +41,12 @@
             <label for="fax">Fax</label>
             <input type="text" class="form-control" placeholder="Fax" maxlength="8" ng-model="formData.fax" id="fax">
         </div>
+        <div class="col-md-2 form-group text-right">
+            <label for="addButton">&nbsp</label><br>
+            <button type="submit" class="btn btn-primary" ng-click="addPerson()" id="addButton">Add New Person</button>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary" ng-click="addPerson()">Add New Person</button>
-    <span ng-model="formResponse">{{formResponse}}</span>
+    <p ng-model="formResponse">{{formResponse}}</p>
 </div>
 
 <div>
