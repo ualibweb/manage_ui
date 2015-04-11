@@ -315,7 +315,7 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
   $templateCache.put("manageOneSearch/manageOneSearch.tpl.html",
     "<h3>OneSearch Recommended Links Management</h3>\n" +
     "\n" +
-    "<form class=\"form-inline\" ng-submit=\"addRecommendation()\">\n" +
+    "<form ng-submit=\"addRecommendation()\">\n" +
     "    <div class=\"row\">\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
     "            <label for=\"K\">Keyword</label>\n" +
@@ -333,7 +333,8 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
     "                   id=\"LT\" required>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
-    "            <button type=\"submit\" class=\"btn btn-primary\">Add Recommended Link</button>\n" +
+    "            <label for=\"B\">&nbsp</label><br>\n" +
+    "            <button type=\"submit\" class=\"btn btn-primary\" id=\"B\">Add Recommended Link</button>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</form>\n" +
