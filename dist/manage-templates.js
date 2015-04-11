@@ -333,8 +333,7 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
     "                   id=\"LT\" required>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"B\">&nbsp</label><br>\n" +
-    "            <button type=\"submit\" class=\"btn btn-primary\" id=\"B\">Add Recommended Link</button>\n" +
+    "            <button type=\"submit\" class=\"btn btn-primary\">Add Recommended Link</button>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</form>\n" +
