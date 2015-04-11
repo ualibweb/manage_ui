@@ -335,8 +335,15 @@ angular.module('manage.manageHours', [])
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.result = "Exception created";
-                        $scope.newException.id = data.id;
-                        $scope.allowedLibraries.exc[$scope.selLib].ex.push($scope.newException);
+                        var newExc = {};
+                        newExc.id = data.id;
+                        newExc.datems = $scope.newException.datems;
+                        newExc.days = $scope.newException.days;
+                        newExc.desc = $scope.newException.desc;
+                        newExc.from = $scope.newException.from;
+                        newExc.to = $scope.newException.to;
+                        newExc.dp = false;
+                        $scope.allowedLibraries.exc[$scope.selLib].ex.push(newExc);
                     }else
                         $scope.result = "Error! Could not create an exception!";
                     $scope.loading = false;
