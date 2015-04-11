@@ -22,7 +22,7 @@
                        ng-focus="onSemFocus($event, $index)" />
                 <button type="button" class="btn btn-primary" ng-click="saveChanges(sem)" ng-disabled="loading">Save</button>
                 {{result}}
-                <button type="button" class="btn btn-primary" ng-click="deleteSem(sem)" ng-disabled="loading">Delete {{sem.name}}</button>
+                <button type="button" class="btn btn-primary" ng-click="deleteSem(sem, $index)" ng-disabled="loading">Delete {{sem.name}}</button>
             </div>
         </th>
         <td class="text-center" style="width:11%" ng-repeat="day in sem.dow">

@@ -190,7 +190,7 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "                       ng-focus=\"onSemFocus($event, $index)\" />\n" +
     "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"saveChanges(sem)\" ng-disabled=\"loading\">Save</button>\n" +
     "                {{result}}\n" +
-    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteSem(sem)\" ng-disabled=\"loading\">Delete {{sem.name}}</button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteSem(sem, $index)\" ng-disabled=\"loading\">Delete {{sem.name}}</button>\n" +
     "            </div>\n" +
     "        </th>\n" +
     "        <td class=\"text-center\" style=\"width:11%\" ng-repeat=\"day in sem.dow\">\n" +

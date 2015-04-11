@@ -215,15 +215,15 @@ angular.module('manage.manageHours', [])
                     $scope.loading = false;
                 });
         };
-        $scope.deleteSem = function(semester){
+        $scope.deleteSem = function(semester, index){
             if (confirm("Are you sure you want to delete " + semester.name + " semester?")){
                 $scope.loading = true;
                 semester.lid = $scope.allowedLibraries.sem[$scope.selLib].library.lid;
                 hmFactory.postData({action : 3}, semester)
                     .success(function(data) {
-                        if ((typeof data === 'object') && (data !== null)){
+                        if (data == 1){
                             $scope.result = "Semester deleted";
-                            $scope.allowedLibraries.sem[$scope.selLib] = data;
+                            $scope.allowedLibraries.sem[$scope.selLib].sem.splice(index, 1);
                         } else
                             $scope.result = "Error! Could not delete semester!";
                         $scope.loading = false;
@@ -236,10 +236,15 @@ angular.module('manage.manageHours', [])
         $scope.createSem = function(){
             $scope.loading = true;
             $scope.newSemester.lid = $scope.allowedLibraries.sem[$scope.selLib].library.lid;
+            $scope.newSemester.libName = $scope.allowedLibraries.sem[$scope.selLib].library.name;
             hmFactory.postData({action : 2}, $scope.newSemester)
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.result = "Semester created";
+                        for (var sem = 0; sem < data.sem.length; sem++){
+                            data.sem[sem].startdate = new Date(data.sem[sem].startdate);
+                            data.sem[sem].dp = false;
+                        }
                         $scope.allowedLibraries.sem[$scope.selLib] = data;
                     }else
                         $scope.result = "Error! Could not create semester!";
