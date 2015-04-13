@@ -49,4 +49,16 @@ angular.module('common.manage', [])
                 return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
             }
         }
-    }]);
+    }])
+    .factory('dbFactory', ['$http', 'DATABASES_URL', function dbFactory($http, url){
+        return {
+            getData: function(params){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'GET', url: url + "getJSON.php", params: params})
+            },
+            postData: function(params, data){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
+            }
+        }
+    }])

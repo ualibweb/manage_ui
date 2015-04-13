@@ -1,4 +1,127 @@
-angular.module('manage.templates', ['manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
+angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
+
+angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageDatabases/manageDatabases.tpl.html",
+    "<h2>Manage Databases</h2>\n" +
+    "\n" +
+    "<div>\n" +
+    "    <ul class=\"text-center list-inline\">Sort By:\n" +
+    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'title'\" ng-click=\"sortMode='Title'\">Title</button></li>\n" +
+    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'publisher'\" ng-click=\"sortMode='Publisher'\">Publisher</button></li>\n" +
+    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'vendor'\" ng-click=\"sortMode='Vendor'\">Vendor</button></li>\n" +
+    "        <li><input type=\"text\" class=\"form-control\" placeholder=\"Filter by Title\" ng-model=\"filterBy\"></li>\n" +
+    "    </ul>\n" +
+    "\n" +
+    "    <div class=\"row\" ng-repeat=\"db in DBList.results | filter:{Title:filterBy} | orderBy:sortMode\"\n" +
+    "         ng-class=\"{sdOpen: db.show, sdOver: db.id == mOver}\" ng-mouseover=\"setOver(db)\">\n" +
+    "        <div class=\"col-md-12\" ng-click=\"toggleDB(db)\">\n" +
+    "            <h4>\n" +
+    "                <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"db.show\"></span>\n" +
+    "                <span class=\"fa fa-fw fa-caret-down\" ng-show=\"db.show\"></span>\n" +
+    "                <a href=\"{{db.URL}}\">{{db.Title}}</a>\n" +
+    "                <small>{{db.Publisher}} <span ng-show=\"db.Vendor.length > 0\">: {{db.Vendor}}</span></small>\n" +
+    "            </h4>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-12\" ng-show=\"db.show\">\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"{{db.id}}_title\">Title</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.Title}}\" ng-model=\"db.Title\"\n" +
+    "                       id=\"{{db.id}}_title\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-3 form-group\">\n" +
+    "                <label for=\"{{db.id}}_Publisher\">Publisher</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.Publisher}}\" ng-model=\"db.Publisher\"\n" +
+    "                       id=\"{{db.id}}_Publisher\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-3 form-group\">\n" +
+    "                <label for=\"{{db.id}}_Vendor\">Vendor</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.Vendor}}\" ng-model=\"db.Vendor\"\n" +
+    "                       id=\"{{db.id}}_Vendor\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"{{db.id}}_URL\">URL</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.URL}}\" ng-model=\"db.URL\"\n" +
+    "                       id=\"{{db.id}}_URL\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2 form-group\">\n" +
+    "                <label for=\"{{db.id}}_Location\">Location</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.Location}}\" ng-model=\"db.Location\"\n" +
+    "                       id=\"{{db.id}}_Location\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-1 form-group\">\n" +
+    "                <label for=\"{{db.id}}_Authenticate\">Authenticate</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.Authenticate}}\" ng-model=\"db.Authenticate\"\n" +
+    "                       id=\"{{db.id}}_Authenticate\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-1 form-group\">\n" +
+    "                <label for=\"{{db.id}}_Full-text\">Full-text</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db['Full-text']}}\" ng-model=\"db['Full-text']\"\n" +
+    "                       id=\"{{db.id}}_Full-text\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-1 form-group\">\n" +
+    "                <label for=\"{{db.id}}_Disable\">Disabled</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.Disable}}\" ng-model=\"db.Disable\"\n" +
+    "                       id=\"{{db.id}}_Disable\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-1 form-group\">\n" +
+    "                <label for=\"{{db.id}}_NotInEDS\">NotInEDS</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.NotInEDS}}\" ng-model=\"db.NotInEDS\"\n" +
+    "                       id=\"{{db.id}}_NotInEDS\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"{{db.id}}_Coverage\">Coverage</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.Coverage}}\" ng-model=\"db.Coverage\"\n" +
+    "                       id=\"{{db.id}}_Coverage\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-4 form-group\">\n" +
+    "                <label for=\"{{db.id}}_Notes\">Notes</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.Notes}}\" ng-model=\"db.Notes\"\n" +
+    "                       id=\"{{db.id}}_Notes\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2 form-group\">\n" +
+    "                <label for=\"{{db.id}}_alt_title\">Alt Search Title</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db.alt_search_title}}\" ng-model=\"db.alt_search_title\"\n" +
+    "                       id=\"{{db.id}}_alt_title\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-12 form-group\">\n" +
+    "                <label for=\"{{db.id}}_descr\">Database Description</label>\n" +
+    "                <textarea class=\"form-control\" rows=\"3\" id=\"{{db.id}}_descr\" ng-model=\"db['Database Description']\"></textarea>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2 form-group\">\n" +
+    "                <label for=\"{{db.id}}_presented\">Presented by</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db['Presented by message']}}\" ng-model=\"db['Presented by message']\"\n" +
+    "                       id=\"{{db.id}}_presented\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2 form-group\">\n" +
+    "                <label for=\"{{db.id}}_Audience1\">Audience One</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db['Audience One']}}\" ng-model=\"db['Audience One']\"\n" +
+    "                       id=\"{{db.id}}_Audience1\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2 form-group\">\n" +
+    "                <label for=\"{{db.id}}_Audience2\">Audience Two</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"{{db['Audience Two']}}\" ng-model=\"db['Audience Two']\"\n" +
+    "                       id=\"{{db.id}}_Audience2\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-3 form-group\">\n" +
+    "                <label for=\"{{db.id}}_dAuthor\">Database Description Author</label>\n" +
+    "                <p id=\"{{db.id}}_dAuthor\">{{db['Database Description Author']}}</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-3 form-group\">\n" +
+    "                <label for=\"{{db.id}}_date\">Last Modified</label>\n" +
+    "                <p id=\"{{db.id}}_date\">{{db['Date last modified']}}</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-12 text-center\">\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"updateDB(db)\">Update information</button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteDB(db)\">\n" +
+    "                    Delete {{db[0]}} database\n" +
+    "                </button>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "");
+}]);
 
 angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageEx.tpl.html",

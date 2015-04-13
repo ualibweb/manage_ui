@@ -8,7 +8,8 @@ angular.module('manage', [
     'manage.manageUserGroups',
     'manage.siteFeedback',
     'manage.manageOneSearch',
-    'manage.staffDirectory'
+    'manage.staffDirectory',
+    'manage.manageDatabases'
 ])
 
     .constant('HOURS_MANAGE_URL', '//wwwdev2.lib.ua.edu/libhours2/')
@@ -16,3 +17,4 @@ angular.module('manage', [
     .constant('SITE_FEEDBACK_URL', '//wwwdev2.lib.ua.edu/siteSurvey/')
     .constant('ONE_SEARCH_URL', '//wwwdev2.lib.ua.edu/oneSearch/')
     .constant('STAFF_DIR_URL', '//wwwdev2.lib.ua.edu/staffDir/')
+    .constant('DATABASES_URL', '//wwwdev2.lib.ua.edu/databases/')
