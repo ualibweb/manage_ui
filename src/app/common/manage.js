@@ -52,9 +52,8 @@ angular.module('common.manage', [])
     }])
     .factory('dbFactory', ['$http', 'DATABASES_URL', function dbFactory($http, url){
         return {
-            getData: function(params){
-                params = angular.isDefined(params) ? params : {};
-                return $http({method: 'GET', url: url + "getJSON.php", params: params})
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/all", params: {}})
             },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
