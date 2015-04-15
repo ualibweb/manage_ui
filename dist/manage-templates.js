@@ -5,14 +5,43 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "<h2>Manage Databases</h2>\n" +
     "\n" +
     "<div>\n" +
-    "    <ul class=\"text-center list-inline\">Sort By:\n" +
-    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'title'\" ng-click=\"sortMode='title'\">Title</button></li>\n" +
-    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'publisher'\" ng-click=\"sortMode='publisher'\">Publisher</button></li>\n" +
-    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'vendor'\" ng-click=\"sortMode='vendor'\">Vendor</button></li>\n" +
-    "        <li><input type=\"text\" class=\"form-control\" placeholder=\"Filter by Title\" ng-model=\"filterBy\"></li>\n" +
-    "    </ul>\n" +
+    "    <div class=\"text-center row form-inline\">\n" +
+    "        <div class=\"col-md-6 form-group text-right\">\n" +
+    "            <label for=\"sortBy\">Sort By</label>\n" +
+    "            <div id=\"sortBy\">\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'title'\"\n" +
+    "                        ng-click=\"sortMode='title'\">\n" +
+    "                    Title\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'publisher'\"\n" +
+    "                        ng-click=\"sortMode='publisher'\">\n" +
+    "                    Publisher\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'vendor'\"\n" +
+    "                        ng-click=\"sortMode='vendor'\">\n" +
+    "                    Vendor\n" +
+    "                </button>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-6 form-group text-left\">\n" +
+    "            <label for=\"filterBy\">Filter by</label>\n" +
+    "            <div id=\"filterBy\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title\" ng-model=\"titleFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Subject\" ng-model=\"subjectFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Media Type\" ng-model=\"typeFilter\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
     "\n" +
-    "    <div class=\"row\" ng-repeat=\"db in DBList.databases | filter:{title:filterBy} | orderBy:sortMode\"\n" +
+    "    <div class=\"text-center\">\n" +
+    "        <pagination total-items=\"filteredDB.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\"></pagination>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\"\n" +
+    "         ng-repeat=\"db in filteredDB = (DBList.databases | filter:{title:titleFilter}\n" +
+    "                                                         | filter:{subjects:subjectFilter}\n" +
+    "                                                         | filter:{types:typeFilter})\n" +
+    "        | startFrom:(currentPage-1)*perPage | limitTo:perPage | orderBy:sortMode\"\n" +
     "         ng-class=\"{sdOpen: db.show, sdOver: db.id == mOver}\" ng-mouseover=\"setOver(db)\">\n" +
     "        <div class=\"col-md-12\" ng-click=\"toggleDB(db)\">\n" +
     "            <h4>\n" +
@@ -144,6 +173,10 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"text-center\">\n" +
+    "    <pagination total-items=\"filteredDB.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\"></pagination>\n" +
     "</div>\n" +
     "\n" +
     "<h3>Create new Database</h3>\n" +

@@ -3,13 +3,18 @@ angular.module('manage.manageDatabases', [])
         function manageDBCtrl($scope, $http, $window, dbFactory){
             $scope.DBList = {};
             $scope.sortMode = 'Title';
-            $scope.filterBy = '';
+            $scope.titleFilter = '';
+            $scope.subjectFilter = '';
+            $scope.typeFilter = '';
             $scope.sortButton = 'title';
             $scope.mOver = 0;
             $scope.newDB = {};
             $scope.newDB.subjects = [];
             $scope.newDB.types = [];
             $scope.updatedBy = $window.userName;
+            $scope.currentPage = 1;
+            $scope.maxPageSize = 10;
+            $scope.perPage = 20;
 
             var cookies;
             $scope.GetCookie = function (name,c,C,i){
@@ -128,6 +133,8 @@ angular.module('manage.manageDatabases', [])
                     .success(function(data, status, headers, config) {
                         if ((typeof data === 'object') && (data !== null)){
                             newSubject.id = data.id;
+                            if (typeof $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].subjects == 'undefined')
+                                $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].subjects = [];
                             $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].subjects.push(newSubject);
                             $scope.formResponse = "Subject has been added.";
                         } else {
@@ -166,6 +173,8 @@ angular.module('manage.manageDatabases', [])
                     .success(function(data, status, headers, config) {
                         if ((typeof data === 'object') && (data !== null)){
                             newType.id = data.id;
+                            if (typeof $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].types == 'undefined')
+                                $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].types = [];
                             $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].types.push(newType);
                             $scope.formResponse = "Type has been added.";
                         } else {
@@ -201,6 +210,8 @@ angular.module('manage.manageDatabases', [])
                 newSubject.type = $scope.newDB.subjType;
                 newSubject.sid = $scope.newDB.selSubj.sid;
                 newSubject.subject = $scope.newDB.selSubj.subject;
+                if (typeof $scope.newDB.subjects == 'undefined')
+                    $scope.newDB.subjects = [];
                 $scope.newDB.subjects.push(newSubject);
             };
             $scope.delTypeNewDB = function(index){
@@ -210,6 +221,8 @@ angular.module('manage.manageDatabases', [])
                 var newType = {};
                 newType.tid = $scope.newDB.selType.tid;
                 newType.type = $scope.newDB.selType.type;
+                if (typeof $scope.newDB.types == 'undefined')
+                    $scope.newDB.types = [];
                 $scope.newDB.types.push(newType);
             };
         }])
@@ -240,4 +253,10 @@ angular.module('manage.manageDatabases', [])
             },
             templateUrl: 'manageDatabases/manageDatabases.tpl.html'
         };
+    })
+    .filter('startFrom', function() {
+        return function(input, start) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
     })

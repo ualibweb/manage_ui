@@ -1,14 +1,43 @@
 <h2>Manage Databases</h2>
 
 <div>
-    <ul class="text-center list-inline">Sort By:
-        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'title'" ng-click="sortMode='title'">Title</button></li>
-        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'publisher'" ng-click="sortMode='publisher'">Publisher</button></li>
-        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'vendor'" ng-click="sortMode='vendor'">Vendor</button></li>
-        <li><input type="text" class="form-control" placeholder="Filter by Title" ng-model="filterBy"></li>
-    </ul>
+    <div class="text-center row form-inline">
+        <div class="col-md-6 form-group text-right">
+            <label for="sortBy">Sort By</label>
+            <div id="sortBy">
+                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'title'"
+                        ng-click="sortMode='title'">
+                    Title
+                </button>
+                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'publisher'"
+                        ng-click="sortMode='publisher'">
+                    Publisher
+                </button>
+                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'vendor'"
+                        ng-click="sortMode='vendor'">
+                    Vendor
+                </button>
+            </div>
+        </div>
+        <div class="col-md-6 form-group text-left">
+            <label for="filterBy">Filter by</label>
+            <div id="filterBy">
+                <input type="text" class="form-control" placeholder="Title" ng-model="titleFilter">
+                <input type="text" class="form-control" placeholder="Subject" ng-model="subjectFilter">
+                <input type="text" class="form-control" placeholder="Media Type" ng-model="typeFilter">
+            </div>
+        </div>
+    </div>
 
-    <div class="row" ng-repeat="db in DBList.databases | filter:{title:filterBy} | orderBy:sortMode"
+    <div class="text-center">
+        <pagination total-items="filteredDB.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                    boundary-links="true" rotate="false" items-per-page="perPage"></pagination>
+    </div>
+    <div class="row"
+         ng-repeat="db in filteredDB = (DBList.databases | filter:{title:titleFilter}
+                                                         | filter:{subjects:subjectFilter}
+                                                         | filter:{types:typeFilter})
+        | startFrom:(currentPage-1)*perPage | limitTo:perPage | orderBy:sortMode"
          ng-class="{sdOpen: db.show, sdOver: db.id == mOver}" ng-mouseover="setOver(db)">
         <div class="col-md-12" ng-click="toggleDB(db)">
             <h4>
@@ -140,6 +169,10 @@
             </div>
         </div>
     </div>
+</div>
+<div class="text-center">
+    <pagination total-items="filteredDB.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                boundary-links="true" rotate="false" items-per-page="perPage"></pagination>
 </div>
 
 <h3>Create new Database</h3>
