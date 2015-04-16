@@ -348,6 +348,7 @@ angular.module('manage.manageDatabases', [])
             return input.slice(start);
         }
     })
+
 angular.module('manage.manageHours', [])
     .constant('HOURS_FROM', [
         {name:'Closed', value:'-1'},
@@ -1213,13 +1214,19 @@ angular.module('manage.staffDirectory', [])
     .controller('staffDirCtrl', ['$scope', '$http', '$window', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_DEPTS', 'STAFF_DIR_URL',
         function staffDirCtrl($scope, $http, $window, sdFactory, ranks, departments, appUrl){
             $scope.sortMode = 'lastname';
-            $scope.filterBy = '';
+            $scope.lastNameFilter = '';
+            $scope.firstNameFilter = '';
+            $scope.titleFilter = '';
+            $scope.deptFilter = '';
             $scope.sortButton = 'last';
             $scope.Directory = {};
             $scope.hasAccess = $window.isAdmin;
             $scope.ranks = ranks;
             $scope.departments = departments;
             $scope.mOver = 0;
+            $scope.currentPage = 1;
+            $scope.maxPageSize = 10;
+            $scope.perPage = 15;
 
             var cookies;
             $scope.GetCookie = function (name,c,C,i){
@@ -1417,4 +1424,10 @@ angular.module('manage.staffDirectory', [])
             },
             templateUrl: 'staffDirectory/staffDirectory.tpl.html'
         };
+    })
+    .filter('startFrom', function() {
+        return function(input, start) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
     })

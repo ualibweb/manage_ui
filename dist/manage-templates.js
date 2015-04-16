@@ -6,7 +6,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "\n" +
     "<div>\n" +
     "    <div class=\"text-center row form-inline\">\n" +
-    "        <div class=\"col-md-6 form-group text-right\">\n" +
+    "        <div class=\"col-md-5 form-group text-right\">\n" +
     "            <label for=\"sortBy\">Sort By</label>\n" +
     "            <div id=\"sortBy\">\n" +
     "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'title'\"\n" +
@@ -23,7 +23,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                </button>\n" +
     "            </div>\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-6 form-group text-left\">\n" +
+    "        <div class=\"col-md-7 form-group text-left\">\n" +
     "            <label for=\"filterBy\">Filter by</label>\n" +
     "            <div id=\"filterBy\">\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Title\" ng-model=\"titleFilter\">\n" +
@@ -800,65 +800,50 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
   $templateCache.put("staffDirectory/staffDirectory.tpl.html",
     "<h2>Library Staff Directory</h2>\n" +
     "\n" +
-    "<div ng-show=\"hasAccess\" style=\"background-color:#f9f9f9;\">\n" +
-    "    <div class=\"row\">\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"firstName\">Firts Name</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"First Name\" maxlength=\"25\"\n" +
-    "                   ng-model=\"formData.first\" id=\"firstName\" required>\n" +
+    "<div>\n" +
+    "    <div class=\"text-center row form-inline\">\n" +
+    "        <div class=\"col-md-5 form-group text-right\">\n" +
+    "            <label for=\"sortBy\">Sort By</label>\n" +
+    "            <div id=\"sortBy\">\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'first'\"\n" +
+    "                        ng-click=\"sortMode='firstname'\">\n" +
+    "                    First Name\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'last'\"\n" +
+    "                        ng-click=\"sortMode='lastname'\">\n" +
+    "                    Last Name\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'title'\"\n" +
+    "                        ng-click=\"sortMode='title'\">\n" +
+    "                    Title\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'dept'\"\n" +
+    "                        ng-click=\"sortMode='department'\">\n" +
+    "                    Department\n" +
+    "                </button>\n" +
+    "            </div>\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"lastName\">Last Name</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Last Name\" maxlength=\"25\"\n" +
-    "                   ng-model=\"formData.last\" id=\"lastName\" required>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"email\">Email</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Email\" maxlength=\"255\"\n" +
-    "                   ng-model=\"formData.email\" id=\"email\" required>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"title\">Title</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Title\" maxlength=\"150\"\n" +
-    "                   ng-model=\"formData.title\" id=\"title\" required>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-2 form-group\">\n" +
-    "            <label for=\"rank\">Rank</label>\n" +
-    "            <select class=\"form-control\" ng-model=\"formData.rank\" ng-options=\"rank for rank in ranks\" id=\"rank\">\n" +
-    "            </select>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-4 form-group\">\n" +
-    "            <label for=\"dept\">Department</label>\n" +
-    "            <select class=\"form-control\" ng-model=\"formData.dept\" ng-options=\"dept for dept in departments\" id=\"dept\">\n" +
-    "            </select>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-2 form-group\">\n" +
-    "            <label for=\"phone\">Phone</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Phone\" maxlength=\"8\"\n" +
-    "                   ng-model=\"formData.phone\" id=\"phone\" required>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-2 form-group\">\n" +
-    "            <label for=\"fax\">Fax</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Fax\" maxlength=\"8\" ng-model=\"formData.fax\" id=\"fax\">\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-2 form-group text-right\">\n" +
-    "            <label for=\"addButton\">&nbsp</label><br>\n" +
-    "            <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"addPerson()\" id=\"addButton\">Create New Record</button>\n" +
+    "        <div class=\"col-md-7 form-group text-left\">\n" +
+    "            <label for=\"filterBy\">Filter by</label>\n" +
+    "            <div id=\"filterBy\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Last Name\" ng-model=\"lastNameFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"First Name\" ng-model=\"firstNameFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title\" ng-model=\"titleFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Department\" ng-model=\"deptFilter\">\n" +
+    "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "    <p ng-model=\"formResponse\">{{formResponse}}</p>\n" +
-    "</div>\n" +
     "\n" +
-    "<div>\n" +
-    "    <ul class=\"text-center list-inline\">Sort By:\n" +
-    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'first'\" ng-click=\"sortMode='firstname'\">First Name</button></li>\n" +
-    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'last'\" ng-click=\"sortMode='lastname'\">Last Name</button></li>\n" +
-    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'title'\" ng-click=\"sortMode='title'\">Title</button></li>\n" +
-    "        <li><button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'dept'\" ng-click=\"sortMode='department'\">Department</button></li>\n" +
-    "        <li><input type=\"text\" class=\"form-control\" placeholder=\"Filter by Last Name\" maxlength=\"25\" ng-model=\"filterBy\"></li>\n" +
-    "    </ul>\n" +
-    "\n" +
-    "    <div class=\"row\" ng-repeat=\"person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode\"\n" +
+    "    <div class=\"text-center\">\n" +
+    "        <pagination total-items=\"filteredDB.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\"></pagination>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\" ng-repeat=\"person in filteredDB = (Directory.list\n" +
+    "                                                        | filter:{lastname:lastNameFilter}\n" +
+    "                                                        | filter:{firstname:firstNameFilter}\n" +
+    "                                                        | filter:{title:titleFilter}\n" +
+    "                                                        | filter:{department:deptFilter})\n" +
+    "                                | startFrom:(currentPage-1)*perPage | limitTo:perPage | orderBy:sortMode\"\n" +
     "         ng-class=\"{sdOpen: person.show, sdOver: person.id == mOver}\" ng-mouseover=\"setOver(person)\">\n" +
     "        <div class=\"col-md-7\" ng-click=\"togglePerson(person)\">\n" +
     "            <h4>\n" +
@@ -960,5 +945,60 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
+    "<div class=\"text-center\">\n" +
+    "    <pagination total-items=\"filteredDB.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\"></pagination>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div ng-show=\"hasAccess\" style=\"background-color:#f9f9f9;\">\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"firstName\">Firts Name</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"First Name\" maxlength=\"25\"\n" +
+    "                   ng-model=\"formData.first\" id=\"firstName\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"lastName\">Last Name</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Last Name\" maxlength=\"25\"\n" +
+    "                   ng-model=\"formData.last\" id=\"lastName\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"email\">Email</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Email\" maxlength=\"255\"\n" +
+    "                   ng-model=\"formData.email\" id=\"email\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"title\">Title</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Title\" maxlength=\"150\"\n" +
+    "                   ng-model=\"formData.title\" id=\"title\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
+    "            <label for=\"rank\">Rank</label>\n" +
+    "            <select class=\"form-control\" ng-model=\"formData.rank\" ng-options=\"rank for rank in ranks\" id=\"rank\">\n" +
+    "            </select>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-4 form-group\">\n" +
+    "            <label for=\"dept\">Department</label>\n" +
+    "            <select class=\"form-control\" ng-model=\"formData.dept\" ng-options=\"dept for dept in departments\" id=\"dept\">\n" +
+    "            </select>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
+    "            <label for=\"phone\">Phone</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Phone\" maxlength=\"8\"\n" +
+    "                   ng-model=\"formData.phone\" id=\"phone\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
+    "            <label for=\"fax\">Fax</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Fax\" maxlength=\"8\" ng-model=\"formData.fax\" id=\"fax\">\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-2 form-group text-right\">\n" +
+    "            <label for=\"addButton\">&nbsp</label><br>\n" +
+    "            <button type=\"submit\" class=\"btn btn-primary\" ng-click=\"addPerson()\" id=\"addButton\">Create New Record</button>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <p ng-model=\"formResponse\">{{formResponse}}</p>\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
     "");
 }]);

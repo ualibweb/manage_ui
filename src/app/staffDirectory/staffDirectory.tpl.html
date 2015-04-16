@@ -1,64 +1,49 @@
 <h2>Library Staff Directory</h2>
 
-<div ng-show="hasAccess" style="background-color:#f9f9f9;">
-    <div class="row">
-        <div class="col-md-3 form-group">
-            <label for="firstName">Firts Name</label>
-            <input type="text" class="form-control" placeholder="First Name" maxlength="25"
-                   ng-model="formData.first" id="firstName" required>
+<div>
+    <div class="text-center row form-inline">
+        <div class="col-md-5 form-group text-right">
+            <label for="sortBy">Sort By</label>
+            <div id="sortBy">
+                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'first'"
+                        ng-click="sortMode='firstname'">
+                    First Name
+                </button>
+                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'last'"
+                        ng-click="sortMode='lastname'">
+                    Last Name
+                </button>
+                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'title'"
+                        ng-click="sortMode='title'">
+                    Title
+                </button>
+                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'dept'"
+                        ng-click="sortMode='department'">
+                    Department
+                </button>
+            </div>
         </div>
-        <div class="col-md-3 form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" class="form-control" placeholder="Last Name" maxlength="25"
-                   ng-model="formData.last" id="lastName" required>
-        </div>
-        <div class="col-md-3 form-group">
-            <label for="email">Email</label>
-            <input type="text" class="form-control" placeholder="Email" maxlength="255"
-                   ng-model="formData.email" id="email" required>
-        </div>
-        <div class="col-md-3 form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" placeholder="Title" maxlength="150"
-                   ng-model="formData.title" id="title" required>
-        </div>
-        <div class="col-md-2 form-group">
-            <label for="rank">Rank</label>
-            <select class="form-control" ng-model="formData.rank" ng-options="rank for rank in ranks" id="rank">
-            </select>
-        </div>
-        <div class="col-md-4 form-group">
-            <label for="dept">Department</label>
-            <select class="form-control" ng-model="formData.dept" ng-options="dept for dept in departments" id="dept">
-            </select>
-        </div>
-        <div class="col-md-2 form-group">
-            <label for="phone">Phone</label>
-            <input type="text" class="form-control" placeholder="Phone" maxlength="8"
-                   ng-model="formData.phone" id="phone" required>
-        </div>
-        <div class="col-md-2 form-group">
-            <label for="fax">Fax</label>
-            <input type="text" class="form-control" placeholder="Fax" maxlength="8" ng-model="formData.fax" id="fax">
-        </div>
-        <div class="col-md-2 form-group text-right">
-            <label for="addButton">&nbsp</label><br>
-            <button type="submit" class="btn btn-primary" ng-click="addPerson()" id="addButton">Create New Record</button>
+        <div class="col-md-7 form-group text-left">
+            <label for="filterBy">Filter by</label>
+            <div id="filterBy">
+                <input type="text" class="form-control" placeholder="Last Name" ng-model="lastNameFilter">
+                <input type="text" class="form-control" placeholder="First Name" ng-model="firstNameFilter">
+                <input type="text" class="form-control" placeholder="Title" ng-model="titleFilter">
+                <input type="text" class="form-control" placeholder="Department" ng-model="deptFilter">
+            </div>
         </div>
     </div>
-    <p ng-model="formResponse">{{formResponse}}</p>
-</div>
 
-<div>
-    <ul class="text-center list-inline">Sort By:
-        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'first'" ng-click="sortMode='firstname'">First Name</button></li>
-        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'last'" ng-click="sortMode='lastname'">Last Name</button></li>
-        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'title'" ng-click="sortMode='title'">Title</button></li>
-        <li><button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'dept'" ng-click="sortMode='department'">Department</button></li>
-        <li><input type="text" class="form-control" placeholder="Filter by Last Name" maxlength="25" ng-model="filterBy"></li>
-    </ul>
-
-    <div class="row" ng-repeat="person in Directory.list | filter:{lastname:filterBy} | orderBy:sortMode"
+    <div class="text-center">
+        <pagination total-items="filteredDB.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                    boundary-links="true" rotate="false" items-per-page="perPage"></pagination>
+    </div>
+    <div class="row" ng-repeat="person in filteredDB = (Directory.list
+                                                        | filter:{lastname:lastNameFilter}
+                                                        | filter:{firstname:firstNameFilter}
+                                                        | filter:{title:titleFilter}
+                                                        | filter:{department:deptFilter})
+                                | startFrom:(currentPage-1)*perPage | limitTo:perPage | orderBy:sortMode"
          ng-class="{sdOpen: person.show, sdOver: person.id == mOver}" ng-mouseover="setOver(person)">
         <div class="col-md-7" ng-click="togglePerson(person)">
             <h4>
@@ -160,3 +145,58 @@
         </div>
     </div>
 </div>
+<div class="text-center">
+    <pagination total-items="filteredDB.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                boundary-links="true" rotate="false" items-per-page="perPage"></pagination>
+</div>
+
+<div ng-show="hasAccess" style="background-color:#f9f9f9;">
+    <div class="row">
+        <div class="col-md-3 form-group">
+            <label for="firstName">Firts Name</label>
+            <input type="text" class="form-control" placeholder="First Name" maxlength="25"
+                   ng-model="formData.first" id="firstName" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" placeholder="Last Name" maxlength="25"
+                   ng-model="formData.last" id="lastName" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" placeholder="Email" maxlength="255"
+                   ng-model="formData.email" id="email" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" placeholder="Title" maxlength="150"
+                   ng-model="formData.title" id="title" required>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="rank">Rank</label>
+            <select class="form-control" ng-model="formData.rank" ng-options="rank for rank in ranks" id="rank">
+            </select>
+        </div>
+        <div class="col-md-4 form-group">
+            <label for="dept">Department</label>
+            <select class="form-control" ng-model="formData.dept" ng-options="dept for dept in departments" id="dept">
+            </select>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" placeholder="Phone" maxlength="8"
+                   ng-model="formData.phone" id="phone" required>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="fax">Fax</label>
+            <input type="text" class="form-control" placeholder="Fax" maxlength="8" ng-model="formData.fax" id="fax">
+        </div>
+        <div class="col-md-2 form-group text-right">
+            <label for="addButton">&nbsp</label><br>
+            <button type="submit" class="btn btn-primary" ng-click="addPerson()" id="addButton">Create New Record</button>
+        </div>
+    </div>
+    <p ng-model="formResponse">{{formResponse}}</p>
+</div>
+
+
