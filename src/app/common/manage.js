@@ -50,9 +50,10 @@ angular.module('common.manage', [])
             }
         }
     }])
-    .factory('dbFactory', ['$http', 'DATABASES_URL', function dbFactory($http, url){
+    .factory('mdbFactory', ['$http', 'DATABASES_URL', function mdbFactory($http, url){
         return {
             getData: function(){
+                console.log(url + "api/all");
                 return $http({method: 'GET', url: url + "api/all", params: {}})
             },
             postData: function(params, data){

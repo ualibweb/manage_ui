@@ -1,12 +1,12 @@
 angular.module('manage.manageDatabases', [])
-    .controller('manageDBCtrl', ['$scope', '$http', '$window', 'dbFactory',
-        function manageDBCtrl($scope, $http, $window, dbFactory){
+    .controller('manageDBCtrl', ['$scope', '$http', '$window', 'mdbFactory',
+        function manageDBCtrl($scope, $http, $window, mdbFactory){
             $scope.DBList = {};
-            $scope.sortMode = 'Title';
             $scope.titleFilter = '';
+            $scope.titleStartFilter = '';
+            $scope.descrFilter = '';
             $scope.subjectFilter = '';
             $scope.typeFilter = '';
-            $scope.sortButton = 'title';
             $scope.mOver = 0;
             $scope.newDB = {};
             $scope.newDB.subjects = [];
@@ -32,7 +32,7 @@ angular.module('manage.manageDatabases', [])
             };
             $http.defaults.headers.post = { 'X-CSRF-libDatabases' : $scope.GetCookie("CSRF-libDatabases") };
 
-            dbFactory.getData()
+            mdbFactory.getData()
                 .success(function(data) {
                     console.dir(data);
                     for (var i = 0; i < data.databases.length; i++){
@@ -51,6 +51,13 @@ angular.module('manage.manageDatabases', [])
                     console.log(data);
                 });
 
+            $scope.startTitle = function(actual, expected){
+                if (!expected)
+                    return true;
+                if (actual.toLowerCase().indexOf(expected.toLowerCase()) == 0)
+                    return true;
+                return false;
+            };
             $scope.toggleDB = function(db){
                 $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].show =
                     !$scope.DBList.databases[$scope.DBList.databases.indexOf(db)].show;

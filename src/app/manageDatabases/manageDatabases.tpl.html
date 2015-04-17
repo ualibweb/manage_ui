@@ -2,29 +2,14 @@
 
 <div>
     <div class="text-center row form-inline">
-        <div class="col-md-5 form-group text-right">
-            <label for="sortBy">Sort By</label>
-            <div id="sortBy">
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'title'"
-                        ng-click="sortMode='title'">
-                    Title
-                </button>
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'publisher'"
-                        ng-click="sortMode='publisher'">
-                    Publisher
-                </button>
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'vendor'"
-                        ng-click="sortMode='vendor'">
-                    Vendor
-                </button>
-            </div>
-        </div>
-        <div class="col-md-7 form-group text-left">
+        <div class="col-md-12 form-group">
             <label for="filterBy">Filter by</label>
             <div id="filterBy">
-                <input type="text" class="form-control" placeholder="Title" ng-model="titleFilter">
-                <input type="text" class="form-control" placeholder="Subject" ng-model="subjectFilter">
-                <input type="text" class="form-control" placeholder="Media Type" ng-model="typeFilter">
+                <input type="text" class="form-control" placeholder="Title starts with" ng-model="titleStartFilter">
+                <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
+                <input type="text" class="form-control" placeholder="Description contains" ng-model="descrFilter">
+                <input type="text" class="form-control" placeholder="Subjects contain" ng-model="subjectFilter">
+                <input type="text" class="form-control" placeholder="Media Types contain" ng-model="typeFilter">
             </div>
         </div>
     </div>
@@ -34,10 +19,12 @@
                     boundary-links="true" rotate="false" items-per-page="perPage"></pagination>
     </div>
     <div class="row"
-         ng-repeat="db in filteredDB = (DBList.databases | filter:{title:titleFilter}
+         ng-repeat="db in filteredDB = (DBList.databases | filter:{title:titleStartFilter}:startTitle
+                                                         | filter:{title:titleFilter}
+                                                         | filter:{description:descrFilter}
                                                          | filter:{subjects:subjectFilter}
                                                          | filter:{types:typeFilter}
-                                                         | orderBy:sortMode)
+                                                         | orderBy:'title')
         | startFrom:(currentPage-1)*perPage | limitTo:perPage"
          ng-class="{sdOpen: db.show, sdOver: db.id == mOver}" ng-mouseover="setOver(db)">
         <div class="col-md-12" ng-click="toggleDB(db)">

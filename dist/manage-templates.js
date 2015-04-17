@@ -6,29 +6,14 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "\n" +
     "<div>\n" +
     "    <div class=\"text-center row form-inline\">\n" +
-    "        <div class=\"col-md-5 form-group text-right\">\n" +
-    "            <label for=\"sortBy\">Sort By</label>\n" +
-    "            <div id=\"sortBy\">\n" +
-    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'title'\"\n" +
-    "                        ng-click=\"sortMode='title'\">\n" +
-    "                    Title\n" +
-    "                </button>\n" +
-    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'publisher'\"\n" +
-    "                        ng-click=\"sortMode='publisher'\">\n" +
-    "                    Publisher\n" +
-    "                </button>\n" +
-    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"'vendor'\"\n" +
-    "                        ng-click=\"sortMode='vendor'\">\n" +
-    "                    Vendor\n" +
-    "                </button>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-7 form-group text-left\">\n" +
+    "        <div class=\"col-md-12 form-group\">\n" +
     "            <label for=\"filterBy\">Filter by</label>\n" +
     "            <div id=\"filterBy\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title\" ng-model=\"titleFilter\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Subject\" ng-model=\"subjectFilter\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Media Type\" ng-model=\"typeFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title starts with\" ng-model=\"titleStartFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"titleFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Description contains\" ng-model=\"descrFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Subjects contain\" ng-model=\"subjectFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Media Types contain\" ng-model=\"typeFilter\">\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -38,10 +23,13 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\"></pagination>\n" +
     "    </div>\n" +
     "    <div class=\"row\"\n" +
-    "         ng-repeat=\"db in filteredDB = (DBList.databases | filter:{title:titleFilter}\n" +
+    "         ng-repeat=\"db in filteredDB = (DBList.databases | filter:{title:titleStartFilter}:startTitle\n" +
+    "                                                         | filter:{title:titleFilter}\n" +
+    "                                                         | filter:{description:descrFilter}\n" +
     "                                                         | filter:{subjects:subjectFilter}\n" +
-    "                                                         | filter:{types:typeFilter})\n" +
-    "        | startFrom:(currentPage-1)*perPage | limitTo:perPage | orderBy:sortMode\"\n" +
+    "                                                         | filter:{types:typeFilter}\n" +
+    "                                                         | orderBy:'title')\n" +
+    "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
     "         ng-class=\"{sdOpen: db.show, sdOver: db.id == mOver}\" ng-mouseover=\"setOver(db)\">\n" +
     "        <div class=\"col-md-12\" ng-click=\"toggleDB(db)\">\n" +
     "            <h4>\n" +
