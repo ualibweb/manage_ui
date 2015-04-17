@@ -36,8 +36,9 @@
     <div class="row"
          ng-repeat="db in filteredDB = (DBList.databases | filter:{title:titleFilter}
                                                          | filter:{subjects:subjectFilter}
-                                                         | filter:{types:typeFilter})
-        | startFrom:(currentPage-1)*perPage | limitTo:perPage | orderBy:sortMode"
+                                                         | filter:{types:typeFilter}
+                                                         | orderBy:sortMode)
+        | startFrom:(currentPage-1)*perPage | limitTo:perPage"
          ng-class="{sdOpen: db.show, sdOver: db.id == mOver}" ng-mouseover="setOver(db)">
         <div class="col-md-12" ng-click="toggleDB(db)">
             <h4>
