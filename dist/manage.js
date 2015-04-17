@@ -157,7 +157,7 @@ angular.module('manage.manageDatabases', [])
 
             $scope.deleteDB = function(db){
                 if (confirm("Delete " + db.title  + " permanently?") == true){
-                    dbFactory.postData({action : 1}, db)
+                    mdbFactory.postData({action : 1}, db)
                         .success(function(data, status, headers, config) {
                             if (data == 1){
                                 $scope.DBList.databases.splice($scope.DBList.databases.indexOf(db), 1);
@@ -165,34 +165,38 @@ angular.module('manage.manageDatabases', [])
                             } else {
                                 $scope.formResponse = "Error: Can not delete database! " + data;
                             }
+                            alert($scope.formResponse);
                             console.log(data);
                         })
                         .error(function(data, status, headers, config) {
                             $scope.formResponse = "Error: Could not delete database! " + data;
+                            alert($scope.formResponse);
                             console.log(data);
                         });
                 }
             };
             $scope.updateDB = function(db){
                 db.updatedBy = $scope.updatedBy;
-                dbFactory.postData({action : 2}, db)
+                mdbFactory.postData({action : 2}, db)
                     .success(function(data, status, headers, config) {
                         if (data == 1){
                             $scope.formResponse = "Database has been updated.";
                         } else {
                             $scope.formResponse = "Error: Can not update database! " + data;
                         }
+                        alert($scope.formResponse);
                         console.log(data);
                     })
                     .error(function(data, status, headers, config) {
                         $scope.formResponse = "Error: Could not update database! " + data;
+                        alert($scope.formResponse);
                         console.log(data);
                     });
             };
             $scope.createDB = function(){
                 $scope.newDB.updatedBy = $scope.updatedBy;
                 console.dir($scope.newDB);
-                dbFactory.postData({action : 3}, $scope.newDB)
+                mdbFactory.postData({action : 3}, $scope.newDB)
                     .success(function(data, status, headers, config) {
                         if ((typeof data === 'object') && (data !== null)){
                             var newDB = {};
@@ -210,10 +214,12 @@ angular.module('manage.manageDatabases', [])
                         } else {
                             $scope.formResponse = "Error: Can not create database! " + data;
                         }
+                        alert($scope.formResponse);
                         console.dir(data);
                     })
                     .error(function(data, status, headers, config) {
                         $scope.formResponse = "Error: Could not create database! " + data;
+                        alert($scope.formResponse);
                         console.dir(data);
                     });
             };
@@ -225,7 +231,7 @@ angular.module('manage.manageDatabases', [])
                 newSubject.sid = db.selSubj.sid;
                 newSubject.subject = db.selSubj.subject;
                 newSubject.updatedBy = $scope.updatedBy;
-                dbFactory.postData({action : 4}, newSubject)
+                mdbFactory.postData({action : 4}, newSubject)
                     .success(function(data, status, headers, config) {
                         if ((typeof data === 'object') && (data !== null)){
                             newSubject.id = data.id;
@@ -244,7 +250,7 @@ angular.module('manage.manageDatabases', [])
                     });
             };
             $scope.deleteSubject = function(db,subject){
-                dbFactory.postData({action : 5}, subject)
+                mdbFactory.postData({action : 5}, subject)
                     .success(function(data, status, headers, config) {
                         if (data == 1){
                             $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].subjects.splice(
@@ -265,7 +271,7 @@ angular.module('manage.manageDatabases', [])
                 newType.tid = db.selType.tid;
                 newType.type = db.selType.type;
                 newType.updatedBy = $scope.updatedBy;
-                dbFactory.postData({action : 6}, newType)
+                mdbFactory.postData({action : 6}, newType)
                     .success(function(data, status, headers, config) {
                         if ((typeof data === 'object') && (data !== null)){
                             newType.id = data.id;
@@ -282,7 +288,7 @@ angular.module('manage.manageDatabases', [])
                     });
             };
             $scope.deleteType = function(db,type){
-                dbFactory.postData({action : 7}, type)
+                mdbFactory.postData({action : 7}, type)
                     .success(function(data, status, headers, config) {
                         if (data == 1){
                             $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].types.splice(
@@ -308,7 +314,14 @@ angular.module('manage.manageDatabases', [])
                 newSubject.subject = $scope.newDB.selSubj.subject;
                 if (typeof $scope.newDB.subjects == 'undefined')
                     $scope.newDB.subjects = [];
-                $scope.newDB.subjects.push(newSubject);
+                var isPresent = false;
+                for (var i = 0; i < $scope.newDB.subjects.length; i++)
+                    if ($scope.newDB.subjects[i].sid == newSubject.sid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.newDB.subjects.push(newSubject);
             };
             $scope.delTypeNewDB = function(index){
                 $scope.newDB.types.splice(index, 1);
@@ -319,7 +332,14 @@ angular.module('manage.manageDatabases', [])
                 newType.type = $scope.newDB.selType.type;
                 if (typeof $scope.newDB.types == 'undefined')
                     $scope.newDB.types = [];
-                $scope.newDB.types.push(newType);
+                var isPresent = false;
+                for (var i = 0; i < $scope.newDB.types.length; i++)
+                    if ($scope.newDB.types[i].tid == newType.tid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.newDB.types.push(newType);
             };
         }])
 
