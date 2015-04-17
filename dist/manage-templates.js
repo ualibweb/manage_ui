@@ -91,10 +91,15 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.coverage}}\" ng-model=\"db.coverage\"\n" +
     "                           id=\"{{db.id}}_Coverage\" required>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-6 form-group\">\n" +
+    "                <div class=\"col-md-3 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Notes\">Notes</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.notes}}\" ng-model=\"db.notes\"\n" +
     "                           id=\"{{db.id}}_Notes\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-3 form-group\">\n" +
+    "                    <label for=\"{{db.id}}_Status\">Status</label>\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.status}}\" ng-model=\"db.status\"\n" +
+    "                           id=\"{{db.id}}_Status\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-12 form-group\">\n" +
     "                    <label for=\"{{db.id}}_descr\">Database Description</label>\n" +
@@ -116,7 +121,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                           id=\"{{db.id}}_Audience2\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
-    "                    <label for=\"{{db.id}}_dAuthor\">Description Author</label>\n" +
+    "                    <label for=\"{{db.id}}_dAuthor\">Last Updated by</label>\n" +
     "                    <p id=\"{{db.id}}_dAuthor\">{{db.descrAuthor}}</p>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
@@ -233,10 +238,15 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Database Coverage\" ng-model=\"newDB.coverage\"\n" +
     "                       id=\"Coverage\" required>\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-6 form-group\">\n" +
+    "            <div class=\"col-md-3 form-group\">\n" +
     "                <label for=\"Notes\">Notes</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Notes\" ng-model=\"newDB.notes\"\n" +
     "                       id=\"Notes\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-3 form-group\">\n" +
+    "                <label for=\"Status\">Status</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Status\" ng-model=\"newDB.status\"\n" +
+    "                       id=\"Status\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 form-group\">\n" +
     "                <label for=\"descr\">Database Description</label>\n" +
@@ -259,7 +269,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"dAuthor\">Description Author</label>\n" +
-    "                <p id=\"dAuthor\">{{updatedBy}}</p>\n" +
+    "                <p id=\"dAuthor\">{{newDB.updatedBy}}</p>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "            </div>\n" +

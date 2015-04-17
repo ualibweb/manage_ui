@@ -98,9 +98,9 @@ angular.module('manage.manageDatabases', [])
             $scope.typeFilter = '';
             $scope.mOver = 0;
             $scope.newDB = {};
+            $scope.newDB.updatedBy = $window.userName;
             $scope.newDB.subjects = [];
             $scope.newDB.types = [];
-            $scope.updatedBy = $window.userName;
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
@@ -176,7 +176,7 @@ angular.module('manage.manageDatabases', [])
                 }
             };
             $scope.updateDB = function(db){
-                db.updatedBy = $scope.updatedBy;
+                db.updatedBy = $scope.newDB.updatedBy;
                 mdbFactory.postData({action : 2}, db)
                     .success(function(data, status, headers, config) {
                         if (data == 1){
@@ -194,7 +194,6 @@ angular.module('manage.manageDatabases', [])
                     });
             };
             $scope.createDB = function(){
-                $scope.newDB.updatedBy = $scope.updatedBy;
                 console.dir($scope.newDB);
                 mdbFactory.postData({action : 3}, $scope.newDB)
                     .success(function(data, status, headers, config) {
@@ -230,7 +229,7 @@ angular.module('manage.manageDatabases', [])
                 newSubject.type = db.subjType;
                 newSubject.sid = db.selSubj.sid;
                 newSubject.subject = db.selSubj.subject;
-                newSubject.updatedBy = $scope.updatedBy;
+                newSubject.updatedBy = $scope.newDB.updatedBy;
                 mdbFactory.postData({action : 4}, newSubject)
                     .success(function(data, status, headers, config) {
                         if ((typeof data === 'object') && (data !== null)){
@@ -250,6 +249,7 @@ angular.module('manage.manageDatabases', [])
                     });
             };
             $scope.deleteSubject = function(db,subject){
+                subject.updatedBy = $scope.newDB.updatedBy;
                 mdbFactory.postData({action : 5}, subject)
                     .success(function(data, status, headers, config) {
                         if (data == 1){
@@ -270,7 +270,7 @@ angular.module('manage.manageDatabases', [])
                 newType.dbid = db.id;
                 newType.tid = db.selType.tid;
                 newType.type = db.selType.type;
-                newType.updatedBy = $scope.updatedBy;
+                newType.updatedBy = $scope.newDB.updatedBy;
                 mdbFactory.postData({action : 6}, newType)
                     .success(function(data, status, headers, config) {
                         if ((typeof data === 'object') && (data !== null)){
@@ -288,6 +288,7 @@ angular.module('manage.manageDatabases', [])
                     });
             };
             $scope.deleteType = function(db,type){
+                type.updatedBy = $scope.newDB.updatedBy;
                 mdbFactory.postData({action : 7}, type)
                     .success(function(data, status, headers, config) {
                         if (data == 1){
