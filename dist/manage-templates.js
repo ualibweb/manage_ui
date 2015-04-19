@@ -5,8 +5,8 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "<h2>Manage Databases</h2>\n" +
     "\n" +
     "<div>\n" +
-    "    <div class=\"text-center row form-inline\">\n" +
-    "        <div class=\"col-md-12 form-group\">\n" +
+    "    <div class=\"row form-inline\">\n" +
+    "        <div class=\"form-group\">\n" +
     "            <label for=\"filterBy\">Filter <small>{{filteredDB.length}}</small> results by</label>\n" +
     "            <div id=\"filterBy\">\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Title starts with\" ng-model=\"titleStartFilter\">\n" +
@@ -14,6 +14,31 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Description contains\" ng-model=\"descrFilter\">\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Subjects contain\" ng-model=\"subjectFilter\">\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Media Types contain\" ng-model=\"typeFilter\">\n" +
+    "                <select class=\"form-control\" ng-model=\"disFilter\" ng-options=\"val.name for val in disValues\">\n" +
+    "                </select>\n" +
+    "            </div>\n" +
+    "            <label for=\"sortBy\">Sort by</label>\n" +
+    "            <div id=\"sortBy\">\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"0\" ng-click=\"sortBy(0)\">\n" +
+    "                    Title\n" +
+    "                    <span class=\"fa fa-fw long-arrow-down\" ng-show=\"!sortModes[sortMode].reverse\"></span>\n" +
+    "                    <span class=\"fa fa-fw long-arrow-up\" ng-show=\"sortModes[sortMode].reverse\"></span>\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"1\" ng-click=\"sortBy(1)\">\n" +
+    "                    Creation Date\n" +
+    "                    <span class=\"fa fa-fw long-arrow-down\" ng-show=\"!sortModes[sortMode].reverse\"></span>\n" +
+    "                    <span class=\"fa fa-fw long-arrow-up\" ng-show=\"sortModes[sortMode].reverse\"></span>\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"2\" ng-click=\"sortBy(2)\">\n" +
+    "                    Last Modified\n" +
+    "                    <span class=\"fa fa-fw long-arrow-down\" ng-show=\"!sortModes[sortMode].reverse\"></span>\n" +
+    "                    <span class=\"fa fa-fw long-arrow-up\" ng-show=\"sortModes[sortMode].reverse\"></span>\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"3\" ng-click=\"sortBy(3)\">\n" +
+    "                    Temporary Disabled\n" +
+    "                    <span class=\"fa fa-fw long-arrow-down\" ng-show=\"!sortModes[sortMode].reverse\"></span>\n" +
+    "                    <span class=\"fa fa-fw long-arrow-up\" ng-show=\"sortModes[sortMode].reverse\"></span>\n" +
+    "                </button>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -28,23 +53,32 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                                                         | filter:{description:descrFilter}\n" +
     "                                                         | filter:{subjects:subjectFilter}\n" +
     "                                                         | filter:{types:typeFilter}\n" +
-    "                                                         | orderBy:'title')\n" +
+    "                                                         | filter:{disabled:disFilter.value}\n" +
+    "                                                         | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
     "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
     "         ng-class=\"{sdOpen: db.show, sdOver: db.id == mOver}\" ng-mouseover=\"setOver(db)\">\n" +
     "        <div class=\"col-md-12\" ng-click=\"toggleDB(db)\">\n" +
-    "            <h4>\n" +
-    "                <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"db.show\"></span>\n" +
-    "                <span class=\"fa fa-fw fa-caret-down\" ng-show=\"db.show\"></span>\n" +
-    "                <a href=\"{{db.url}}\">{{db.title}}</a>\n" +
-    "                <small>{{db.publisher}} <span ng-show=\"db.vendor.length > 0\">: {{db.vendor}}</span></small>\n" +
-    "            </h4>\n" +
+    "            <div class=\"col-md-10\">\n" +
+    "                <h4>\n" +
+    "                    <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"db.show\"></span>\n" +
+    "                    <span class=\"fa fa-fw fa-caret-down\" ng-show=\"db.show\"></span>\n" +
+    "                    <a href=\"{{db.url}}\">{{db.title}}</a>\n" +
+    "                    <small>{{db.publisher}} <span ng-show=\"db.vendor.length > 0\">: {{db.vendor}}</span></small>\n" +
+    "                </h4>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-1 text-right\">\n" +
+    "                <h4 ng-show=\"db.tmpDisabled == 1\"><small>TMP</small></h4>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-1\">\n" +
+    "                <h4 ng-show=\"db.disabled == 1 || db.tmpDisabled == 1\"><small>DISABLED</small></h4>\n" +
+    "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-12\" ng-show=\"db.show\">\n" +
     "            <form ng-submit=\"updateDB(db)\">\n" +
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{db.id}}_title\">Title</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.title}}\" ng-model=\"db.title\"\n" +
-    "                           id=\"{{db.id}}_title\" required>\n" +
+    "                           id=\"{{db.id}}_title\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Publisher\">Publisher</label>\n" +
@@ -64,7 +98,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{db.id}}_URL\">URL</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.url}}\" ng-model=\"db.url\"\n" +
-    "                           id=\"{{db.id}}_URL\" required>\n" +
+    "                           id=\"{{db.id}}_URL\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Location\">Location</label>\n" +
@@ -89,7 +123,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Coverage\">Coverage</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.coverage}}\" ng-model=\"db.coverage\"\n" +
-    "                           id=\"{{db.id}}_Coverage\" required>\n" +
+    "                           id=\"{{db.id}}_Coverage\" >\n" +
     "                </div>\n" +
     "                <div class=\"col-md-3 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Notes\">Notes</label>\n" +
@@ -103,30 +137,34 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                </div>\n" +
     "                <div class=\"col-md-12 form-group\">\n" +
     "                    <label for=\"{{db.id}}_descr\">Database Description</label>\n" +
-    "                    <textarea class=\"form-control\" rows=\"3\" id=\"{{db.id}}_descr\" ng-model=\"db.description\" required></textarea>\n" +
+    "                    <textarea class=\"form-control\" rows=\"3\" id=\"{{db.id}}_descr\" ng-model=\"db.description\" ></textarea>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-2 form-group\">\n" +
-    "                    <label for=\"{{db.id}}_presented\">Presented by</label>\n" +
+    "                <div class=\"col-md-1 form-group\">\n" +
+    "                    <label for=\"{{db.id}}_presented\">PresentedBy</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.presentedBy}}\" ng-model=\"db.presentedBy\"\n" +
     "                           id=\"{{db.id}}_presented\">\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-2 form-group\">\n" +
-    "                    <label for=\"{{db.id}}_Audience1\">Audience One</label>\n" +
+    "                <div class=\"col-md-1 form-group\">\n" +
+    "                    <label for=\"{{db.id}}_Audience1\">Audience1</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.audience1}}\" ng-model=\"db.audience1\"\n" +
     "                           id=\"{{db.id}}_Audience1\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
-    "                    <label for=\"{{db.id}}_Audience2\">Audience Two</label>\n" +
+    "                    <label for=\"{{db.id}}_Audience2\">Audience2</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.audience2}}\" ng-model=\"db.audience2\"\n" +
     "                           id=\"{{db.id}}_Audience2\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
-    "                    <label for=\"{{db.id}}_dAuthor\">Last Updated by</label>\n" +
-    "                    <p id=\"{{db.id}}_dAuthor\">{{db.descrAuthor}}</p>\n" +
+    "                    <label for=\"{{db.id}}_dAuthor\">Updated by</label>\n" +
+    "                    <p id=\"{{db.id}}_dAuthor\">{{db.updatedBy}}</p>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
-    "                    <label for=\"{{db.id}}_date\">Last Modified</label>\n" +
-    "                    <p id=\"{{db.id}}_date\">{{db.lastModified}}</p>\n" +
+    "                    <label for=\"{{db.id}}_date1\">Date Created</label>\n" +
+    "                    <p id=\"{{db.id}}_date1\">{{db.dateCreated}}</p>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-2 form-group\">\n" +
+    "                    <label for=\"{{db.id}}_date2\">Last Modified</label>\n" +
+    "                    <p id=\"{{db.id}}_date2\">{{db.lastModified}}</p>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-1 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Disable\">Disabled</label>\n" +
@@ -146,11 +184,18 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteSubject(db,subject)\">Delete</button>\n" +
     "                                {{subject.subject}} : {{subject.type}}\n" +
     "                            </li>\n" +
-    "                            <li class=\"list-group-item form-inline\">\n" +
-    "                                <select class=\"form-control\" ng-model=\"db.selSubj\" ng-options=\"sub.subject for sub in DBList.subjects\">\n" +
-    "                                </select>\n" +
-    "                                <input type=\"text\" class=\"form-control\" placeholder=\"1 or 2\" ng-model=\"db.subjType\">\n" +
-    "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addSubject(db)\">Add Subject</button>\n" +
+    "                            <li class=\"list-group-item col-md-12\">\n" +
+    "                                <div class=\"col-md-7\">\n" +
+    "                                    <select class=\"form-control\" ng-model=\"db.selSubj\" ng-options=\"sub.subject for sub in DBList.subjects\">\n" +
+    "                                    </select>\n" +
+    "                                </div>\n" +
+    "                                <div class=\"col-md-2\">\n" +
+    "                                    <select class=\"form-control\" ng-model=\"db.subjType\" ng-options=\"val for val in subjectValues\">\n" +
+    "                                    </select>\n" +
+    "                                </div>\n" +
+    "                                <div class=\"col-md-3\">\n" +
+    "                                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addSubject(db)\">Add Subject</button>\n" +
+    "                                </div>\n" +
     "                            </li>\n" +
     "                        </ul>\n" +
     "                    </div>\n" +
@@ -291,13 +336,14 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delSubjNewDB($index)\">Delete</button>\n" +
     "                            {{subject.subject}} : {{subject.type}}\n" +
     "                        </li>\n" +
-    "                        <li class=\"list-group-item row\">\n" +
+    "                        <li class=\"list-group-item col-md-12\">\n" +
     "                            <div class=\"col-md-7\">\n" +
     "                                <select class=\"form-control\" ng-model=\"newDB.selSubj\" ng-options=\"sub.subject for sub in DBList.subjects\">\n" +
     "                                </select>\n" +
     "                            </div>\n" +
     "                            <div class=\"col-md-2\">\n" +
-    "                                <input type=\"text\" class=\"form-control\" placeholder=\"1 or 2\" ng-model=\"newDB.subjType\">\n" +
+    "                                <select class=\"form-control\" ng-model=\"newDB.subjType\" ng-options=\"val for val in subjectValues\">\n" +
+    "                                </select>\n" +
     "                            </div>\n" +
     "                            <div class=\"col-md-3\">\n" +
     "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addSubjNewDB()\">Add Subject</button>\n" +

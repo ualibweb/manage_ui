@@ -53,7 +53,6 @@ angular.module('common.manage', [])
     .factory('mdbFactory', ['$http', 'DATABASES_URL', function mdbFactory($http, url){
         return {
             getData: function(){
-                console.log(url + "api/all");
                 return $http({method: 'GET', url: url + "api/all", params: {}})
             },
             postData: function(params, data){

@@ -7,6 +7,20 @@ angular.module('manage.manageDatabases', [])
             $scope.descrFilter = '';
             $scope.subjectFilter = '';
             $scope.typeFilter = '';
+            $scope.disValues = [
+                {name:'Show all', value:''},
+                {name:'Enabled only', value:'0'},
+                {name:'Disabled only', value:'1'}
+            ];
+            $scope.disFilter = $scope.disValues[0];
+            $scope.sortMode = 0;
+            $scope.sortModes = [
+                {by:'title', reverse:false},
+                {by:'dateCreated', reverse:false},
+                {by:'lastModified', reverse:false},
+                {by:'tmpDisabled', reverse:true}
+                ];
+            $scope.sortButton = $scope.sortMode;
             $scope.mOver = 0;
             $scope.newDB = {};
             $scope.newDB.updatedBy = $window.userName;
@@ -15,6 +29,9 @@ angular.module('manage.manageDatabases', [])
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
+
+            //primary, secondary
+            $scope.subjectValues = [ 1, 2 ];
 
             var cookies;
             $scope.GetCookie = function (name,c,C,i){
@@ -65,6 +82,12 @@ angular.module('manage.manageDatabases', [])
             $scope.setOver = function(db){
                 $scope.mOver = db.id;
             };
+            $scope.sortBy = function(by){
+                if ($scope.sortMode === by)
+                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
+                else
+                    $scope.sortMode = by;
+            };
 
             $scope.deleteDB = function(db){
                 if (confirm("Delete " + db.title  + " permanently?") == true){
@@ -87,6 +110,22 @@ angular.module('manage.manageDatabases', [])
                 }
             };
             $scope.updateDB = function(db){
+                if (db.title.length < 1){
+                    alert("Form error: Please fill out Title field!");
+                    return false;
+                }
+                if (db.url.length < 11){
+                    alert("Form error: Please fill out URL field!");
+                    return false;
+                }
+                if (db.coverage.length < 1){
+                    alert("Form error: Please fill out Coverage field!");
+                    return false;
+                }
+                if (db.description.length < 1){
+                    alert("Form error: Please fill out Description field!");
+                    return false;
+                }
                 db.updatedBy = $scope.newDB.updatedBy;
                 mdbFactory.postData({action : 2}, db)
                     .success(function(data, status, headers, config) {
@@ -285,6 +324,8 @@ angular.module('manage.manageDatabases', [])
     .filter('startFrom', function() {
         return function(input, start) {
             start = +start; //parse to int
+            if (typeof input == 'undefined')
+                return input;
             return input.slice(start);
         }
     })
