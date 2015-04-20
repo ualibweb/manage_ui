@@ -382,7 +382,7 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteOldExc()\" ng-disabled=\"loading\">Delete All Outdated Exceptions</button>\n" +
     "    <br>{{resultDel}}\n" +
     "</div>\n" +
-    "<table class=\"table table-hover table-condensed\" ng-repeat=\"excData in allowedLibraries.exc\" ng-if=\"excData.library.lid == selLib.lid\">\n" +
+    "<table class=\"table table-hover table-condensed\" ng-repeat=\"excData in allowedLibraries.exc\" ng-if=\"$index == selLib.lid - 1\">\n" +
     "    <thead>\n" +
     "    <tr>\n" +
     "        <th>Exception Description</th>\n" +
@@ -392,10 +392,10 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "        <th class=\"text-center\">Action</th>\n" +
     "    </tr>\n" +
     "    </thead>\n" +
-    "    <tr ng-repeat=\"exception in excData.ex track by exception.id\" ng-click=\"expandExc($event, exception)\">\n" +
+    "    <tr ng-repeat=\"exception in excData track by exception.id\" ng-click=\"expandExc($event, exception)\">\n" +
     "        <td style=\"width:30%\">\n" +
     "            <div ng-hide=\"isExpExc(exception.id)\">{{exception.desc}}</div>\n" +
-    "            <div ng-show=\"isExpExc(exception.id)\"><input type=\"text\" class=\"form-control\" ng-model=\"exception.desc\" ng-required /></div>\n" +
+    "            <div ng-if=\"isExpExc(exception.id)\"><input type=\"text\" class=\"form-control\" ng-model=\"exception.desc\" ng-required /></div>\n" +
     "        </td>\n" +
     "        <td class=\"text-center\">\n" +
     "            <div ng-hide=\"isExpExc(exception.id)\">{{exception.datems | date : 'MMM d, y'}}</div>\n" +
@@ -541,7 +541,7 @@ angular.module("manageHours/manageLoc.tpl.html", []).run(["$templateCache", func
 
 angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageSem.tpl.html",
-    "<table class=\"table table-hover table-condensed\" ng-repeat=\"semData in allowedLibraries.sem\" ng-if=\"semData.library.lid == selLib.lid\">\n" +
+    "<table class=\"table table-hover table-condensed\" ng-repeat=\"semData in allowedLibraries.sem\" ng-if=\"$index == selLib.lid - 1\">\n" +
     "    <thead>\n" +
     "    <tr>\n" +
     "        <th>Semester</th>\n" +
@@ -554,11 +554,11 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "        <th class=\"text-center\">Sat</th>\n" +
     "    </tr>\n" +
     "    </thead>\n" +
-    "    <tr ng-repeat=\"sem in semData.sem\" ng-click=\"expandSem($event, sem)\">\n" +
+    "    <tr ng-repeat=\"sem in semData\" ng-click=\"expandSem($event, sem)\">\n" +
     "        <th scope=\"row\" ng-hide=\"isExpSem(sem.dsid)\">{{sem.name}}<br>\n" +
     "            {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate}}\n" +
     "        </th>\n" +
-    "        <th scope=\"row\" ng-show=\"isExpSem(sem.dsid)\">{{sem.name}}<br>\n" +
+    "        <th scope=\"row\" ng-if=\"isExpSem(sem.dsid)\">{{sem.name}}<br>\n" +
     "            <div class=\"input-group\">\n" +
     "                <input type=\"text\" class=\"form-control\" datepicker-popup=\"{{format}}\" size=\"3\"\n" +
     "                       ng-model=\"sem.startdate\" is-open=\"sem.dp\" ng-required=\"true\" close-text=\"Close\"\n" +

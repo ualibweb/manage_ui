@@ -1,4 +1,4 @@
-<table class="table table-hover table-condensed" ng-repeat="semData in allowedLibraries.sem" ng-if="semData.library.lid == selLib.lid">
+<table class="table table-hover table-condensed" ng-repeat="semData in allowedLibraries.sem" ng-if="$index == selLib.lid - 1">
     <thead>
     <tr>
         <th>Semester</th>
@@ -11,11 +11,11 @@
         <th class="text-center">Sat</th>
     </tr>
     </thead>
-    <tr ng-repeat="sem in semData.sem" ng-click="expandSem($event, sem)">
+    <tr ng-repeat="sem in semData" ng-click="expandSem($event, sem)">
         <th scope="row" ng-hide="isExpSem(sem.dsid)">{{sem.name}}<br>
             {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate}}
         </th>
-        <th scope="row" ng-show="isExpSem(sem.dsid)">{{sem.name}}<br>
+        <th scope="row" ng-if="isExpSem(sem.dsid)">{{sem.name}}<br>
             <div class="input-group">
                 <input type="text" class="form-control" datepicker-popup="{{format}}" size="3"
                        ng-model="sem.startdate" is-open="sem.dp" ng-required="true" close-text="Close"
