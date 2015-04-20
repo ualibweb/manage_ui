@@ -2,7 +2,7 @@
     <button type="button" class="btn btn-primary" ng-click="deleteOldExc()" ng-disabled="loading">Delete All Outdated Exceptions</button>
     <br>{{resultDel}}
 </div>
-<table class="table table-hover table-condensed">
+<table class="table table-hover table-condensed" ng-repeat="excData in allowedLibraries.exc" ng-if="excData.library.lid == selLib.lid">
     <thead>
     <tr>
         <th>Exception Description</th>
@@ -12,7 +12,7 @@
         <th class="text-center">Action</th>
     </tr>
     </thead>
-    <tr ng-repeat="exception in allowedLibraries.exc[selLib].ex track by exception.id" ng-click="expandExc($event, exception)">
+    <tr ng-repeat="exception in excData.ex track by exception.id" ng-click="expandExc($event, exception)">
         <td style="width:30%">
             <div ng-hide="isExpExc(exception.id)">{{exception.desc}}</div>
             <div ng-show="isExpExc(exception.id)"><input type="text" class="form-control" ng-model="exception.desc" ng-required /></div>
