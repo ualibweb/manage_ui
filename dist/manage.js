@@ -1200,7 +1200,7 @@ angular.module('manage.manageUserGroups', [])
     }])
     .directive('userGroupsList', function() {
         return {
-            restrict: 'AC',
+            restrict: 'A',
             scope: {},
             controller: 'userGroupsCtrl',
             templateUrl: 'manageUserGroups/manageUG.tpl.html'
@@ -1212,6 +1212,7 @@ angular.module('manage.manageUserGroups', [])
         function myWebAppsCtrl($scope, $window){
             $scope.apps = $window.apps;
             $scope.userName = $window.userName;
+
         }])
     .directive('viewMyWebApps', function() {
         return {

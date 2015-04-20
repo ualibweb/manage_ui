@@ -3,6 +3,7 @@ angular.module('manage.manageUserGroups', [])
         function myWebAppsCtrl($scope, $window){
             $scope.apps = $window.apps;
             $scope.userName = $window.userName;
+
         }])
     .directive('viewMyWebApps', function() {
         return {

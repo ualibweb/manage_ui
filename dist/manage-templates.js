@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWabApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
+angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
 
 angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
@@ -743,6 +743,8 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
 
 angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageUserGroups/manageUG.tpl.html",
+    "<h2>Web Applications Admin Interface</h2>\n" +
+    "\n" +
     "<tabset justified=\"true\">\n" +
     "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
     "        <div ng-show=\"tab.number == 0\">\n" +
@@ -835,12 +837,12 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
     "");
 }]);
 
-angular.module("manageUserGroups/viewMyWabApps.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("manageUserGroups/viewMyWabApps.tpl.html",
-    "<h2>My Web Applications</h2>\n" +
+angular.module("manageUserGroups/viewMyWebApps.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageUserGroups/viewMyWebApps.tpl.html",
+    "<h2>Web Applications : {{userName}}</h2>\n" +
     "\n" +
     "<div class=\"form-group\">\n" +
-    "    <label for=\"webapps\">Web Application Back-End access links</label>\n" +
+    "    <label for=\"webapps\">Back-End access links</label>\n" +
     "    <ul class=\"list-group\" id=\"webapps\">\n" +
     "        <li class=\"list-group-item\" ng-repeat=\"app in apps\">\n" +
     "            <a href=\"{{app.link}}\">{{app.appName}}</a>\n" +

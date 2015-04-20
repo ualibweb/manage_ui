@@ -116,7 +116,7 @@ angular.module('manage.manageUserGroups', [])
     }])
     .directive('userGroupsList', function() {
         return {
-            restrict: 'AC',
+            restrict: 'A',
             scope: {},
             controller: 'userGroupsCtrl',
             templateUrl: 'manageUserGroups/manageUG.tpl.html'
