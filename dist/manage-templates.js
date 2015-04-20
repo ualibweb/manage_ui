@@ -382,7 +382,7 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteOldExc()\" ng-disabled=\"loading\">Delete All Outdated Exceptions</button>\n" +
     "    <br>{{resultDel}}\n" +
     "</div>\n" +
-    "<table class=\"table table-hover table-condensed\" ng-repeat=\"excData in allowedLibraries.exc\" ng-if=\"$index == selLib.lid - 1\">\n" +
+    "<table class=\"table table-hover table-condensed\" ng-repeat=\"excData in allowedLibraries.exc\" ng-if=\"$index == selLib.index\">\n" +
     "    <thead>\n" +
     "    <tr>\n" +
     "        <th>Exception Description</th>\n" +
@@ -541,7 +541,7 @@ angular.module("manageHours/manageLoc.tpl.html", []).run(["$templateCache", func
 
 angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageSem.tpl.html",
-    "<table class=\"table table-hover table-condensed\" ng-repeat=\"semData in allowedLibraries.sem\" ng-if=\"$index == selLib.lid - 1\">\n" +
+    "<table class=\"table table-hover table-condensed\" ng-repeat=\"semData in allowedLibraries.sem\" ng-if=\"$index == selLib.index\">\n" +
     "    <thead>\n" +
     "    <tr>\n" +
     "        <th>Semester</th>\n" +

@@ -586,7 +586,7 @@ angular.module('manage.manageHours', [])
             $event.preventDefault();
             $event.stopPropagation();
             if (typeof index != 'undefined' && index >= 0)
-                $scope.allowedLibraries.sem[$scope.selLib.lid - 1][index].dp = true;
+                $scope.allowedLibraries.sem[$scope.selLib.index][index].dp = true;
             else
                 $scope.newSemester.dp = true;
         };
@@ -644,7 +644,7 @@ angular.module('manage.manageHours', [])
                     .success(function(data) {
                         if (data == 1){
                             $scope.result = "Semester deleted";
-                            $scope.allowedLibraries.sem[$scope.selLib.lid - 1].splice(index, 1);
+                            $scope.allowedLibraries.sem[$scope.selLib.index].splice(index, 1);
                         } else
                             $scope.result = "Error! Could not delete semester!";
                         $scope.loading = false;
@@ -666,7 +666,7 @@ angular.module('manage.manageHours', [])
                             data[sem].startdate = new Date(data[sem].startdate);
                             data[sem].dp = false;
                         }
-                        $scope.allowedLibraries.sem[$scope.selLib.lid - 1] = data;
+                        $scope.allowedLibraries.sem[$scope.selLib.index] = data;
                     }else
                         $scope.result = "Error! Could not create semester!";
                     $scope.loading = false;
@@ -697,7 +697,7 @@ angular.module('manage.manageHours', [])
             $event.preventDefault();
             $event.stopPropagation();
             if (typeof index != 'undefined' && index >= 0)
-                $scope.allowedLibraries.exc[$scope.selLib.lid - 1][index].dp = true;
+                $scope.allowedLibraries.exc[$scope.selLib.index][index].dp = true;
             else
                 $scope.newException.dp = true;
         };
@@ -737,7 +737,7 @@ angular.module('manage.manageHours', [])
                 hmFactory.postData({action : 5}, exception)
                     .success(function(data) {
                         if ( data == 1){
-                            $scope.allowedLibraries.exc[$scope.selLib.lid - 1].splice(index, 1);
+                            $scope.allowedLibraries.exc[$scope.selLib.index].splice(index, 1);
                             $scope.expExc = -1;
                         } else
                             $scope.result = "Error! Could not delete exception!";
@@ -764,7 +764,7 @@ angular.module('manage.manageHours', [])
                         newExc.from = $scope.newException.from;
                         newExc.to = $scope.newException.to;
                         newExc.dp = false;
-                        $scope.allowedLibraries.exc[$scope.selLib.lid - 1].push(newExc);
+                        $scope.allowedLibraries.exc[$scope.selLib.index].push(newExc);
                     }else
                         $scope.result = "Error! Could not create an exception!";
                     $scope.loading = false;
@@ -784,7 +784,7 @@ angular.module('manage.manageHours', [])
                             data[ex].datems = new Date(data[ex].date * 1000);
                             data[ex].dp = false;
                         }
-                        $scope.allowedLibraries.exc[$scope.selLib.lid - 1] = data;
+                        $scope.allowedLibraries.exc[$scope.selLib.index] = data;
                         $scope.resultDel = "Outdated exceptions deleted";
                     } else
                         $scope.resultDel = "Error! Could not delete exceptions!";

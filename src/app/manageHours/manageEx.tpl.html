@@ -2,7 +2,7 @@
     <button type="button" class="btn btn-primary" ng-click="deleteOldExc()" ng-disabled="loading">Delete All Outdated Exceptions</button>
     <br>{{resultDel}}
 </div>
-<table class="table table-hover table-condensed" ng-repeat="excData in allowedLibraries.exc" ng-if="$index == selLib.lid - 1">
+<table class="table table-hover table-condensed" ng-repeat="excData in allowedLibraries.exc" ng-if="$index == selLib.index">
     <thead>
     <tr>
         <th>Exception Description</th>
