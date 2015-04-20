@@ -469,7 +469,7 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
 
 angular.module("manageHours/manageHours.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageHours.tpl.html",
-    "<h2><a href=\"../\">Hours</a> Management\n" +
+    "<h2>Hours Management\n" +
     "\n" +
     "    <select class=\"form-control\" ng-model=\"selLib\" ng-options=\"lib.name for lib in allowedLibraries.libraries\">\n" +
     "    </select>\n" +
