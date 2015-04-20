@@ -29,7 +29,7 @@
             <div ng-hide="isExpSem(sem.dsid)">
                 {{day.hours}}
             </div>
-            <div ng-show="isExpSem(sem.dsid)">
+            <div ng-if="isExpSem(sem.dsid)">
                 <select class="form-control" ng-model="day.from">
                     <option ng-repeat="hours in hrsFrom" ng-selected="{{day.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
                 </select>
