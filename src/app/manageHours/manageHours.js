@@ -271,6 +271,7 @@ angular.module('manage.manageHours', [])
         $scope.newException.from = -1;
         $scope.newException.to = 0;
         $scope.newException.dp = false;
+        $scope.newException.isGlobal = false;
         $scope.expExc = -1;
 
         $scope.onExcFocus = function($event, index){
@@ -298,6 +299,7 @@ angular.module('manage.manageHours', [])
         };
         $scope.updateExc = function(exception){
             $scope.loading = true;
+            exception.lid = $scope.selLib.lid;
             hmFactory.postData({action : 4}, exception)
                 .success(function(data) {
                     if ( data == 1){
@@ -314,6 +316,7 @@ angular.module('manage.manageHours', [])
         $scope.deleteExc = function(exception, index){
             if (confirm("Are you sure you want to delete " + exception.desc + " exception?")){
                 $scope.loading = true;
+                exception.lid = $scope.selLib.lid;
                 hmFactory.postData({action : 5}, exception)
                     .success(function(data) {
                         if ( data == 1){
@@ -335,19 +338,27 @@ angular.module('manage.manageHours', [])
             hmFactory.postData({action : 6}, $scope.newException)
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
-                        $scope.result = "Exception created";
-                        var newExc = {};
-                        newExc.id = data.id;
-                        newExc.datems = $scope.newException.datems;
-                        newExc.days = $scope.newException.days;
-                        newExc.desc = $scope.newException.desc;
-                        newExc.from = $scope.newException.from;
-                        newExc.to = $scope.newException.to;
-                        newExc.dp = false;
-                        $scope.allowedLibraries.exc[$scope.selLib.index].push(newExc);
+                        var i = 0;
+                        for (i = 0; i < data.length; i++){
+                            var newExc = {};
+                            newExc.id = data[i].id;
+                            newExc.datems = $scope.newException.datems;
+                            newExc.days = $scope.newException.days;
+                            newExc.desc = $scope.newException.desc;
+                            newExc.from = $scope.newException.from;
+                            newExc.to = $scope.newException.to;
+                            newExc.dp = false;
+                            var l = 0;
+                            for (l = 0; l < $scope.allowedLibraries.libraries.length; l++)
+                                if ($scope.allowedLibraries.libraries[l].lid === data[i].lid)
+                                    break;
+                            $scope.allowedLibraries.exc[$scope.allowedLibraries.libraries[l].index].push(newExc);
+                        }
+                        $scope.result = "Created exceptions count: " + i;
                     }else
                         $scope.result = "Error! Could not create an exception!";
                     $scope.loading = false;
+                    console.log(data);
                 })
                 .error(function(data, status, headers, config) {
                     $scope.loading = false;
@@ -356,7 +367,7 @@ angular.module('manage.manageHours', [])
 
         $scope.deleteOldExc = function(){
             $scope.loading = true;
-            hmFactory.postData({action : 7}, $scope.selLib.lid)
+            hmFactory.postData({action : 7}, $scope.selLib)
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.expExc = -1;

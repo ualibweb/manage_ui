@@ -79,6 +79,9 @@
             </div>
         </td>
         <td class="text-right">
+            <label for="isGlobal">Create For All Libraries</label>
+            <input type="checkbox" ng-model="newException.isGlobal" id="isGlobal">
+            <br>
             <button type="button" class="btn btn-primary" ng-click="createExc()" ng-disabled="loading">Create Exception</button>
             <br>{{result}}
         </td>

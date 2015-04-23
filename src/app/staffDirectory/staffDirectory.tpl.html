@@ -42,8 +42,9 @@
                                                         | filter:{lastname:lastNameFilter}
                                                         | filter:{firstname:firstNameFilter}
                                                         | filter:{title:titleFilter}
-                                                        | filter:{department:deptFilter})
-                                | startFrom:(currentPage-1)*perPage | limitTo:perPage | orderBy:sortMode"
+                                                        | filter:{department:deptFilter}
+                                                        | orderBy:sortMode)
+                                | startFrom:(currentPage-1)*perPage | limitTo:perPage"
          ng-class="{sdOpen: person.show, sdOver: person.id == mOver}" ng-mouseover="setOver(person)">
         <div class="col-md-7" ng-click="togglePerson(person)">
             <h4>

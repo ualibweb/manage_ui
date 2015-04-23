@@ -459,6 +459,9 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "            </div>\n" +
     "        </td>\n" +
     "        <td class=\"text-right\">\n" +
+    "            <label for=\"isGlobal\">Create For All Libraries</label>\n" +
+    "            <input type=\"checkbox\" ng-model=\"newException.isGlobal\" id=\"isGlobal\">\n" +
+    "            <br>\n" +
     "            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"createExc()\" ng-disabled=\"loading\">Create Exception</button>\n" +
     "            <br>{{result}}\n" +
     "        </td>\n" +
@@ -925,8 +928,9 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "                                                        | filter:{lastname:lastNameFilter}\n" +
     "                                                        | filter:{firstname:firstNameFilter}\n" +
     "                                                        | filter:{title:titleFilter}\n" +
-    "                                                        | filter:{department:deptFilter})\n" +
-    "                                | startFrom:(currentPage-1)*perPage | limitTo:perPage | orderBy:sortMode\"\n" +
+    "                                                        | filter:{department:deptFilter}\n" +
+    "                                                        | orderBy:sortMode)\n" +
+    "                                | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
     "         ng-class=\"{sdOpen: person.show, sdOver: person.id == mOver}\" ng-mouseover=\"setOver(person)\">\n" +
     "        <div class=\"col-md-7\" ng-click=\"togglePerson(person)\">\n" +
     "            <h4>\n" +
