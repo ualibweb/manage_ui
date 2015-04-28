@@ -114,7 +114,7 @@
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Authenticate">Authenticate</label>
                     <input type="checkbox" class="form-control" ng-model="db.auth" ng-true-value="'1'" ng-false-value="'0'"
-                           id="{{db.id}}_Authenticate">
+                           id="{{db.id}}_Authenticate" ng-checked="db.auth == 1">
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="{{db.id}}_Coverage">Coverage</label>
@@ -165,12 +165,12 @@
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Disable">Disabled</label>
                     <input type="checkbox" class="form-control" ng-model="db.disabled" ng-true-value="'1'" ng-false-value="'0'"
-                           id="{{db.id}}_Disable">
+                           id="{{db.id}}_Disable" ng-checked="db.disabled == 1">
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_tmpDisable">TmpDisable</label>
                     <input type="checkbox" class="form-control" ng-model="db.tmpDisabled" ng-true-value="'1'" ng-false-value="'0'"
-                           id="{{db.id}}_tmpDisable">
+                           id="{{db.id}}_tmpDisable" ng-checked="db.tmpDisabled == 1">
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-6 form-group">
