@@ -13,7 +13,7 @@
     </thead>
     <tr ng-repeat="sem in semData" ng-click="expandSem($event, sem)">
         <th scope="row" ng-hide="isExpSem(sem.dsid)">{{sem.name}}<br>
-            {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate}}
+            {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate | date : 'MMM d, y'}}
         </th>
         <th scope="row" ng-if="isExpSem(sem.dsid)">{{sem.name}}<br>
             <div class="input-group">

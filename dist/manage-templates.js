@@ -559,7 +559,7 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "    </thead>\n" +
     "    <tr ng-repeat=\"sem in semData\" ng-click=\"expandSem($event, sem)\">\n" +
     "        <th scope=\"row\" ng-hide=\"isExpSem(sem.dsid)\">{{sem.name}}<br>\n" +
-    "            {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate}}\n" +
+    "            {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate | date : 'MMM d, y'}}\n" +
     "        </th>\n" +
     "        <th scope=\"row\" ng-if=\"isExpSem(sem.dsid)\">{{sem.name}}<br>\n" +
     "            <div class=\"input-group\">\n" +
