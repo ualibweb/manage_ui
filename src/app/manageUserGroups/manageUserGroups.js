@@ -1,6 +1,6 @@
 angular.module('manage.manageUserGroups', [])
-    .controller('userGroupsCtrl', ['$scope', '$http', '$window', 'ugFactory',
-        function userGroupsCtrl($scope, $http, $window, ugFactory){
+    .controller('userGroupsCtrl', ['$scope', '$http', '$window', 'tokenFactory', 'ugFactory',
+        function userGroupsCtrl($scope, $http, $window, tokenFactory, ugFactory){
         $scope.expUser = -1;
         $scope.users = $window.users;
         $scope.apps = $window.apps;
@@ -20,21 +20,7 @@ angular.module('manage.manageUserGroups', [])
                 active: false
             }];
 
-        var cookies;
-        $scope.GetCSRFCookie = function (name,c,C,i){
-            if(cookies){ return cookies[name]; }
-
-            c = document.cookie.split('; ');
-            cookies = {};
-
-            for(i=c.length-1; i>=0; i--){
-                C = c[i].split('=');
-                cookies[C[0]] = C[1];
-            }
-
-            return cookies[name];
-        };
-        $http.defaults.headers.post = { "X-CSRF-libAdmin" : $scope.GetCSRFCookie("CSRF-libAdmin") };
+        tokenFactory("CSRF-libAdmin");
 
         $scope.expandUser = function(user){
             $scope.result = "";

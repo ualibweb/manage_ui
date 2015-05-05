@@ -2,11 +2,6 @@ angular.module('manage.manageHours', [])
     .constant('HOURS_FROM', [
         {name:'Closed', value:'-1'},
         {name:'Midnight', value:'0'},
-        {name:'1:00 am', value:'100'},
-        {name:'2:00 am', value:'200'},
-        {name:'3:00 am', value:'300'},
-        {name:'4:00 am', value:'400'},
-        {name:'5:00 am', value:'500'},
         {name:'6:00 am', value:'600'},
         {name:'7:00 am', value:'700'},
         {name:'7:30 am', value:'730'},
@@ -16,13 +11,16 @@ angular.module('manage.manageHours', [])
         {name:'10:00 am', value:'1000'},
         {name:'11:00 am', value:'1100'},
         {name:'Noon', value:'1200'},
-        {name:'1:00 pm', value:'1300'},
+        {name:'1:00 pm', value:'1300'}
     ])
     .constant('HOURS_TO', [
-        {name:'Closed', value:'0'},
         {name:'1:00 am', value:'100'},
         {name:'2:00 am', value:'200'},
         {name:'3:00 am', value:'300'},
+        {name:'8:00 am', value:'800'},
+        {name:'9:00 am', value:'900'},
+        {name:'10:00 am', value:'1000'},
+        {name:'11:00 am', value:'1100'},
         {name:'Noon', value:'1200'},
         {name:'1:00 pm', value:'1300'},
         {name:'2:00 pm', value:'1400'},
@@ -42,29 +40,15 @@ angular.module('manage.manageHours', [])
     ])
     .constant('DP_FORMAT', 'MM/dd/yyyy')
 
-    .controller('manageHrsCtrl', ['$scope', '$http', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT',
-        function manageHrsCtrl($scope, $http, $animate, hmFactory, hoursFrom, hoursTo, dpFormat){
+    .controller('manageHrsCtrl', ['$scope', '$http', '$animate', 'tokenFactory', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT',
+        function manageHrsCtrl($scope, $http, $animate, tokenFactory, hmFactory, hoursFrom, hoursTo, dpFormat){
             $scope.allowedLibraries = [];
             $scope.format = dpFormat;
             $scope.hrsFrom = hoursFrom;
             $scope.hrsTo = hoursTo;
             $scope.selLib = {};
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
-
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-
-                return cookies[name];
-            };
-            $http.defaults.headers.post = { 'X-CSRF-libHours' : $scope.GetCookie("CSRF-libHours") };
+            tokenFactory("CSRF-libHours");
 
             $scope.initSemesters = function(semesters){
                 for (var sem = 0; sem < semesters.length; sem++){

@@ -1,5 +1,25 @@
 angular.module('common.manage', [])
 
+
+    .factory('tokenFactory', ['$http', function tokenFactory($http){
+        return function(tokenName){
+            var cookies;
+            var xTokenName = 'X-' + tokenName;
+            this.GetCookie = function (name,c,C,i){
+                if(cookies){ return cookies[name]; }
+                c = document.cookie.split('; ');
+                cookies = {};
+                for(i=c.length-1; i>=0; i--){
+                    C = c[i].split('=');
+                    cookies[C[0]] = C[1];
+                }
+                return cookies[name];
+            };
+
+            $http.defaults.headers.post = { xTokenName : this.GetCookie(tokenName) };
+        }
+    }])
+
     .factory('hmFactory', ['$http', 'HOURS_MANAGE_URL', function hmFactory($http, url){
         return {
             getData: function(pPoint){
