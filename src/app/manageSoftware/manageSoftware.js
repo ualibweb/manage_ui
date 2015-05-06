@@ -13,6 +13,7 @@ angular.module('manage.manageSoftware', [])
             $scope.sortButton = $scope.sortMode;
             $scope.mOver = 0;
             $scope.newSW = {};
+            $scope.newSW.os = [];
             $scope.newSW.locations = [];
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;

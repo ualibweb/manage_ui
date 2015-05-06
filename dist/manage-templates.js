@@ -807,11 +807,6 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                    <label for=\"{{sw.sid}}_descr\">Description</label>\n" +
     "                    <textarea class=\"form-control\" rows=\"3\" id=\"{{sw.sid}}_descr\" ng-model=\"sw.description\" ></textarea>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-1 form-group\">\n" +
-    "                    <label for=\"{{sw.sid}}_Disable\">Disabled</label>\n" +
-    "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"db.disabled\" ng-true-value=\"1\" ng-false-value=\"0\"\n" +
-    "                           id=\"{{sw.sid}}_Disable\">\n" +
-    "                </div>\n" +
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_loc\">Locations</label>\n" +
     "                    <ul class=\"list-group\" id=\"{{sw.sid}}_loc\">\n" +
@@ -829,6 +824,21 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                            </div>\n" +
     "                        </li>\n" +
     "                    </ul>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-2 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_win\">Windows</label>\n" +
+    "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"sw.os[0]\"\n" +
+    "                           id=\"{{sw.sid}}_win\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-2 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_mac\">Apple Mac</label>\n" +
+    "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"sw.os[1]\"\n" +
+    "                           id=\"{{sw.sid}}_mac\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-2 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_unix\">Unix/Linux</label>\n" +
+    "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"sw.os[2]\"\n" +
+    "                           id=\"{{sw.sid}}_unix\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-12 text-center\">\n" +
     "                    <button type=\"submit\" class=\"btn btn-primary\">Update information</button>\n" +
@@ -866,11 +876,6 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                <label for=\"descr\">Description</label>\n" +
     "                <textarea class=\"form-control\" rows=\"3\" id=\"descr\" ng-model=\"newSW.description\" required></textarea>\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-1 form-group\">\n" +
-    "                <label for=\"Disable\">Disabled</label>\n" +
-    "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.disabled\" ng-true-value=\"'1'\" ng-false-value=\"'0'\"\n" +
-    "                       id=\"Disable\">\n" +
-    "            </div>\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"locations\">Locations</label>\n" +
     "                <ul class=\"list-group\" id=\"locations\">\n" +
@@ -888,6 +893,21 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                        </div>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2 form-group\">\n" +
+    "                <label for=\"win\">Windows</label>\n" +
+    "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.os[0]\"\n" +
+    "                       id=\"win\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2 form-group\">\n" +
+    "                <label for=\"mac\">Apple Mac</label>\n" +
+    "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.os[1]\"\n" +
+    "                       id=\"mac\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2 form-group\">\n" +
+    "                <label for=\"unix\">Unix/Linux</label>\n" +
+    "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.os[2]\"\n" +
+    "                       id=\"unix\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 text-center\">\n" +
     "                <button type=\"submit\" class=\"btn btn-primary\">Create Software Record</button>\n" +

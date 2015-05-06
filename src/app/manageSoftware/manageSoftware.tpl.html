@@ -60,11 +60,6 @@
                     <label for="{{sw.sid}}_descr">Description</label>
                     <textarea class="form-control" rows="3" id="{{sw.sid}}_descr" ng-model="sw.description" ></textarea>
                 </div>
-                <div class="col-md-1 form-group">
-                    <label for="{{sw.sid}}_Disable">Disabled</label>
-                    <input type="checkbox" class="form-control" ng-model="db.disabled" ng-true-value="1" ng-false-value="0"
-                           id="{{sw.sid}}_Disable">
-                </div>
                 <div class="col-md-6 form-group">
                     <label for="{{sw.sid}}_loc">Locations</label>
                     <ul class="list-group" id="{{sw.sid}}_loc">
@@ -82,6 +77,21 @@
                             </div>
                         </li>
                     </ul>
+                </div>
+                <div class="col-md-2 form-group">
+                    <label for="{{sw.sid}}_win">Windows</label>
+                    <input type="checkbox" class="form-control" ng-model="sw.os[0]"
+                           id="{{sw.sid}}_win">
+                </div>
+                <div class="col-md-2 form-group">
+                    <label for="{{sw.sid}}_mac">Apple Mac</label>
+                    <input type="checkbox" class="form-control" ng-model="sw.os[1]"
+                           id="{{sw.sid}}_mac">
+                </div>
+                <div class="col-md-2 form-group">
+                    <label for="{{sw.sid}}_unix">Unix/Linux</label>
+                    <input type="checkbox" class="form-control" ng-model="sw.os[2]"
+                           id="{{sw.sid}}_unix">
                 </div>
                 <div class="col-md-12 text-center">
                     <button type="submit" class="btn btn-primary">Update information</button>
@@ -119,11 +129,6 @@
                 <label for="descr">Description</label>
                 <textarea class="form-control" rows="3" id="descr" ng-model="newSW.description" required></textarea>
             </div>
-            <div class="col-md-1 form-group">
-                <label for="Disable">Disabled</label>
-                <input type="checkbox" class="form-control" ng-model="newSW.disabled" ng-true-value="'1'" ng-false-value="'0'"
-                       id="Disable">
-            </div>
             <div class="col-md-6 form-group">
                 <label for="locations">Locations</label>
                 <ul class="list-group" id="locations">
@@ -141,6 +146,21 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+            <div class="col-md-2 form-group">
+                <label for="win">Windows</label>
+                <input type="checkbox" class="form-control" ng-model="newSW.os[0]"
+                       id="win">
+            </div>
+            <div class="col-md-2 form-group">
+                <label for="mac">Apple Mac</label>
+                <input type="checkbox" class="form-control" ng-model="newSW.os[1]"
+                       id="mac">
+            </div>
+            <div class="col-md-2 form-group">
+                <label for="unix">Unix/Linux</label>
+                <input type="checkbox" class="form-control" ng-model="newSW.os[2]"
+                       id="unix">
             </div>
             <div class="col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Create Software Record</button>
