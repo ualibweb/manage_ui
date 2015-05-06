@@ -1,6 +1,6 @@
 angular.module('manage.manageHoursUsers', [])
-    .controller('manageHrsUsersCtrl', ['$scope', '$http', '$window', '$animate', 'tokenFactory', 'hmFactory',
-        function manageHrsUsersCtrl($scope, $http, $window, $animate, tokenFactory, hmFactory){
+    .controller('manageHrsUsersCtrl', ['$scope', '$window', '$animate', 'tokenFactory', 'hmFactory',
+        function manageHrsUsersCtrl($scope, $window, $animate, tokenFactory, hmFactory){
             $scope.isLoading = true;
             $scope.dataUL = {};
             $scope.dataUL.users = [];

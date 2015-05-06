@@ -1,6 +1,6 @@
 angular.module('manage.siteFeedback', [])
-    .controller('siteFeedbackCtrl', ['$scope', '$http', 'tokenFactory', 'sfFactory',
-        function siteFeedbackCtrl($scope, $http, tokenFactory, sfFactory){
+    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'sfFactory',
+        function siteFeedbackCtrl($scope, tokenFactory, sfFactory){
             $scope.responses = [];
 
             tokenFactory("CSRF-libSiteFeedback");

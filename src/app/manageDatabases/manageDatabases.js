@@ -1,6 +1,6 @@
 angular.module('manage.manageDatabases', [])
-    .controller('manageDBCtrl', ['$scope', '$http', '$window', 'tokenFactory', 'mdbFactory',
-        function manageDBCtrl($scope, $http, $window, tokenFactory, mdbFactory){
+    .controller('manageDBCtrl', ['$scope', '$window', 'tokenFactory', 'mdbFactory',
+        function manageDBCtrl($scope, $window, tokenFactory, mdbFactory){
             $scope.DBList = {};
             $scope.titleFilter = '';
             $scope.titleStartFilter = '';

@@ -1,6 +1,6 @@
 angular.module('manage.manageUserGroups', [])
-    .controller('userGroupsCtrl', ['$scope', '$http', '$window', 'tokenFactory', 'ugFactory',
-        function userGroupsCtrl($scope, $http, $window, tokenFactory, ugFactory){
+    .controller('userGroupsCtrl', ['$scope', '$window', 'tokenFactory', 'ugFactory',
+        function userGroupsCtrl($scope, $window, tokenFactory, ugFactory){
         $scope.expUser = -1;
         $scope.users = $window.users;
         $scope.apps = $window.apps;

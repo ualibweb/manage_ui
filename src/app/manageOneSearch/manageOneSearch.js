@@ -1,6 +1,6 @@
 angular.module('manage.manageOneSearch', [])
-    .controller('manageOneSearchCtrl', ['$scope', '$http', 'tokenFactory', 'osFactory',
-        function manageOneSearchCtrl($scope, $http, tokenFactory, osFactory){
+    .controller('manageOneSearchCtrl', ['$scope', 'tokenFactory', 'osFactory',
+        function manageOneSearchCtrl($scope, tokenFactory, osFactory){
             $scope.recList = [];
             $scope.addRec = {};
             $scope.addRec.keyword = "";

@@ -33,8 +33,8 @@ angular.module('manage.staffDirectory', [])
         "Web Services"
     ])
 
-    .controller('staffDirCtrl', ['$scope', '$http', '$window', 'tokenFactory', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_DEPTS', 'STAFF_DIR_URL',
-        function staffDirCtrl($scope, $http, $window, tokenFactory, sdFactory, ranks, departments, appUrl){
+    .controller('staffDirCtrl', ['$scope', '$window', 'tokenFactory', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_DEPTS', 'STAFF_DIR_URL',
+        function staffDirCtrl($scope, $window, tokenFactory, sdFactory, ranks, departments, appUrl){
             $scope.sortMode = 'lastname';
             $scope.lastNameFilter = '';
             $scope.firstNameFilter = '';
