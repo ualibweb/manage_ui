@@ -14,7 +14,8 @@ angular.module('common.manage', [])
                 }
                 return cookies[name];
             };
-            var header = { ["X-" + tokenName] : this.GetCookie(tokenName) };
+            var header = {};
+            header["X-" + tokenName] = this.GetCookie(tokenName);
             $http.defaults.headers.post = header;
         }
     }])
