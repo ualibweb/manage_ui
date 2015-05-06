@@ -48,9 +48,8 @@ angular.module('common.manage', [])
     }])
     .factory('osFactory', ['$http', 'ONE_SEARCH_URL', function osFactory($http, url){
         return {
-            getData: function(params){
-                params = angular.isDefined(params) ? params : {};
-                return $http({method: 'GET', url: url + "getJSON.php", params: params})
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/reclist", params: {}})
             },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};

@@ -13,7 +13,7 @@ angular.module('manage.manageOneSearch', [])
 
             tokenFactory("CSRF-libOneSearch");
 
-            osFactory.getData({recList : 1})
+            osFactory.getData()
                 .success(function(data) {
                     console.dir(data);
                     $scope.recList = data;
