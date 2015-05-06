@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
+angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
 
 angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
@@ -741,6 +741,162 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
     "        <span>{{rec.keyword}} = <a href=\"{{rec.link}}\">{{rec.description}}</a></span>\n" +
     "    </div>\n" +
     "</div>");
+}]);
+
+angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageSoftware/manageSoftware.tpl.html",
+    "<h2>Manage Software List</h2>\n" +
+    "\n" +
+    "<div>\n" +
+    "    <div class=\"row form-inline\">\n" +
+    "        <div class=\"form-group\">\n" +
+    "            <label for=\"filterBy\">Filter <small>{{filteredSW.length}}</small> results by</label>\n" +
+    "            <div id=\"filterBy\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"titleFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Description contains\" ng-model=\"descrFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Locations contain\" ng-model=\"locationFilter\">\n" +
+    "            </div>\n" +
+    "            <label for=\"sortBy\">Sort by</label>\n" +
+    "            <div id=\"sortBy\">\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"0\" ng-click=\"sortBy(0)\">\n" +
+    "                    Title\n" +
+    "                    <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[0].reverse\"></span>\n" +
+    "                    <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[0].reverse\"></span>\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-primary\" ng-model=\"sortButton\" btn-radio=\"1\" ng-click=\"sortBy(1)\">\n" +
+    "                    Location\n" +
+    "                    <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[1].reverse\"></span>\n" +
+    "                    <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[1].reverse\"></span>\n" +
+    "                </button>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"text-center\">\n" +
+    "        <pagination total-items=\"filteredSW.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredSW.length > 0\"></pagination>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\"\n" +
+    "         ng-repeat=\"sw in filteredSW = (SWList.software | filter:{title:titleFilter}\n" +
+    "                                                        | filter:{description:descrFilter}\n" +
+    "                                                        | filter:{locations:locationFilter}\n" +
+    "                                                        | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
+    "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
+    "         ng-class=\"{sdOpen: sw.show, sdOver: sw.sid == mOver}\" ng-mouseover=\"setOver(sw)\">\n" +
+    "        <div class=\"col-md-12\" ng-click=\"toggleSW(sw)\">\n" +
+    "            <h4>\n" +
+    "                <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"sw.show\"></span>\n" +
+    "                <span class=\"fa fa-fw fa-caret-down\" ng-show=\"sw.show\"></span>\n" +
+    "                {{sw.title}}\n" +
+    "                <small>{{sw.version}}</small>\n" +
+    "            </h4>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-12\" ng-show=\"sw.show\">\n" +
+    "            <form ng-submit=\"updateSW(sw)\">\n" +
+    "                <div class=\"col-md-6 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_title\">Title</label>\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{sw.title}}\" ng-model=\"sw.title\"\n" +
+    "                           id=\"{{sw.sid}}_title\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-6 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_ver\">Version</label>\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{sw.version}}\" ng-model=\"sw.version\"\n" +
+    "                           id=\"{{sw.sid}}_ver\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-12 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_descr\">Description</label>\n" +
+    "                    <textarea class=\"form-control\" rows=\"3\" id=\"{{sw.sid}}_descr\" ng-model=\"sw.description\" ></textarea>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-1 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_Disable\">Disabled</label>\n" +
+    "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"db.disabled\" ng-true-value=\"1\" ng-false-value=\"0\"\n" +
+    "                           id=\"{{sw.sid}}_Disable\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-6 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_loc\">Locations</label>\n" +
+    "                    <ul class=\"list-group\" id=\"{{sw.sid}}_loc\">\n" +
+    "                        <li class=\"list-group-item\" ng-repeat=\"location in sw.locations\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteLocation(sw,location)\">Delete</button>\n" +
+    "                            {{location.name}}\n" +
+    "                        </li>\n" +
+    "                        <li class=\"list-group-item col-md-12\">\n" +
+    "                            <div class=\"col-md-9\">\n" +
+    "                                <select class=\"form-control\" ng-model=\"sw.selLoc\" ng-options=\"loc.name for loc in SWList.locations\">\n" +
+    "                                </select>\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-3\">\n" +
+    "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLocation(sw)\">Add Location</button>\n" +
+    "                            </div>\n" +
+    "                        </li>\n" +
+    "                    </ul>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-12 text-center\">\n" +
+    "                    <button type=\"submit\" class=\"btn btn-primary\">Update information</button>\n" +
+    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteSW(sw)\">\n" +
+    "                        Delete {{sw.title}} software\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
+    "            </form>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"text-center\">\n" +
+    "    <pagination total-items=\"filteredSW.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredSW.length > 0\"></pagination>\n" +
+    "</div>\n" +
+    "<div class=\"text-center\">\n" +
+    "    <h4 ng-show=\"filteredSW.length == 0\">Nothing found</h4>\n" +
+    "</div>\n" +
+    "\n" +
+    "<h3>Add New Software</h3>\n" +
+    "<form ng-submit=\"createSW()\">\n" +
+    "    <div class=\"row sdOpen\">\n" +
+    "        <div class=\"col-md-12\">\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"title\">Title</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Software Title\" ng-model=\"newSW.title\"\n" +
+    "                       id=\"title\" required>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"version\">Version</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Software Version\" ng-model=\"newSW.version\"\n" +
+    "                       id=\"version\" required>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-12 form-group\">\n" +
+    "                <label for=\"descr\">Description</label>\n" +
+    "                <textarea class=\"form-control\" rows=\"3\" id=\"descr\" ng-model=\"newSW.description\" required></textarea>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-1 form-group\">\n" +
+    "                <label for=\"Disable\">Disabled</label>\n" +
+    "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.disabled\" ng-true-value=\"'1'\" ng-false-value=\"'0'\"\n" +
+    "                       id=\"Disable\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"locations\">Locations</label>\n" +
+    "                <ul class=\"list-group\" id=\"locations\">\n" +
+    "                    <li class=\"list-group-item\" ng-repeat=\"location in newSW.locations\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delLocNewSW($index)\">Delete</button>\n" +
+    "                        {{location.name}}\n" +
+    "                    </li>\n" +
+    "                    <li class=\"list-group-item col-md-12\">\n" +
+    "                        <div class=\"col-md-9\">\n" +
+    "                            <select class=\"form-control\" ng-model=\"newSW.selLoc\" ng-options=\"loc.name for loc in SWList.locations\">\n" +
+    "                            </select>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-3\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLocNewSW()\">Add Location</button>\n" +
+    "                        </div>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-12 text-center\">\n" +
+    "                <button type=\"submit\" class=\"btn btn-primary\">Create Software Record</button>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</form>\n" +
+    "\n" +
+    "");
 }]);
 
 angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", function($templateCache) {

@@ -80,3 +80,14 @@ angular.module('common.manage', [])
             }
         }
     }])
+    .factory('swFactory', ['$http', 'SOFTWARE_URL', function swFactory($http, url){
+        return {
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/all", params: {}})
+            },
+            postData: function(params, data){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
+            }
+        }
+    }])

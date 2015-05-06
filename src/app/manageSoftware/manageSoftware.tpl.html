@@ -1,0 +1,151 @@
+<h2>Manage Software List</h2>
+
+<div>
+    <div class="row form-inline">
+        <div class="form-group">
+            <label for="filterBy">Filter <small>{{filteredSW.length}}</small> results by</label>
+            <div id="filterBy">
+                <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
+                <input type="text" class="form-control" placeholder="Description contains" ng-model="descrFilter">
+                <input type="text" class="form-control" placeholder="Locations contain" ng-model="locationFilter">
+            </div>
+            <label for="sortBy">Sort by</label>
+            <div id="sortBy">
+                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
+                    Title
+                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[0].reverse"></span>
+                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[0].reverse"></span>
+                </button>
+                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
+                    Location
+                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[1].reverse"></span>
+                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[1].reverse"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <pagination total-items="filteredSW.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredSW.length > 0"></pagination>
+    </div>
+    <div class="row"
+         ng-repeat="sw in filteredSW = (SWList.software | filter:{title:titleFilter}
+                                                        | filter:{description:descrFilter}
+                                                        | filter:{locations:locationFilter}
+                                                        | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
+        | startFrom:(currentPage-1)*perPage | limitTo:perPage"
+         ng-class="{sdOpen: sw.show, sdOver: sw.sid == mOver}" ng-mouseover="setOver(sw)">
+        <div class="col-md-12" ng-click="toggleSW(sw)">
+            <h4>
+                <span class="fa fa-fw fa-caret-right" ng-hide="sw.show"></span>
+                <span class="fa fa-fw fa-caret-down" ng-show="sw.show"></span>
+                {{sw.title}}
+                <small>{{sw.version}}</small>
+            </h4>
+        </div>
+        <div class="col-md-12" ng-show="sw.show">
+            <form ng-submit="updateSW(sw)">
+                <div class="col-md-6 form-group">
+                    <label for="{{sw.sid}}_title">Title</label>
+                    <input type="text" class="form-control" placeholder="{{sw.title}}" ng-model="sw.title"
+                           id="{{sw.sid}}_title">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="{{sw.sid}}_ver">Version</label>
+                    <input type="text" class="form-control" placeholder="{{sw.version}}" ng-model="sw.version"
+                           id="{{sw.sid}}_ver">
+                </div>
+                <div class="col-md-12 form-group">
+                    <label for="{{sw.sid}}_descr">Description</label>
+                    <textarea class="form-control" rows="3" id="{{sw.sid}}_descr" ng-model="sw.description" ></textarea>
+                </div>
+                <div class="col-md-1 form-group">
+                    <label for="{{sw.sid}}_Disable">Disabled</label>
+                    <input type="checkbox" class="form-control" ng-model="db.disabled" ng-true-value="1" ng-false-value="0"
+                           id="{{sw.sid}}_Disable">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="{{sw.sid}}_loc">Locations</label>
+                    <ul class="list-group" id="{{sw.sid}}_loc">
+                        <li class="list-group-item" ng-repeat="location in sw.locations">
+                            <button type="button" class="btn btn-primary" ng-click="deleteLocation(sw,location)">Delete</button>
+                            {{location.name}}
+                        </li>
+                        <li class="list-group-item col-md-12">
+                            <div class="col-md-9">
+                                <select class="form-control" ng-model="sw.selLoc" ng-options="loc.name for loc in SWList.locations">
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary" ng-click="addLocation(sw)">Add Location</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary">Update information</button>
+                    <button type="button" class="btn btn-primary" ng-click="deleteSW(sw)">
+                        Delete {{sw.title}} software
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <pagination total-items="filteredSW.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredSW.length > 0"></pagination>
+</div>
+<div class="text-center">
+    <h4 ng-show="filteredSW.length == 0">Nothing found</h4>
+</div>
+
+<h3>Add New Software</h3>
+<form ng-submit="createSW()">
+    <div class="row sdOpen">
+        <div class="col-md-12">
+            <div class="col-md-6 form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" placeholder="Software Title" ng-model="newSW.title"
+                       id="title" required>
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="version">Version</label>
+                <input type="text" class="form-control" placeholder="Software Version" ng-model="newSW.version"
+                       id="version" required>
+            </div>
+            <div class="col-md-12 form-group">
+                <label for="descr">Description</label>
+                <textarea class="form-control" rows="3" id="descr" ng-model="newSW.description" required></textarea>
+            </div>
+            <div class="col-md-1 form-group">
+                <label for="Disable">Disabled</label>
+                <input type="checkbox" class="form-control" ng-model="newSW.disabled" ng-true-value="'1'" ng-false-value="'0'"
+                       id="Disable">
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="locations">Locations</label>
+                <ul class="list-group" id="locations">
+                    <li class="list-group-item" ng-repeat="location in newSW.locations">
+                        <button type="button" class="btn btn-primary" ng-click="delLocNewSW($index)">Delete</button>
+                        {{location.name}}
+                    </li>
+                    <li class="list-group-item col-md-12">
+                        <div class="col-md-9">
+                            <select class="form-control" ng-model="newSW.selLoc" ng-options="loc.name for loc in SWList.locations">
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-primary" ng-click="addLocNewSW()">Add Location</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Create Software Record</button>
+            </div>
+        </div>
+    </div>
+</form>
+
