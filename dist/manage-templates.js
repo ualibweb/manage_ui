@@ -825,17 +825,22 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                        </li>\n" +
     "                    </ul>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-2 form-group\">\n" +
+    "                <div class=\"col-md-3 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_icon\">Upload Icon</label>\n" +
+    "                    <input type=\"file\" ng-file-select=\"onFileSelect($files)\"\n" +
+    "                           id=\"{{sw.sid}}_icon\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-1 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_win\">Windows</label>\n" +
     "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"sw.os[0]\"\n" +
     "                           id=\"{{sw.sid}}_win\">\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-2 form-group\">\n" +
+    "                <div class=\"col-md-1 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_mac\">Apple Mac</label>\n" +
     "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"sw.os[1]\"\n" +
     "                           id=\"{{sw.sid}}_mac\">\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-2 form-group\">\n" +
+    "                <div class=\"col-md-1 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_unix\">Unix/Linux</label>\n" +
     "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"sw.os[2]\"\n" +
     "                           id=\"{{sw.sid}}_unix\">\n" +
@@ -859,7 +864,7 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "</div>\n" +
     "\n" +
     "<h3>Add New Software</h3>\n" +
-    "<form ng-submit=\"createSW()\">\n" +
+    "<form name=\"addNewSW\" ng-submit=\"createSW()\">\n" +
     "    <div class=\"row sdOpen\">\n" +
     "        <div class=\"col-md-12\">\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
@@ -894,20 +899,29 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                    </li>\n" +
     "                </ul>\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-2 form-group\">\n" +
+    "            <div class=\"col-md-1 form-group\">\n" +
     "                <label for=\"win\">Windows</label>\n" +
     "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.os[0]\"\n" +
     "                       id=\"win\">\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-2 form-group\">\n" +
+    "            <div class=\"col-md-1 form-group\">\n" +
     "                <label for=\"mac\">Apple Mac</label>\n" +
     "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.os[1]\"\n" +
     "                       id=\"mac\">\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-2 form-group\">\n" +
+    "            <div class=\"col-md-1 form-group\">\n" +
     "                <label for=\"unix\">Unix/Linux</label>\n" +
     "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.os[2]\"\n" +
     "                       id=\"unix\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-3 form-group\">\n" +
+    "                <label for=\"up\">Upload Icon</label>\n" +
+    "                <input type=\"file\" ngf-select=\"\" ng-model=\"newSW.picFile\" accept=\"image/*\"\n" +
+    "                       ngf-change=\"generateThumb(newSW.picFile[0], $files)\" id=\"up\">\n" +
+    "                <img ng-show=\"newSW.picFile[0] != null\" ngf-src=\"newSW.picFile[0]\" class=\"thumb\">\n" +
+    "                <span class=\"progress\" ng-show=\"newSW.picFile[0].progress >= 0\">\n" +
+    "                    <div class=\"ng-binding\" style=\"width:{{newSW.picFile[0].progress}}%\" ng-bind=\"newSW.picFile[0].progress + '%'\"></div>\n" +
+    "                </span>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 text-center\">\n" +
     "                <button type=\"submit\" class=\"btn btn-primary\">Create Software Record</button>\n" +

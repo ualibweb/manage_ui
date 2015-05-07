@@ -1051,9 +1051,9 @@ angular.module('manage.manageOneSearch', [])
             templateUrl: 'manageOneSearch/manageOneSearch.tpl.html'
         };
     })
-angular.module('manage.manageSoftware', [])
-    .controller('manageSWCtrl', ['$scope', 'tokenFactory', 'swFactory',
-        function manageSWCtrl($scope, tokenFactory, swFactory){
+angular.module('manage.manageSoftware', ['ngFileUpload'])
+    .controller('manageSWCtrl', ['$scope', 'Upload', 'tokenFactory', 'swFactory', 'SOFTWARE_URL',
+        function manageSWCtrl($scope, Upload, tokenFactory, swFactory, appURL){
             $scope.SWList = {};
             $scope.titleFilter = '';
             $scope.descrFilter = '';
@@ -1067,6 +1067,9 @@ angular.module('manage.manageSoftware', [])
             $scope.mOver = 0;
             $scope.newSW = {};
             $scope.newSW.os = [];
+            $scope.newSW.os[0] = false;
+            $scope.newSW.os[1] = false;
+            $scope.newSW.os[2] = false;
             $scope.newSW.locations = [];
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
@@ -1120,12 +1123,10 @@ angular.module('manage.manageSoftware', [])
                             } else {
                                 $scope.formResponse = "Error: Can not delete software! " + data;
                             }
-                            alert($scope.formResponse);
                             console.log(data);
                         })
                         .error(function(data, status, headers, config) {
                             $scope.formResponse = "Error: Could not delete software! " + data;
-                            alert($scope.formResponse);
                             console.log(data);
                         });
                 }
@@ -1142,40 +1143,53 @@ angular.module('manage.manageSoftware', [])
                         } else {
                             $scope.formResponse = "Error: Can not update software! " + data;
                         }
-                        alert($scope.formResponse);
                         console.log(data);
                     })
                     .error(function(data, status, headers, config) {
                         $scope.formResponse = "Error: Could not update software! " + data;
-                        alert($scope.formResponse);
                         console.log(data);
                     });
             };
             $scope.createSW = function(){
                 console.dir($scope.newSW);
-                swFactory.postData({action : 3}, $scope.newSW)
-                    .success(function(data, status, headers, config) {
-                        if ((typeof data === 'object') && (data !== null)){
+                $scope.newSW.picFile.upload = Upload.upload({
+                    url: appURL + 'processData.php?action=3',
+                    method: 'POST',
+                    fields: {
+                        title: $scope.newSW.title,
+                        version: $scope.newSW.version,
+                        description: $scope.newSW.description,
+                        os: $scope.newSW.os,
+                        locations: $scope.newSW.locations
+                    },
+                    file: $scope.newSW.picFile,
+                    fileFormDataName: 'addNewSW'
+                });
+                $scope.newSW.picFile.upload.then(function(response) {
+                    $timeout(function() {
+                        if ((typeof response.data === 'object') && (response.data !== null)){
                             var newSW = {};
                             newSW = angular.copy($scope.newSW);
-                            newSW.sid = data.id;
-                            newSW.locations = angular.copy(data.locations);
+                            newSW.sid = response.data.id;
+                            newSW.locations = angular.copy(response.data.locations);
                             newSW.show = false;
                             newSW.class = "";
-                            newSW.selLoc = data.locations[0];
+                            newSW.selLoc = response.data.locations[0];
                             $scope.SWList.software.push(newSW);
                             $scope.formResponse = "Software has been added.";
                         } else {
                             $scope.formResponse = "Error: Can not add software! " + data;
                         }
-                        alert($scope.formResponse);
-                        console.dir(data);
-                    })
-                    .error(function(data, status, headers, config) {
-                        $scope.formResponse = "Error: Could not add software! " + data;
-                        alert($scope.formResponse);
-                        console.dir(data);
+                        console.dir(response.data);
                     });
+                }, function(response) {
+                    if (response.status > 0)
+                        $scope.formResponse = response.status + ': ' + response.data;
+                });
+                $scope.newSW.picFile.upload.progress(function(evt) {
+                    // Math.min is to fix IE which reports 200% sometimes
+                    $scope.newSW.picFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                });
             };
 
             $scope.addLocation = function(sw){
@@ -1236,7 +1250,24 @@ angular.module('manage.manageSoftware', [])
                 if (!isPresent)
                     $scope.newSW.locations.push(newLocation);
             };
-        }])
+
+            $scope.generateThumb = function(file) {
+                if (file != null) {
+                    if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
+                        $timeout(function() {
+                            var fileReader = new FileReader();
+                            fileReader.readAsDataURL(file);
+                            fileReader.onload = function(e) {
+                                $timeout(function() {
+                                    file.dataUrl = e.target.result;
+                                });
+                            }
+                        });
+                    }
+                }
+            };
+
+    }])
 
     .directive('softwareManageList', function($animate) {
         return {
