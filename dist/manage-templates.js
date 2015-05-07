@@ -787,25 +787,56 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "            <h4>\n" +
     "                <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"sw.show\"></span>\n" +
     "                <span class=\"fa fa-fw fa-caret-down\" ng-show=\"sw.show\"></span>\n" +
+    "                <img ng-show=\"sw.picFile[0] != null\" ngf-src=\"sw.picFile[0]\" class=\"thumb\">\n" +
     "                {{sw.title}}\n" +
-    "                <small>{{sw.version}}</small>\n" +
     "            </h4>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-12\" ng-show=\"sw.show\">\n" +
     "            <form ng-submit=\"updateSW(sw)\">\n" +
+    "                <div class=\"col-md-3 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_up\">Upload Icon</label>\n" +
+    "                    <input type=\"file\" ngf-select=\"\" ng-model=\"sw.picFile\" accept=\"image/*\"\n" +
+    "                           ngf-change=\"generateThumb(sw.picFile[0], $files)\" id=\"{{sw.sid}}_up\">\n" +
+    "                    <span class=\"progress\" ng-show=\"sw.picFile[0].progress >= 0\">\n" +
+    "                        <div class=\"ng-binding\" style=\"width:{{sw.picFile[0].progress}}%\" ng-bind=\"sw.picFile[0].progress + '%'\"></div>\n" +
+    "                    </span>\n" +
+    "                </div>\n" +
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_title\">Title</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{sw.title}}\" ng-model=\"sw.title\"\n" +
     "                           id=\"{{sw.sid}}_title\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-6 form-group\">\n" +
-    "                    <label for=\"{{sw.sid}}_ver\">Version</label>\n" +
-    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{sw.version}}\" ng-model=\"sw.version\"\n" +
-    "                           id=\"{{sw.sid}}_ver\">\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-12 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_descr\">Description</label>\n" +
-    "                    <textarea class=\"form-control\" rows=\"3\" id=\"{{sw.sid}}_descr\" ng-model=\"sw.description\" ></textarea>\n" +
+    "                    <textarea class=\"form-control\" rows=\"2\" id=\"{{sw.sid}}_descr\" ng-model=\"sw.description\" ></textarea>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-6 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_det\">Details (Get it)</label>\n" +
+    "                    <textarea class=\"form-control\" rows=\"2\" id=\"{{sw.sid}}_det\" ng-model=\"sw.details\" ></textarea>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-6 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_ver\">Versions</label>\n" +
+    "                    <ul class=\"list-group\" id=\"{{sw.sid}}_ver\">\n" +
+    "                        <li class=\"list-group-item\" ng-repeat=\"version in sw.versions\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteVersion(sw,version)\">Delete</button>\n" +
+    "                            {{version.version}}\n" +
+    "                            <span class=\"fa fa-fw fa-windows\" ng-show=\"version.os == 1\"></span>\n" +
+    "                            <span class=\"fa fa-fw fa-apple\" ng-show=\"version.os == 2\"></span>\n" +
+    "                            <span class=\"fa fa-fw fa-linux\" ng-show=\"version.os == 3\"></span>\n" +
+    "                        </li>\n" +
+    "                        <li class=\"list-group-item col-md-12\">\n" +
+    "                            <div class=\"col-md-6\">\n" +
+    "                                <input type=\"text\" class=\"form-control\" placeholder=\"Version\" ng-model=\"sw.newVer.version\">\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-3\">\n" +
+    "                                <select class=\"form-control\" ng-model=\"sw.newVer.selOS\" ng-options=\"opSys.name for opSys in os\">\n" +
+    "                                </select>\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-3\">\n" +
+    "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addVersion(sw)\">Add Version</button>\n" +
+    "                            </div>\n" +
+    "                        </li>\n" +
+    "                    </ul>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_loc\">Locations</label>\n" +
@@ -825,25 +856,25 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                        </li>\n" +
     "                    </ul>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-3 form-group\">\n" +
-    "                    <label for=\"{{sw.sid}}_icon\">Upload Icon</label>\n" +
-    "                    <input type=\"file\" ng-file-select=\"onFileSelect($files)\"\n" +
-    "                           id=\"{{sw.sid}}_icon\">\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-1 form-group\">\n" +
-    "                    <label for=\"{{sw.sid}}_win\">Windows</label>\n" +
-    "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"sw.os[0]\"\n" +
-    "                           id=\"{{sw.sid}}_win\">\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-1 form-group\">\n" +
-    "                    <label for=\"{{sw.sid}}_mac\">Apple Mac</label>\n" +
-    "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"sw.os[1]\"\n" +
-    "                           id=\"{{sw.sid}}_mac\">\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-1 form-group\">\n" +
-    "                    <label for=\"{{sw.sid}}_unix\">Unix/Linux</label>\n" +
-    "                    <input type=\"checkbox\" class=\"form-control\" ng-model=\"sw.os[2]\"\n" +
-    "                           id=\"{{sw.sid}}_unix\">\n" +
+    "                <div class=\"col-md-6 form-group\">\n" +
+    "                    <label for=\"{{sw.sid}}_links\">Links (Use it)</label>\n" +
+    "                    <ul class=\"list-group\" id=\"{{sw.sid}}_links\">\n" +
+    "                        <li class=\"list-group-item\" ng-repeat=\"link in sw.links\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteLink(sw,link)\">Delete</button>\n" +
+    "                            <a href=\"{{link.url}}\">{{link.title}}</a>\n" +
+    "                        </li>\n" +
+    "                        <li class=\"list-group-item col-md-12\">\n" +
+    "                            <div class=\"col-md-5\">\n" +
+    "                                <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\" ng-model=\"sw.newLink.title\">\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-5\">\n" +
+    "                                <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" ng-model=\"sw.newLink.url\">\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-2\">\n" +
+    "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLink(sw)\">Add Link</button>\n" +
+    "                            </div>\n" +
+    "                        </li>\n" +
+    "                    </ul>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-12 text-center\">\n" +
     "                    <button type=\"submit\" class=\"btn btn-primary\">Update information</button>\n" +
@@ -867,25 +898,56 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "<form name=\"addNewSW\" ng-submit=\"createSW()\">\n" +
     "    <div class=\"row sdOpen\">\n" +
     "        <div class=\"col-md-12\">\n" +
+    "            <div class=\"col-md-3 form-group\">\n" +
+    "                <label for=\"up\">Upload Icon</label>\n" +
+    "                <input type=\"file\" ngf-select=\"\" ng-model=\"newSW.picFile\" accept=\"image/*\"\n" +
+    "                       ngf-change=\"generateThumb(newSW.picFile[0], $files)\" id=\"up\">\n" +
+    "                    <span class=\"progress\" ng-show=\"newSW.picFile[0].progress >= 0\">\n" +
+    "                        <div class=\"ng-binding\" style=\"width:{{newSW.picFile[0].progress}}%\" ng-bind=\"newSW.picFile[0].progress + '%'\"></div>\n" +
+    "                    </span>\n" +
+    "            </div>\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"title\">Title</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Software Title\" ng-model=\"newSW.title\"\n" +
-    "                       id=\"title\" required>\n" +
+    "                       id=\"title\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
-    "                <label for=\"version\">Version</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Software Version\" ng-model=\"newSW.version\"\n" +
-    "                       id=\"version\" required>\n" +
-    "            </div>\n" +
-    "            <div class=\"col-md-12 form-group\">\n" +
     "                <label for=\"descr\">Description</label>\n" +
-    "                <textarea class=\"form-control\" rows=\"3\" id=\"descr\" ng-model=\"newSW.description\" required></textarea>\n" +
+    "                <textarea class=\"form-control\" rows=\"2\" id=\"descr\" ng-model=\"newSW.description\" ></textarea>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
-    "                <label for=\"locations\">Locations</label>\n" +
-    "                <ul class=\"list-group\" id=\"locations\">\n" +
+    "                <label for=\"det\">Details (Get it)</label>\n" +
+    "                <textarea class=\"form-control\" rows=\"2\" id=\"det\" ng-model=\"newSW.details\" ></textarea>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"ver\">Versions</label>\n" +
+    "                <ul class=\"list-group\" id=\"ver\">\n" +
+    "                    <li class=\"list-group-item\" ng-repeat=\"version in newSW.versions\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delNewSWVer(version)\">Delete</button>\n" +
+    "                        {{version.version}}\n" +
+    "                        <span class=\"fa fa-fw fa-windows\" ng-show=\"version.os == 1\"></span>\n" +
+    "                        <span class=\"fa fa-fw fa-apple\" ng-show=\"version.os == 2\"></span>\n" +
+    "                        <span class=\"fa fa-fw fa-linux\" ng-show=\"version.os == 3\"></span>\n" +
+    "                    </li>\n" +
+    "                    <li class=\"list-group-item col-md-12\">\n" +
+    "                        <div class=\"col-md-6\">\n" +
+    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Version\" ng-model=\"newSW.newVer.version\">\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-3\">\n" +
+    "                            <select class=\"form-control\" ng-model=\"newSW.newVer.selOS\" ng-options=\"opSys.name for opSys in os\">\n" +
+    "                            </select>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-3\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWVer()\">Add Version</button>\n" +
+    "                        </div>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"loc\">Locations</label>\n" +
+    "                <ul class=\"list-group\" id=\"loc\">\n" +
     "                    <li class=\"list-group-item\" ng-repeat=\"location in newSW.locations\">\n" +
-    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delLocNewSW($index)\">Delete</button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delNewSWLoc(location)\">Delete</button>\n" +
     "                        {{location.name}}\n" +
     "                    </li>\n" +
     "                    <li class=\"list-group-item col-md-12\">\n" +
@@ -894,34 +956,30 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                            </select>\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-3\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLocNewSW()\">Add Location</button>\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWLoc()\">Add Location</button>\n" +
     "                        </div>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-1 form-group\">\n" +
-    "                <label for=\"win\">Windows</label>\n" +
-    "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.os[0]\"\n" +
-    "                       id=\"win\">\n" +
-    "            </div>\n" +
-    "            <div class=\"col-md-1 form-group\">\n" +
-    "                <label for=\"mac\">Apple Mac</label>\n" +
-    "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.os[1]\"\n" +
-    "                       id=\"mac\">\n" +
-    "            </div>\n" +
-    "            <div class=\"col-md-1 form-group\">\n" +
-    "                <label for=\"unix\">Unix/Linux</label>\n" +
-    "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newSW.os[2]\"\n" +
-    "                       id=\"unix\">\n" +
-    "            </div>\n" +
-    "            <div class=\"col-md-3 form-group\">\n" +
-    "                <label for=\"up\">Upload Icon</label>\n" +
-    "                <input type=\"file\" ngf-select=\"\" ng-model=\"newSW.picFile\" accept=\"image/*\"\n" +
-    "                       ngf-change=\"generateThumb(newSW.picFile[0], $files)\" id=\"up\">\n" +
-    "                <img ng-show=\"newSW.picFile[0] != null\" ngf-src=\"newSW.picFile[0]\" class=\"thumb\">\n" +
-    "                <span class=\"progress\" ng-show=\"newSW.picFile[0].progress >= 0\">\n" +
-    "                    <div class=\"ng-binding\" style=\"width:{{newSW.picFile[0].progress}}%\" ng-bind=\"newSW.picFile[0].progress + '%'\"></div>\n" +
-    "                </span>\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"links\">Links (Use it)</label>\n" +
+    "                <ul class=\"list-group\" id=\"links\">\n" +
+    "                    <li class=\"list-group-item\" ng-repeat=\"link in newSW.links\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delNewSWLink(link)\">Delete</button>\n" +
+    "                        <a href=\"{{link.url}}\">{{link.title}}</a>\n" +
+    "                    </li>\n" +
+    "                    <li class=\"list-group-item col-md-12\">\n" +
+    "                        <div class=\"col-md-5\">\n" +
+    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\" ng-model=\"newSW.newLink.title\">\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-5\">\n" +
+    "                            <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" ng-model=\"newSW.newLink.url\">\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-2\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWLink()\">Add Link</button>\n" +
+    "                        </div>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 text-center\">\n" +
     "                <button type=\"submit\" class=\"btn btn-primary\">Create Software Record</button>\n" +

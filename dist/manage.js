@@ -1065,12 +1065,20 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             ];
             $scope.sortButton = $scope.sortMode;
             $scope.mOver = 0;
+            $scope.os = [
+                {name:'MS Windows', value:1},
+                {name:'Apple Mac', value:2},
+                {name:'Unix/Lunix', value:3}
+            ];
+
             $scope.newSW = {};
-            $scope.newSW.os = [];
-            $scope.newSW.os[0] = false;
-            $scope.newSW.os[1] = false;
-            $scope.newSW.os[2] = false;
+            $scope.newSW.versions = [];
+            $scope.newSW.links = [];
             $scope.newSW.locations = [];
+            $scope.newSW.newVer = {};
+            $scope.newSW.newVer.selOS = $scope.os[0];
+            $scope.newSW.newLink = {};
+
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
@@ -1084,6 +1092,9 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         data.software[i].show = false;
                         data.software[i].class = "";
                         data.software[i].selLoc = data.locations[0];
+                        data.software[i].newVer = {};
+                        data.software[i].newVer.selOS = $scope.os[0];
+                        data.software[i].newLink = {};
                     }
                     $scope.newSW.selLoc = data.locations[0];
                     $scope.SWList = data;
@@ -1157,10 +1168,10 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     method: 'POST',
                     fields: {
                         title: $scope.newSW.title,
-                        version: $scope.newSW.version,
                         description: $scope.newSW.description,
-                        os: $scope.newSW.os,
-                        locations: $scope.newSW.locations
+                        versions: $scope.newSW.versions,
+                        locations: $scope.newSW.locations,
+                        links: $scope.newSW.links
                     },
                     file: $scope.newSW.picFile,
                     fileFormDataName: 'addNewSW'
@@ -1180,7 +1191,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         } else {
                             $scope.formResponse = "Error: Can not add software! " + data;
                         }
-                        console.dir(response.data);
+                        console.dir(response);
                     });
                 }, function(response) {
                     if (response.status > 0)
@@ -1192,55 +1203,95 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 });
             };
 
+            $scope.addVersion = function(sw){
+                var newVer = {};
+                newVer.vid = -1;
+                newVer.sid = sw.sid;
+                newVer.version = sw.newVer.version;
+                newVer.os = sw.newVer.selOS.value;
+                var isPresent = false;
+                for (var i = 0; i < sw.versions.length; i++)
+                    if (sw.versions[i].version === newVer.version &&
+                        sw.versions[i].os === newVer.os){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.push(newVer);
+            };
+            $scope.deleteVersion = function(sw, version){
+                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.splice(
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version),1
+                );
+            };
             $scope.addLocation = function(sw){
                 var newLoc = {};
-                newLoc.sid = sw.sid;
+                newLoc.id = -1;
                 newLoc.lid = sw.selLoc.lid;
                 newLoc.name = sw.selLoc.name;
-                swFactory.postData({action : 4}, newLoc)
-                    .success(function(data, status, headers, config) {
-                        if ((typeof data === 'object') && (data !== null)){
-                            newLoc.id = data.id;
-                            if (typeof $scope.SWList.software[$scope.SWList.software.indexOf(sw)].locations == 'undefined')
-                                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].locations = [];
-                            $scope.SWList.software[$scope.SWList.software.indexOf(sw)].locations.push(newLoc);
-                            $scope.formResponse = "Location has been added.";
-                        } else {
-                            $scope.formResponse = "Error: Can not add location! " + data;
-                        }
-                        console.dir(data);
-                    })
-                    .error(function(data, status, headers, config) {
-                        $scope.formResponse = "Error: Could not add location! " + data;
-                        console.dir(data);
-                    });
+                var isPresent = false;
+                for (var i = 0; i < sw.locations.length; i++)
+                    if (sw.locations[i].lid == newLoc.lid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].locations.push(newLoc);
             };
             $scope.deleteLocation = function(sw, location){
-                swFactory.postData({action : 5}, location)
-                    .success(function(data, status, headers, config) {
-                        if (data == 1){
-                            $scope.SWList.software[$scope.SWList.software.indexOf(sw)].locations.splice(
-                                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].locations.indexOf(location),1
-                            );
-                            $scope.formResponse = "Location has been deleted.";
-                        } else {
-                            $scope.formResponse = "Error: Can not delete location! " + data;
-                        }
-                    })
-                    .error(function(data, status, headers, config) {
-                        $scope.formResponse = "Error: Could not delete location! " + data;
-                    });
+                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].locations.splice(
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].locations.indexOf(location),1
+                );
+            };
+            $scope.addLink = function(sw){
+                var newLink = {};
+                newLink.linkid = -1;
+                newLink.sid = sw.sid;
+                newLink.title = sw.newLink.title;
+                newLink.url = sw.newLink.url;
+                var isPresent = false;
+                for (var i = 0; i < sw.links.length; i++)
+                    if (sw.links[i].title === newLink.title &&
+                        sw.links[i].url === newLink.url){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].links.push(newLink);
+            };
+            $scope.deleteLink = function(sw, link){
+                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].links.splice(
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].links.indexOf(link),1
+                );
             };
 
-            $scope.delLocNewSW = function(index){
-                $scope.newSW.locations.splice(index, 1);
+            $scope.delNewSWVer = function(version){
+                $scope.newSW.versions.splice($scope.newSW.versions.indexOf(version), 1);
             };
-            $scope.addLocNewSW = function(){
+            $scope.delNewSWLoc = function(location){
+                $scope.newSW.locations.splice($scope.newSW.locations.indexOf(location), 1);
+            };
+            $scope.delNewSWLink = function(link){
+                $scope.newSW.links.splice($scope.newSW.links.indexOf(link), 1);
+            };
+            $scope.addNewSWVer = function(){
+                var newVersion = {};
+                newVersion.version = $scope.newSW.newVer.version;
+                newVersion.os = $scope.newSW.newVer.selOS.value;
+                var isPresent = false;
+                for (var i = 0; i < $scope.newSW.versions.length; i++)
+                    if ($scope.newSW.versions[i].version == newVersion.version &&
+                        $scope.newSW.versions[i].os == newVersion.os){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.newSW.versions.push(newVersion);
+            };
+            $scope.addNewSWLoc = function(){
                 var newLocation = {};
                 newLocation.lid = $scope.newSW.selLoc.lid;
                 newLocation.name = $scope.newSW.selLoc.name;
-                if (typeof $scope.newSW.locations == 'undefined')
-                    $scope.newSW.locations = [];
                 var isPresent = false;
                 for (var i = 0; i < $scope.newSW.locations.length; i++)
                     if ($scope.newSW.locations[i].lid == newLocation.lid){
@@ -1249,6 +1300,20 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     }
                 if (!isPresent)
                     $scope.newSW.locations.push(newLocation);
+            };
+            $scope.addNewSWLink = function(){
+                var newLink = {};
+                newLink.title = $scope.newSW.newLink.title;
+                newLink.url = $scope.newSW.newLink.url;
+                var isPresent = false;
+                for (var i = 0; i < $scope.newSW.links.length; i++)
+                    if ($scope.newSW.links[i].title == newLink.title &&
+                        $scope.newSW.links[i].url == newLink.url){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.newSW.links.push(newLink);
             };
 
             $scope.generateThumb = function(file) {
