@@ -1159,8 +1159,12 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 });
                 sw.picFile.upload.then(function(response) {
                     $timeout(function() {
-                        if (response.data == 1){
-                            $scope.formResponse = "Software has been updated.";
+                        if ((typeof response.data === 'object') && (response.data !== null)){
+                            $scope.formResponse = "Software has been updated, ";
+                            if (response.data.iconUploaded)
+                                $scope.formResponse += "Icon uploaded.";
+                            else
+                                $scope.formResponse += "Icon has not changed.";
                         } else {
                             $scope.formResponse = "Error: Can not update software! " + response.data;
                         }
