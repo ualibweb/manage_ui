@@ -804,7 +804,7 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "        </div>\n" +
     "        <div class=\"col-md-12\" ng-show=\"sw.show\">\n" +
     "            <form name=\"editSW{{sw.sid}}\" ng-submit=\"updateSW(sw)\">\n" +
-    "                <div class=\"col-md-3 form-group\">\n" +
+    "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_up\">Upload Icon</label>\n" +
     "                    <input type=\"file\" ngf-select=\"\" ng-model=\"sw.picFile\" accept=\"image/*\"\n" +
     "                           ngf-change=\"generateThumb(sw.picFile[0], $files)\" id=\"{{sw.sid}}_up\">\n" +
@@ -825,11 +825,13 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                    <label for=\"{{sw.sid}}_det\">Details (Get it)</label>\n" +
     "                    <textarea class=\"form-control\" rows=\"2\" id=\"{{sw.sid}}_det\" ng-model=\"sw.details\" ></textarea>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-6 form-group\">\n" +
+    "                <div class=\"col-md-4 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_ver\">Versions</label>\n" +
     "                    <ul class=\"list-group\" id=\"{{sw.sid}}_ver\">\n" +
     "                        <li class=\"list-group-item\" ng-repeat=\"version in sw.versions\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteVersion(sw,version)\">Delete</button>\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteVersion(sw,version)\">\n" +
+    "                                <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                            </button>\n" +
     "                            {{version.version}}\n" +
     "                            <span class=\"fa fa-fw fa-windows\" ng-show=\"version.os == 1\"></span>\n" +
     "                            <span class=\"fa fa-fw fa-apple\" ng-show=\"version.os == 2\"></span>\n" +
@@ -839,39 +841,47 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                            <div class=\"col-md-6\">\n" +
     "                                <input type=\"text\" class=\"form-control\" placeholder=\"Version\" ng-model=\"sw.newVer.version\">\n" +
     "                            </div>\n" +
-    "                            <div class=\"col-md-3\">\n" +
+    "                            <div class=\"col-md-4\">\n" +
     "                                <select class=\"form-control\" ng-model=\"sw.newVer.selOS\" ng-options=\"opSys.name for opSys in os\">\n" +
     "                                </select>\n" +
     "                            </div>\n" +
-    "                            <div class=\"col-md-3\">\n" +
-    "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addVersion(sw)\">Add Version</button>\n" +
+    "                            <div class=\"col-md-2\">\n" +
+    "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addVersion(sw)\">\n" +
+    "                                    <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                                </button>\n" +
     "                            </div>\n" +
     "                        </li>\n" +
     "                    </ul>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-6 form-group\">\n" +
+    "                <div class=\"col-md-4 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_loc\">Locations</label>\n" +
     "                    <ul class=\"list-group\" id=\"{{sw.sid}}_loc\">\n" +
     "                        <li class=\"list-group-item\" ng-repeat=\"location in sw.locations\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteLocation(sw,location)\">Delete</button>\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteLocation(sw,location)\">\n" +
+    "                                <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                            </button>\n" +
     "                            {{location.name}}\n" +
     "                        </li>\n" +
     "                        <li class=\"list-group-item col-md-12\">\n" +
-    "                            <div class=\"col-md-9\">\n" +
+    "                            <div class=\"col-md-10\">\n" +
     "                                <select class=\"form-control\" ng-model=\"sw.selLoc\" ng-options=\"loc.name for loc in SWList.locations\">\n" +
     "                                </select>\n" +
     "                            </div>\n" +
-    "                            <div class=\"col-md-3\">\n" +
-    "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLocation(sw)\">Add Location</button>\n" +
+    "                            <div class=\"col-md-2\">\n" +
+    "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLocation(sw)\">\n" +
+    "                                    <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                                </button>\n" +
     "                            </div>\n" +
     "                        </li>\n" +
     "                    </ul>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-6 form-group\">\n" +
+    "                <div class=\"col-md-4 form-group\">\n" +
     "                    <label for=\"{{sw.sid}}_links\">Links (Use it)</label>\n" +
     "                    <ul class=\"list-group\" id=\"{{sw.sid}}_links\">\n" +
     "                        <li class=\"list-group-item\" ng-repeat=\"link in sw.links\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteLink(sw,link)\">Delete</button>\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteLink(sw,link)\">\n" +
+    "                                <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                            </button>\n" +
     "                            <a href=\"{{link.url}}\">{{link.title}}</a>\n" +
     "                        </li>\n" +
     "                        <li class=\"list-group-item col-md-12\">\n" +
@@ -882,7 +892,9 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                                <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" ng-model=\"sw.newLink.url\">\n" +
     "                            </div>\n" +
     "                            <div class=\"col-md-2\">\n" +
-    "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLink(sw)\">Add Link</button>\n" +
+    "                                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLink(sw)\">\n" +
+    "                                    <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                                </button>\n" +
     "                            </div>\n" +
     "                        </li>\n" +
     "                    </ul>\n" +
@@ -892,6 +904,7 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteSW(sw)\">\n" +
     "                        Delete {{sw.title}} software\n" +
     "                    </button>\n" +
+    "                    {{sw.formResponse}}\n" +
     "                </div>\n" +
     "            </form>\n" +
     "        </div>\n" +
@@ -935,11 +948,13 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                <label for=\"det\">Details (Get it)</label>\n" +
     "                <textarea class=\"form-control\" rows=\"2\" id=\"det\" ng-model=\"newSW.details\" ></textarea>\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-6 form-group\">\n" +
+    "            <div class=\"col-md-4 form-group\">\n" +
     "                <label for=\"ver\">Versions</label>\n" +
     "                <ul class=\"list-group\" id=\"ver\">\n" +
     "                    <li class=\"list-group-item\" ng-repeat=\"version in newSW.versions\">\n" +
-    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delNewSWVer(version)\">Delete</button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delNewSWVer(version)\">\n" +
+    "                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                        </button>\n" +
     "                        {{version.version}}\n" +
     "                        <span class=\"fa fa-fw fa-windows\" ng-show=\"version.os == 1\"></span>\n" +
     "                        <span class=\"fa fa-fw fa-apple\" ng-show=\"version.os == 2\"></span>\n" +
@@ -949,39 +964,47 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                        <div class=\"col-md-6\">\n" +
     "                            <input type=\"text\" class=\"form-control\" placeholder=\"Version\" ng-model=\"newSW.newVer.version\">\n" +
     "                        </div>\n" +
-    "                        <div class=\"col-md-3\">\n" +
+    "                        <div class=\"col-md-4\">\n" +
     "                            <select class=\"form-control\" ng-model=\"newSW.newVer.selOS\" ng-options=\"opSys.name for opSys in os\">\n" +
     "                            </select>\n" +
     "                        </div>\n" +
-    "                        <div class=\"col-md-3\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWVer()\">Add Version</button>\n" +
+    "                        <div class=\"col-md-2\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWVer()\">\n" +
+    "                                <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                            </button>\n" +
     "                        </div>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-6 form-group\">\n" +
+    "            <div class=\"col-md-4 form-group\">\n" +
     "                <label for=\"loc\">Locations</label>\n" +
     "                <ul class=\"list-group\" id=\"loc\">\n" +
     "                    <li class=\"list-group-item\" ng-repeat=\"location in newSW.locations\">\n" +
-    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delNewSWLoc(location)\">Delete</button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delNewSWLoc(location)\">\n" +
+    "                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                        </button>\n" +
     "                        {{location.name}}\n" +
     "                    </li>\n" +
     "                    <li class=\"list-group-item col-md-12\">\n" +
-    "                        <div class=\"col-md-9\">\n" +
+    "                        <div class=\"col-md-10\">\n" +
     "                            <select class=\"form-control\" ng-model=\"newSW.selLoc\" ng-options=\"loc.name for loc in SWList.locations\">\n" +
     "                            </select>\n" +
     "                        </div>\n" +
-    "                        <div class=\"col-md-3\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWLoc()\">Add Location</button>\n" +
+    "                        <div class=\"col-md-2\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWLoc()\">\n" +
+    "                                <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                            </button>\n" +
     "                        </div>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-6 form-group\">\n" +
+    "            <div class=\"col-md-4 form-group\">\n" +
     "                <label for=\"links\">Links (Use it)</label>\n" +
     "                <ul class=\"list-group\" id=\"links\">\n" +
     "                    <li class=\"list-group-item\" ng-repeat=\"link in newSW.links\">\n" +
-    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delNewSWLink(link)\">Delete</button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"delNewSWLink(link)\">\n" +
+    "                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                        </button>\n" +
     "                        <a href=\"{{link.url}}\">{{link.title}}</a>\n" +
     "                    </li>\n" +
     "                    <li class=\"list-group-item col-md-12\">\n" +
@@ -992,13 +1015,16 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                            <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" ng-model=\"newSW.newLink.url\">\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-2\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWLink()\">Add Link</button>\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWLink()\">\n" +
+    "                                <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                            </button>\n" +
     "                        </div>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 text-center\">\n" +
     "                <button type=\"submit\" class=\"btn btn-primary\">Create Software Record</button>\n" +
+    "                {{newSW.formResponse}}\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +

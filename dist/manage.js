@@ -1148,38 +1148,60 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     alert("Form error: Please fill out Title field!");
                     return false;
                 }
-                sw.picFile.upload = Upload.upload({
-                    url: appURL + 'processData.php?action=2',
-                    method: 'POST',
-                    fields: {
-                        sw: sw
-                    },
-                    file: sw.picFile,
-                    fileFormDataName: 'editSW' + sw.sid
-                });
-                sw.picFile.upload.then(function(response) {
-                    $timeout(function() {
-                        if ((typeof response.data === 'object') && (response.data !== null)){
-                            $scope.formResponse = "Software has been updated, ";
-                            if (response.data.iconUploaded)
-                                $scope.formResponse += "Icon uploaded.";
-                            else
-                                $scope.formResponse += "Icon has not changed.";
-                        } else {
-                            $scope.formResponse = "Error: Can not update software! " + response.data;
-                        }
-                        console.log(response.data);
+                if (typeof sw.picFile === 'undefined'){
+                    swFactory.postData({action : 21}, sw)
+                        .success(function(data, status, headers, config) {
+                            if ((typeof data === 'object') && (data !== null)){
+                                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse =
+                                    "Software has been updated, Icon has not changed.";
+                            } else {
+                                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse =
+                                    "Error: Can not update software! " + data;
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.formResponse = "Error: Could not delete software! " + data;
+                            console.log(data);
+                        });
+                } else {
+                    sw.picFile.upload = Upload.upload({
+                        url: appURL + 'processData.php?action=2',
+                        method: 'POST',
+                        fields: {
+                            sw: sw
+                        },
+                        file: sw.picFile,
+                        fileFormDataName: 'editSW' + sw.sid
                     });
-                }, function(response) {
-                    if (response.status > 0)
-                        $scope.formResponse = response.status + ': ' + response.data;
-                });
-                sw.picFile.upload.progress(function(evt) {
-                    // Math.min is to fix IE which reports 200% sometimes
-                    sw.picFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                });
+                    sw.picFile.upload.then(function(response) {
+                        $timeout(function() {
+                            if ((typeof response.data === 'object') && (response.data !== null)){
+                                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse = "Software has been updated, ";
+                                if (response.data.iconUploaded)
+                                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse += "Icon uploaded.";
+                                else
+                                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse += "Icon has not changed.";
+                            } else {
+                                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse = "Error: Can not update software! " + response.data;
+                            }
+                            console.log(response.data);
+                        });
+                    }, function(response) {
+                        if (response.status > 0)
+                            $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse = response.status + ': ' + response.data;
+                    });
+                    sw.picFile.upload.progress(function(evt) {
+                        // Math.min is to fix IE which reports 200% sometimes
+                        sw.picFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    });
+                }
             };
             $scope.createSW = function(){
+                if (typeof $scope.newSW.picFile === 'undefined'){
+                    alert("Please select icon file (.png)!");
+                    return false;
+                }
                 $scope.newSW.picFile.upload = Upload.upload({
                     url: appURL + 'processData.php?action=3',
                     method: 'POST',
@@ -1207,15 +1229,15 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             newSW.newVer.selOS = $scope.os[0];
                             newSW.newLink = {};
                             $scope.SWList.software.push(newSW);
-                            $scope.formResponse = "Software has been added.";
+                            $scope.newSW.formResponse = "Software has been added.";
                         } else {
-                            $scope.formResponse = "Error: Can not add software! " + response.data;
+                            $scope.newSW.formResponse = "Error: Can not add software! " + response.data;
                         }
                         console.dir(response.data);
                     });
                 }, function(response) {
                     if (response.status > 0)
-                        $scope.formResponse = response.status + ': ' + response.data;
+                        $scope.newSW.formResponse = response.status + ': ' + response.data;
                 });
                 $scope.newSW.picFile.upload.progress(function(evt) {
                     // Math.min is to fix IE which reports 200% sometimes
