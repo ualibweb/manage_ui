@@ -1070,6 +1070,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 {name:'Apple Mac', value:2},
                 {name:'Unix/Lunix', value:3}
             ];
+            $scope.appURL = appURL;
 
             $scope.newSW = {};
             $scope.newSW.versions = [];
@@ -1162,7 +1163,6 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     });
             };
             $scope.createSW = function(){
-                console.dir($scope.newSW);
                 $scope.newSW.picFile.upload = Upload.upload({
                     url: appURL + 'processData.php?action=3',
                     method: 'POST',
@@ -1182,10 +1182,15 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             var newSW = {};
                             newSW = angular.copy($scope.newSW);
                             newSW.sid = response.data.id;
+                            newSW.versions = angular.copy(response.data.versions);
+                            newSW.links = angular.copy(response.data.links);
                             newSW.locations = angular.copy(response.data.locations);
                             newSW.show = false;
                             newSW.class = "";
                             newSW.selLoc = response.data.locations[0];
+                            newSW.newVer = {};
+                            newSW.newVer.selOS = $scope.os[0];
+                            newSW.newLink = {};
                             $scope.SWList.software.push(newSW);
                             $scope.formResponse = "Software has been added.";
                         } else {

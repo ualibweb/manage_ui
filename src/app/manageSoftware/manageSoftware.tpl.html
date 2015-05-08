@@ -40,7 +40,8 @@
             <h4>
                 <span class="fa fa-fw fa-caret-right" ng-hide="sw.show"></span>
                 <span class="fa fa-fw fa-caret-down" ng-show="sw.show"></span>
-                <img ng-show="sw.picFile[0] != null" ngf-src="sw.picFile[0]" class="thumb">
+                <img ng-hide="sw.picFile[0] != null" src="{{appURL}}icons/{{sw.sid}}.png" class="thumb" width="64px" height="64px">
+                <img ng-show="sw.picFile[0] != null" ngf-src="sw.picFile[0]" class="thumb" width="64px" height="64px">
                 {{sw.title}}
             </h4>
         </div>
@@ -153,11 +154,12 @@
         <div class="col-md-12">
             <div class="col-md-3 form-group">
                 <label for="up">Upload Icon</label>
+                <img ng-show="newSW.picFile[0] != null" ngf-src="newSW.picFile[0]" class="thumb" width="64px" height="64px">
                 <input type="file" ngf-select="" ng-model="newSW.picFile" accept="image/*"
                        ngf-change="generateThumb(newSW.picFile[0], $files)" id="up">
-                    <span class="progress" ng-show="newSW.picFile[0].progress >= 0">
-                        <div class="ng-binding" style="width:{{newSW.picFile[0].progress}}%" ng-bind="newSW.picFile[0].progress + '%'"></div>
-                    </span>
+                <span class="progress" ng-show="newSW.picFile[0].progress >= 0">
+                    <div class="ng-binding" style="width:{{newSW.picFile[0].progress}}%" ng-bind="newSW.picFile[0].progress + '%'"></div>
+                </span>
             </div>
             <div class="col-md-6 form-group">
                 <label for="title">Title</label>
