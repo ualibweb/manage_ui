@@ -23,6 +23,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.newSW.versions = [];
             $scope.newSW.links = [];
             $scope.newSW.locations = [];
+            $scope.newSW.categories = [];
             $scope.newSW.newVer = {};
             $scope.newSW.newVer.selOS = $scope.os[0];
             $scope.newSW.newLink = {};
@@ -40,11 +41,13 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         data.software[i].show = false;
                         data.software[i].class = "";
                         data.software[i].selLoc = data.locations[0];
+                        data.software[i].selCat = data.categories[0];
                         data.software[i].newVer = {};
                         data.software[i].newVer.selOS = $scope.os[0];
                         data.software[i].newLink = {};
                     }
                     $scope.newSW.selLoc = data.locations[0];
+                    $scope.newSW.selCat = data.categories[0];
                     $scope.SWList = data;
                 })
                 .error(function(data, status, headers, config) {
@@ -172,9 +175,11 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             newSW.versions = angular.copy(response.data.versions);
                             newSW.links = angular.copy(response.data.links);
                             newSW.locations = angular.copy(response.data.locations);
+                            newSW.categories = angular.copy(response.data.categories);
                             newSW.show = false;
                             newSW.class = "";
                             newSW.selLoc = response.data.locations[0];
+                            newSW.selCat = response.data.categories[0];
                             newSW.newVer = {};
                             newSW.newVer.selOS = $scope.os[0];
                             newSW.newLink = {};
@@ -205,6 +210,8 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     return "Form error: Please add a version!";
                 if (sw.locations.length < 1)
                     return "Form error: Please add a location!";
+                if (sw.categories.length < 1)
+                    return "Form error: Please add a category!";
                 if (sw.links.length < 1)
                     return "Form error: Please add a link!";
 
@@ -253,6 +260,25 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     $scope.SWList.software[$scope.SWList.software.indexOf(sw)].locations.indexOf(location),1
                 );
             };
+            $scope.addCategory = function(sw){
+                var newCat = {};
+                newCat.id = -1;
+                newCat.cid = sw.selCat.cid;
+                newCat.name = sw.selCat.name;
+                var isPresent = false;
+                for (var i = 0; i < sw.categories.length; i++)
+                    if (sw.categories[i].cid == newCat.cid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].categories.push(newCat);
+            };
+            $scope.deleteCategory = function(sw, category){
+                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].categories.splice(
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].categories.indexOf(category),1
+                );
+            };
             $scope.addLink = function(sw){
                 if (sw.newLink.title.length > 0 && sw.newLink.url.length > 11){
                     var newLink = {};
@@ -282,6 +308,9 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             };
             $scope.delNewSWLoc = function(location){
                 $scope.newSW.locations.splice($scope.newSW.locations.indexOf(location), 1);
+            };
+            $scope.delNewSWCat = function(category){
+                $scope.newSW.categories.splice($scope.newSW.categories.indexOf(category), 1);
             };
             $scope.delNewSWLink = function(link){
                 $scope.newSW.links.splice($scope.newSW.links.indexOf(link), 1);
@@ -314,6 +343,19 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     }
                 if (!isPresent)
                     $scope.newSW.locations.push(newLocation);
+            };
+            $scope.addNewSWCat = function(){
+                var newCategory = {};
+                newCategory.cid = $scope.newSW.selCat.cid;
+                newCategory.name = $scope.newSW.selCat.name;
+                var isPresent = false;
+                for (var i = 0; i < $scope.newSW.categories.length; i++)
+                    if ($scope.newSW.categories[i].cid == newCategory.cid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.newSW.categories.push(newCategory);
             };
             $scope.addNewSWLink = function(){
                 if ($scope.newSW.newLink.title.length > 0 && $scope.newSW.newLink.url.length > 11){
