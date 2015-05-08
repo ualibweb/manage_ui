@@ -822,11 +822,11 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                <div class=\"col-md-12\">\n" +
     "                    <div class=\"col-md-6 form-group\">\n" +
     "                        <label for=\"{{sw.sid}}_descr\">Description</label>\n" +
-    "                        <textarea class=\"form-control\" rows=\"2\" id=\"{{sw.sid}}_descr\" ng-model=\"sw.description\" ></textarea>\n" +
+    "                        <textarea class=\"form-control\" rows=\"3\" id=\"{{sw.sid}}_descr\" ng-model=\"sw.description\" ></textarea>\n" +
     "                    </div>\n" +
     "                    <div class=\"col-md-6 form-group\">\n" +
     "                        <label for=\"{{sw.sid}}_det\">Details (Get it)</label>\n" +
-    "                        <textarea class=\"form-control\" rows=\"2\" id=\"{{sw.sid}}_det\" ng-model=\"sw.details\" ></textarea>\n" +
+    "                        <textarea class=\"form-control\" rows=\"3\" id=\"{{sw.sid}}_det\" ng-model=\"sw.details\" ></textarea>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-12\">\n" +
@@ -972,11 +972,13 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "        <div class=\"col-md-12\">\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"descr\">Description</label>\n" +
-    "                <textarea class=\"form-control\" rows=\"2\" id=\"descr\" ng-model=\"newSW.description\" ></textarea>\n" +
+    "                <textarea class=\"form-control\" rows=\"3\" id=\"descr\" ng-model=\"newSW.description\" ></textarea>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"det\">Details (Get it)</label>\n" +
-    "                <textarea class=\"form-control\" rows=\"2\" id=\"det\" ng-model=\"newSW.details\" ></textarea>\n" +
+    "                <textarea class=\"form-control\" rows=\"3\" id=\"det\" ng-model=\"newSW.details\" >\n" +
+    "\n" +
+    "                </textarea>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-12\">\n" +

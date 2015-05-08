@@ -1080,6 +1080,14 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.newSW.newVer = {};
             $scope.newSW.newVer.selOS = $scope.os[0];
             $scope.newSW.newLink = {};
+            $scope.newSW.newLink.title = "LibGuide";
+            $scope.newSW.newLink.url = "http://guides.lib.ua.edu/";
+            $scope.newSW.details = '<ul><li><strong>At home:</strong> Students and faculty/staff:' +
+                '<a href="http://oit.ua.edu/oit/services/software-licensing/microsoft-office-for-students#eligibility">' +
+                'Microsoft Office for Personal Use</a></li><li>' +
+                '<strong>On campus:</strong> University-owned machines:' +
+                '<a href="http://oit.ua.edu/oit/services/software-licensing/microsoft-campus-agreement#eligibility">' +
+                'Microsoft Campus Agreement</a></li></ul>';
 
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
