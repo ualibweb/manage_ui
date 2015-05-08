@@ -37,13 +37,19 @@
         | startFrom:(currentPage-1)*perPage | limitTo:perPage"
          ng-class="{sdOpen: sw.show, sdOver: sw.sid == mOver}" ng-mouseover="setOver(sw)">
         <div class="col-md-12" ng-click="toggleSW(sw)">
-            <h4>
+            <div class="col-md-1">
                 <span class="fa fa-fw fa-caret-right" ng-hide="sw.show"></span>
                 <span class="fa fa-fw fa-caret-down" ng-show="sw.show"></span>
+            </div>
+            <div class="col-md-2">
                 <img ng-hide="sw.picFile[0] != null" src="{{appURL}}icons/{{sw.sid}}.png" class="thumb" width="64px" height="64px">
                 <img ng-show="sw.picFile[0] != null" ngf-src="sw.picFile[0]" class="thumb" width="64px" height="64px">
-                {{sw.title}}
-            </h4>
+            </div>
+            <div class="col-md-9">
+                <h4>
+                    {{sw.title}}
+                </h4>
+            </div>
         </div>
         <div class="col-md-12" ng-show="sw.show">
             <form ng-submit="updateSW(sw)">
@@ -154,17 +160,21 @@
         <div class="col-md-12">
             <div class="col-md-3 form-group">
                 <label for="up">Upload Icon</label>
-                <img ng-show="newSW.picFile[0] != null" ngf-src="newSW.picFile[0]" class="thumb" width="64px" height="64px">
                 <input type="file" ngf-select="" ng-model="newSW.picFile" accept="image/*"
                        ngf-change="generateThumb(newSW.picFile[0], $files)" id="up">
-                <span class="progress" ng-show="newSW.picFile[0].progress >= 0">
-                    <div class="ng-binding" style="width:{{newSW.picFile[0].progress}}%" ng-bind="newSW.picFile[0].progress + '%'"></div>
-                </span>
             </div>
             <div class="col-md-6 form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" placeholder="Software Title" ng-model="newSW.title"
                        id="title">
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="icon">Icon</label>
+                <span class="progress" ng-show="newSW.picFile[0].progress >= 0">
+                    <div class="ng-binding" style="width:{{newSW.picFile[0].progress}}%" ng-bind="newSW.picFile[0].progress + '%'"></div>
+                </span>
+                <img ng-show="newSW.picFile[0] != null" ngf-src="newSW.picFile[0]" class="thumb" width="64px" height="64px"
+                       id="icon">
             </div>
             <div class="col-md-6 form-group">
                 <label for="descr">Description</label>

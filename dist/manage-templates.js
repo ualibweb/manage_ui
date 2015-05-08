@@ -784,13 +784,19 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
     "         ng-class=\"{sdOpen: sw.show, sdOver: sw.sid == mOver}\" ng-mouseover=\"setOver(sw)\">\n" +
     "        <div class=\"col-md-12\" ng-click=\"toggleSW(sw)\">\n" +
-    "            <h4>\n" +
+    "            <div class=\"col-md-1\">\n" +
     "                <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"sw.show\"></span>\n" +
     "                <span class=\"fa fa-fw fa-caret-down\" ng-show=\"sw.show\"></span>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2\">\n" +
     "                <img ng-hide=\"sw.picFile[0] != null\" src=\"{{appURL}}icons/{{sw.sid}}.png\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
     "                <img ng-show=\"sw.picFile[0] != null\" ngf-src=\"sw.picFile[0]\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
-    "                {{sw.title}}\n" +
-    "            </h4>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-9\">\n" +
+    "                <h4>\n" +
+    "                    {{sw.title}}\n" +
+    "                </h4>\n" +
+    "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-12\" ng-show=\"sw.show\">\n" +
     "            <form ng-submit=\"updateSW(sw)\">\n" +
@@ -901,17 +907,21 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "        <div class=\"col-md-12\">\n" +
     "            <div class=\"col-md-3 form-group\">\n" +
     "                <label for=\"up\">Upload Icon</label>\n" +
-    "                <img ng-show=\"newSW.picFile[0] != null\" ngf-src=\"newSW.picFile[0]\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
     "                <input type=\"file\" ngf-select=\"\" ng-model=\"newSW.picFile\" accept=\"image/*\"\n" +
     "                       ngf-change=\"generateThumb(newSW.picFile[0], $files)\" id=\"up\">\n" +
-    "                <span class=\"progress\" ng-show=\"newSW.picFile[0].progress >= 0\">\n" +
-    "                    <div class=\"ng-binding\" style=\"width:{{newSW.picFile[0].progress}}%\" ng-bind=\"newSW.picFile[0].progress + '%'\"></div>\n" +
-    "                </span>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"title\">Title</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Software Title\" ng-model=\"newSW.title\"\n" +
     "                       id=\"title\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-3 form-group\">\n" +
+    "                <label for=\"icon\">Icon</label>\n" +
+    "                <span class=\"progress\" ng-show=\"newSW.picFile[0].progress >= 0\">\n" +
+    "                    <div class=\"ng-binding\" style=\"width:{{newSW.picFile[0].progress}}%\" ng-bind=\"newSW.picFile[0].progress + '%'\"></div>\n" +
+    "                </span>\n" +
+    "                <img ng-show=\"newSW.picFile[0] != null\" ngf-src=\"newSW.picFile[0]\" class=\"thumb\" width=\"64px\" height=\"64px\"\n" +
+    "                       id=\"icon\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"descr\">Description</label>\n" +
