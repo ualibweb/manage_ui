@@ -1073,8 +1073,11 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         data.software[i].selLoc = data.locations[0];
                         data.software[i].selCat = data.categories[0];
                         data.software[i].newVer = {};
+                        data.software[i].newVer.version = '';
                         data.software[i].newVer.selOS = $scope.os[0];
                         data.software[i].newLink = {};
+                        data.software[i].newLink.title = '';
+                        data.software[i].newLink.url = '';
                     }
                     $scope.newSW.selLoc = data.locations[0];
                     $scope.newSW.selCat = data.categories[0];
@@ -1141,6 +1144,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.newSW.locations = [];
             $scope.newSW.categories = [];
             $scope.newSW.newVer = {};
+            $scope.newSW.newVer.version = '';
             $scope.newSW.newVer.selOS = $scope.os[0];
             $scope.newSW.newLink = {};
             $scope.newSW.newLink.title = "LibGuide";
@@ -1283,8 +1287,11 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             newSW.selLoc = response.data.locations[0];
                             newSW.selCat = response.data.categories[0];
                             newSW.newVer = {};
+                            newSW.newVer.version = '';
                             newSW.newVer.selOS = $scope.os[0];
                             newSW.newLink = {};
+                            newSW.newLink.title = '';
+                            newSW.newLink.url = '';
                             $scope.SWList.software.push(newSW);
                             $scope.newSW.formResponse = "Software has been added.";
                         } else {
