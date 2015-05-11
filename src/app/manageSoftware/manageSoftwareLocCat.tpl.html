@@ -26,7 +26,12 @@
                     {{location.lid}}
                 </td>
                 <td>
-                    {{location.name}}
+                    <span ng-hide="selLocation == location.lid">
+                        {{location.name}}
+                    </span>
+                    <span ng-show="selLocation == location.lid">
+                        <input type="text" class="form-control" placeholder="Location Name" ng-model="location.name">
+                    </span>
                 </td>
                 <td>
                     <div ng-show="selLocation == location.lid">
@@ -69,7 +74,12 @@
                     {{category.cid}}
                 </td>
                 <td>
-                    {{category.name}}
+                    <span ng-hide="selCategory == category.cid">
+                        {{category.name}}
+                    </span>
+                    <span ng-show="selCategory == category.cid">
+                        <input type="text" class="form-control" placeholder="Category Name" ng-model="category.name">
+                    </span>
                 </td>
                 <td>
                     <div ng-show="selCategory == category.cid">
