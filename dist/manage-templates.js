@@ -806,7 +806,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                        <span class=\"fa fa-fw fa-caret-down\" ng-show=\"sw.show\"></span>\n" +
     "                    </td>\n" +
     "                    <td style=\"width:64px\">\n" +
-    "                        <img ng-hide=\"sw.picFile[0] != null\" src=\"{{appURL}}icons/{{sw.sid}}.png\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
+    "                        <img ng-hide=\"sw.picFile[0] != null\" src=\"{{sw.icon}}\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
     "                        <img ng-show=\"sw.picFile[0] != null\" ngf-src=\"sw.picFile[0]\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
     "                    </td>\n" +
     "                    <td>\n" +
