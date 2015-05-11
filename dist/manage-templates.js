@@ -1118,9 +1118,9 @@ angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templa
     "        <table class=\"table table-hover\">\n" +
     "            <thead>\n" +
     "            <tr>\n" +
-    "                <td>ID</td>\n" +
-    "                <td>Name</td>\n" +
-    "                <td>Action</td>\n" +
+    "                <th>ID</th>\n" +
+    "                <th>Name</th>\n" +
+    "                <th>Action</th>\n" +
     "            </tr>\n" +
     "            </thead>\n" +
     "            <tbody>\n" +
@@ -1166,9 +1166,9 @@ angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templa
     "        <table class=\"table table-hover\">\n" +
     "            <thead>\n" +
     "            <tr>\n" +
-    "                <td>ID</td>\n" +
-    "                <td>Name</td>\n" +
-    "                <td>Action</td>\n" +
+    "                <th>ID</th>\n" +
+    "                <th>Name</th>\n" +
+    "                <th>Action</th>\n" +
     "            </tr>\n" +
     "            </thead>\n" +
     "            <tbody>\n" +
