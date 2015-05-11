@@ -1052,46 +1052,15 @@ angular.module('manage.manageOneSearch', [])
         };
     })
 angular.module('manage.manageSoftware', ['ngFileUpload'])
-    .controller('manageSWCtrl', ['$scope', '$timeout', 'Upload', 'tokenFactory', 'swFactory', 'SOFTWARE_URL',
-        function manageSWCtrl($scope, $timeout, Upload, tokenFactory, swFactory, appURL){
+    .controller('manageSWCtrl', ['$scope', 'tokenFactory', 'swFactory',
+        function manageSWCtrl($scope, tokenFactory, swFactory){
             $scope.SWList = {};
-            $scope.titleFilter = '';
-            $scope.descrFilter = '';
-            $scope.locationFilter = '';
-            $scope.sortMode = 0;
-            $scope.sortModes = [
-                {by:'title', reverse:false},
-                {by:'location', reverse:false}
-            ];
-            $scope.sortButton = $scope.sortMode;
-            $scope.mOver = 0;
+            $scope.newSW = {};
             $scope.os = [
                 {name:'MS Windows', value:1},
                 {name:'Apple Mac', value:2},
                 {name:'Unix/Lunix', value:3}
             ];
-            $scope.appURL = appURL;
-
-            $scope.newSW = {};
-            $scope.newSW.versions = [];
-            $scope.newSW.links = [];
-            $scope.newSW.locations = [];
-            $scope.newSW.categories = [];
-            $scope.newSW.newVer = {};
-            $scope.newSW.newVer.selOS = $scope.os[0];
-            $scope.newSW.newLink = {};
-            $scope.newSW.newLink.title = "LibGuide";
-            $scope.newSW.newLink.url = "http://guides.lib.ua.edu/";
-            $scope.newSW.details = '<ul><li><strong>At home:</strong> Students and faculty/staff:' +
-                '<a href="http://oit.ua.edu/oit/services/software-licensing/microsoft-office-for-students#eligibility">' +
-                'Microsoft Office for Personal Use</a></li><li>' +
-                '<strong>On campus:</strong> University-owned machines:' +
-                '<a href="http://oit.ua.edu/oit/services/software-licensing/microsoft-campus-agreement#eligibility">' +
-                'Microsoft Campus Agreement</a></li></ul>';
-
-            $scope.currentPage = 1;
-            $scope.maxPageSize = 10;
-            $scope.perPage = 20;
 
             tokenFactory("CSRF-libSoftware");
 
@@ -1114,6 +1083,78 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 .error(function(data, status, headers, config) {
                     console.log(data);
                 });
+
+            $scope.tabs = [
+                { name: 'Software List',
+                    number: 0,
+                    active: true
+                },
+                { name: 'Locations and Categories',
+                    number: 1,
+                    active: false
+                }];
+        }])
+
+    .directive('manageSoftwareMain', function($animate) {
+        return {
+            restrict: 'A',
+            scope: {},
+            controller: 'manageSWCtrl',
+            link: function(scope, elm, attrs){
+                //Preload the spinner element
+                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
+                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
+                var titleElm = elm.find('h2');
+                //Enter the spinner animation, appending it to the title element
+                $animate.enter(spinner, titleElm[0]);
+
+                var loadingWatcher = scope.$watch(
+                    'SWList.totalTime',
+                    function(newVal, oldVal){
+                        if (newVal != oldVal){
+                            $animate.leave(spinner);
+                            console.log("Software loaded");
+                        }
+                    },
+                    true
+                );
+            },
+            templateUrl: 'manageSoftware/manageSoftware.tpl.html'
+        };
+    })
+
+    .controller('manageSWListCtrl', ['$scope', '$timeout', 'Upload', 'swFactory', 'SOFTWARE_URL',
+        function manageSWListCtrl($scope, $timeout, Upload, swFactory, appURL){
+            $scope.titleFilter = '';
+            $scope.descrFilter = '';
+            $scope.sortMode = 0;
+            $scope.sortModes = [
+                {by:'title', reverse:false},
+                {by:'location', reverse:false}
+            ];
+            $scope.sortButton = $scope.sortMode;
+            $scope.mOver = 0;
+            $scope.appURL = appURL;
+
+            $scope.newSW.versions = [];
+            $scope.newSW.links = [];
+            $scope.newSW.locations = [];
+            $scope.newSW.categories = [];
+            $scope.newSW.newVer = {};
+            $scope.newSW.newVer.selOS = $scope.os[0];
+            $scope.newSW.newLink = {};
+            $scope.newSW.newLink.title = "LibGuide";
+            $scope.newSW.newLink.url = "http://guides.lib.ua.edu/";
+            $scope.newSW.details = '<ul><li><strong>At home:</strong> Students and faculty/staff:' +
+                '<a href="http://oit.ua.edu/oit/services/software-licensing/microsoft-office-for-students#eligibility">' +
+                'Microsoft Office for Personal Use</a></li><li>' +
+                '<strong>On campus:</strong> University-owned machines:' +
+                '<a href="http://oit.ua.edu/oit/services/software-licensing/microsoft-campus-agreement#eligibility">' +
+                'Microsoft Campus Agreement</a></li></ul>';
+
+            $scope.currentPage = 1;
+            $scope.maxPageSize = 10;
+            $scope.perPage = 20;
 
             $scope.startTitle = function(actual, expected){
                 if (!expected)
@@ -1341,7 +1382,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 );
             };
             $scope.addLink = function(sw){
-                if (sw.newLink.title.length > 0 && sw.newLink.url.length > 11){
+                if (sw.newLink.title.length > 0 && sw.newLink.url.length > 1){
                     var newLink = {};
                     newLink.linkid = -1;
                     newLink.sid = sw.sid;
@@ -1453,31 +1494,14 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
 
     }])
 
-    .directive('softwareManageList', function($animate) {
+    .directive('softwareManageList', function() {
         return {
             restrict: 'A',
-            scope: {},
-            controller: 'manageSWCtrl',
+            controller: 'manageSWListCtrl',
             link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
 
-                var loadingWatcher = scope.$watch(
-                    'SWList.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("Software loaded");
-                        }
-                    },
-                    true
-                );
             },
-            templateUrl: 'manageSoftware/manageSoftware.tpl.html'
+            templateUrl: 'manageSoftware/manageSoftwareList.tpl.html'
         };
     })
     .filter('startFrom', function() {
@@ -1487,6 +1511,137 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 return input;
             return input.slice(start);
         }
+    })
+    .controller('manageSWLocCatCtrl', ['$scope', '$timeout', 'swFactory',
+        function manageSWLocCatCtrl($scope, $timeout, swFactory){
+            $scope.selLocation = -1;
+            $scope.selCategory = -1;
+            $scope.newLocation = '';
+            $scope.newCategory = '';
+            $scope.locResponse = '';
+            $scope.catResponse = '';
+
+
+            $scope.selectLocation = function(location){
+                $scope.selLocation = location.lid;
+            };
+            $scope.selectCategory = function(category){
+                $scope.selCategory = category.cid;
+            };
+            $scope.addLocation = function(){
+                swFactory.postData({action : 4}, {name: $scope.newLocation})
+                    .success(function(data, status, headers, config) {
+                        if ((typeof data === 'object') && (data !== null)){
+                            var newLoc = {};
+                            newLoc.lid = data.id;
+                            newLoc.name = $scope.newLocation;
+                            $scope.SWList.locations.push(newLoc);
+                            $scope.locResponse = "Location has been added!";
+                        } else {
+                            $scope.locResponse = "Error: Can not add location! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.locResponse = "Error: Could not add location! " + data;
+                        console.log(data);
+                    });
+            };
+            $scope.deleteLocation = function(location){
+                if (confirm("Delete " + location.name  + " permanently?") == true){
+                    swFactory.postData({action : 5}, location)
+                        .success(function(data, status, headers, config) {
+                            if (data == 1){
+                                $scope.SWList.locations.splice($scope.SWList.locations.indexOf(location), 1);
+                                $scope.locResponse = "Location has been deleted!";
+                            } else {
+                                $scope.locResponse = "Error: Can not delete location! " + data;
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.locResponse = "Error: Could not delete location! " + data;
+                            console.log(data);
+                        });
+                }
+            };
+            $scope.editLocation = function(location){
+                swFactory.postData({action : 6}, location)
+                    .success(function(data, status, headers, config) {
+                        if (data == 1){
+                            $scope.locResponse = "Location name has been updated!";
+                        } else {
+                            $scope.locResponse = "Error: Can not update location! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.locResponse = "Error: Could not update location! " + data;
+                        console.log(data);
+                    });
+            };
+            $scope.addCategory = function(){
+                swFactory.postData({action : 7}, {name: $scope.newCategory})
+                    .success(function(data, status, headers, config) {
+                        if ((typeof data === 'object') && (data !== null)){
+                            var newCat = {};
+                            newCat.cid = data.id;
+                            newCat.name = $scope.newCategory;
+                            $scope.SWList.categories.push(newCat);
+                            $scope.catResponse = "Category has been added!";
+                        } else {
+                            $scope.catResponse = "Error: Can not add category! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.catResponse = "Error: Could not add category! " + data;
+                        console.log(data);
+                    });
+            };
+            $scope.deleteCategory = function(category){
+                if (confirm("Delete " + category.name  + " permanently?") == true){
+                    swFactory.postData({action : 8}, category)
+                        .success(function(data, status, headers, config) {
+                            if (data == 1){
+                                $scope.SWList.categories.splice($scope.SWList.categories.indexOf(category), 1);
+                                $scope.catResponse = "Category has been deleted!";
+                            } else {
+                                $scope.catResponse = "Error: Can not delete category! " + data;
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.catResponse = "Error: Could not delete category! " + data;
+                            console.log(data);
+                        });
+                }
+            };
+            $scope.editCategory = function(category){
+                swFactory.postData({action : 9}, category)
+                    .success(function(data, status, headers, config) {
+                        if (data == 1){
+                            $scope.catResponse = "Category name has been updated!";
+                        } else {
+                            $scope.catResponse = "Error: Can not update category! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.catResponse = "Error: Could not update category! " + data;
+                        console.log(data);
+                    });
+            };
+        }])
+    .directive('softwareManageLocCat', function() {
+        return {
+            restrict: 'A',
+            controller: 'manageSWLocCatCtrl',
+            link: function(scope, elm, attrs){
+
+            },
+            templateUrl: 'manageSoftware/manageSoftwareLocCat.tpl.html'
+        };
     })
 
 angular.module('manage.manageUserGroups', [])

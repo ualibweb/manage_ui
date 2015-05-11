@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
+angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
 
 angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
@@ -745,8 +745,25 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
 
 angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageSoftware/manageSoftware.tpl.html",
-    "<h2>Manage Software List</h2>\n" +
+    "<h2>Manage Software</h2>\n" +
     "\n" +
+    "<tabset justified=\"true\">\n" +
+    "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
+    "        <div ng-if=\"tab.number == 0\">\n" +
+    "            <div software-manage-list>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div ng-if=\"tab.number == 1\" >\n" +
+    "            <div software-manage-loc-cat>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </tab>\n" +
+    "</tabset>\n" +
+    "");
+}]);
+
+angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageSoftware/manageSoftwareList.tpl.html",
     "<div>\n" +
     "    <div class=\"row form-inline\">\n" +
     "        <div class=\"form-group\">\n" +
@@ -754,7 +771,6 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "            <div id=\"filterBy\">\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"titleFilter\">\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Description contains\" ng-model=\"descrFilter\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Locations contain\" ng-model=\"locationFilter\">\n" +
     "            </div>\n" +
     "            <label for=\"sortBy\">Sort by</label>\n" +
     "            <div id=\"sortBy\">\n" +
@@ -779,7 +795,6 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "    <div class=\"row\"\n" +
     "         ng-repeat=\"sw in filteredSW = (SWList.software | filter:{title:titleFilter}\n" +
     "                                                        | filter:{description:descrFilter}\n" +
-    "                                                        | filter:{locations:locationFilter}\n" +
     "                                                        | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
     "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
     "         ng-class=\"{sdOpen: sw.show, sdOver: sw.sid == mOver}\" ng-mouseover=\"setOver(sw)\">\n" +
@@ -851,7 +866,8 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                                    </select>\n" +
     "                                </div>\n" +
     "                                <div class=\"col-md-2\">\n" +
-    "                                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addVersion(sw)\">\n" +
+    "                                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addVersion(sw)\"\n" +
+    "                                            ng-disabled=\"sw.newVer.version.length == 0\">\n" +
     "                                        <span class=\"fa fa-fw fa-plus\"></span>\n" +
     "                                    </button>\n" +
     "                                </div>\n" +
@@ -875,7 +891,8 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                                    <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" ng-model=\"sw.newLink.url\">\n" +
     "                                </div>\n" +
     "                                <div class=\"col-md-2\">\n" +
-    "                                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLink(sw)\">\n" +
+    "                                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLink(sw)\"\n" +
+    "                                            ng-disabled=\"sw.newLink.title.length == 0 || sw.newLink.url.length < 2\">\n" +
     "                                        <span class=\"fa fa-fw fa-plus\"></span>\n" +
     "                                    </button>\n" +
     "                                </div>\n" +
@@ -930,11 +947,11 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                    </div>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-12 text-center\">\n" +
-    "                        <button type=\"submit\" class=\"btn btn-primary\">Update information</button>\n" +
-    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteSW(sw)\">\n" +
-    "                            Delete {{sw.title}} software\n" +
-    "                        </button>\n" +
-    "                        {{sw.formResponse}}\n" +
+    "                    <button type=\"submit\" class=\"btn btn-primary\">Update information</button>\n" +
+    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteSW(sw)\">\n" +
+    "                        Delete {{sw.title}} software\n" +
+    "                    </button>\n" +
+    "                    {{sw.formResponse}}\n" +
     "                </div>\n" +
     "            </form>\n" +
     "        </div>\n" +
@@ -1003,7 +1020,8 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                            </select>\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-2\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWVer()\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWVer()\"\n" +
+    "                                    ng-disabled=\"newSW.newVer.version.length == 0\">\n" +
     "                                <span class=\"fa fa-fw fa-plus\"></span>\n" +
     "                            </button>\n" +
     "                        </div>\n" +
@@ -1027,7 +1045,8 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "                            <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" ng-model=\"newSW.newLink.url\">\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-2\">\n" +
-    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWLink()\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addNewSWLink()\"\n" +
+    "                                    ng-disabled=\"newSW.newLink.title.length == 0 || newSW.newLink.url.length < 2\">\n" +
     "                                <span class=\"fa fa-fw fa-plus\"></span>\n" +
     "                            </button>\n" +
     "                        </div>\n" +
@@ -1088,6 +1107,100 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "    </div>\n" +
     "</form>\n" +
     "\n" +
+    "");
+}]);
+
+angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageSoftware/manageSoftwareLocCat.tpl.html",
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-6\">\n" +
+    "        <h3>Locations</h3>\n" +
+    "        <table class=\"table table-hover\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <td>ID</td>\n" +
+    "                <td>Name</td>\n" +
+    "                <td>Action</td>\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr>\n" +
+    "                <div class=\"col-md-10\">\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"New Location\" ng-model=\"newLocation\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-2\">\n" +
+    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addLocation()\" ng-disabled=\"newLocation.length == 0\">\n" +
+    "                        <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
+    "                {{locResponse}}\n" +
+    "            </tr>\n" +
+    "            <tr ng-repeat=\"location in SWList.locations\" ng-click=\"selectLocation(location)\">\n" +
+    "                <td>\n" +
+    "                    {{location.lid}}\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    {{location.name}}\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <div ng-show=\"selLocation == location.lid\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"editLocation(location)\">\n" +
+    "                            <span class=\"fa fa-fw fa-edit\"></span>\n" +
+    "                        </button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteLocation(location)\">\n" +
+    "                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                        </button>\n" +
+    "                    </div>\n" +
+    "                </td>\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-6\">\n" +
+    "        <h3>Categories</h3>\n" +
+    "        <table class=\"table table-hover\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <td>ID</td>\n" +
+    "                <td>Name</td>\n" +
+    "                <td>Action</td>\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr>\n" +
+    "                <div class=\"col-md-10\">\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"New Category\" ng-model=\"newCategory\">\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-2\">\n" +
+    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"addCategory()\" ng-disabled=\"newCategory.length == 0\">\n" +
+    "                        <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
+    "                {{catResponse}}\n" +
+    "            </tr>\n" +
+    "            <tr ng-repeat=\"category in SWList.categories\" ng-click=\"selectCategory(category)\">\n" +
+    "                <td>\n" +
+    "                    {{category.cid}}\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    {{category.name}}\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <div ng-show=\"selCategory == category.cid\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"editCategory(category)\">\n" +
+    "                            <span class=\"fa fa-fw fa-edit\"></span>\n" +
+    "                        </button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"deleteCategory(category)\">\n" +
+    "                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                        </button>\n" +
+    "                    </div>\n" +
+    "                </td>\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
     "");
 }]);
 
