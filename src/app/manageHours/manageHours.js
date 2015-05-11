@@ -1,6 +1,6 @@
 angular.module('manage.manageHours', [])
     .constant('HOURS_FROM', [
-        {name:'Closed', value:'-1'},
+        {name:'Closed 24hrs', value:'-1'},
         {name:'Midnight', value:'0'},
         {name:'6:00 am', value:'600'},
         {name:'7:00 am', value:'700'},

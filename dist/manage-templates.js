@@ -544,6 +544,7 @@ angular.module("manageHours/manageLoc.tpl.html", []).run(["$templateCache", func
 
 angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageSem.tpl.html",
+    "<p><strong>*</strong> Set From and To hours to Midnight in order to indicate Open 24 hours.\n" +
     "<table class=\"table table-hover table-condensed\" ng-repeat=\"semData in allowedLibraries.sem\" ng-if=\"$index == selLib.index\">\n" +
     "    <thead>\n" +
     "    <tr>\n" +
@@ -603,7 +604,7 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "        <th scope=\"row\">\n" +
     "            <div class=\"input-group\">\n" +
     "                <input type=\"text\" class=\"form-control\" ng-minlength=\"4\" ng-maxlength=\"32\" ng-model=\"newSemester.name\" placeholder=\"Semester Name\" ng-required /><br>\n" +
-    "                <input type=\"text\" class=\"form-control\" datepicker-popup=\"{{format}}\"\n" +
+    "                <input type=\"text\" class=\"form-control\" datepicker-popup=\"{{format}}\" placeholder=\"Start Date (MM/DD/YYYY)\"\n" +
     "                       ng-model=\"newSemester.startdate\" is-open=\"newSemester.dp\" ng-required=\"true\" close-text=\"Close\"\n" +
     "                       ng-focus=\"onSemFocus($event)\" />\n" +
     "            </div>\n" +
