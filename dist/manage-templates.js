@@ -480,6 +480,8 @@ angular.module("manageHours/manageHours.tpl.html", []).run(["$templateCache", fu
     "</h2>\n" +
     "<h2 class=\"text-center\">{{selLib.name}}</h2>\n" +
     "\n" +
+    "<p><strong>*</strong> Set From and To hours to Midnight in order to indicate Open 24 hours.\n" +
+    "\n" +
     "<tabset justified=\"true\">\n" +
     "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
     "        <div ng-if=\"tab.number == 0\">\n" +
@@ -541,7 +543,6 @@ angular.module("manageHours/manageLoc.tpl.html", []).run(["$templateCache", func
 
 angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageSem.tpl.html",
-    "<p><strong>*</strong> Set From and To hours to Midnight in order to indicate Open 24 hours.\n" +
     "<table class=\"table table-hover table-condensed\" ng-repeat=\"semData in allowedLibraries.sem\" ng-if=\"$index == selLib.index\">\n" +
     "    <thead>\n" +
     "    <tr>\n" +
