@@ -15,22 +15,22 @@
             </div>
             <label for="sortBy">Sort by</label>
             <div id="sortBy">
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
                     Title
                     <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[0].reverse"></span>
                     <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[0].reverse"></span>
                 </button>
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
                     Creation Date
                     <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[1].reverse"></span>
                     <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[1].reverse"></span>
                 </button>
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="2" ng-click="sortBy(2)">
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="2" ng-click="sortBy(2)">
                     Last Modified
                     <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[2].reverse"></span>
                     <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[2].reverse"></span>
                 </button>
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="3" ng-click="sortBy(3)">
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="3" ng-click="sortBy(3)">
                     Temporary Disabled
                     <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[3].reverse"></span>
                     <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[3].reverse"></span>
@@ -177,7 +177,7 @@
                         <label for="{{db.id}}_subjects">Subjects</label>
                         <ul class="list-group" id="{{db.id}}_subjects">
                             <li class="list-group-item" ng-repeat="subject in db.subjects">
-                                <button type="button" class="btn btn-primary" ng-click="deleteSubject(db,subject)">Delete</button>
+                                <button type="button" class="btn btn-danger" ng-click="deleteSubject(db,subject)">Delete</button>
                                 {{subject.subject}} : {{subject.type}}
                             </li>
                             <li class="list-group-item col-md-12">
@@ -190,7 +190,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-primary" ng-click="addSubject(db)">Add Subject</button>
+                                    <button type="button" class="btn btn-success" ng-click="addSubject(db)">Add Subject</button>
                                 </div>
                             </li>
                         </ul>
@@ -199,20 +199,20 @@
                         <label for="{{db.id}}_types">Types</label>
                         <ul class="list-group" id="{{db.id}}_types">
                             <li class="list-group-item" ng-repeat="type in db.types">
-                                <button type="button" class="btn btn-primary" ng-click="deleteType(db,type)">Delete</button>
+                                <button type="button" class="btn btn-danger" ng-click="deleteType(db,type)">Delete</button>
                                 {{type.type}}
                             </li>
                             <li class="list-group-item form-inline">
                                 <select class="form-control" ng-model="db.selType" ng-options="typ.type for typ in DBList.types">
                                 </select>
-                                <button type="button" class="btn btn-primary" ng-click="addType(db)">Add Type</button>
+                                <button type="button" class="btn btn-success" ng-click="addType(db)">Add Type</button>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary">Update information</button>
-                    <button type="button" class="btn btn-primary" ng-click="deleteDB(db)">
+                    <button type="submit" class="btn btn-success">Update information</button>
+                    <button type="button" class="btn btn-danger" ng-click="deleteDB(db)">
                         Delete {{db[0]}} database
                     </button>
                 </div>
@@ -329,7 +329,7 @@
                     <label for="subjects">Subjects</label>
                     <ul class="list-group" id="subjects">
                         <li class="list-group-item" ng-repeat="subject in newDB.subjects">
-                            <button type="button" class="btn btn-primary" ng-click="delSubjNewDB($index)">Delete</button>
+                            <button type="button" class="btn btn-danger" ng-click="delSubjNewDB($index)">Delete</button>
                             {{subject.subject}} : {{subject.type}}
                         </li>
                         <li class="list-group-item col-md-12">
@@ -342,7 +342,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <button type="button" class="btn btn-primary" ng-click="addSubjNewDB()">Add Subject</button>
+                                <button type="button" class="btn btn-success" ng-click="addSubjNewDB()">Add Subject</button>
                             </div>
                         </li>
                     </ul>
@@ -351,19 +351,19 @@
                     <label for="types">Types</label>
                     <ul class="list-group" id="types">
                         <li class="list-group-item" ng-repeat="type in newDB.types">
-                            <button type="button" class="btn btn-primary" ng-click="delTypeNewDB($index)">Delete</button>
+                            <button type="button" class="btn btn-danger" ng-click="delTypeNewDB($index)">Delete</button>
                             {{type.type}}
                         </li>
                         <li class="list-group-item form-inline">
                             <select class="form-control" ng-model="newDB.selType" ng-options="typ.type for typ in DBList.types">
                             </select>
-                            <button type="button" class="btn btn-primary" ng-click="addTypeNewDB()">Add Type</button>
+                            <button type="button" class="btn btn-success" ng-click="addTypeNewDB()">Add Type</button>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Create Database Record</button>
+                <button type="submit" class="btn btn-success">Create Database Record</button>
             </div>
         </div>
     </div>

@@ -5,19 +5,19 @@
         <div class="col-md-5 form-group text-right">
             <label for="sortBy">Sort By</label>
             <div id="sortBy">
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'first'"
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="'first'"
                         ng-click="sortMode='firstname'">
                     First Name
                 </button>
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'last'"
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="'last'"
                         ng-click="sortMode='lastname'">
                     Last Name
                 </button>
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'title'"
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="'title'"
                         ng-click="sortMode='title'">
                     Title
                 </button>
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="'dept'"
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="'dept'"
                         ng-click="sortMode='department'">
                     Department
                 </button>
@@ -99,10 +99,10 @@
                            id="{{person.id}}_div">
                 </div>
                 <div class="col-md-6 text-center">
-                    <button type="button" class="btn btn-primary" ng-click="updatePerson(person)">Update information</button>
+                    <button type="button" class="btn btn-success" ng-click="updatePerson(person)">Update information</button>
                 </div>
                 <div class="col-md-6 text-center">
-                    <button type="button" class="btn btn-primary" ng-click="deletePerson(person)">
+                    <button type="button" class="btn btn-danger" ng-click="deletePerson(person)">
                         Delete {{person.firstname}} {{person.lastname}} record
                     </button>
                 </div>
@@ -111,7 +111,7 @@
                     <dd>
                         <ul class="list-unstyled">
                             <li  ng-repeat="subject in person.subjects">
-                                <button type="button" class="btn btn-primary" ng-click="deleteSubject(person, subject.id, $index)">
+                                <button type="button" class="btn btn-success" ng-click="deleteSubject(person, subject.id, $index)">
                                     Delete
                                 </button>
                                 <a href="{{subject.link}}">{{subject.subject}}</a>
@@ -120,7 +120,7 @@
                         <form class="form-inline">
                             <select class="form-control" ng-model="person.selSubj" ng-options="sub.subject for sub in Directory.subjects">
                             </select>
-                            <button type="button" class="btn btn-primary" ng-click="addSubject(person)">Assign Subject</button>
+                            <button type="button" class="btn btn-danger" ng-click="addSubject(person)">Assign Subject</button>
                             <p>{{person.subjResponse}}</p>
                         </form>
                     </dd>
@@ -194,7 +194,7 @@
         </div>
         <div class="col-md-2 form-group text-right">
             <label for="addButton">&nbsp</label><br>
-            <button type="submit" class="btn btn-primary" ng-click="addPerson()" id="addButton">Create New Record</button>
+            <button type="submit" class="btn btn-success" ng-click="addPerson()" id="addButton">Create New Record</button>
         </div>
     </div>
     <p ng-model="formResponse">{{formResponse}}</p>

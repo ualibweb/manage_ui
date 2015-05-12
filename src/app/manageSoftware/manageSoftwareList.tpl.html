@@ -8,12 +8,12 @@
             </div>
             <label for="sortBy">Sort by</label>
             <div id="sortBy">
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
                     Title
                     <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[0].reverse"></span>
                     <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[0].reverse"></span>
                 </button>
-                <button type="button" class="btn btn-primary" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
                     Location
                     <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[1].reverse"></span>
                     <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[1].reverse"></span>
@@ -83,7 +83,7 @@
                         <label for="{{sw.sid}}_ver">Versions</label>
                         <ul class="list-group" id="{{sw.sid}}_ver">
                             <li class="list-group-item" ng-repeat="version in sw.versions">
-                                <button type="button" class="btn btn-primary" ng-click="deleteVersion(sw,version)">
+                                <button type="button" class="btn btn-danger" ng-click="deleteVersion(sw,version)">
                                     <span class="fa fa-fw fa-close"></span>
                                 </button>
                                 {{version.version}}
@@ -100,7 +100,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-primary" ng-click="addVersion(sw)"
+                                    <button type="button" class="btn btn-success" ng-click="addVersion(sw)"
                                             ng-disabled="sw.newVer.version.length == 0">
                                         <span class="fa fa-fw fa-plus"></span>
                                     </button>
@@ -112,7 +112,7 @@
                         <label for="{{sw.sid}}_links">Links (Use it)</label>
                         <ul class="list-group" id="{{sw.sid}}_links">
                             <li class="list-group-item" ng-repeat="link in sw.links">
-                                <button type="button" class="btn btn-primary" ng-click="deleteLink(sw,link)">
+                                <button type="button" class="btn btn-danger" ng-click="deleteLink(sw,link)">
                                     <span class="fa fa-fw fa-close"></span>
                                 </button>
                                 <a href="{{link.url}}">{{link.title}}</a>
@@ -125,7 +125,7 @@
                                     <input type="text" class="form-control" placeholder="http://www.example.com/" ng-model="sw.newLink.url">
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-primary" ng-click="addLink(sw)"
+                                    <button type="button" class="btn btn-success" ng-click="addLink(sw)"
                                             ng-disabled="sw.newLink.title.length == 0 || sw.newLink.url.length < 2">
                                         <span class="fa fa-fw fa-plus"></span>
                                     </button>
@@ -139,7 +139,7 @@
                         <label for="{{sw.sid}}_loc">Locations</label>
                         <ul class="list-group" id="{{sw.sid}}_loc">
                             <li class="list-group-item" ng-repeat="location in sw.locations">
-                                <button type="button" class="btn btn-primary" ng-click="deleteLocation(sw,location)">
+                                <button type="button" class="btn btn-danger" ng-click="deleteLocation(sw,location)">
                                     <span class="fa fa-fw fa-close"></span>
                                 </button>
                                 {{location.name}}
@@ -150,7 +150,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-primary" ng-click="addLocation(sw)">
+                                    <button type="button" class="btn btn-success" ng-click="addLocation(sw)">
                                         <span class="fa fa-fw fa-plus"></span>
                                     </button>
                                 </div>
@@ -161,7 +161,7 @@
                         <label for="{{sw.sid}}_cat">Categories</label>
                         <ul class="list-group" id="{{sw.sid}}_cat">
                             <li class="list-group-item" ng-repeat="category in sw.categories">
-                                <button type="button" class="btn btn-primary" ng-click="deleteCategory(sw,category)">
+                                <button type="button" class="btn btn-danger" ng-click="deleteCategory(sw,category)">
                                     <span class="fa fa-fw fa-close"></span>
                                 </button>
                                 {{category.name}}
@@ -172,7 +172,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-primary" ng-click="addCategory(sw)">
+                                    <button type="button" class="btn btn-success" ng-click="addCategory(sw)">
                                         <span class="fa fa-fw fa-plus"></span>
                                     </button>
                                 </div>
@@ -181,8 +181,8 @@
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary">Update information</button>
-                    <button type="button" class="btn btn-primary" ng-click="deleteSW(sw)">
+                    <button type="submit" class="btn btn-success">Update information</button>
+                    <button type="button" class="btn btn-danger" ng-click="deleteSW(sw)">
                         Delete {{sw.title}} software
                     </button>
                     {{sw.formResponse}}
@@ -237,7 +237,7 @@
                 <label for="ver">Versions</label>
                 <ul class="list-group" id="ver">
                     <li class="list-group-item" ng-repeat="version in newSW.versions">
-                        <button type="button" class="btn btn-primary" ng-click="delNewSWVer(version)">
+                        <button type="button" class="btn btn-danger" ng-click="delNewSWVer(version)">
                             <span class="fa fa-fw fa-close"></span>
                         </button>
                         {{version.version}}
@@ -254,7 +254,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-primary" ng-click="addNewSWVer()"
+                            <button type="button" class="btn btn-success" ng-click="addNewSWVer()"
                                     ng-disabled="newSW.newVer.version.length == 0">
                                 <span class="fa fa-fw fa-plus"></span>
                             </button>
@@ -266,7 +266,7 @@
                 <label for="links">Links (Use it)</label>
                 <ul class="list-group" id="links">
                     <li class="list-group-item" ng-repeat="link in newSW.links">
-                        <button type="button" class="btn btn-primary" ng-click="delNewSWLink(link)">
+                        <button type="button" class="btn btn-danger" ng-click="delNewSWLink(link)">
                             <span class="fa fa-fw fa-close"></span>
                         </button>
                         <a href="{{link.url}}">{{link.title}}</a>
@@ -279,7 +279,7 @@
                             <input type="text" class="form-control" placeholder="http://www.example.com/" ng-model="newSW.newLink.url">
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-primary" ng-click="addNewSWLink()"
+                            <button type="button" class="btn btn-success" ng-click="addNewSWLink()"
                                     ng-disabled="newSW.newLink.title.length == 0 || newSW.newLink.url.length < 2">
                                 <span class="fa fa-fw fa-plus"></span>
                             </button>
@@ -293,7 +293,7 @@
                 <label for="loc">Locations</label>
                 <ul class="list-group" id="loc">
                     <li class="list-group-item" ng-repeat="location in newSW.locations">
-                        <button type="button" class="btn btn-primary" ng-click="delNewSWLoc(location)">
+                        <button type="button" class="btn btn-danger" ng-click="delNewSWLoc(location)">
                             <span class="fa fa-fw fa-close"></span>
                         </button>
                         {{location.name}}
@@ -304,7 +304,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-primary" ng-click="addNewSWLoc()">
+                            <button type="button" class="btn btn-success" ng-click="addNewSWLoc()">
                                 <span class="fa fa-fw fa-plus"></span>
                             </button>
                         </div>
@@ -315,7 +315,7 @@
                 <label for="cat">Categories</label>
                 <ul class="list-group" id="cat">
                     <li class="list-group-item" ng-repeat="category in newSW.categories">
-                        <button type="button" class="btn btn-primary" ng-click="delNewSWCat(category)">
+                        <button type="button" class="btn btn-danger" ng-click="delNewSWCat(category)">
                             <span class="fa fa-fw fa-close"></span>
                         </button>
                         {{category.name}}
@@ -326,7 +326,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-primary" ng-click="addNewSWCat()">
+                            <button type="button" class="btn btn-success" ng-click="addNewSWCat()">
                                 <span class="fa fa-fw fa-plus"></span>
                             </button>
                         </div>
@@ -335,7 +335,7 @@
             </div>
         </div>
         <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Create Software Record</button>
+            <button type="submit" class="btn btn-success">Create Software Record</button>
             {{newSW.formResponse}}
         </div>
     </div>

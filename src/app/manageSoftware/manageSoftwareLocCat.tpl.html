@@ -15,7 +15,7 @@
                     <input type="text" class="form-control" placeholder="New Location" ng-model="newLocation">
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-primary" ng-click="addLocation()" ng-disabled="newLocation.length == 0">
+                    <button type="button" class="btn btn-success" ng-click="addLocation()" ng-disabled="newLocation.length == 0">
                         <span class="fa fa-fw fa-plus"></span>
                     </button>
                 </div>
@@ -35,10 +35,10 @@
                 </td>
                 <td>
                     <div ng-show="selLocation == location.lid">
-                        <button type="button" class="btn btn-primary" ng-click="editLocation(location)">
+                        <button type="button" class="btn btn-success" ng-click="editLocation(location)">
                             <span class="fa fa-fw fa-edit"></span>
                         </button>
-                        <button type="button" class="btn btn-primary" ng-click="deleteLocation(location)">
+                        <button type="button" class="btn btn-danger" ng-click="deleteLocation(location)">
                             <span class="fa fa-fw fa-close"></span>
                         </button>
                     </div>
@@ -63,7 +63,7 @@
                     <input type="text" class="form-control" placeholder="New Category" ng-model="newCategory">
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-primary" ng-click="addCategory()" ng-disabled="newCategory.length == 0">
+                    <button type="button" class="btn btn-success" ng-click="addCategory()" ng-disabled="newCategory.length == 0">
                         <span class="fa fa-fw fa-plus"></span>
                     </button>
                 </div>
@@ -83,10 +83,10 @@
                 </td>
                 <td>
                     <div ng-show="selCategory == category.cid">
-                        <button type="button" class="btn btn-primary" ng-click="editCategory(category)">
+                        <button type="button" class="btn btn-success" ng-click="editCategory(category)">
                             <span class="fa fa-fw fa-edit"></span>
                         </button>
-                        <button type="button" class="btn btn-primary" ng-click="deleteCategory(category)">
+                        <button type="button" class="btn btn-danger" ng-click="deleteCategory(category)">
                             <span class="fa fa-fw fa-close"></span>
                         </button>
                     </div>

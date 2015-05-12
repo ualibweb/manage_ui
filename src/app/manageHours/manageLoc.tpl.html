@@ -18,9 +18,6 @@
             {{lib.parent}}
         </td>
         <td class="text-right">
-            <button type="button" class="btn btn-primary" ng-click="updateExc(exception)" ng-show="isExpExc(exception.id)" ng-disabled="isLoading">Save</button>
-            <button type="button" class="btn btn-primary" ng-click="deleteExc(exception, $index)" ng-show="isExpExc(exception.id)" ng-disabled="isLoading">Delete</button>
-            <div ng-show="isExpExc(exception.id)"><br>{{result}}</div>
         </td>
     </tr>
     <tr>
@@ -35,7 +32,7 @@
             </select>
         </td>
         <td class="text-right">
-            <button type="button" class="btn btn-primary" ng-click="createLoc(newLocation, newParent)" ng-disabled="isLoading">Create Location</button>
+            <button type="button" class="btn btn-success" ng-click="createLoc(newLocation, newParent)" ng-disabled="isLoading">Create Location</button>
             <br>{{result2}}
         </td>
     </tr>
