@@ -18,16 +18,8 @@
 <div class="event-card" style="display: table-row" ng-show="data.events.length > 0">
     <div style="text-align: right; font-size: 20px; color: #999; display: table-cell; vertical-align: top; padding-right: 15px;">          Events        </div>
     <div style="display: table-cell; vertical-align: top;">
-        <div class="media">
-            <div class="media-left">
-                <a href="#">
-                    <div class="media-object" style="background-color: #999; height: 64px; width: 64px;"/>
-                </a>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">UA Eco-Health Workshop</h4>
-                Sponsored by: Office for Research and Economic Development/ Office for Sponsored Programs
-            </div>
+        <div class="media" ng-repeat="event in data.events">
+
         </div>
     </div>
 </div>

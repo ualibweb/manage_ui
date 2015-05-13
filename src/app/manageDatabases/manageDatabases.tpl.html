@@ -151,16 +151,17 @@
                            id="{{db.id}}_Audience2">
                 </div>
                 <div class="col-md-2 form-group">
-                    <label for="{{db.id}}_dAuthor">Updated by</label>
-                    <p id="{{db.id}}_dAuthor">{{db.updatedBy}}</p>
+                    <label for="{{db.id}}_updatedBy">Updated by</label>
+                    <p id="{{db.id}}_updatedBy">{{db.updatedBy}}</p>
                 </div>
                 <div class="col-md-2 form-group">
-                    <label for="{{db.id}}_date1">Date Created</label>
-                    <p id="{{db.id}}_date1">{{db.dateCreated}}</p>
+                    <label for="{{db.id}}_dAuthor">Description Author</label>
+                    <input type="text" class="form-control" placeholder="{{db.descrAuthor}}" ng-model="db.descrAuthor"
+                           id="{{db.id}}_dAuthor">
                 </div>
                 <div class="col-md-2 form-group">
-                    <label for="{{db.id}}_date2">Last Modified</label>
-                    <p id="{{db.id}}_date2">{{db.lastModified}}</p>
+                    <label for="{{db.id}}_date1">Created/Modified</label>
+                    <p id="{{db.id}}_date1">{{db.dateCreated}}<br>{{db.lastModified}}</p>
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Disable">Disabled</label>
@@ -280,9 +281,9 @@
                        id="Coverage" required>
             </div>
             <div class="col-md-3 form-group">
-                <label for="Notes">Notes</label>
-                <input type="text" class="form-control" placeholder="Notes" ng-model="newDB.notes"
-                       id="Notes">
+                <label for="dAuthor">Description Author</label>
+                <input type="text" class="form-control" placeholder="Enter Author Name" ng-model="newDB.descrAuthor"
+                       id="dAuthor">
             </div>
             <div class="col-md-3 form-group">
                 <label for="Status">Status</label>
@@ -308,11 +309,10 @@
                 <input type="text" class="form-control" placeholder="Audience Two" ng-model="newDB.audience2"
                        id="Audience2">
             </div>
-            <div class="col-md-2 form-group">
-                <label for="dAuthor">Description Author</label>
-                <p id="dAuthor">{{newDB.updatedBy}}</p>
-            </div>
-            <div class="col-md-2 form-group">
+            <div class="col-md-4 form-group">
+                <label for="Notes">Notes</label>
+                <input type="text" class="form-control" placeholder="Notes" ng-model="newDB.notes"
+                       id="Notes">
             </div>
             <div class="col-md-1 form-group">
                 <label for="Disable">Disabled</label>

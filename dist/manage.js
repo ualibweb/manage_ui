@@ -1484,7 +1484,6 @@ angular.module('manage.manageNews', ['ngFileUpload'])
         };
     })
 
-
     .controller('viewNEECtrl', ['$scope', '$timeout', 'newsFactory',
         function viewNEECtrl($scope, $timeout, newsFactory){
             $scope.data = {};
@@ -1498,8 +1497,10 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                     console.log(data);
                 });
 
-        }])
+            //events will be pulled from XML feed
+            //http://events.ua.edu/category/22/feed
 
+        }])
     .directive('viewNewsEventsExhibitions', function() {
         return {
             restrict: 'AC',
