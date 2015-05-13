@@ -1,6 +1,6 @@
 <div>
     <div class="row form-inline">
-        <div class="form-group">
+        <div class="form-group col-md-12">
             <label for="filterBy">Filter <small>{{filteredSW.length}}</small> results by</label>
             <div id="filterBy">
                 <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
@@ -56,7 +56,7 @@
                 <div class="col-md-12">
                     <div class="col-md-6 form-group">
                         <label for="{{sw.sid}}_up">Upload Icon</label>
-                        <input type="file" ngf-select="" ng-model="sw.picFile" accept="image/*"
+                        <input type="file" ngf-select="" ng-model="sw.picFile" accept="image/png"
                                ngf-change="generateThumb(sw.picFile[0], $files)" id="{{sw.sid}}_up">
                         <span class="progress" ng-show="sw.picFile[0].progress >= 0">
                             <div class="ng-binding" style="width:{{sw.picFile[0].progress}}%" ng-bind="sw.picFile[0].progress + '%'"></div>
