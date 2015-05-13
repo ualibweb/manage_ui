@@ -758,7 +758,7 @@ angular.module("manageNews/manageExhibitionsList.tpl.html", []).run(["$templateC
     "            </table>\n" +
     "        </div>\n" +
     "        <div ng-show=\"exh.show\">\n" +
-    "            <form name=\"editExibition{{exh.sid}}\" ng-submit=\"updateExhibition(exh)\">\n" +
+    "            <form name=\"editNewsExh{{exh.sid}}\" ng-submit=\"updateExhibition(exh)\">\n" +
     "                <div class=\"col-md-12\">\n" +
     "                    <div class=\"col-md-6 form-group\">\n" +
     "                        <label for=\"{{exh.sid}}_up\">Upload Icon</label>\n" +
@@ -820,7 +820,7 @@ angular.module("manageNews/manageExhibitionsList.tpl.html", []).run(["$templateC
     "</div>\n" +
     "\n" +
     "<h3>Add Exhibition Record</h3>\n" +
-    "<form name=\"addNewExhibition\" ng-submit=\"createExhibition()\">\n" +
+    "<form name=\"addNewsExh\" ng-submit=\"createExhibition()\">\n" +
     "    <div class=\"row sdOpen\">\n" +
     "        <div class=\"col-md-12\">\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
@@ -962,7 +962,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "            </table>\n" +
     "        </div>\n" +
     "        <div ng-show=\"news.show\">\n" +
-    "            <form name=\"editNews{{news.sid}}\" ng-submit=\"updateNews(news)\">\n" +
+    "            <form name=\"editNewsExh{{news.sid}}\" ng-submit=\"updateNews(news)\">\n" +
     "                <div class=\"col-md-12\">\n" +
     "                    <div class=\"col-md-6 form-group\">\n" +
     "                        <label for=\"{{news.sid}}_up\">Upload Icon</label>\n" +
@@ -1024,7 +1024,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "</div>\n" +
     "\n" +
     "<h3>Add News Record</h3>\n" +
-    "<form name=\"addNewNews\" ng-submit=\"createNews()\">\n" +
+    "<form name=\"addNewsExh\" ng-submit=\"createNews()\">\n" +
     "    <div class=\"row sdOpen\">\n" +
     "        <div class=\"col-md-12\">\n" +
     "            <div class=\"col-md-6 form-group\">\n" +

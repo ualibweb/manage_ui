@@ -66,7 +66,7 @@
             </table>
         </div>
         <div ng-show="news.show">
-            <form name="editNews{{news.sid}}" ng-submit="updateNews(news)">
+            <form name="editNewsExh{{news.sid}}" ng-submit="updateNews(news)">
                 <div class="col-md-12">
                     <div class="col-md-6 form-group">
                         <label for="{{news.sid}}_up">Upload Icon</label>
@@ -128,7 +128,7 @@
 </div>
 
 <h3>Add News Record</h3>
-<form name="addNewNews" ng-submit="createNews()">
+<form name="addNewsExh" ng-submit="createNews()">
     <div class="row sdOpen">
         <div class="col-md-12">
             <div class="col-md-6 form-group">
