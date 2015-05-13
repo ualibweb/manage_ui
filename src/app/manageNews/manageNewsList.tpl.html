@@ -83,8 +83,12 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="col-md-12 form-group">
-                        <label for="{{news.sid}}_descr">Description</label>
+                    <div class="col-md-3 form-group">
+                        <label for="{{news.sid}}_blurb">Short Description</label>
+                        <textarea class="form-control" rows="3" id="{{news.sid}}_blurb" ng-model="news.blurb" ></textarea>
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <label for="{{news.sid}}_descr">Detailed Description</label>
                         <textarea class="form-control" rows="3" id="{{news.sid}}_descr" ng-model="news.description" ></textarea>
                     </div>
                 </div>
@@ -146,8 +150,12 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="col-md-12 form-group">
-                <label for="descr">Description</label>
+            <div class="col-md-3 form-group">
+                <label for="blurb">Short Description</label>
+                <textarea class="form-control" rows="3" id="blurb" ng-model="newNews.blurb" ></textarea>
+            </div>
+            <div class="col-md-9 form-group">
+                <label for="descr">Detailed Description</label>
                 <textarea class="form-control" rows="3" id="descr" ng-model="newNews.description" ></textarea>
             </div>
         </div>
