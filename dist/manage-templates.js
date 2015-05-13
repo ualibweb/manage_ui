@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageExhibitionsList.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
+angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageExhibitionsList.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageNews/viewNewsEventsExhibitions.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
 
 angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
@@ -1074,6 +1074,60 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "    </div>\n" +
     "</form>\n" +
     "\n" +
+    "");
+}]);
+
+angular.module("manageNews/viewNewsEventsExhibitions.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageNews/viewNewsEventsExhibitions.tpl.html",
+    "<h2>News and Events</h2>\n" +
+    "<div class=\"event-card\" style=\"display: table-row\" ng-show=\"data.news.length > 0\">\n" +
+    "    <div style=\"text-align: right; font-size: 20px; color: #999; display: table-cell; vertical-align: top; padding-right: 15px;\">          News        </div>\n" +
+    "    <div style=\"display: table-cell; vertical-align: top;\">\n" +
+    "        <div class=\"media\" ng-repeat=\"news in data.news\">\n" +
+    "            <div class=\"media-left\">\n" +
+    "                <a href=\"#\">\n" +
+    "                    <img src=\"{{news.img}}\" style=\"height: 64px; width: 64px;\"/>\n" +
+    "                </a>\n" +
+    "            </div>\n" +
+    "            <div class=\"media-body\">\n" +
+    "                <h4 class=\"media-heading\">{{news.title}}</h4>\n" +
+    "                {{news.description}}\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"event-card\" style=\"display: table-row\" ng-show=\"data.events.length > 0\">\n" +
+    "    <div style=\"text-align: right; font-size: 20px; color: #999; display: table-cell; vertical-align: top; padding-right: 15px;\">          Events        </div>\n" +
+    "    <div style=\"display: table-cell; vertical-align: top;\">\n" +
+    "        <div class=\"media\">\n" +
+    "            <div class=\"media-left\">\n" +
+    "                <a href=\"#\">\n" +
+    "                    <div class=\"media-object\" style=\"background-color: #999; height: 64px; width: 64px;\"/>\n" +
+    "                </a>\n" +
+    "            </div>\n" +
+    "            <div class=\"media-body\">\n" +
+    "                <h4 class=\"media-heading\">UA Eco-Health Workshop</h4>\n" +
+    "                Sponsored by: Office for Research and Economic Development/ Office for Sponsored Programs\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"event-card\" style=\"display: table-row\" ng-show=\"data.exhibitions.length > 0\">\n" +
+    "    <div style=\"text-align: right; font-size: 20px; color: #999; display: table-cell; vertical-align: top; padding-right: 15px;\">          Exhibits        </div>\n" +
+    "    <div style=\"display: table-cell; vertical-align: top;\">\n" +
+    "        <div class=\"media\" ng-repeat=\"exh in data.exhibitions\">\n" +
+    "            <div class=\"media-left\">\n" +
+    "                <a href=\"#\">\n" +
+    "                    <img src=\"{{exh.img}}\" style=\"height: 64px; width: 64px;\"/>\n" +
+    "                </a>\n" +
+    "            </div>\n" +
+    "            <div class=\"media-body\">\n" +
+    "                <h4 class=\"media-heading\">{{exh.title}}</h4>\n" +
+    "                {{exh.description}}\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
     "");
 }]);
 

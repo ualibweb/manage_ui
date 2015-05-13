@@ -15,7 +15,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
 
             tokenFactory("CSRF-libNews");
 
-            newsFactory.getData()
+            newsFactory.getData("all")
                 .success(function(data) {
                     console.dir(data);
                     for (var i = 0; i < data.news.length; i++){
@@ -482,5 +482,49 @@ angular.module('manage.manageNews', ['ngFileUpload'])
 
             },
             templateUrl: 'manageNews/manageExhibitionsList.tpl.html'
+        };
+    })
+
+
+    .controller('viewNEECtrl', ['$scope', '$timeout', 'newsFactory',
+        function viewNEECtrl($scope, $timeout, newsFactory){
+            $scope.data = {};
+
+            newsFactory.getData("today")
+                .success(function(data) {
+                    console.dir(data);
+                    $scope.data = data;
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                });
+
+        }])
+
+    .directive('viewNewsEventsExhibitions', function() {
+        return {
+            restrict: 'AC',
+            scope: {},
+            controller: 'viewNEECtrl',
+            link: function(scope, elm, attrs){
+                //Preload the spinner element
+                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
+                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
+                var titleElm = elm.find('h2');
+                //Enter the spinner animation, appending it to the title element
+                $animate.enter(spinner, titleElm[0]);
+
+                var loadingWatcher = scope.$watch(
+                    'data.totalTime',
+                    function(newVal, oldVal){
+                        if (newVal != oldVal){
+                            $animate.leave(spinner);
+                            console.log("News data loaded");
+                        }
+                    },
+                    true
+                );
+            },
+            templateUrl: 'manageNews/viewNewsEventsExhibitions.tpl.html'
         };
     })
