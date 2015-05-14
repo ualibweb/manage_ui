@@ -11,7 +11,8 @@ angular.module('manage', [
     'manage.staffDirectory',
     'manage.manageDatabases',
     'manage.manageSoftware',
-    'manage.manageNews'
+    'manage.manageNews',
+    'manage.submittedForms'
 ])
 
     .constant('HOURS_MANAGE_URL', '//wwwdev2.lib.ua.edu/libhours2/')

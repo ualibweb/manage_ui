@@ -1,0 +1,71 @@
+<h2>Manage Submitted Forms</h2>
+
+<div>
+    <div class="row form-inline">
+        <div class="form-group col-md-12">
+            <label for="filterBy">Filter <small>{{filteredForms.length}}</small> results by</label>
+            <div id="filterBy">
+                <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
+            </div>
+            <label for="sortBy">Sort by</label>
+            <div id="sortBy">
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
+                    Title
+                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[0].reverse"></span>
+                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[0].reverse"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
+                    Status
+                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[1].reverse"></span>
+                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[1].reverse"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="2" ng-click="sortBy(2)">
+                    Date Submitted
+                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[2].reverse"></span>
+                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[2].reverse"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredNews.length > 0"></pagination>
+    </div>
+    <div class="row"
+         ng-repeat="form in filteredForms = (data.forms | filter:{title:titleFilter}
+                                                         | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
+        | startFrom:(currentPage-1)*perPage | limitTo:perPage"
+         ng-class="{sdOpen: form.show, sdOver: form.sid == mOver}" ng-mouseover="setOver(form)">
+        <div class="col-md-12" ng-click="toggleForms(form)">
+            <div class="col-md-10">
+                <h4>
+                    <span class="fa fa-fw fa-caret-right" ng-hide="form.show"></span>
+                    <span class="fa fa-fw fa-caret-down" ng-show="form.show"></span>
+                    {{form.title}}
+                    <small>{{form.status}}</small>
+                </h4>
+            </div>
+            <div class="col-md-2">
+                <h5>{{form.created}}</h5>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="form.show">
+            <div class="col-md-6 panel panel-default" ng-repeat="field in form.fields">
+                <div class="panel-heading">
+                    <h4 class="panel-title">{{field.name}}</h4>
+                </div>
+                <div class="panel-body">
+                    {{field.value}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredNews.length > 0"></pagination>
+</div>
+<div class="text-center">
+    <h4 ng-show="filteredForms.length == 0">Nothing found</h4>
+</div>

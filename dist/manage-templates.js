@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageExhibitionsList.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageNews/viewNewsEventsExhibitions.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html']);
+angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageExhibitionsList.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageNews/viewNewsEventsExhibitions.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'submittedForms/submittedForms.tpl.html']);
 
 angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
@@ -2010,5 +2010,81 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "</div>\n" +
     "\n" +
     "\n" +
+    "");
+}]);
+
+angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("submittedForms/submittedForms.tpl.html",
+    "<h2>Manage Submitted Forms</h2>\n" +
+    "\n" +
+    "<div>\n" +
+    "    <div class=\"row form-inline\">\n" +
+    "        <div class=\"form-group col-md-12\">\n" +
+    "            <label for=\"filterBy\">Filter <small>{{filteredForms.length}}</small> results by</label>\n" +
+    "            <div id=\"filterBy\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"titleFilter\">\n" +
+    "            </div>\n" +
+    "            <label for=\"sortBy\">Sort by</label>\n" +
+    "            <div id=\"sortBy\">\n" +
+    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"0\" ng-click=\"sortBy(0)\">\n" +
+    "                    Title\n" +
+    "                    <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[0].reverse\"></span>\n" +
+    "                    <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[0].reverse\"></span>\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"1\" ng-click=\"sortBy(1)\">\n" +
+    "                    Status\n" +
+    "                    <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[1].reverse\"></span>\n" +
+    "                    <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[1].reverse\"></span>\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"2\" ng-click=\"sortBy(2)\">\n" +
+    "                    Date Submitted\n" +
+    "                    <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[2].reverse\"></span>\n" +
+    "                    <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[2].reverse\"></span>\n" +
+    "                </button>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"text-center\">\n" +
+    "        <pagination total-items=\"filteredForms.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredNews.length > 0\"></pagination>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\"\n" +
+    "         ng-repeat=\"form in filteredForms = (data.forms | filter:{title:titleFilter}\n" +
+    "                                                         | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
+    "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
+    "         ng-class=\"{sdOpen: form.show, sdOver: form.sid == mOver}\" ng-mouseover=\"setOver(form)\">\n" +
+    "        <div class=\"col-md-12\" ng-click=\"toggleForms(form)\">\n" +
+    "            <div class=\"col-md-10\">\n" +
+    "                <h4>\n" +
+    "                    <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"form.show\"></span>\n" +
+    "                    <span class=\"fa fa-fw fa-caret-down\" ng-show=\"form.show\"></span>\n" +
+    "                    {{form.title}}\n" +
+    "                    <small>{{form.status}}</small>\n" +
+    "                </h4>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2\">\n" +
+    "                <h5>{{form.created}}</h5>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-12\" ng-show=\"form.show\">\n" +
+    "            <div class=\"col-md-6 panel panel-default\" ng-repeat=\"field in form.fields\">\n" +
+    "                <div class=\"panel-heading\">\n" +
+    "                    <h4 class=\"panel-title\">{{field.name}}</h4>\n" +
+    "                </div>\n" +
+    "                <div class=\"panel-body\">\n" +
+    "                    {{field.value}}\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"text-center\">\n" +
+    "    <pagination total-items=\"filteredForms.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredNews.length > 0\"></pagination>\n" +
+    "</div>\n" +
+    "<div class=\"text-center\">\n" +
+    "    <h4 ng-show=\"filteredForms.length == 0\">Nothing found</h4>\n" +
+    "</div>\n" +
     "");
 }]);
