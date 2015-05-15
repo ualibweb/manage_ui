@@ -43,7 +43,7 @@
 <h2>Test Form</h2>
 <form ng-controller="customFormCtrl" ng-submit="submit($event);">
     <!-- Mandatory fields-->
-    <input type="hidden" name="emailIDs" value="238,238">
+    <input type="hidden" name="emailIDs" value="238">
     <input type="hidden" name="formTitle" value="Test form for Forms web app">
 
     <!-- Optional custom fields-->
@@ -52,6 +52,19 @@
 
     <label for="field2">Optional Field</label>
     <input type="text" class="form-control" name="field2" placeholder="Enter Field2" id="field2">
+
+    <label for="field4">When does your class meet?</label>
+    <div id="field4">
+        <div class="checkbox">
+            <label><input type="checkbox" class="form-control" name="ClassDays" value="MWF">MWF</label>
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" class="form-control" name="ClassDays" value="MW">MW</label>
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" class="form-control" name="ClassDays" value="TR">TR</label>
+        </div>
+    </div>
 
     <!-- Mandatory button-->
     <button type="submit" class="btn btn-success">Submit Form</button>
