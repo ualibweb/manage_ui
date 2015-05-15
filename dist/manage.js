@@ -2692,9 +2692,9 @@ angular.module('manage.submittedForms', [])
                 form[i] = {};
                 form[i].name = event.target[i].name;
                 form[i].value = event.target[i].value;
-                if (event.target[i].type == 'checkbox')
+                if (event.target[i].type == 'checkbox' || event.target[i].type == 'radio')
                     if (!event.target[i].checked)
-                        form[i].value = "unchecked";
+                        form[i].value = "";
             }
             formFactory.submitForm(form)
                 .success(function(data) {
