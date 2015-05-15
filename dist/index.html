@@ -40,6 +40,23 @@
 <div submitted-forms-list>
 </div>
 
+<h2>Test Form</h2>
+<form ng-controller="customFormCtrl" ng-submit="submit($event);">
+    <!-- Mandatory fields-->
+    <input type="hidden" name="emailIDs" value="238,238">
+    <input type="hidden" name="formTitle" value="Test form for Forms web app">
+
+    <!-- Optional custom fields-->
+    <label for="field1">Required Field</label>
+    <input type="text" class="form-control" name="field1" placeholder="Enter Field1" id="field1" required>
+
+    <label for="field2">Optional Field</label>
+    <input type="text" class="form-control" name="field2" placeholder="Enter Field2" id="field2">
+
+    <!-- Mandatory button-->
+    <button type="submit" class="btn btn-success">Submit Form</button>
+    {{formResponse}}
+</form>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.28/angular.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.28/angular-animate.min.js"></script>
