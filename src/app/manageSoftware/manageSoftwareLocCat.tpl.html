@@ -5,17 +5,21 @@
             <thead>
             <tr>
                 <th>ID</th>
+                <th>Parent ID</th>
                 <th>Name</th>
                 <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" placeholder="New Location" ng-model="newLocation">
+                <div class="col-md-2">
+                    <input type="text" class="form-control" placeholder="Parent ID" ng-model="newLocation.parent">
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" placeholder="New Location Name" ng-model="newLocation.name">
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-success" ng-click="addLocation()" ng-disabled="newLocation.length == 0">
+                    <button type="button" class="btn btn-success" ng-click="addLocation()" ng-disabled="newLocation.name.length == 0">
                         <span class="fa fa-fw fa-plus"></span>
                     </button>
                 </div>
@@ -24,6 +28,14 @@
             <tr ng-repeat="location in SWList.locations" ng-click="selectLocation(location)">
                 <td>
                     {{location.lid}}
+                </td>
+                <td>
+                    <span ng-hide="selLocation == location.lid">
+                        {{location.parent}}
+                    </span>
+                    <span ng-show="selLocation == location.lid">
+                        <input type="text" class="form-control" placeholder="Parent ID" ng-model="location.parent">
+                    </span>
                 </td>
                 <td>
                     <span ng-hide="selLocation == location.lid">
