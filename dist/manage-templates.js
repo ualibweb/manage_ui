@@ -1348,19 +1348,19 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                                {{loc.name}}\n" +
     "                                            </div>\n" +
     "                                            <div class=\"col-md-6\">\n" +
-    "                                                <div class=\"col-md-3\" ng-show=\"checkDevices(loc.devices, 1)\">\n" +
+    "                                                <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 1)\">\n" +
     "                                                    <span class=\"fa fa-fw fa-windows\"></span>\n" +
     "                                                    <span class=\"fa fa-fw fa-desktop\"></span>\n" +
     "                                                </div>\n" +
-    "                                                <div class=\"col-md-3\" ng-show=\"checkDevices(loc.devices, 2)\">\n" +
+    "                                                <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 2)\">\n" +
     "                                                    <span class=\"fa fa-fw fa-apple\"></span>\n" +
     "                                                    <span class=\"fa fa-fw fa-desktop\"></span>\n" +
     "                                                </div>\n" +
-    "                                                <div class=\"col-md-3\" ng-show=\"checkDevices(loc.devices, 4)\">\n" +
+    "                                                <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 4)\">\n" +
     "                                                    <span class=\"fa fa-fw fa-windows\"></span>\n" +
     "                                                    <span class=\"fa fa-fw fa-laptop\"></span>\n" +
     "                                                </div>\n" +
-    "                                                <div class=\"col-md-3\" ng-show=\"checkDevices(loc.devices, 8)\">\n" +
+    "                                                <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 8)\">\n" +
     "                                                    <span class=\"fa fa-fw fa-apple\"></span>\n" +
     "                                                    <span class=\"fa fa-fw fa-laptop\"></span>\n" +
     "                                                </div>\n" +
@@ -1372,7 +1372,8 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                                </select>\n" +
     "                                            </div>\n" +
     "                                            <div class=\"col-md-5\">\n" +
-    "                                                <div class=\"col-md-3\" ng-repeat=\"device in sw.newLoc.devices track by $index\">\n" +
+    "                                                <div class=\"col-md-6\" ng-repeat=\"device in sw.newLoc.devices track by $index\"\n" +
+    "                                                     ng-show=\"(($index == 0 || $index == 2) && version.os == 1) || (($index == 1 || $index == 3) && version.os == 2)\">\n" +
     "                                                    <input type=\"checkbox\" ng-model=\"sw.newLoc.devices[$index]\">\n" +
     "                                                    <span ng-show=\"$index == 0\">\n" +
     "                                                        <span class=\"fa fa-fw fa-windows\"></span>\n" +
@@ -1549,19 +1550,19 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                        {{loc.name}}\n" +
     "                                    </div>\n" +
     "                                    <div class=\"col-md-6\">\n" +
-    "                                        <div class=\"col-md-3\" ng-show=\"checkDevices(loc.devices, 1)\">\n" +
+    "                                        <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 1)\">\n" +
     "                                            <span class=\"fa fa-fw fa-windows\"></span>\n" +
     "                                            <span class=\"fa fa-fw fa-desktop\"></span>\n" +
     "                                        </div>\n" +
-    "                                        <div class=\"col-md-3\" ng-show=\"checkDevices(loc.devices, 2)\">\n" +
+    "                                        <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 2)\">\n" +
     "                                            <span class=\"fa fa-fw fa-apple\"></span>\n" +
     "                                            <span class=\"fa fa-fw fa-desktop\"></span>\n" +
     "                                        </div>\n" +
-    "                                        <div class=\"col-md-3\" ng-show=\"checkDevices(loc.devices, 4)\">\n" +
+    "                                        <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 4)\">\n" +
     "                                            <span class=\"fa fa-fw fa-windows\"></span>\n" +
     "                                            <span class=\"fa fa-fw fa-laptop\"></span>\n" +
     "                                        </div>\n" +
-    "                                        <div class=\"col-md-3\" ng-show=\"checkDevices(loc.devices, 8)\">\n" +
+    "                                        <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 8)\">\n" +
     "                                            <span class=\"fa fa-fw fa-apple\"></span>\n" +
     "                                            <span class=\"fa fa-fw fa-laptop\"></span>\n" +
     "                                        </div>\n" +
@@ -1573,7 +1574,8 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                        </select>\n" +
     "                                    </div>\n" +
     "                                    <div class=\"col-md-5\">\n" +
-    "                                        <div class=\"col-md-3\" ng-repeat=\"device in newSW.newLoc.devices track by $index\">\n" +
+    "                                        <div class=\"col-md-6\" ng-repeat=\"device in newSW.newLoc.devices track by $index\"\n" +
+    "                                                ng-show=\"(($index == 0 || $index == 2) && version.os == 1) || (($index == 1 || $index == 3) && version.os == 2)\">\n" +
     "                                            <input type=\"checkbox\" ng-model=\"newSW.newLoc.devices[$index]\">\n" +
     "                                                    <span ng-show=\"$index == 0\">\n" +
     "                                                        <span class=\"fa fa-fw fa-windows\"></span>\n" +

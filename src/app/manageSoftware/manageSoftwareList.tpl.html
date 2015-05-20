@@ -132,19 +132,19 @@
                                                 {{loc.name}}
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="col-md-3" ng-show="checkDevices(loc.devices, 1)">
+                                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 1)">
                                                     <span class="fa fa-fw fa-windows"></span>
                                                     <span class="fa fa-fw fa-desktop"></span>
                                                 </div>
-                                                <div class="col-md-3" ng-show="checkDevices(loc.devices, 2)">
+                                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 2)">
                                                     <span class="fa fa-fw fa-apple"></span>
                                                     <span class="fa fa-fw fa-desktop"></span>
                                                 </div>
-                                                <div class="col-md-3" ng-show="checkDevices(loc.devices, 4)">
+                                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 4)">
                                                     <span class="fa fa-fw fa-windows"></span>
                                                     <span class="fa fa-fw fa-laptop"></span>
                                                 </div>
-                                                <div class="col-md-3" ng-show="checkDevices(loc.devices, 8)">
+                                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 8)">
                                                     <span class="fa fa-fw fa-apple"></span>
                                                     <span class="fa fa-fw fa-laptop"></span>
                                                 </div>
@@ -156,7 +156,8 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-5">
-                                                <div class="col-md-3" ng-repeat="device in sw.newLoc.devices track by $index">
+                                                <div class="col-md-6" ng-repeat="device in sw.newLoc.devices track by $index"
+                                                     ng-show="(($index == 0 || $index == 2) && version.os == 1) || (($index == 1 || $index == 3) && version.os == 2)">
                                                     <input type="checkbox" ng-model="sw.newLoc.devices[$index]">
                                                     <span ng-show="$index == 0">
                                                         <span class="fa fa-fw fa-windows"></span>
@@ -333,19 +334,19 @@
                                         {{loc.name}}
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="col-md-3" ng-show="checkDevices(loc.devices, 1)">
+                                        <div class="col-md-6" ng-show="checkDevices(loc.devices, 1)">
                                             <span class="fa fa-fw fa-windows"></span>
                                             <span class="fa fa-fw fa-desktop"></span>
                                         </div>
-                                        <div class="col-md-3" ng-show="checkDevices(loc.devices, 2)">
+                                        <div class="col-md-6" ng-show="checkDevices(loc.devices, 2)">
                                             <span class="fa fa-fw fa-apple"></span>
                                             <span class="fa fa-fw fa-desktop"></span>
                                         </div>
-                                        <div class="col-md-3" ng-show="checkDevices(loc.devices, 4)">
+                                        <div class="col-md-6" ng-show="checkDevices(loc.devices, 4)">
                                             <span class="fa fa-fw fa-windows"></span>
                                             <span class="fa fa-fw fa-laptop"></span>
                                         </div>
-                                        <div class="col-md-3" ng-show="checkDevices(loc.devices, 8)">
+                                        <div class="col-md-6" ng-show="checkDevices(loc.devices, 8)">
                                             <span class="fa fa-fw fa-apple"></span>
                                             <span class="fa fa-fw fa-laptop"></span>
                                         </div>
@@ -357,7 +358,8 @@
                                         </select>
                                     </div>
                                     <div class="col-md-5">
-                                        <div class="col-md-3" ng-repeat="device in newSW.newLoc.devices track by $index">
+                                        <div class="col-md-6" ng-repeat="device in newSW.newLoc.devices track by $index"
+                                                ng-show="(($index == 0 || $index == 2) && version.os == 1) || (($index == 1 || $index == 3) && version.os == 2)">
                                             <input type="checkbox" ng-model="newSW.newLoc.devices[$index]">
                                                     <span ng-show="$index == 0">
                                                         <span class="fa fa-fw fa-windows"></span>
