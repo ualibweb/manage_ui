@@ -2047,6 +2047,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.addNewSWLink = function(){
                 if ($scope.newSW.newLink.title.length > 0 && $scope.newSW.newLink.url.length > 11){
                     var newLink = {};
+                    newLink.description = $scope.newSW.newLink.description;
                     newLink.title = $scope.newSW.newLink.title;
                     newLink.url = $scope.newSW.newLink.url;
                     var isPresent = false;
