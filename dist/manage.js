@@ -1617,7 +1617,6 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         function manageSWCtrl($scope, tokenFactory, swFactory){
             $scope.SWList = {};
             $scope.newSW = {};
-            $scope.newSW.newLoc = {};
             $scope.os = [
                 {name:'MS Windows', value:1},
                 {name:'Apple Mac', value:2}
@@ -1634,17 +1633,15 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         data.software[i].selCat = data.categories[0];
                         data.software[i].newVer = {};
                         data.software[i].newVer.selOS = $scope.os[0];
-                        data.software[i].newLoc = {};
-                        data.software[i].newLoc.selLoc = data.locations[0];
-                        data.software[i].newLoc.devices = [];
-                        for (var j = 0; j < data.devices.length; j++)
-                            data.software[i].newLoc.devices[j] = false;
+                        for (var j = 0; j < data.software[i].versions.length; j++){
+                            data.software[i].versions[j].newLoc = {};
+                            data.software[i].versions[j].newLoc.selLoc = data.locations[0];
+                            data.software[i].versions[j].newLoc.devices = [];
+                            for (var k = 0; k < data.devices.length; k++)
+                                data.software[i].versions[j].newLoc.devices[k] = false;
+                        }
                         data.software[i].newLink = {};
                     }
-                    $scope.newSW.newLoc.selLoc = data.locations[0];
-                    $scope.newSW.newLoc.devices = [];
-                    for (var j = 0; j < data.devices.length; j++)
-                        $scope.newSW.newLoc.devices[j] = false;
                     $scope.newSW.selCat = data.categories[0];
                     $scope.SWList = data;
                 })
@@ -1840,11 +1837,13 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             newSW.categories = angular.copy(response.data.categories);
                             newSW.show = false;
                             newSW.class = "";
-                            newSW.newLoc = {};
-                            newSW.newLoc.selLoc = $scope.SWList.locations[0];
-                            newSW.newLoc.devices = [];
-                            for (var j = 0; j < $scope.SWList.devices.length; j++)
-                                newSW.newLoc.devices[j] = false;
+                            for (var i = 0; i < newSW.versions.length; i++){
+                                newSW.versions[i].newLoc = {};
+                                newSW.versions[i].newLoc.selLoc = $scope.SWList.locations[0];
+                                newSW.versions[i].newLoc.devices = [];
+                                for (var j = 0; j < $scope.SWList.devices.length; j++)
+                                    newSW.versions[i].newLoc.devices[j] = false;
+                            }
                             newSW.selCat = response.data.categories[0];
                             newSW.newVer = {};
                             newSW.newVer.selOS = $scope.os[0];
@@ -1893,6 +1892,11 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     newVer.version = sw.newVer.version;
                     newVer.os = sw.newVer.selOS.value;
                     newVer.locations = [];
+                    newVer.newLoc = {};
+                    newVer.newLoc.selLoc = $scope.SWList.locations[0];
+                    newVer.newLoc.devices = [];
+                    for (var j = 0; j < $scope.SWList.devices.length; j++)
+                        newVer.newLoc.devices[j] = false;
                     var isPresent = false;
                     for (var i = 0; i < sw.versions.length; i++)
                         if (sw.versions[i].version === newVer.version &&
@@ -1914,9 +1918,9 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 newLoc.id = -1;
                 newLoc.sid = sw.sid;
                 newLoc.vid = version.vid;
-                newLoc.lid = sw.newLoc.selLoc.lid;
-                newLoc.name = sw.newLoc.selLoc.name;
-                newLoc.parent = sw.newLoc.selLoc.parent;
+                newLoc.lid = version.newLoc.selLoc.lid;
+                newLoc.name = version.newLoc.selLoc.name;
+                newLoc.parent = version.newLoc.selLoc.parent;
                 newLoc.devices = 0;
                 var isPresent = false;
                 for (var i = 0; i < version.locations.length; i++)
@@ -1926,7 +1930,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     }
                 if (!isPresent){
                     for (var i = 0; i < $scope.SWList.devices.length; i++)
-                        if (sw.newLoc.devices[i])
+                        if (version.newLoc.devices[i])
                             newLoc.devices += parseInt($scope.SWList.devices[i].did);
                     if (newLoc.devices > 0)
                         $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions[$scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version)].locations.push(newLoc);
@@ -2004,6 +2008,11 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     newVersion.version = $scope.newSW.newVer.version;
                     newVersion.os = $scope.newSW.newVer.selOS.value;
                     newVersion.locations = [];
+                    newVersion.newLoc = {};
+                    newVersion.newLoc.selLoc = $scope.SWList.locations[0];
+                    newVersion.newLoc.devices = [];
+                    for (var j = 0; j < $scope.SWList.devices.length; j++)
+                        newVersion.newLoc.devices[j] = false;
                     var isPresent = false;
                     for (var i = 0; i < $scope.newSW.versions.length; i++)
                         if ($scope.newSW.versions[i].version == newVersion.version &&
@@ -2017,9 +2026,9 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             };
             $scope.addNewSWLoc = function(version){
                 var newLoc = {};
-                newLoc.lid = $scope.newSW.newLoc.selLoc.lid;
-                newLoc.name = $scope.newSW.newLoc.selLoc.name;
-                newLoc.parent = $scope.newSW.newLoc.selLoc.parent;
+                newLoc.lid = version.newLoc.selLoc.lid;
+                newLoc.name = version.newLoc.selLoc.name;
+                newLoc.parent = version.newLoc.selLoc.parent;
                 newLoc.devices = 0;
                 var isPresent = false;
                 for (var i = 0; i < version.locations.length; i++)
@@ -2029,7 +2038,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     }
                 if (!isPresent){
                     for (var i = 0; i < $scope.SWList.devices.length; i++)
-                        if ($scope.newSW.newLoc.devices[i])
+                        if (version.newLoc.devices[i])
                             newLoc.devices += parseInt($scope.SWList.devices[i].did);
                     if (newLoc.devices > 0)
                         $scope.newSW.versions[$scope.newSW.versions.indexOf(version)].locations.push(newLoc);

@@ -1368,13 +1368,15 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                        </li>\n" +
     "                                        <li class=\"list-group-item col-md-12\">\n" +
     "                                            <div class=\"col-md-6\">\n" +
-    "                                                <select class=\"form-control\" ng-model=\"sw.newLoc.selLoc\" ng-options=\"loc.name for loc in SWList.locations\">\n" +
+    "                                                <select class=\"form-control\" ng-model=\"version.newLoc.selLoc\"\n" +
+    "                                                        ng-options=\"loc.name for loc in SWList.locations\">\n" +
     "                                                </select>\n" +
     "                                            </div>\n" +
     "                                            <div class=\"col-md-5\">\n" +
-    "                                                <div class=\"col-md-6\" ng-repeat=\"device in sw.newLoc.devices track by $index\"\n" +
-    "                                                     ng-show=\"(($index == 0 || $index == 2) && version.os == 1) || (($index == 1 || $index == 3) && version.os == 2)\">\n" +
-    "                                                    <input type=\"checkbox\" ng-model=\"sw.newLoc.devices[$index]\">\n" +
+    "                                                <div class=\"col-md-6\" ng-repeat=\"device in version.newLoc.devices track by $index\"\n" +
+    "                                                     ng-show=\"(($index == 0 || $index == 2) && version.os == 1) ||\n" +
+    "                                                              (($index == 1 || $index == 3) && version.os == 2)\">\n" +
+    "                                                    <input type=\"checkbox\" ng-model=\"version.newLoc.devices[$index]\">\n" +
     "                                                    <span ng-show=\"$index == 0\">\n" +
     "                                                        <span class=\"fa fa-fw fa-windows\"></span>\n" +
     "                                                        <span class=\"fa fa-fw fa-desktop\"></span>\n" +
@@ -1570,13 +1572,15 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                </li>\n" +
     "                                <li class=\"list-group-item col-md-12\">\n" +
     "                                    <div class=\"col-md-6\">\n" +
-    "                                        <select class=\"form-control\" ng-model=\"newSW.newLoc.selLoc\" ng-options=\"loc.name for loc in SWList.locations\">\n" +
+    "                                        <select class=\"form-control\" ng-model=\"version.newLoc.selLoc\"\n" +
+    "                                                ng-options=\"loc.name for loc in SWList.locations\">\n" +
     "                                        </select>\n" +
     "                                    </div>\n" +
     "                                    <div class=\"col-md-5\">\n" +
-    "                                        <div class=\"col-md-6\" ng-repeat=\"device in newSW.newLoc.devices track by $index\"\n" +
-    "                                                ng-show=\"(($index == 0 || $index == 2) && version.os == 1) || (($index == 1 || $index == 3) && version.os == 2)\">\n" +
-    "                                            <input type=\"checkbox\" ng-model=\"newSW.newLoc.devices[$index]\">\n" +
+    "                                        <div class=\"col-md-6\" ng-repeat=\"device in version.newLoc.devices track by $index\"\n" +
+    "                                                ng-show=\"(($index == 0 || $index == 2) && version.os == 1) ||\n" +
+    "                                                         (($index == 1 || $index == 3) && version.os == 2)\">\n" +
+    "                                            <input type=\"checkbox\" ng-model=\"version.newLoc.devices[$index]\">\n" +
     "                                                    <span ng-show=\"$index == 0\">\n" +
     "                                                        <span class=\"fa fa-fw fa-windows\"></span>\n" +
     "                                                        <span class=\"fa fa-fw fa-desktop\"></span>\n" +
