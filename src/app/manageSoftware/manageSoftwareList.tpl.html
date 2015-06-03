@@ -131,7 +131,7 @@
                                                 </button>
                                                 {{loc.name}}
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-5">
                                                 <div class="col-md-6" ng-show="checkDevices(loc.devices, 1)">
                                                     <span class="fa fa-fw fa-windows"></span>
                                                     <span class="fa fa-fw fa-desktop"></span>
@@ -149,6 +149,9 @@
                                                     <span class="fa fa-fw fa-laptop"></span>
                                                 </div>
                                             </div>
+                                            <div class="col-md-1">
+
+                                            </div>
                                         </li>
                                         <li class="list-group-item col-md-12">
                                             <div class="col-md-6">
@@ -161,20 +164,10 @@
                                                      ng-show="(($index == 0 || $index == 2) && version.os == 1) ||
                                                               (($index == 1 || $index == 3) && version.os == 2)">
                                                     <input type="checkbox" ng-model="version.newLoc.devices[$index]">
-                                                    <span ng-show="$index == 0">
-                                                        <span class="fa fa-fw fa-windows"></span>
+                                                    <span ng-show="$index <= 2">
                                                         <span class="fa fa-fw fa-desktop"></span>
                                                     </span>
-                                                    <span ng-show="$index == 1">
-                                                        <span class="fa fa-fw fa-apple"></span>
-                                                        <span class="fa fa-fw fa-desktop"></span>
-                                                    </span>
-                                                    <span ng-show="$index == 2">
-                                                        <span class="fa fa-fw fa-windows"></span>
-                                                        <span class="fa fa-fw fa-laptop"></span>
-                                                    </span>
-                                                    <span ng-show="$index == 3">
-                                                        <span class="fa fa-fw fa-apple"></span>
+                                                    <span ng-show="$index > 2">
                                                         <span class="fa fa-fw fa-laptop"></span>
                                                     </span>
                                                 </div>
@@ -335,7 +328,7 @@
                                         </button>
                                         {{loc.name}}
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <div class="col-md-6" ng-show="checkDevices(loc.devices, 1)">
                                             <span class="fa fa-fw fa-windows"></span>
                                             <span class="fa fa-fw fa-desktop"></span>
@@ -353,6 +346,9 @@
                                             <span class="fa fa-fw fa-laptop"></span>
                                         </div>
                                     </div>
+                                    <div class="col-md-1">
+
+                                    </div>
                                 </li>
                                 <li class="list-group-item col-md-12">
                                     <div class="col-md-6">
@@ -365,20 +361,10 @@
                                                 ng-show="(($index == 0 || $index == 2) && version.os == 1) ||
                                                          (($index == 1 || $index == 3) && version.os == 2)">
                                             <input type="checkbox" ng-model="version.newLoc.devices[$index]">
-                                                    <span ng-show="$index == 0">
-                                                        <span class="fa fa-fw fa-windows"></span>
+                                                    <span ng-show="$index <= 2">
                                                         <span class="fa fa-fw fa-desktop"></span>
                                                     </span>
-                                                    <span ng-show="$index == 1">
-                                                        <span class="fa fa-fw fa-apple"></span>
-                                                        <span class="fa fa-fw fa-desktop"></span>
-                                                    </span>
-                                                    <span ng-show="$index == 2">
-                                                        <span class="fa fa-fw fa-windows"></span>
-                                                        <span class="fa fa-fw fa-laptop"></span>
-                                                    </span>
-                                                    <span ng-show="$index == 3">
-                                                        <span class="fa fa-fw fa-apple"></span>
+                                                    <span ng-show="$index > 2">
                                                         <span class="fa fa-fw fa-laptop"></span>
                                                     </span>
                                         </div>
