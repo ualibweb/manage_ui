@@ -1638,13 +1638,13 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         data.software[i].newLoc.selLoc = data.locations[0];
                         data.software[i].newLoc.devices = [];
                         for (var j = 0; j < data.devices.length; j++)
-                            data.software[i].newLoc.devices[j] = false;
+                            data.software[i].newLoc.devices[j] = true;
                         data.software[i].newLink = {};
                     }
                     $scope.newSW.newLoc.selLoc = data.locations[0];
                     $scope.newSW.newLoc.devices = [];
                     for (var j = 0; j < data.devices.length; j++)
-                        $scope.newSW.newLoc.devices[j] = false;
+                        $scope.newSW.newLoc.devices[j] = true;
                     $scope.newSW.selCat = data.categories[0];
                     $scope.SWList = data;
                 })
@@ -1928,7 +1928,10 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     for (var i = 0; i < $scope.SWList.devices.length; i++)
                         if (sw.newLoc.devices[i])
                             newLoc.devices += parseInt($scope.SWList.devices[i].did);
-                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions[$scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version)].locations.push(newLoc);
+                    if (newLoc.devices > 0)
+                        $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions[$scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version)].locations.push(newLoc);
+                    else
+                        alert("Please select at least one device type!");
                 }
             };
             $scope.deleteLocation = function(sw, version, location){
@@ -2028,7 +2031,10 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     for (var i = 0; i < $scope.SWList.devices.length; i++)
                         if ($scope.newSW.newLoc.devices[i])
                             newLoc.devices += parseInt($scope.SWList.devices[i].did);
-                    $scope.newSW.versions[$scope.newSW.versions.indexOf(version)].locations.push(newLoc);
+                    if (newLoc.devices > 0)
+                        $scope.newSW.versions[$scope.newSW.versions.indexOf(version)].locations.push(newLoc);
+                    else
+                        alert("Please select at least one device type!");
                 }
             };
             $scope.addNewSWCat = function(){
