@@ -940,7 +940,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                </div>\n" +
     "                <div class=\"col-md-12 form-group\">\n" +
     "                    <label>Detailed Description</label>\n" +
-    "                    <tiny-mce-editor ng-model=\"newNews.description\" ></tiny-mce-editor>\n" +
+    "                    <tiny-mce-editor model=\"newNews.description\" ></tiny-mce-editor>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12\">\n" +
@@ -1084,7 +1084,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                        <div class=\"row\">\n" +
     "                            <div class=\"col-md-12 form-group\">\n" +
     "                                <label>Detailed Description</label>\n" +
-    "                                <tiny-mce-editor ng-model=\"news.description\" ></tiny-mce-editor>\n" +
+    "                                <tiny-mce-editor model=\"news.description\" ></tiny-mce-editor>\n" +
     "                            </div>\n" +
     "                        </div>\n" +
     "                        <h4><small>Select contact person from the list or enter new contact information</small></h4>\n" +

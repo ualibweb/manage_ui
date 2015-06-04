@@ -1137,9 +1137,11 @@ angular.module('manage.manageNews', ['ngFileUpload'])
         var uniqueId = 0;
         return {
             restrict: 'E',
-            require: 'ngModel',
-            scope: true,
-            template: '<textarea class="form-control" rows="6"></textarea>',
+            require: 'model',
+            scope: {
+                model: "=model"
+            },
+            template: '<textarea class="form-control" rows="6" ng-model="model"></textarea>',
             link: function (scope, element, attrs, ngModel) {
                 var id = 'myEditor_' + uniqueId++;
                 element.find('textarea').attr('id', id);
@@ -1209,7 +1211,6 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                         .success(function(data, status, headers, config) {
                             if (data == 1){
                                 $scope.data.news[$scope.data.news.indexOf(news)].status = 1;
-                                alert("News item has been approved.");
                             } else {
                                 alert("Error: Can not approve news item! " + data);
                             }
