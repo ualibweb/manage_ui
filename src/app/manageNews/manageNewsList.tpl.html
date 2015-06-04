@@ -1,7 +1,7 @@
 <div>
-    <h3>Add News Record</h3>
     <form name="addNewsExh" ng-submit="createNews()">
         <div class="row sdOpen">
+            <h3>Add News Record</h3>
             <div class="col-md-12">
                 <div class="col-md-3 form-group">
                     <label for="up">Upload Icon</label>
@@ -47,7 +47,7 @@
                     <textarea data-ui-tinymce id="description" data-ng-model="newNews.description" rows="5"></textarea>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12 form-group">
                 <h4><small>Select contact person from the list or enter new contact information</small></h4>
                 <div class="form-group">
                     <div class="col-md-3">
@@ -73,7 +73,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 text-center">
+            <div class="col-md-12 text-center form-group">
                 <button type="submit" class="btn btn-success">Create New Record</button><br>
                 {{newNews.formResponse}}
             </div>
@@ -180,7 +180,7 @@
                     </h4>
                     <div ng-show="news.show">
                         <div class="row">
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-3 form-group">
                                 <label for="{{news.nid}}_up">Upload Icon</label>
                                 <input type="file" ngf-select="" ng-model="news.picFile" accept="image/png"
                                        ngf-change="generateThumb(news.picFile[0], $files)" id="{{news.nid}}_up">
@@ -188,13 +188,17 @@
                                     <div class="ng-binding" style="width:{{news.picFile[0].progress}}%" ng-bind="news.picFile[0].progress + '%'"></div>
                                 </span>
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-3 form-group">
+                                <label>Author</label>
+                                <div><strong>{{news.creator}}</strong></div>
+                            </div>
+                            <div class="col-md-3 form-group">
                                 <label for="{{news.nid}}_from">Active From</label>
                                 <input type="text" class="form-control" id="{{news.nid}}_from" datepicker-popup="{{dpFormat}}"
                                        ng-model="news.activeFrom" is-open="news.dpFrom" ng-required="true" close-text="Close"
                                        ng-focus="onNewsDPFocusFrom($event, $index)"/>
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-3 form-group">
                                 <label for="{{news.nid}}_until">Active Until</label>
                                 <input type="text" class="form-control" id="{{news.nid}}_until" datepicker-popup="{{dpFormat}}"
                                        ng-model="news.activeUntil" is-open="news.dpUntil" ng-required="true" close-text="Close"
