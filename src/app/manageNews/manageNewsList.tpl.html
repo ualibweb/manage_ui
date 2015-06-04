@@ -30,13 +30,21 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="col-md-12 form-group">
+                <div class="col-md-10 form-group">
                     <label for="blurb">Short Description</label>
-                    <textarea class="form-control" rows="2" id="blurb" ng-model="newNews.blurb" ></textarea>
+                    <textarea class="form-control" rows="1" id="blurb" ng-model="newNews.blurb" ></textarea>
                 </div>
+                <div class="col-md-2 form-group">
+                    <label for="type">Type</label>
+                    <select class="form-control" id="type" ng-options="type.name for type in types"
+                            ng-model="newNews.selType">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12">
                 <div class="col-md-12 form-group">
                     <label>Detailed Description</label>
-                    <textarea data-ui-tinymce id="description" data-ng-model="newNews.description" rows="8"></textarea>
+                    <textarea data-ui-tinymce id="description" data-ng-model="newNews.description" rows="5"></textarea>
                 </div>
             </div>
             <div class="col-md-12">
@@ -66,13 +74,22 @@
                 </div>
             </div>
             <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-success">Create News Record</button><br>
+                <button type="submit" class="btn btn-success">Create New Record</button><br>
                 {{newNews.formResponse}}
             </div>
         </div>
     </form>
 
     <h3>News</h3>
+    <div class="row form-inline">
+        <div class="form-group col-md-12">
+            <label for="filterBy">Filter <small>{{filteredNews.length}}</small> results by</label>
+            <div id="filterBy">
+                <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
+                <input type="text" class="form-control" placeholder="Description contains" ng-model="descrFilter">
+            </div>
+        </div>
+    </div>
     <div class="text-center">
         <pagination total-items="filteredNews.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
                     boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredNews.length > perPage"></pagination>
@@ -85,21 +102,28 @@
                     Thumbnail
                 </th>
                 <th class="hidden-xs">
-                    <a href="#"
+                    <a
                        ng-click="sortBy(0)"
                        ng-class="{'sortable': !sortModes[0].reverse && sortMode == 0, 'sortable-reverse': sortModes[0].reverse && sortMode == 0}">
                         Details
                     </a>
                 </th>
+                <th class="hidden-xs" style="width: 5%">
+                    <a
+                            ng-click="sortBy(3)"
+                            ng-class="{'sortable': !sortModes[3].reverse && sortMode == 3, 'sortable-reverse': sortModes[3].reverse && sortMode == 3}">
+                        Type
+                    </a>
+                </th>
                 <th class="hidden-xs" style="width: 8%">
-                    <a href="#"
+                    <a
                        ng-click="sortBy(1)"
                        ng-class="{'sortable': !sortModes[1].reverse && sortMode == 1, 'sortable-reverse': sortModes[1].reverse && sortMode == 1}">
                         Start Date
                     </a>
                 </th>
                 <th class="hidden-xs" style="width: 8%">
-                    <a href="#"
+                    <a
                        ng-click="sortBy(2)"
                        ng-class="{'sortable': !sortModes[2].reverse && sortMode == 2, 'sortable-reverse': sortModes[2].reverse && sortMode == 2}">
                         Finish Date
@@ -118,7 +142,7 @@
                     <table>
                         <tr>
                             <td>
-                                <a href="#">
+                                <a>
                                     <span class="fa fa-fw fa-caret-right" ng-hide="news.show"></span>
                                     <span class="fa fa-fw fa-caret-down" ng-show="news.show"></span>
                                 </a>
@@ -135,7 +159,7 @@
                     <div class="row">
                         <div class="col-md-10">
                             <h4>
-                                <span ng-hide="news.show" ng-click="toggleNews(news)"><a href="#">{{news.title}}</a></span>
+                                <span ng-hide="news.show" ng-click="toggleNews(news)"><a>{{news.title}}</a></span>
                                 <span ng-show="news.show">
                                     <input type="text" class="form-control" placeholder="Title" ng-model="news.title">
                                 </span>
@@ -151,7 +175,7 @@
                     <h4 style="text-align: justify;">
                         <span ng-hide="news.show" ng-click="toggleNews(news)"><small>{{news.blurb}}</small></span>
                         <span ng-show="news.show">
-                            <textarea class="form-control" rows="2" ng-model="news.blurb" ></textarea>
+                            <textarea class="form-control" rows="1" ng-model="news.blurb" ></textarea>
                         </span>
                     </h4>
                     <div ng-show="news.show">
@@ -180,7 +204,7 @@
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label>Detailed Description</label>
-                                <textarea data-ui-tinymce id="{{news.nid}}_descr" data-ng-model="news.description" rows="8"></textarea>
+                                <textarea data-ui-tinymce id="{{news.nid}}_descr" data-ng-model="news.description" rows="5"></textarea>
                             </div>
                         </div>
                         <h4><small>Select contact person from the list or enter new contact information</small></h4>
@@ -218,6 +242,12 @@
                     </form>
                 </td>
                 <td class="hidden-xs" ng-click="toggleNews(news)">
+                    <h5>
+                        <span ng-show="news.type == 0">News</span>
+                        <span ng-show="news.type == 1">Exhibit</span>
+                    </h5>
+                </td>
+                <td class="hidden-xs" ng-click="toggleNews(news)">
                     <h5>{{news.activeFrom | date : 'MMM d, y'}}</h5>
                 </td>
                 <td class="hidden-xs" ng-click="toggleNews(news)">
@@ -234,15 +264,5 @@
 </div>
 <div class="text-center">
     <h4 ng-show="filteredNews.length == 0">Nothing found</h4>
-</div>
-
-<div class="row form-inline">
-    <div class="form-group col-md-12">
-        <label for="filterBy">Filter <small>{{filteredNews.length}}</small> results by</label>
-        <div id="filterBy">
-            <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
-            <input type="text" class="form-control" placeholder="Description contains" ng-model="descrFilter">
-        </div>
-    </div>
 </div>
 

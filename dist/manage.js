@@ -1023,13 +1023,17 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             if (typeof $window.admin !== 'undefined')
                 if ($window.admin === "1")
                     $scope.isAdmin = true;
-            $scope.newExh = {};
-            $scope.newExh.creator = $window.author;
             $scope.sortModes = [
                 {by:'title', reverse:false},
                 {by:'activeFrom', reverse:false},
-                {by:'activeUntil', reverse:false}
+                {by:'activeUntil', reverse:false},
+                {by:'type', reverse:false}
             ];
+            $scope.types = [
+                {name:'News', value:0},
+                {name:'Exhibition', value:1}
+            ];
+            $scope.newNews.selType = $scope.types[0];
 
             tokenFactory("CSRF-libNews");
 
@@ -1049,21 +1053,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                         data.news[i].dpFrom = false;
                         data.news[i].dpUntil = false;
                     }
-                    for (var i = 0; i < data.exhibitions.length; i++){
-                        data.exhibitions[i].activeFrom = new Date(data.exhibitions[i].activeFrom * 1000);
-                        data.exhibitions[i].activeUntil = new Date(data.exhibitions[i].activeUntil * 1000);
-                        for (var j = 0; j < data.people.length; j++)
-                            if (data.exhibitions[i].contactID.uid === data.people[j].uid){
-                                data.exhibitions[i].contactID = data.people[j];
-                                break;
-                            }
-                        data.exhibitions[i].show = false;
-                        data.exhibitions[i].class = "";
-                        data.exhibitions[i].dpFrom = false;
-                        data.exhibitions[i].dpUntil = false;
-                    }
                     $scope.newNews.contactID = data.people[0];
-                    $scope.newExh.contactID = data.people[0];
                     $scope.data = data;
                 })
                 .error(function(data, status, headers, config) {
@@ -1071,11 +1061,11 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                 });
 
             $scope.tabs = [
-                { name: 'News',
+                { name: 'News and Exhibits',
                     number: 0,
                     active: true
                 },
-                { name: 'Exhibitions',
+                { name: 'Admins',
                     number: 1,
                     active: false
                 }];
@@ -1133,6 +1123,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
         };
     })
 
+    //from http://codepen.io/paulbhartzog/pen/Ekztl?editors=101
     .value('uiTinymceConfig', {})
     .directive('uiTinymce', ['uiTinymceConfig', function(uiTinymceConfig) {
         uiTinymceConfig = uiTinymceConfig || {};
@@ -1202,7 +1193,6 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.sortMode = 0;
             $scope.appURL = appURL;
 
-            $scope.newNews.type = 0; // news
             $scope.newNews.activeFrom = new Date();
             $scope.newNews.activeUntil = new Date();
             $scope.newNews.dpFrom = false;
@@ -1364,6 +1354,9 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                             newNews.description = $scope.newNews.description;
                             newNews.show = false;
                             newNews.class = "";
+                            newNews.img = response.data.img;
+                            newNews.type = $scope.newNews.selType.value;
+                            newNews.status = 0;
                             $scope.data.news.push(newNews);
                             $scope.newNews.formResponse = "News has been added.";
                         } else {
@@ -1399,186 +1392,6 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                 return input;
             return input.slice(start);
         }
-    })
-    .controller('manageExhListCtrl', ['$scope', '$timeout', 'Upload', 'newsFactory', 'NEWS_URL',
-        function manageExhListCtrl($scope, $timeout, Upload, newsFactory, appURL){
-            $scope.titleFilter = '';
-            $scope.descrFilter = '';
-            $scope.sortMode = 0;
-            $scope.sortButton = $scope.sortMode;
-            $scope.mOver = 0;
-            $scope.appURL = appURL;
-
-            $scope.newExh.type = 1;//exhibition
-            $scope.newExh.activeFrom = new Date();
-            $scope.newExh.activeUntil = new Date();
-            $scope.newExh.dpFrom = false;
-            $scope.newExh.dpUntil = false;
-
-            $scope.currentPage = 1;
-            $scope.maxPageSize = 10;
-            $scope.perPage = 20;
-
-            $scope.onExhDPFocusFrom = function($event, index){
-                $event.preventDefault();
-                $event.stopPropagation();
-                if (typeof index != 'undefined' && index >= 0)
-                    $scope.data.exhibitions[index].dpFrom = true;
-                else
-                    $scope.newExh.dpFrom = true;
-            };
-            $scope.onExhDPFocusUntil = function($event, index){
-                $event.preventDefault();
-                $event.stopPropagation();
-                if (typeof index != 'undefined' && index >= 0)
-                    $scope.data.exhibitions[index].dpUntil = true;
-                else
-                    $scope.newExh.dpUntil = true;
-            };
-
-            $scope.toggleExhibitions = function(exh){
-                $scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].show =
-                    !$scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].show;
-            };
-            $scope.setOver = function(exh){
-                $scope.mOver = exh.nid;
-            };
-            $scope.sortBy = function(by){
-                if ($scope.sortMode === by)
-                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
-                else
-                    $scope.sortMode = by;
-            };
-
-            $scope.deleteExhibition = function(exh){
-                if (confirm("Delete " + exh.title  + " permanently?") == true){
-                    newsFactory.postData({action : 1}, exh)
-                        .success(function(data, status, headers, config) {
-                            if (data == 1){
-                                $scope.data.exhibitions.splice($scope.data.exhibitions.indexOf(exh), 1);
-                                $scope.formResponse = "Exhibition item has been deleted.";
-                            } else {
-                                $scope.formResponse = "Error: Can not delete exhibition item! " + data;
-                            }
-                            console.log(data);
-                        })
-                        .error(function(data, status, headers, config) {
-                            $scope.formResponse = "Error: Could not delete Exhibition item! " + data;
-                            console.log(data);
-                        });
-                }
-            };
-            $scope.updateExhibition = function(exh){
-                $scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].formResponse = $scope.validateNews(exh);
-                if ($scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].formResponse.length > 0)
-                    return false;
-                exh.tsFrom = exh.activeFrom.valueOf() / 1000;
-                exh.tsUntil = exh.activeUntil.valueOf() / 1000;
-                if (typeof exh.picFile === 'undefined'){
-                    newsFactory.postData({action : 21}, exh)
-                        .success(function(data, status, headers, config) {
-                            if ((typeof data === 'object') && (data !== null)){
-                                $scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].formResponse =
-                                    "Exhibition has been updated, Icon has not changed.";
-                            } else {
-                                $scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].formResponse =
-                                    "Error: Can not update Exhibition! " + data;
-                            }
-                            console.log(data);
-                        })
-                        .error(function(data, status, headers, config) {
-                            $scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].formResponse =
-                                "Error: Could not update Exhibition! " + data;
-                            console.log(data);
-                        });
-                } else {
-                    exh.picFile.upload = Upload.upload({
-                        url: appURL + 'processData.php?action=2',
-                        method: 'POST',
-                        fields: {
-                            news: exh
-                        },
-                        file: exh.picFile,
-                        fileFormDataName: 'editNewsExh' + exh.nid
-                    });
-                    exh.picFile.upload.then(function(response) {
-                        $timeout(function() {
-                            if ((typeof response.data === 'object') && (response.data !== null)){
-                                $scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].formResponse = "Exhibition has been updated, ";
-                                if (response.data.iconUploaded)
-                                    $scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].formResponse += "Icon uploaded.";
-                                else
-                                    $scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].formResponse += "Icon has not changed.";
-                            } else {
-                                $scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].formResponse =
-                                    "Error: Can not update Exhibition! " + response.data;
-                            }
-                            console.log(response.data);
-                        });
-                    }, function(response) {
-                        if (response.status > 0)
-                            $scope.data.exhibitions[$scope.data.exhibitions.indexOf(exh)].formResponse = response.status + ': ' + response.data;
-                    });
-                    exh.picFile.upload.progress(function(evt) {
-                        // Math.min is to fix IE which reports 200% sometimes
-                        exh.picFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                    });
-                }
-            };
-            $scope.createExhibition = function(){
-                if (typeof $scope.newExh.picFile === 'undefined'){
-                    $scope.newExh.formResponse = "Please select icon file (.png)!";
-                    return false;
-                }
-                $scope.newExh.formResponse = $scope.validateNews($scope.newExh);
-                if ($scope.newExh.formResponse.length > 0)
-                    return false;
-                $scope.newExh.tsFrom = $scope.newExh.activeFrom.valueOf() / 1000;
-                $scope.newExh.tsUntil = $scope.newExh.activeUntil.valueOf() / 1000;
-                $scope.newExh.picFile.upload = Upload.upload({
-                    url: appURL + 'processData.php?action=3',
-                    method: 'POST',
-                    fields: {
-                        news: $scope.newExh
-                    },
-                    file: $scope.newExh.picFile,
-                    fileFormDataName: 'addNewsExh'
-                });
-                $scope.newExh.picFile.upload.then(function(response) {
-                    $timeout(function() {
-                        if ((typeof response.data === 'object') && (response.data !== null)){
-                            var newExh = {};
-                            newExh.nid = response.data.id;
-                            newExh.title = $scope.newExh.title;
-                            newExh.description = $scope.newExh.description;
-                            newExh.show = false;
-                            newExh.class = "";
-                            $scope.data.exhibitions.push(newExh);
-                            $scope.newExh.formResponse = "Exhibition has been added.";
-                        } else {
-                            $scope.newExh.formResponse = "Error: Can not add Exhibition! " + response.data;
-                        }
-                        console.dir(response.data);
-                    });
-                }, function(response) {
-                    if (response.status > 0)
-                        $scope.newExh.formResponse = response.status + ': ' + response.data;
-                });
-                $scope.newExh.picFile.upload.progress(function(evt) {
-                    // Math.min is to fix IE which reports 200% sometimes
-                    $scope.newExh.picFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                });
-            };
-        }])
-    .directive('manageExhibitionsList', function() {
-        return {
-            restrict: 'A',
-            controller: 'manageExhListCtrl',
-            link: function(scope, elm, attrs){
-
-            },
-            templateUrl: 'manageNews/manageExhibitionsList.tpl.html'
-        };
     })
 
     .controller('viewNEECtrl', ['$scope', '$timeout', 'newsFactory',

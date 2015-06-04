@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageExhibitionsList.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageNews/viewNewsEventsExhibitions.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'submittedForms/submittedForms.tpl.html']);
+angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageNews/viewNewsEventsExhibitions.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'submittedForms/submittedForms.tpl.html']);
 
 angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
@@ -688,199 +688,6 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "");
 }]);
 
-angular.module("manageNews/manageExhibitionsList.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("manageNews/manageExhibitionsList.tpl.html",
-    "<div>\n" +
-    "    <div class=\"row form-inline\">\n" +
-    "        <div class=\"form-group col-md-12\">\n" +
-    "            <label for=\"filterBy\">Filter <small>{{filteredExh.length}}</small> results by</label>\n" +
-    "            <div id=\"filterBy\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"titleFilter\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Description contains\" ng-model=\"descrFilter\">\n" +
-    "            </div>\n" +
-    "            <label for=\"sortBy\">Sort by</label>\n" +
-    "            <div id=\"sortBy\">\n" +
-    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"0\" ng-click=\"sortBy(0)\">\n" +
-    "                    Title\n" +
-    "                    <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[0].reverse\"></span>\n" +
-    "                    <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[0].reverse\"></span>\n" +
-    "                </button>\n" +
-    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"1\" ng-click=\"sortBy(1)\">\n" +
-    "                    Date Active From\n" +
-    "                    <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[1].reverse\"></span>\n" +
-    "                    <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[1].reverse\"></span>\n" +
-    "                </button>\n" +
-    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"2\" ng-click=\"sortBy(2)\">\n" +
-    "                    Date Active Until\n" +
-    "                    <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[2].reverse\"></span>\n" +
-    "                    <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[2].reverse\"></span>\n" +
-    "                </button>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "\n" +
-    "    <div class=\"text-center\">\n" +
-    "        <pagination total-items=\"filteredExh.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
-    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredExh.length > 0\"></pagination>\n" +
-    "    </div>\n" +
-    "    <div class=\"row\"\n" +
-    "         ng-repeat=\"exh in filteredExh = (data.exhibitions | filter:{title:titleFilter}\n" +
-    "                                                            | filter:{description:descrFilter}\n" +
-    "                                                            | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
-    "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
-    "         ng-class=\"{sdOpen: exh.show, sdOver: exh.sid == mOver}\" ng-mouseover=\"setOver(exh)\">\n" +
-    "        <div class=\"col-md-12\" ng-click=\"toggleExhibitions(exh)\">\n" +
-    "            <table class=\"table\">\n" +
-    "                <tr>\n" +
-    "                    <td style=\"width: 15px;\">\n" +
-    "                        <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"exh.show\"></span>\n" +
-    "                        <span class=\"fa fa-fw fa-caret-down\" ng-show=\"exh.show\"></span>\n" +
-    "                    </td>\n" +
-    "                    <td style=\"width:64px\">\n" +
-    "                        <img ng-hide=\"exh.picFile[0] != null\" src=\"{{exh.img}}\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
-    "                        <img ng-show=\"exh.picFile[0] != null\" ngf-src=\"exh.picFile[0]\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
-    "                    </td>\n" +
-    "                    <td>\n" +
-    "                        <div class=\"col-md-8\">\n" +
-    "                            <h4>\n" +
-    "                                {{exh.title}}\n" +
-    "                            </h4>\n" +
-    "                            <h4 style=\"text-align: justify;\"><small>{{exh.description}}</small></h4>\n" +
-    "                        </div>\n" +
-    "                        <div class=\"col-md-2\">\n" +
-    "                            <h5>{{exh.activeFrom | date : 'MMM d, y'}}</h5>\n" +
-    "                        </div>\n" +
-    "                        <div class=\"col-md-2\">\n" +
-    "                            <h5>{{exh.activeUntil | date : 'MMM d, y'}}</h5>\n" +
-    "                        </div>\n" +
-    "                    </td>\n" +
-    "                </tr>\n" +
-    "            </table>\n" +
-    "        </div>\n" +
-    "        <div ng-show=\"exh.show\">\n" +
-    "            <form name=\"editNewsExh{{exh.sid}}\" ng-submit=\"updateExhibition(exh)\">\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <div class=\"col-md-6 form-group\">\n" +
-    "                        <label for=\"{{exh.sid}}_up\">Upload Icon</label>\n" +
-    "                        <input type=\"file\" ngf-select=\"\" ng-model=\"exh.picFile\" accept=\"image/png\"\n" +
-    "                               ngf-change=\"generateThumb(exh.picFile[0], $files)\" id=\"{{exh.sid}}_up\">\n" +
-    "                        <span class=\"progress\" ng-show=\"exh.picFile[0].progress >= 0\">\n" +
-    "                            <div class=\"ng-binding\" style=\"width:{{exh.picFile[0].progress}}%\" ng-bind=\"exh.picFile[0].progress + '%'\"></div>\n" +
-    "                        </span>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"col-md-6 form-group\">\n" +
-    "                        <label for=\"{{exh.sid}}_title\">Title</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" placeholder=\"{{exh.title}}\" ng-model=\"exh.title\"\n" +
-    "                               id=\"{{exh.sid}}_title\">\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <div class=\"col-md-3 form-group\">\n" +
-    "                        <label for=\"{{exh.sid}}_blurb\">Short Description</label>\n" +
-    "                        <textarea class=\"form-control\" rows=\"3\" id=\"{{exh.sid}}_blurb\" ng-model=\"exh.blurb\" ></textarea>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"col-md-9 form-group\">\n" +
-    "                        <label for=\"{{exh.sid}}_descr\">Detailed Description</label>\n" +
-    "                        <textarea class=\"form-control\" rows=\"3\" id=\"{{exh.sid}}_descr\" ng-model=\"exh.description\" ></textarea>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <div class=\"col-md-4 form-group\">\n" +
-    "                        <label for=\"{{exh.sid}}_from\">Active From</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" id=\"{{exh.sid}}_from\" datepicker-popup=\"{{dpFormat}}\"\n" +
-    "                               ng-model=\"exh.activeFrom\" is-open=\"exh.dpFrom\" ng-required=\"true\" close-text=\"Close\"\n" +
-    "                               ng-focus=\"onExhDPFocusFrom($event, $index)\"/>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"col-md-4 form-group\">\n" +
-    "                        <label for=\"{{exh.sid}}_until\">Active Until</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" id=\"{{exh.sid}}_until\" datepicker-popup=\"{{dpFormat}}\"\n" +
-    "                               ng-model=\"exh.activeUntil\" is-open=\"exh.dpUntil\" ng-required=\"true\" close-text=\"Close\"\n" +
-    "                               ng-focus=\"onExhDPFocusUntil($event, $index)\"/>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"col-md-4 form-group\">\n" +
-    "                        <label for=\"{{exh.sid}}_contact\">Contact Person</label>\n" +
-    "                        <select class=\"form-control\" id=\"{{exh.sid}}_contact\" ng-options=\"people.fullName for people in data.people\"\n" +
-    "                                ng-model=\"exh.contactID\">\n" +
-    "                        </select>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-12 text-center\">\n" +
-    "                    <button type=\"submit\" class=\"btn btn-success\">Update information</button>\n" +
-    "                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteExhibition(exh)\">\n" +
-    "                        Delete Exhibition\n" +
-    "                    </button>\n" +
-    "                    {{exh.formResponse}}\n" +
-    "                </div>\n" +
-    "            </form>\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "</div>\n" +
-    "<div class=\"text-center\">\n" +
-    "    <pagination total-items=\"filteredExh.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
-    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredExh.length > 0\"></pagination>\n" +
-    "</div>\n" +
-    "<div class=\"text-center\">\n" +
-    "    <h4 ng-show=\"filteredExh.length == 0\">Nothing found</h4>\n" +
-    "</div>\n" +
-    "\n" +
-    "<h3>Add Exhibition Record</h3>\n" +
-    "<form name=\"addNewsExh\" ng-submit=\"createExhibition()\">\n" +
-    "    <div class=\"row sdOpen\">\n" +
-    "        <div class=\"col-md-12\">\n" +
-    "            <div class=\"col-md-6 form-group\">\n" +
-    "                <label for=\"up\">Upload Icon</label>\n" +
-    "                <input type=\"file\" ngf-select=\"\" ng-model=\"newExh.picFile\" accept=\"image/png\"\n" +
-    "                       ngf-change=\"generateThumb(newExh.picFile[0], $files)\" id=\"up\">\n" +
-    "                        <span class=\"progress\" ng-show=\"newExh.picFile[0].progress >= 0\">\n" +
-    "                            <div class=\"ng-binding\" style=\"width:{{newExh.picFile[0].progress}}%\" ng-bind=\"newExh.picFile[0].progress + '%'\"></div>\n" +
-    "                        </span>\n" +
-    "            </div>\n" +
-    "            <div class=\"col-md-6 form-group\">\n" +
-    "                <label for=\"title\">Title</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Enter Title\" ng-model=\"newExh.title\"\n" +
-    "                       id=\"title\">\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-12\">\n" +
-    "            <div class=\"col-md-3 form-group\">\n" +
-    "                <label for=\"blurb\">Short Description</label>\n" +
-    "                <textarea class=\"form-control\" rows=\"3\" id=\"blurb\" ng-model=\"newExh.blurb\" ></textarea>\n" +
-    "            </div>\n" +
-    "            <div class=\"col-md-9 form-group\">\n" +
-    "                <label for=\"descr\">Detailed Description</label>\n" +
-    "                <textarea class=\"form-control\" rows=\"3\" id=\"descr\" ng-model=\"newExh.description\" ></textarea>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-12\">\n" +
-    "            <div class=\"col-md-4 form-group\">\n" +
-    "                <label for=\"from\">Active From</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" id=\"from\" datepicker-popup=\"{{dpFormat}}\"\n" +
-    "                       ng-model=\"newExh.activeFrom\" is-open=\"newExh.dpFrom\" ng-required=\"true\" close-text=\"Close\"\n" +
-    "                       ng-focus=\"onExhDPFocusFrom($event)\"/>\n" +
-    "            </div>\n" +
-    "            <div class=\"col-md-4 form-group\">\n" +
-    "                <label for=\"until\">Active Until</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" id=\"until\" datepicker-popup=\"{{dpFormat}}\"\n" +
-    "                       ng-model=\"newExh.activeUntil\" is-open=\"newExh.dpUntil\" ng-required=\"true\" close-text=\"Close\"\n" +
-    "                       ng-focus=\"onExhDPFocusUntil($event)\"/>\n" +
-    "            </div>\n" +
-    "            <div class=\"col-md-4 form-group\">\n" +
-    "                <label for=\"contact\">Contact Person</label>\n" +
-    "                <select class=\"form-control\" id=\"contact\" ng-options=\"people.fullName for people in data.people\"\n" +
-    "                        ng-model=\"newExh.contactID\">\n" +
-    "                </select>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-12 text-center\">\n" +
-    "            <button type=\"submit\" class=\"btn btn-success\">Create Exhibition Record</button>\n" +
-    "            {{newExh.formResponse}}\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "</form>\n" +
-    "\n" +
-    "");
-}]);
-
 angular.module("manageNews/manageNews.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageNews/manageNews.tpl.html",
     "<h2>Manage News and Exhibitions</h2>\n" +
@@ -892,7 +699,7 @@ angular.module("manageNews/manageNews.tpl.html", []).run(["$templateCache", func
     "            </div>\n" +
     "        </div>\n" +
     "        <div ng-if=\"tab.number == 1\" >\n" +
-    "            <div manage-exhibitions-list>\n" +
+    "            <div manage-admins-list>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </tab>\n" +
@@ -934,13 +741,21 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12\">\n" +
-    "                <div class=\"col-md-12 form-group\">\n" +
+    "                <div class=\"col-md-10 form-group\">\n" +
     "                    <label for=\"blurb\">Short Description</label>\n" +
-    "                    <textarea class=\"form-control\" rows=\"2\" id=\"blurb\" ng-model=\"newNews.blurb\" ></textarea>\n" +
+    "                    <textarea class=\"form-control\" rows=\"1\" id=\"blurb\" ng-model=\"newNews.blurb\" ></textarea>\n" +
     "                </div>\n" +
+    "                <div class=\"col-md-2 form-group\">\n" +
+    "                    <label for=\"type\">Type</label>\n" +
+    "                    <select class=\"form-control\" id=\"type\" ng-options=\"type.name for type in types\"\n" +
+    "                            ng-model=\"newNews.selType\">\n" +
+    "                    </select>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-12\">\n" +
     "                <div class=\"col-md-12 form-group\">\n" +
     "                    <label>Detailed Description</label>\n" +
-    "                    <textarea data-ui-tinymce id=\"description\" data-ng-model=\"newNews.description\" rows=\"8\"></textarea>\n" +
+    "                    <textarea data-ui-tinymce id=\"description\" data-ng-model=\"newNews.description\" rows=\"5\"></textarea>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12\">\n" +
@@ -970,13 +785,22 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 text-center\">\n" +
-    "                <button type=\"submit\" class=\"btn btn-success\">Create News Record</button><br>\n" +
+    "                <button type=\"submit\" class=\"btn btn-success\">Create New Record</button><br>\n" +
     "                {{newNews.formResponse}}\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </form>\n" +
     "\n" +
     "    <h3>News</h3>\n" +
+    "    <div class=\"row form-inline\">\n" +
+    "        <div class=\"form-group col-md-12\">\n" +
+    "            <label for=\"filterBy\">Filter <small>{{filteredNews.length}}</small> results by</label>\n" +
+    "            <div id=\"filterBy\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"titleFilter\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Description contains\" ng-model=\"descrFilter\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
     "    <div class=\"text-center\">\n" +
     "        <pagination total-items=\"filteredNews.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
     "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredNews.length > perPage\"></pagination>\n" +
@@ -989,21 +813,28 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                    Thumbnail\n" +
     "                </th>\n" +
     "                <th class=\"hidden-xs\">\n" +
-    "                    <a href=\"#\"\n" +
+    "                    <a\n" +
     "                       ng-click=\"sortBy(0)\"\n" +
     "                       ng-class=\"{'sortable': !sortModes[0].reverse && sortMode == 0, 'sortable-reverse': sortModes[0].reverse && sortMode == 0}\">\n" +
     "                        Details\n" +
     "                    </a>\n" +
     "                </th>\n" +
+    "                <th class=\"hidden-xs\" style=\"width: 5%\">\n" +
+    "                    <a\n" +
+    "                            ng-click=\"sortBy(3)\"\n" +
+    "                            ng-class=\"{'sortable': !sortModes[3].reverse && sortMode == 3, 'sortable-reverse': sortModes[3].reverse && sortMode == 3}\">\n" +
+    "                        Type\n" +
+    "                    </a>\n" +
+    "                </th>\n" +
     "                <th class=\"hidden-xs\" style=\"width: 8%\">\n" +
-    "                    <a href=\"#\"\n" +
+    "                    <a\n" +
     "                       ng-click=\"sortBy(1)\"\n" +
     "                       ng-class=\"{'sortable': !sortModes[1].reverse && sortMode == 1, 'sortable-reverse': sortModes[1].reverse && sortMode == 1}\">\n" +
     "                        Start Date\n" +
     "                    </a>\n" +
     "                </th>\n" +
     "                <th class=\"hidden-xs\" style=\"width: 8%\">\n" +
-    "                    <a href=\"#\"\n" +
+    "                    <a\n" +
     "                       ng-click=\"sortBy(2)\"\n" +
     "                       ng-class=\"{'sortable': !sortModes[2].reverse && sortMode == 2, 'sortable-reverse': sortModes[2].reverse && sortMode == 2}\">\n" +
     "                        Finish Date\n" +
@@ -1022,7 +853,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                    <table>\n" +
     "                        <tr>\n" +
     "                            <td>\n" +
-    "                                <a href=\"#\">\n" +
+    "                                <a>\n" +
     "                                    <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"news.show\"></span>\n" +
     "                                    <span class=\"fa fa-fw fa-caret-down\" ng-show=\"news.show\"></span>\n" +
     "                                </a>\n" +
@@ -1039,7 +870,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                    <div class=\"row\">\n" +
     "                        <div class=\"col-md-10\">\n" +
     "                            <h4>\n" +
-    "                                <span ng-hide=\"news.show\" ng-click=\"toggleNews(news)\"><a href=\"#\">{{news.title}}</a></span>\n" +
+    "                                <span ng-hide=\"news.show\" ng-click=\"toggleNews(news)\"><a>{{news.title}}</a></span>\n" +
     "                                <span ng-show=\"news.show\">\n" +
     "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Title\" ng-model=\"news.title\">\n" +
     "                                </span>\n" +
@@ -1055,7 +886,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                    <h4 style=\"text-align: justify;\">\n" +
     "                        <span ng-hide=\"news.show\" ng-click=\"toggleNews(news)\"><small>{{news.blurb}}</small></span>\n" +
     "                        <span ng-show=\"news.show\">\n" +
-    "                            <textarea class=\"form-control\" rows=\"2\" ng-model=\"news.blurb\" ></textarea>\n" +
+    "                            <textarea class=\"form-control\" rows=\"1\" ng-model=\"news.blurb\" ></textarea>\n" +
     "                        </span>\n" +
     "                    </h4>\n" +
     "                    <div ng-show=\"news.show\">\n" +
@@ -1084,7 +915,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                        <div class=\"row\">\n" +
     "                            <div class=\"col-md-12 form-group\">\n" +
     "                                <label>Detailed Description</label>\n" +
-    "                                <textarea data-ui-tinymce id=\"{{news.nid}}_descr\" data-ng-model=\"news.description\" rows=\"8\"></textarea>\n" +
+    "                                <textarea data-ui-tinymce id=\"{{news.nid}}_descr\" data-ng-model=\"news.description\" rows=\"5\"></textarea>\n" +
     "                            </div>\n" +
     "                        </div>\n" +
     "                        <h4><small>Select contact person from the list or enter new contact information</small></h4>\n" +
@@ -1122,6 +953,12 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                    </form>\n" +
     "                </td>\n" +
     "                <td class=\"hidden-xs\" ng-click=\"toggleNews(news)\">\n" +
+    "                    <h5>\n" +
+    "                        <span ng-show=\"news.type == 0\">News</span>\n" +
+    "                        <span ng-show=\"news.type == 1\">Exhibit</span>\n" +
+    "                    </h5>\n" +
+    "                </td>\n" +
+    "                <td class=\"hidden-xs\" ng-click=\"toggleNews(news)\">\n" +
     "                    <h5>{{news.activeFrom | date : 'MMM d, y'}}</h5>\n" +
     "                </td>\n" +
     "                <td class=\"hidden-xs\" ng-click=\"toggleNews(news)\">\n" +
@@ -1138,16 +975,6 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "</div>\n" +
     "<div class=\"text-center\">\n" +
     "    <h4 ng-show=\"filteredNews.length == 0\">Nothing found</h4>\n" +
-    "</div>\n" +
-    "\n" +
-    "<div class=\"row form-inline\">\n" +
-    "    <div class=\"form-group col-md-12\">\n" +
-    "        <label for=\"filterBy\">Filter <small>{{filteredNews.length}}</small> results by</label>\n" +
-    "        <div id=\"filterBy\">\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"titleFilter\">\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Description contains\" ng-model=\"descrFilter\">\n" +
-    "        </div>\n" +
-    "    </div>\n" +
     "</div>\n" +
     "\n" +
     "");
