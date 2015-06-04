@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-12 form-group">
                     <label>Detailed Description</label>
-                    <tiny-mce-editor model="newNews.description" ></tiny-mce-editor>
+                    <textarea data-ui-tinymce id="description" data-ng-model="newNews.description" rows="8"></textarea>
                 </div>
             </div>
             <div class="col-md-12">
@@ -131,7 +131,7 @@
                     </table>
                 </td>
                 <td>
-                    <form name="editNewsExh{{news.sid}}" ng-submit="updateNews(news)">
+                    <form name="editNewsExh{{news.nid}}" ng-submit="updateNews(news)">
                     <div class="row">
                         <div class="col-md-10">
                             <h4>
@@ -157,22 +157,22 @@
                     <div ng-show="news.show">
                         <div class="row">
                             <div class="col-md-4 form-group">
-                                <label for="{{news.sid}}_up">Upload Icon</label>
+                                <label for="{{news.nid}}_up">Upload Icon</label>
                                 <input type="file" ngf-select="" ng-model="news.picFile" accept="image/png"
-                                       ngf-change="generateThumb(news.picFile[0], $files)" id="{{news.sid}}_up">
+                                       ngf-change="generateThumb(news.picFile[0], $files)" id="{{news.nid}}_up">
                                 <span class="progress" ng-show="news.picFile[0].progress >= 0">
                                     <div class="ng-binding" style="width:{{news.picFile[0].progress}}%" ng-bind="news.picFile[0].progress + '%'"></div>
                                 </span>
                             </div>
                             <div class="col-md-4 form-group">
-                                <label for="{{news.sid}}_from">Active From</label>
-                                <input type="text" class="form-control" id="{{news.sid}}_from" datepicker-popup="{{dpFormat}}"
+                                <label for="{{news.nid}}_from">Active From</label>
+                                <input type="text" class="form-control" id="{{news.nid}}_from" datepicker-popup="{{dpFormat}}"
                                        ng-model="news.activeFrom" is-open="news.dpFrom" ng-required="true" close-text="Close"
                                        ng-focus="onNewsDPFocusFrom($event, $index)"/>
                             </div>
                             <div class="col-md-4 form-group">
-                                <label for="{{news.sid}}_until">Active Until</label>
-                                <input type="text" class="form-control" id="{{news.sid}}_until" datepicker-popup="{{dpFormat}}"
+                                <label for="{{news.nid}}_until">Active Until</label>
+                                <input type="text" class="form-control" id="{{news.nid}}_until" datepicker-popup="{{dpFormat}}"
                                        ng-model="news.activeUntil" is-open="news.dpUntil" ng-required="true" close-text="Close"
                                        ng-focus="onNewsDPFocusUntil($event, $index)"/>
                             </div>
@@ -180,31 +180,31 @@
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label>Detailed Description</label>
-                                <tiny-mce-editor model="news.description" ></tiny-mce-editor>
+                                <textarea data-ui-tinymce id="{{news.nid}}_descr" data-ng-model="news.description" rows="8"></textarea>
                             </div>
                         </div>
                         <h4><small>Select contact person from the list or enter new contact information</small></h4>
                         <div class="row form-group">
                             <div class="col-md-3">
-                                <label for="{{news.sid}}_contact1">Library Faculty and Staff</label>
-                                <select class="form-control" id="{{news.sid}}_contact1" ng-options="people.fullName for people in data.people"
+                                <label for="{{news.nid}}_contact1">Library Faculty and Staff</label>
+                                <select class="form-control" id="{{news.nid}}_contact1" ng-options="people.fullName for people in data.people"
                                         ng-model="news.contactID">
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="{{news.sid}}_contact2">Name</label>
+                                <label for="{{news.nid}}_contact2">Name</label>
                                 <input type="text" class="form-control" placeholder="Contact Name" ng-model="news.contactName"
-                                       id="{{news.sid}}_contact2">
+                                       id="{{news.nid}}_contact2">
                             </div>
                             <div class="col-md-3">
-                                <label for="{{news.sid}}_contact3">Email</label>
+                                <label for="{{news.nid}}_contact3">Email</label>
                                 <input type="text" class="form-control" placeholder="Contact Email" ng-model="news.contactEmail"
-                                       id="{{news.sid}}_contact3">
+                                       id="{{news.nid}}_contact3">
                             </div>
                             <div class="col-md-3">
-                                <label for="{{news.sid}}_contact4">Phone</label>
+                                <label for="{{news.nid}}_contact4">Phone</label>
                                 <input type="text" class="form-control" placeholder="Contact Phone" ng-model="news.contactPhone"
-                                       id="{{news.sid}}_contact4">
+                                       id="{{news.nid}}_contact4">
                             </div>
                         </div>
                         <div class="row text-center">
