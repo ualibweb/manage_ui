@@ -5,6 +5,10 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.dpFormat = 'MM/dd/yyyy';
             $scope.newNews = {};
             $scope.newNews.creator = $window.author;
+            $scope.isAdmin = false;
+            if (typeof $window.admin !== 'undefined')
+                if ($window.admin === "1")
+                    $scope.isAdmin = true;
             $scope.newExh = {};
             $scope.newExh.creator = $window.author;
             $scope.sortModes = [
@@ -115,13 +119,32 @@ angular.module('manage.manageNews', ['ngFileUpload'])
         };
     })
 
+    .directive('tinyMceEditor', function () {
+        var uniqueId = 0;
+        return {
+            restrict: 'E',
+            require: 'ngModel',
+            scope: true,
+            template: '<textarea class="form-control" rows="6"></textarea>',
+            link: function (scope, element, attrs, ngModel) {
+                var id = 'myEditor_' + uniqueId++;
+                element.find('textarea').attr('id', id);
+                tinymce.init({
+                    selector: '#' + id
+                });
+
+                setTimeout(function(){
+                    var editor = tinymce.get(id);
+                },0);
+            }
+        }
+    })
+
     .controller('manageNewsListCtrl', ['$scope', '$timeout', 'Upload', 'newsFactory', 'NEWS_URL',
         function manageNewsListCtrl($scope, $timeout, Upload, newsFactory, appURL){
             $scope.titleFilter = '';
             $scope.descrFilter = '';
             $scope.sortMode = 0;
-            $scope.sortButton = $scope.sortMode;
-            $scope.mOver = 0;
             $scope.appURL = appURL;
 
             $scope.newNews.type = 0; // news
@@ -129,6 +152,9 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.newNews.activeUntil = new Date();
             $scope.newNews.dpFrom = false;
             $scope.newNews.dpUntil = false;
+            $scope.newNews.contactName = '';
+            $scope.newNews.contactEmail = '';
+            $scope.newNews.contactPhone = '';
 
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
@@ -155,9 +181,6 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                 $scope.data.news[$scope.data.news.indexOf(news)].show =
                     !$scope.data.news[$scope.data.news.indexOf(news)].show;
             };
-            $scope.setOver = function(news){
-                $scope.mOver = news.nid;
-            };
             $scope.sortBy = function(by){
                 if ($scope.sortMode === by)
                     $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
@@ -165,6 +188,25 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                     $scope.sortMode = by;
             };
 
+            $scope.approveNews = function(news){
+                news.admin = $scope.newNews.creator;
+                if (confirm("Are you sure you want to approve " + news.title  + "?") == true){
+                    newsFactory.postData({action : 4}, news)
+                        .success(function(data, status, headers, config) {
+                            if (data == 1){
+                                $scope.data.news[$scope.data.news.indexOf(news)].status = 1;
+                                alert("News item has been approved.");
+                            } else {
+                                alert("Error: Can not approve news item! " + data);
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            alert("Error: Could not approve news item! " + data);
+                            console.log(data);
+                        });
+                }
+            };
             $scope.deleteNews = function(news){
                 if (confirm("Delete " + news.title  + " permanently?") == true){
                     newsFactory.postData({action : 1}, news)

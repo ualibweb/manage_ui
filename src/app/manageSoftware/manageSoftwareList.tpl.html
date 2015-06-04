@@ -24,7 +24,7 @@
 
     <div class="text-center">
         <pagination total-items="filteredSW.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredSW.length > 0"></pagination>
+                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredSW.length > perPage"></pagination>
     </div>
     <div class="row"
          ng-repeat="sw in filteredSW = (SWList.software | filter:{title:titleFilter}
@@ -238,7 +238,7 @@
 </div>
 <div class="text-center">
     <pagination total-items="filteredSW.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredSW.length > 0"></pagination>
+                boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredSW.length > perPage"></pagination>
 </div>
 <div class="text-center">
     <h4 ng-show="filteredSW.length == 0">Nothing found</h4>

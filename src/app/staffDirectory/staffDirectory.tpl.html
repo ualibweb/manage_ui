@@ -36,7 +36,7 @@
 
     <div class="text-center">
         <pagination total-items="filteredDB.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                    boundary-links="true" rotate="false" items-per-page="perPage"></pagination>
+                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredDB.length > perPage"></pagination>
     </div>
     <div class="row" ng-repeat="person in filteredDB = (Directory.list
                                                         | filter:{lastname:lastNameFilter}
@@ -148,7 +148,7 @@
 </div>
 <div class="text-center">
     <pagination total-items="filteredDB.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                boundary-links="true" rotate="false" items-per-page="perPage"></pagination>
+                boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredDB.length > perPage"></pagination>
 </div>
 
 <div ng-show="hasAccess" style="background-color:#f9f9f9;">

@@ -41,7 +41,7 @@
 
     <div class="text-center">
         <pagination total-items="filteredDB.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                    boundary-links="true" rotate="false" items-per-page="perPage"></pagination>
+                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredDB.length > perPage"></pagination>
     </div>
     <div class="row"
          ng-repeat="db in filteredDB = (DBList.databases | filter:{title:titleStartFilter}:startTitle
@@ -223,7 +223,7 @@
 </div>
 <div class="text-center">
     <pagination total-items="filteredDB.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                boundary-links="true" rotate="false" items-per-page="perPage"></pagination>
+                boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredDB.length > perPage"></pagination>
 </div>
 
 <h3>Create new Database</h3>
