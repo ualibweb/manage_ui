@@ -1,4 +1,9 @@
 module.exports = function(grunt){
+    // Load all tasks
+    require('load-grunt-tasks')(grunt);
+    // Show elapsed time
+    require('time-grunt')(grunt);
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         html2js: {
@@ -48,10 +53,6 @@ module.exports = function(grunt){
             }
         }
     });
-
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-html2js');
-    grunt.loadNpmTasks('grunt-bump');
 
     grunt.registerTask('default', ['html2js', 'concat', 'bump']);
 };

@@ -93,7 +93,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.newSW.newVer = {};
             $scope.newSW.newVer.selOS = $scope.os[0];
             $scope.newSW.newLink = {};
-            $scope.newSW.details = '';
+            $scope.newSW.modules = '';
 
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
