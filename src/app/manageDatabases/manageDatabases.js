@@ -1,6 +1,6 @@
 angular.module('manage.manageDatabases', [])
-    .controller('manageDBCtrl', ['$scope', '$http', '$window', 'mdbFactory',
-        function manageDBCtrl($scope, $http, $window, mdbFactory){
+    .controller('manageDBCtrl', ['$scope', '$window', 'tokenFactory', 'mdbFactory',
+        function manageDBCtrl($scope, $window, tokenFactory, mdbFactory){
             $scope.DBList = {};
             $scope.titleFilter = '';
             $scope.titleStartFilter = '';
@@ -33,21 +33,7 @@ angular.module('manage.manageDatabases', [])
             //primary, secondary
             $scope.subjectValues = [ 1, 2 ];
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
-
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-
-                return cookies[name];
-            };
-            $http.defaults.headers.post = { 'X-CSRF-libDatabases' : $scope.GetCookie("CSRF-libDatabases") };
+            tokenFactory("CSRF-libDatabases");
 
             mdbFactory.getData()
                 .success(function(data) {

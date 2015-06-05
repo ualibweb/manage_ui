@@ -1,5 +1,5 @@
 <div class="text-right">
-    <button type="button" class="btn btn-primary" ng-click="deleteOldExc()" ng-disabled="loading">Delete All Outdated Exceptions</button>
+    <button type="button" class="btn btn-danger" ng-click="deleteOldExc()" ng-disabled="loading">Delete All Outdated Exceptions</button>
     <br>{{resultDel}}
 </div>
 <table class="table table-hover table-condensed" ng-repeat="excData in allowedLibraries.exc" ng-if="$index == selLib.index">
@@ -46,8 +46,8 @@
             </div>
         </td>
         <td class="text-right">
-            <button type="button" class="btn btn-primary" ng-click="updateExc(exception)" ng-show="isExpExc(exception.id)" ng-disabled="loading">Save</button>
-            <button type="button" class="btn btn-primary" ng-click="deleteExc(exception, $index)" ng-show="isExpExc(exception.id)" ng-disabled="loading">Delete</button>
+            <button type="button" class="btn btn-success" ng-click="updateExc(exception)" ng-show="isExpExc(exception.id)" ng-disabled="loading">Save</button>
+            <button type="button" class="btn btn-danger" ng-click="deleteExc(exception, $index)" ng-show="isExpExc(exception.id)" ng-disabled="loading">Delete</button>
             <div ng-show="isExpExc(exception.id)"><br>{{result}}</div>
         </td>
     </tr>
@@ -82,7 +82,7 @@
             <label for="isGlobal">Create For All Libraries</label>
             <input type="checkbox" ng-model="newException.isGlobal" id="isGlobal">
             <br>
-            <button type="button" class="btn btn-primary" ng-click="createExc()" ng-disabled="loading">Create Exception</button>
+            <button type="button" class="btn btn-success" ng-click="createExc()" ng-disabled="loading">Create Exception</button>
             <br>{{result}}
         </td>
     </tr>

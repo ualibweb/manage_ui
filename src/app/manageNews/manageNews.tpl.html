@@ -1,0 +1,14 @@
+<h2>Manage News and Exhibitions</h2>
+
+<tabset justified="true">
+    <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
+        <div ng-if="tab.number == 0">
+            <div manage-news-list>
+            </div>
+        </div>
+        <div ng-if="tab.number == 1" >
+            <div manage-admins-list>
+            </div>
+        </div>
+    </tab>
+</tabset>

@@ -28,11 +28,30 @@ module.exports = function(grunt){
                 src: ['src/**/*.css'],
                 dest: 'dist/manage.css'
             }
+        },
+        bump: {
+            options: {
+                files: ['package.json', 'bower.json'],
+                updateConfigs: ['pkg'],
+                commit: false,
+                commitMessage: 'Release v%VERSION%',
+                commitFiles: ['package.json', 'bower.json'],
+                createTag: true,
+                tagName: 'v%VERSION%',
+                tagMessage: 'Version %VERSION%',
+                push: false,
+                pushTo: 'origin',
+                gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+                globalReplace: false,
+                prereleaseName: false,
+                regExp: false
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-html2js');
+    grunt.loadNpmTasks('grunt-bump');
 
-    grunt.registerTask('default', ['html2js', 'concat']);
+    grunt.registerTask('default', ['html2js', 'concat', 'bump']);
 };

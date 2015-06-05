@@ -1,0 +1,431 @@
+<div>
+    <div class="row form-inline">
+        <div class="form-group col-md-12">
+            <label for="filterBy">Filter <small>{{filteredSW.length}}</small> results by</label>
+            <div id="filterBy">
+                <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
+                <input type="text" class="form-control" placeholder="Description contains" ng-model="descrFilter">
+            </div>
+            <label for="sortBy">Sort by</label>
+            <div id="sortBy">
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
+                    Title
+                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[0].reverse"></span>
+                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[0].reverse"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
+                    Location
+                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[1].reverse"></span>
+                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[1].reverse"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <pagination total-items="filteredSW.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredSW.length > perPage"></pagination>
+    </div>
+    <div class="row"
+         ng-repeat="sw in filteredSW = (SWList.software | filter:{title:titleFilter}
+                                                        | filter:{description:descrFilter}
+                                                        | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
+        | startFrom:(currentPage-1)*perPage | limitTo:perPage"
+         ng-class="{sdOpen: sw.show, sdOver: sw.sid == mOver}" ng-mouseover="setOver(sw)">
+        <div class="col-md-12" ng-click="toggleSW(sw)">
+            <table class="table">
+                <tr>
+                    <td style="width: 15px;">
+                        <span class="fa fa-fw fa-caret-right" ng-hide="sw.show"></span>
+                        <span class="fa fa-fw fa-caret-down" ng-show="sw.show"></span>
+                    </td>
+                    <td style="width:64px">
+                        <img ng-hide="sw.picFile[0] != null" src="{{sw.icon}}" class="thumb" width="64px" height="64px">
+                        <img ng-show="sw.picFile[0] != null" ngf-src="sw.picFile[0]" class="thumb" width="64px" height="64px">
+                    </td>
+                    <td>
+                        <h4>
+                            {{sw.title}}
+                        </h4>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div ng-show="sw.show">
+            <form name="editSW{{sw.sid}}" ng-submit="updateSW(sw)">
+                <div class="col-md-12">
+                    <div class="col-md-6 form-group">
+                        <label for="{{sw.sid}}_up">Upload Icon</label>
+                        <input type="file" ngf-select="" ng-model="sw.picFile" accept="image/png"
+                               ngf-change="generateThumb(sw.picFile[0], $files)" id="{{sw.sid}}_up">
+                        <span class="progress" ng-show="sw.picFile[0].progress >= 0">
+                            <div class="ng-binding" style="width:{{sw.picFile[0].progress}}%" ng-bind="sw.picFile[0].progress + '%'"></div>
+                        </span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="{{sw.sid}}_title">Title</label>
+                        <input type="text" class="form-control" placeholder="{{sw.title}}" ng-model="sw.title"
+                               id="{{sw.sid}}_title" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6 form-group">
+                        <label for="{{sw.sid}}_descr">Description</label>
+                        <textarea class="form-control" rows="3" id="{{sw.sid}}_descr" ng-model="sw.description" required></textarea>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="{{sw.sid}}_mod">List of Installed Modules</label>
+                        <textarea class="form-control" rows="3" id="{{sw.sid}}_mod" ng-model="sw.modules" ></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12 form-group">
+                        <label for="{{sw.sid}}_links">Links</label>
+                        <ul class="list-group" id="{{sw.sid}}_links">
+                            <li class="list-group-item" ng-repeat="link in sw.links">
+                                <button type="button" class="btn btn-danger" ng-click="deleteLink(sw,link)">
+                                    <span class="fa fa-fw fa-close"></span>
+                                </button>
+                                {{link.description}} <a href="{{link.url}}">{{link.title}}</a>
+                            </li>
+                            <li class="list-group-item col-md-12">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" placeholder="Link Description" ng-model="sw.newLink.description">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" placeholder="Link Title" ng-model="sw.newLink.title">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" placeholder="http://www.example.com/" ng-model="sw.newLink.url">
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-success" ng-click="addLink(sw)"
+                                            ng-disabled="sw.newLink.title.length == 0 || sw.newLink.url.length < 2">
+                                        <span class="fa fa-fw fa-plus"></span>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12 form-group">
+                        <label for="{{sw.sid}}_ver">Versions</label>
+                        <ul class="list-group" id="{{sw.sid}}_ver">
+                            <li class="list-group-item col-md-12" ng-repeat="version in sw.versions">
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-danger" ng-click="deleteVersion(sw,version)">
+                                        <span class="fa fa-fw fa-close"></span>
+                                    </button>
+                                    {{version.version}}
+                                    <span class="fa fa-fw fa-windows" ng-show="version.os == 1"></span>
+                                    <span class="fa fa-fw fa-apple" ng-show="version.os == 2"></span>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <label for="{{sw.sid}}_loc">Locations</label>
+                                    <ul class="list-group" id="{{sw.sid}}_loc">
+                                        <li class="list-group-item col-md-12" ng-repeat="loc in version.locations">
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-danger" ng-click="deleteLocation(sw,version,loc)">
+                                                    <span class="fa fa-fw fa-close"></span>
+                                                </button>
+                                                {{loc.name}}
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 1)">
+                                                    <span class="fa fa-fw fa-windows"></span>
+                                                    <span class="fa fa-fw fa-desktop"></span>
+                                                </div>
+                                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 2)">
+                                                    <span class="fa fa-fw fa-apple"></span>
+                                                    <span class="fa fa-fw fa-desktop"></span>
+                                                </div>
+                                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 4)">
+                                                    <span class="fa fa-fw fa-windows"></span>
+                                                    <span class="fa fa-fw fa-laptop"></span>
+                                                </div>
+                                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 8)">
+                                                    <span class="fa fa-fw fa-apple"></span>
+                                                    <span class="fa fa-fw fa-laptop"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item col-md-12">
+                                            <div class="col-md-6">
+                                                <select class="form-control" ng-model="version.newLoc.selLoc"
+                                                        ng-options="loc.name for loc in SWList.locations">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="col-md-6" ng-repeat="device in version.newLoc.devices track by $index"
+                                                     ng-show="(($index == 0 || $index == 2) && version.os == 1) ||
+                                                              (($index == 1 || $index == 3) && version.os == 2)">
+                                                    <input type="checkbox" ng-model="version.newLoc.devices[$index]">
+                                                    <span ng-show="$index <= 1">
+                                                        <span class="fa fa-fw fa-desktop"></span>
+                                                    </span>
+                                                    <span ng-show="$index > 1">
+                                                        <span class="fa fa-fw fa-laptop"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button type="button" class="btn btn-success" ng-click="addLocation(sw,version)">
+                                                    <span class="fa fa-fw fa-plus"></span>
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="list-group-item col-md-6">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="Version" ng-model="sw.newVer.version">
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" ng-model="sw.newVer.selOS" ng-options="opSys.name for opSys in os">
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-success" ng-click="addVersion(sw)"
+                                            ng-disabled="sw.newVer.version.length == 0">
+                                        <span class="fa fa-fw fa-plus"></span>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12 form-group">
+                        <label for="{{sw.sid}}_cat">Categories</label>
+                        <ul class="list-group" id="{{sw.sid}}_cat">
+                            <li class="list-group-item col-md-12">
+                                <div class="col-md-2" ng-repeat="category in sw.categories">
+                                    <button type="button" class="btn btn-danger" ng-click="deleteCategory(sw,category)">
+                                        <span class="fa fa-fw fa-close"></span>
+                                    </button>
+                                    {{category.name}}
+                                </div>
+                            </li>
+                            <li class="list-group-item col-md-6">
+                                <div class="col-md-10">
+                                    <select class="form-control" ng-model="sw.selCat" ng-options="cat.name for cat in SWList.categories">
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-success" ng-click="addCategory(sw)">
+                                        <span class="fa fa-fw fa-plus"></span>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-success">Update information</button>
+                    <button type="button" class="btn btn-danger" ng-click="deleteSW(sw)">
+                        Delete {{sw.title}} software
+                    </button>
+                    {{sw.formResponse}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <pagination total-items="filteredSW.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredSW.length > perPage"></pagination>
+</div>
+<div class="text-center">
+    <h4 ng-show="filteredSW.length == 0">Nothing found</h4>
+</div>
+
+<h3>Add New Software</h3>
+<form name="addNewSW" ng-submit="createSW()">
+    <div class="row sdOpen">
+        <div class="col-md-12">
+            <div class="col-md-3 form-group">
+                <label for="up">Upload Icon</label>
+                <input type="file" ngf-select="" ng-model="newSW.picFile" accept="image/*"
+                       ngf-change="generateThumb(newSW.picFile[0], $files)" id="up">
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="progress" ng-show="newSW.picFile[0].progress >= 0">
+                    <div class="ng-binding" style="width:{{newSW.picFile[0].progress}}%" ng-bind="newSW.picFile[0].progress + '%'"></div>
+                </span>
+                <img ng-show="newSW.picFile[0] != null" ngf-src="newSW.picFile[0]" class="thumb" width="64px" height="64px">
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" placeholder="Software Title" ng-model="newSW.title"
+                       id="title">
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-6 form-group">
+                <label for="descr">Description</label>
+                <textarea class="form-control" rows="3" id="descr" ng-model="newSW.description" required></textarea>
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="mod">List of Installed Modules</label>
+                <textarea class="form-control" rows="3" id="mod" ng-model="newSW.modules" ></textarea>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 form-group">
+                <label for="links">Links</label>
+                <ul class="list-group" id="links">
+                    <li class="list-group-item" ng-repeat="link in newSW.links">
+                        <button type="button" class="btn btn-danger" ng-click="delNewSWLink(link)">
+                            <span class="fa fa-fw fa-close"></span>
+                        </button>
+                        {{link.description}} <a href="{{link.url}}">{{link.title}}</a>
+                    </li>
+                    <li class="list-group-item col-md-12">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Link Description" ng-model="newSW.newLink.description">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Link Title" ng-model="newSW.newLink.title">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="http://www.example.com/" ng-model="newSW.newLink.url">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-success" ng-click="addNewSWLink()"
+                                    ng-disabled="newSW.newLink.title.length == 0 || newSW.newLink.url.length < 2">
+                                <span class="fa fa-fw fa-plus"></span>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 form-group">
+                <label for="ver">Versions</label>
+                <ul class="list-group" id="ver">
+                    <li class="list-group-item col-md-12" ng-repeat="version in newSW.versions">
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-danger" ng-click="delNewSWVer(version)">
+                                <span class="fa fa-fw fa-close"></span>
+                            </button>
+                            {{version.version}}
+                            <span class="fa fa-fw fa-windows" ng-show="version.os == 1"></span>
+                            <span class="fa fa-fw fa-apple" ng-show="version.os == 2"></span>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <label for="loc">Locations</label>
+                            <ul class="list-group" id="loc">
+                                <li class="list-group-item col-md-12" ng-repeat="loc in version.locations">
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-danger" ng-click="delNewSWLoc(version,loc)">
+                                            <span class="fa fa-fw fa-close"></span>
+                                        </button>
+                                        {{loc.name}}
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="col-md-6" ng-show="checkDevices(loc.devices, 1)">
+                                            <span class="fa fa-fw fa-windows"></span>
+                                            <span class="fa fa-fw fa-desktop"></span>
+                                        </div>
+                                        <div class="col-md-6" ng-show="checkDevices(loc.devices, 2)">
+                                            <span class="fa fa-fw fa-apple"></span>
+                                            <span class="fa fa-fw fa-desktop"></span>
+                                        </div>
+                                        <div class="col-md-6" ng-show="checkDevices(loc.devices, 4)">
+                                            <span class="fa fa-fw fa-windows"></span>
+                                            <span class="fa fa-fw fa-laptop"></span>
+                                        </div>
+                                        <div class="col-md-6" ng-show="checkDevices(loc.devices, 8)">
+                                            <span class="fa fa-fw fa-apple"></span>
+                                            <span class="fa fa-fw fa-laptop"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-md-12">
+                                    <div class="col-md-6">
+                                        <select class="form-control" ng-model="version.newLoc.selLoc"
+                                                ng-options="loc.name for loc in SWList.locations">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="col-md-6" ng-repeat="device in version.newLoc.devices track by $index"
+                                                ng-show="(($index == 0 || $index == 2) && version.os == 1) ||
+                                                         (($index == 1 || $index == 3) && version.os == 2)">
+                                            <input type="checkbox" ng-model="version.newLoc.devices[$index]">
+                                                    <span ng-show="$index <= 1">
+                                                        <span class="fa fa-fw fa-desktop"></span>
+                                                    </span>
+                                                    <span ng-show="$index > 1">
+                                                        <span class="fa fa-fw fa-laptop"></span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-success" ng-click="addNewSWLoc(version)">
+                                            <span class="fa fa-fw fa-plus"></span>
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="list-group-item col-md-6">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Version" ng-model="newSW.newVer.version">
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" ng-model="newSW.newVer.selOS" ng-options="opSys.name for opSys in os">
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success" ng-click="addNewSWVer()"
+                                    ng-disabled="newSW.newVer.version.length == 0">
+                                <span class="fa fa-fw fa-plus"></span>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 form-group">
+                <label for="cat">Categories</label>
+                <ul class="list-group" id="cat">
+                    <li class="list-group-item col-md-12">
+                        <div class="col-md-2" ng-repeat="category in newSW.categories">
+                            <button type="button" class="btn btn-danger" ng-click="delNewSWCat(category)">
+                                <span class="fa fa-fw fa-close"></span>
+                            </button>
+                            {{category.name}}
+                        </div>
+                    </li>
+                    <li class="list-group-item col-md-6">
+                        <div class="col-md-10">
+                            <select class="form-control" ng-model="newSW.selCat" ng-options="cat.name for cat in SWList.categories">
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success" ng-click="addNewSWCat()">
+                                <span class="fa fa-fw fa-plus"></span>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-success">Create Software Record</button>
+            {{newSW.formResponse}}
+        </div>
+    </div>
+</form>
+

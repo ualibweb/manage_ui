@@ -1,5 +1,25 @@
 angular.module('common.manage', [])
 
+
+    .factory('tokenFactory', ['$http', function tokenFactory($http){
+        return function(tokenName){
+            var cookies;
+            this.GetCookie = function (name,c,C,i){
+                if(cookies){ return cookies[name]; }
+                c = document.cookie.split('; ');
+                cookies = {};
+                for(i=c.length-1; i>=0; i--){
+                    C = c[i].split('=');
+                    cookies[C[0]] = C[1];
+                }
+                return cookies[name];
+            };
+            var header = {};
+            header["X-" + tokenName] = this.GetCookie(tokenName);
+            $http.defaults.headers.post = header;
+        }
+    }])
+
     .factory('hmFactory', ['$http', 'HOURS_MANAGE_URL', function hmFactory($http, url){
         return {
             getData: function(pPoint){
@@ -29,9 +49,8 @@ angular.module('common.manage', [])
     }])
     .factory('osFactory', ['$http', 'ONE_SEARCH_URL', function osFactory($http, url){
         return {
-            getData: function(params){
-                params = angular.isDefined(params) ? params : {};
-                return $http({method: 'GET', url: url + "getJSON.php", params: params})
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/reclist", params: {}})
             },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
@@ -58,6 +77,42 @@ angular.module('common.manage', [])
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
+            }
+        }
+    }])
+    .factory('swFactory', ['$http', 'SOFTWARE_URL', function swFactory($http, url){
+        return {
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/all", params: {}})
+            },
+            postData: function(params, data){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
+            }
+        }
+    }])
+    .factory('newsFactory', ['$http', 'NEWS_URL', function newsFactory($http, url){
+        return {
+            getData: function(pPoint){
+                return $http({method: 'GET', url: url + "api/" + pPoint, params: {}})
+            },
+            postData: function(params, data){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
+            }
+        }
+    }])
+    .factory('formFactory', ['$http', 'FORMS_URL', function formFactory($http, url){
+        return {
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/all", params: {}})
+            },
+            postData: function(params, data){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
+            },
+            submitForm: function(data){
+                return $http({method: 'POST', url: url + "api/process", params: {}, data: data})
             }
         }
     }])

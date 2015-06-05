@@ -1,0 +1,14 @@
+<h2>Manage Software</h2>
+
+<tabset justified="true">
+    <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
+        <div ng-if="tab.number == 0">
+            <div software-manage-list>
+            </div>
+        </div>
+        <div ng-if="tab.number == 1" >
+            <div software-manage-loc-cat>
+            </div>
+        </div>
+    </tab>
+</tabset>

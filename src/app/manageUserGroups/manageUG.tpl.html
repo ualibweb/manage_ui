@@ -45,10 +45,10 @@
                     </td>
                     <td class="text-center">
                         <div ng-show="isExpUser(user.id)">
-                            <button type="button" class="btn btn-primary" ng-click="updateUser(user)" ng-disabled="isLoading"
+                            <button type="button" class="btn btn-success" ng-click="updateUser(user)" ng-disabled="isLoading"
                                     ng-show="$index > 0">Save</button>
-                            <button type="button" class="btn btn-primary" ng-click="deleteUser(user, $index)" ng-disabled="isLoading"
-                                    ng-show="$index > 0">Remove</button><br>
+                            <button type="button" class="btn btn-danger" ng-click="deleteUser(user, $index)" ng-disabled="isLoading"
+                                    ng-show="$index > 0">Remove All</button><br>
                             {{result}}
                         </div>
                     </td>
@@ -73,7 +73,9 @@
                     </td>
                     <td class="text-center">
                         <div>
-                            <button type="button" class="btn btn-primary" ng-click="createUser(newUser)" ng-disabled="isLoading">Grant Access Rights</button><br>
+                            <button type="button" class="btn btn-success" ng-click="createUser(newUser)" ng-disabled="isLoading">
+                                Grant Access Rights
+                            </button><br>
                             {{result2}}
                         </div>
                     </td>

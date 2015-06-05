@@ -13,16 +13,16 @@
     </thead>
     <tr ng-repeat="sem in semData" ng-click="expandSem($event, sem)">
         <th scope="row" ng-hide="isExpSem(sem.dsid)">{{sem.name}}<br>
-            {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate}}
+            {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate | date : 'MMM d, y'}}
         </th>
         <th scope="row" ng-if="isExpSem(sem.dsid)">{{sem.name}}<br>
             <div class="input-group">
                 <input type="text" class="form-control" datepicker-popup="{{format}}" size="3"
                        ng-model="sem.startdate" is-open="sem.dp" ng-required="true" close-text="Close"
                        ng-focus="onSemFocus($event, $index)" />
-                <button type="button" class="btn btn-primary" ng-click="saveChanges(sem)" ng-disabled="loading">Save</button>
+                <button type="button" class="btn btn-success" ng-click="saveChanges(sem)" ng-disabled="loading">Save</button>
                 {{result}}
-                <button type="button" class="btn btn-primary" ng-click="deleteSem(sem, $index)" ng-disabled="loading">Delete {{sem.name}}</button>
+                <button type="button" class="btn btn-danger" ng-click="deleteSem(sem, $index)" ng-disabled="loading">Delete {{sem.name}}</button>
             </div>
         </th>
         <td class="text-center" style="width:11%" ng-repeat="day in sem.dow">
@@ -57,11 +57,11 @@
         <th scope="row">
             <div class="input-group">
                 <input type="text" class="form-control" ng-minlength="4" ng-maxlength="32" ng-model="newSemester.name" placeholder="Semester Name" ng-required /><br>
-                <input type="text" class="form-control" datepicker-popup="{{format}}"
+                <input type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Start Date (MM/DD/YYYY)"
                        ng-model="newSemester.startdate" is-open="newSemester.dp" ng-required="true" close-text="Close"
                        ng-focus="onSemFocus($event)" />
             </div>
-            <button type="button" class="btn btn-primary" ng-click="createSem()" ng-disabled="loading">Create New Semester</button>
+            <button type="button" class="btn btn-success" ng-click="createSem()" ng-disabled="loading">Create New Semester</button>
             {{result}}
         </th>
         <td class="text-center" style="width:11%" ng-repeat="day in newSemester.dow">

@@ -19,7 +19,7 @@
         </div>
         <div class="col-md-3 form-group">
             <label for="B">&nbsp</label><br>
-            <button type="submit" class="btn btn-primary" id="B">Add Recommended Link</button>
+            <button type="submit" class="btn btn-success" id="B">Add Recommended Link</button>
         </div>
     </div>
 </form>
@@ -44,7 +44,7 @@
 <div class="row">
     <div class="col-md-6"
          ng-repeat="rec in recList.RecList | filter:{keyword:filterKeyword} | filter:{link:filterLink} | filter:{description:filterLinkTitle}">
-        <button type="button" class="btn btn-primary" ng-click="deleteRec(rec, $index)">Delete</button>
+        <button type="button" class="btn btn-danger" ng-click="deleteRec(rec, $index)">Delete</button>
         <span>{{rec.keyword}} = <a href="{{rec.link}}">{{rec.description}}</a></span>
     </div>
 </div>

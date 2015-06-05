@@ -1,6 +1,6 @@
 angular.module('manage.manageHoursUsers', [])
-    .controller('manageHrsUsersCtrl', ['$scope', '$http', '$window', '$animate', 'hmFactory',
-        function manageHrsUsersCtrl($scope, $http, $window, $animate, hmFactory){
+    .controller('manageHrsUsersCtrl', ['$scope', '$window', '$animate', 'tokenFactory', 'hmFactory',
+        function manageHrsUsersCtrl($scope, $window, $animate, tokenFactory, hmFactory){
             $scope.isLoading = true;
             $scope.dataUL = {};
             $scope.dataUL.users = [];
@@ -8,21 +8,7 @@ angular.module('manage.manageHoursUsers', [])
             $scope.user = {};
             $scope.user.name = $window.userName;
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
-
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-
-                return cookies[name];
-            };
-            $http.defaults.headers.post = { 'X-CSRF-libHours' : $scope.GetCookie("CSRF-libHours") };
+            tokenFactory("CSRF-libHours");
 
             hmFactory.getData("users")
                 .success(function(data){

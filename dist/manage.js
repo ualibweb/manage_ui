@@ -9,7 +9,10 @@ angular.module('manage', [
     'manage.siteFeedback',
     'manage.manageOneSearch',
     'manage.staffDirectory',
-    'manage.manageDatabases'
+    'manage.manageDatabases',
+    'manage.manageSoftware',
+    'manage.manageNews',
+    'manage.submittedForms'
 ])
 
     .constant('HOURS_MANAGE_URL', '//wwwdev2.lib.ua.edu/libhours2/')
@@ -18,11 +21,34 @@ angular.module('manage', [
     .constant('ONE_SEARCH_URL', '//wwwdev2.lib.ua.edu/oneSearch/')
     .constant('STAFF_DIR_URL', '//wwwdev2.lib.ua.edu/staffDir/')
     .constant('DATABASES_URL', '//wwwdev2.lib.ua.edu/databases/')
+    .constant('SOFTWARE_URL', '//wwwdev2.lib.ua.edu/softwareList/')
+    .constant('FORMS_URL', '//wwwdev2.lib.ua.edu/form/')
+    .constant('NEWS_URL', '//wwwdev2.lib.ua.edu/newsApp/')
 
 angular.module('manage.common', [
     'common.manage'
 ])
 angular.module('common.manage', [])
+
+
+    .factory('tokenFactory', ['$http', function tokenFactory($http){
+        return function(tokenName){
+            var cookies;
+            this.GetCookie = function (name,c,C,i){
+                if(cookies){ return cookies[name]; }
+                c = document.cookie.split('; ');
+                cookies = {};
+                for(i=c.length-1; i>=0; i--){
+                    C = c[i].split('=');
+                    cookies[C[0]] = C[1];
+                }
+                return cookies[name];
+            };
+            var header = {};
+            header["X-" + tokenName] = this.GetCookie(tokenName);
+            $http.defaults.headers.post = header;
+        }
+    }])
 
     .factory('hmFactory', ['$http', 'HOURS_MANAGE_URL', function hmFactory($http, url){
         return {
@@ -53,9 +79,8 @@ angular.module('common.manage', [])
     }])
     .factory('osFactory', ['$http', 'ONE_SEARCH_URL', function osFactory($http, url){
         return {
-            getData: function(params){
-                params = angular.isDefined(params) ? params : {};
-                return $http({method: 'GET', url: url + "getJSON.php", params: params})
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/reclist", params: {}})
             },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
@@ -85,10 +110,46 @@ angular.module('common.manage', [])
             }
         }
     }])
+    .factory('swFactory', ['$http', 'SOFTWARE_URL', function swFactory($http, url){
+        return {
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/all", params: {}})
+            },
+            postData: function(params, data){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
+            }
+        }
+    }])
+    .factory('newsFactory', ['$http', 'NEWS_URL', function newsFactory($http, url){
+        return {
+            getData: function(pPoint){
+                return $http({method: 'GET', url: url + "api/" + pPoint, params: {}})
+            },
+            postData: function(params, data){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
+            }
+        }
+    }])
+    .factory('formFactory', ['$http', 'FORMS_URL', function formFactory($http, url){
+        return {
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/all", params: {}})
+            },
+            postData: function(params, data){
+                params = angular.isDefined(params) ? params : {};
+                return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
+            },
+            submitForm: function(data){
+                return $http({method: 'POST', url: url + "api/process", params: {}, data: data})
+            }
+        }
+    }])
 
 angular.module('manage.manageDatabases', [])
-    .controller('manageDBCtrl', ['$scope', '$http', '$window', 'mdbFactory',
-        function manageDBCtrl($scope, $http, $window, mdbFactory){
+    .controller('manageDBCtrl', ['$scope', '$window', 'tokenFactory', 'mdbFactory',
+        function manageDBCtrl($scope, $window, tokenFactory, mdbFactory){
             $scope.DBList = {};
             $scope.titleFilter = '';
             $scope.titleStartFilter = '';
@@ -121,21 +182,7 @@ angular.module('manage.manageDatabases', [])
             //primary, secondary
             $scope.subjectValues = [ 1, 2 ];
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
-
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-
-                return cookies[name];
-            };
-            $http.defaults.headers.post = { 'X-CSRF-libDatabases' : $scope.GetCookie("CSRF-libDatabases") };
+            tokenFactory("CSRF-libDatabases");
 
             mdbFactory.getData()
                 .success(function(data) {
@@ -420,13 +467,8 @@ angular.module('manage.manageDatabases', [])
 
 angular.module('manage.manageHours', [])
     .constant('HOURS_FROM', [
-        {name:'Closed', value:'-1'},
+        {name:'Closed 24hrs', value:'-1'},
         {name:'Midnight', value:'0'},
-        {name:'1:00 am', value:'100'},
-        {name:'2:00 am', value:'200'},
-        {name:'3:00 am', value:'300'},
-        {name:'4:00 am', value:'400'},
-        {name:'5:00 am', value:'500'},
         {name:'6:00 am', value:'600'},
         {name:'7:00 am', value:'700'},
         {name:'7:30 am', value:'730'},
@@ -436,31 +478,12 @@ angular.module('manage.manageHours', [])
         {name:'10:00 am', value:'1000'},
         {name:'11:00 am', value:'1100'},
         {name:'Noon', value:'1200'},
-        {name:'1:00 pm', value:'1300'},
-        {name:'2:00 pm', value:'1400'},
-        {name:'3:00 pm', value:'1500'},
-        {name:'4:00 pm', value:'1600'},
-        {name:'4:30 pm', value:'1630'},
-        {name:'5:00 pm', value:'1700'},
-        {name:'5:30 pm', value:'1730'},
-        {name:'6:00 pm', value:'1800'},
-        {name:'7:00 pm', value:'1900'},
-        {name:'8:00 pm', value:'2000'},
-        {name:'9:00 pm', value:'2100'},
-        {name:'10:00 pm', value:'2200'},
-        {name:'11:00 pm', value:'2300'}
+        {name:'1:00 pm', value:'1300'}
     ])
     .constant('HOURS_TO', [
-        {name:'Closed', value:'0'},
         {name:'1:00 am', value:'100'},
         {name:'2:00 am', value:'200'},
         {name:'3:00 am', value:'300'},
-        {name:'4:00 am', value:'400'},
-        {name:'5:00 am', value:'500'},
-        {name:'6:00 am', value:'600'},
-        {name:'7:00 am', value:'700'},
-        {name:'7:30 am', value:'730'},
-        {name:'7:45 am', value:'745'},
         {name:'8:00 am', value:'800'},
         {name:'9:00 am', value:'900'},
         {name:'10:00 am', value:'1000'},
@@ -471,6 +494,7 @@ angular.module('manage.manageHours', [])
         {name:'3:00 pm', value:'1500'},
         {name:'4:00 pm', value:'1600'},
         {name:'4:30 pm', value:'1630'},
+        {name:'4:45 pm', value:'1645'},
         {name:'5:00 pm', value:'1700'},
         {name:'5:30 pm', value:'1730'},
         {name:'6:00 pm', value:'1800'},
@@ -483,29 +507,24 @@ angular.module('manage.manageHours', [])
     ])
     .constant('DP_FORMAT', 'MM/dd/yyyy')
 
-    .controller('manageHrsCtrl', ['$scope', '$http', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT',
-        function manageHrsCtrl($scope, $http, $animate, hmFactory, hoursFrom, hoursTo, dpFormat){
+    .controller('manageHrsCtrl', ['$scope', '$animate', 'tokenFactory', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT',
+        function manageHrsCtrl($scope, $animate, tokenFactory, hmFactory, hoursFrom, hoursTo, dpFormat){
             $scope.allowedLibraries = [];
             $scope.format = dpFormat;
             $scope.hrsFrom = hoursFrom;
             $scope.hrsTo = hoursTo;
             $scope.selLib = {};
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
+            tokenFactory("CSRF-libHours");
 
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
+            $scope.initSemesters = function(semesters){
+                for (var sem = 0; sem < semesters.length; sem++){
+                    semesters[sem].startdate = new Date(semesters[sem].startdate);
+                    semesters[sem].enddate = new Date(semesters[sem].enddate);
+                    semesters[sem].dp = false;
                 }
-
-                return cookies[name];
+                return semesters;
             };
-            $http.defaults.headers.post = { 'X-CSRF-libHours' : $scope.GetCookie("CSRF-libHours") };
 
             hmFactory.getData("semesters")
                 .success(function(data) {
@@ -516,10 +535,7 @@ angular.module('manage.manageHours', [])
                             data.exc[lib][ex].datems = new Date(data.exc[lib][ex].date * 1000);
                             data.exc[lib][ex].dp = false;
                         }
-                        for (var sem = 0; sem < data.sem[lib].length; sem++){
-                            data.sem[lib][sem].startdate = new Date(data.sem[lib][sem].startdate);
-                            data.sem[lib][sem].dp = false;
-                        }
+                        data.sem[lib] = $scope.initSemesters(data.sem[lib]);
                     }
                     $scope.allowedLibraries = data;
                 })
@@ -574,14 +590,12 @@ angular.module('manage.manageHours', [])
         $scope.newSemester.dp = false;
         $scope.newSemester.dow = [];
 
-        function init(){
-            for (var day = 0; day < 7; day++) {
-                $scope.newSemester.dow[day] = {};
-                $scope.newSemester.dow[day].from = -1;
-                $scope.newSemester.dow[day].to = 0;
-            }
+        for (var day = 0; day < 7; day++) {
+            $scope.newSemester.dow[day] = {};
+            $scope.newSemester.dow[day].from = -1;
+            $scope.newSemester.dow[day].to = 0;
         }
-        init();
+
         $scope.onSemFocus = function($event, index){
             $event.preventDefault();
             $event.stopPropagation();
@@ -623,11 +637,13 @@ angular.module('manage.manageHours', [])
 
         $scope.saveChanges = function(semester){
             semester.lid = $scope.selLib.lid;
+            semester.libName = $scope.selLib.name;
             $scope.loading = true;
             hmFactory.postData({action : 1}, semester)
                 .success(function(data) {
-                    if (data == 1){
-                        $scope.result = "Saved";
+                    if ((typeof data === 'object') && (data !== null)){
+                        $scope.result = "Semester updated";
+                        $scope.allowedLibraries.sem[$scope.selLib.index] = $scope.initSemesters(data);
                     } else
                         $scope.result = "Error! Could not save data!";
                     $scope.loading = false;
@@ -640,11 +656,12 @@ angular.module('manage.manageHours', [])
             if (confirm("Are you sure you want to delete " + semester.name + " semester?")){
                 $scope.loading = true;
                 semester.lid = $scope.selLib.lid;
+                semester.libName = $scope.selLib.name;
                 hmFactory.postData({action : 3}, semester)
                     .success(function(data) {
-                        if (data == 1){
+                        if ((typeof data === 'object') && (data !== null)){
                             $scope.result = "Semester deleted";
-                            $scope.allowedLibraries.sem[$scope.selLib.index].splice(index, 1);
+                            $scope.allowedLibraries.sem[$scope.selLib.index] = $scope.initSemesters(data);
                         } else
                             $scope.result = "Error! Could not delete semester!";
                         $scope.loading = false;
@@ -662,11 +679,7 @@ angular.module('manage.manageHours', [])
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.result = "Semester created";
-                        for (var sem = 0; sem < data.length; sem++){
-                            data[sem].startdate = new Date(data[sem].startdate);
-                            data[sem].dp = false;
-                        }
-                        $scope.allowedLibraries.sem[$scope.selLib.index] = data;
+                        $scope.allowedLibraries.sem[$scope.selLib.index] = $scope.initSemesters(data);
                     }else
                         $scope.result = "Error! Could not create semester!";
                     $scope.loading = false;
@@ -819,8 +832,8 @@ angular.module('manage.manageHours', [])
     })
 
 angular.module('manage.manageHoursUsers', [])
-    .controller('manageHrsUsersCtrl', ['$scope', '$http', '$window', '$animate', 'hmFactory',
-        function manageHrsUsersCtrl($scope, $http, $window, $animate, hmFactory){
+    .controller('manageHrsUsersCtrl', ['$scope', '$window', '$animate', 'tokenFactory', 'hmFactory',
+        function manageHrsUsersCtrl($scope, $window, $animate, tokenFactory, hmFactory){
             $scope.isLoading = true;
             $scope.dataUL = {};
             $scope.dataUL.users = [];
@@ -828,21 +841,7 @@ angular.module('manage.manageHoursUsers', [])
             $scope.user = {};
             $scope.user.name = $window.userName;
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
-
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-
-                return cookies[name];
-            };
-            $http.defaults.headers.post = { 'X-CSRF-libHours' : $scope.GetCookie("CSRF-libHours") };
+            tokenFactory("CSRF-libHours");
 
             hmFactory.getData("users")
                 .success(function(data){
@@ -1013,9 +1012,460 @@ angular.module('manage.manageHoursUsers', [])
         };
     })
 
+angular.module('manage.manageNews', ['ngFileUpload'])
+    .controller('manageNewsCtrl', ['$scope', '$window', '$timeout', 'tokenFactory', 'newsFactory',
+        function manageNewsCtrl($scope, $window, $timeout, tokenFactory, newsFactory){
+            $scope.data = {};
+            $scope.dpFormat = 'MM/dd/yyyy';
+            $scope.newNews = {};
+            $scope.newNews.creator = $window.author;
+            $scope.isAdmin = false;
+            if (typeof $window.admin !== 'undefined')
+                if ($window.admin === "1")
+                    $scope.isAdmin = true;
+            $scope.sortModes = [
+                {by:'title', reverse:false},
+                {by:'activeFrom', reverse:false},
+                {by:'activeUntil', reverse:false},
+                {by:'type', reverse:false}
+            ];
+            $scope.types = [
+                {name:'News', value:0},
+                {name:'Exhibition', value:1}
+            ];
+            $scope.newNews.selType = $scope.types[0];
+
+            tokenFactory("CSRF-libNews");
+
+            newsFactory.getData("all")
+                .success(function(data) {
+                    console.dir(data);
+                    for (var i = 0; i < data.news.length; i++){
+                        data.news[i].activeFrom = new Date(data.news[i].activeFrom * 1000);
+                        data.news[i].activeUntil = new Date(data.news[i].activeUntil * 1000);
+                        for (var j = 0; j < data.people.length; j++)
+                            if (data.news[i].contactID.uid === data.people[j].uid){
+                                data.news[i].contactID = data.people[j];
+                                break;
+                            }
+                        data.news[i].show = false;
+                        data.news[i].class = "";
+                        data.news[i].dpFrom = false;
+                        data.news[i].dpUntil = false;
+                    }
+                    $scope.newNews.contactID = data.people[0];
+                    $scope.data = data;
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                });
+
+            $scope.tabs = [
+                { name: 'News and Exhibits',
+                    number: 0,
+                    active: true
+                },
+                { name: 'Admins',
+                    number: 1,
+                    active: false
+                }];
+            
+            $scope.validateNews = function(news){
+                if (news.title.length < 1)
+                    return "Form error: Please fill out Title!";
+                if (news.description.length < 1)
+                    return "Form error: Please fill out Description!";
+
+                return "";
+            };
+            $scope.generateThumb = function(file) {
+                if (file != null) {
+                    if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
+                        $timeout(function() {
+                            var fileReader = new FileReader();
+                            fileReader.readAsDataURL(file);
+                            fileReader.onload = function(e) {
+                                $timeout(function() {
+                                    file.dataUrl = e.target.result;
+                                });
+                            }
+                        });
+                    }
+                }
+            };
+        }])
+
+    .directive('newsExhibitionsMain', function($animate) {
+        return {
+            restrict: 'A',
+            scope: {},
+            controller: 'manageNewsCtrl',
+            link: function(scope, elm, attrs){
+                //Preload the spinner element
+                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
+                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
+                var titleElm = elm.find('h2');
+                //Enter the spinner animation, appending it to the title element
+                $animate.enter(spinner, titleElm[0]);
+
+                var loadingWatcher = scope.$watch(
+                    'data.totalTime',
+                    function(newVal, oldVal){
+                        if (newVal != oldVal){
+                            $animate.leave(spinner);
+                            console.log("News data loaded");
+                        }
+                    },
+                    true
+                );
+            },
+            templateUrl: 'manageNews/manageNews.tpl.html'
+        };
+    })
+
+    //from http://codepen.io/paulbhartzog/pen/Ekztl?editors=101
+    .value('uiTinymceConfig', {})
+    .directive('uiTinymce', ['uiTinymceConfig', function(uiTinymceConfig) {
+        uiTinymceConfig = uiTinymceConfig || {};
+        var generatedIds = 0;
+        return {
+            require: 'ngModel',
+            link: function(scope, elm, attrs, ngModel) {
+                var expression, options, tinyInstance;
+                // generate an ID if not present
+                if (!attrs.id) {
+                    attrs.$set('id', 'uiTinymce' + generatedIds++);
+                }
+                options = {
+                    // Update model when calling setContent (such as from the source editor popup)
+                    setup: function(ed) {
+                        ed.on('init', function(args) {
+                            ngModel.$render();
+                        });
+                        // Update model on button click
+                        ed.on('ExecCommand', function(e) {
+                            ed.save();
+                            ngModel.$setViewValue(elm.val());
+                            if (!scope.$$phase) {
+                                scope.$apply();
+                            }
+                        });
+                        // Update model on keypress
+                        ed.on('KeyUp', function(e) {
+                            console.log(ed.isDirty());
+                            ed.save();
+                            ngModel.$setViewValue(elm.val());
+                            if (!scope.$$phase) {
+                                scope.$apply();
+                            }
+                        });
+                    },
+                    mode: 'exact',
+                    elements: attrs.id
+                };
+                if (attrs.uiTinymce) {
+                    expression = scope.$eval(attrs.uiTinymce);
+                } else {
+                    expression = {};
+                }
+                angular.extend(options, uiTinymceConfig, expression);
+                setTimeout(function() {
+                    tinymce.init(options);
+                });
+
+
+                ngModel.$render = function() {
+                    if (!tinyInstance) {
+                        tinyInstance = tinymce.get(attrs.id);
+                    }
+                    if (tinyInstance) {
+                        tinyInstance.setContent(ngModel.$viewValue || '');
+                    }
+                };
+            }
+        };
+    }])
+
+    .controller('manageNewsListCtrl', ['$scope', '$timeout', 'Upload', 'newsFactory', 'NEWS_URL',
+        function manageNewsListCtrl($scope, $timeout, Upload, newsFactory, appURL){
+            $scope.titleFilter = '';
+            $scope.descrFilter = '';
+            $scope.sortMode = 0;
+            $scope.appURL = appURL;
+
+            $scope.newNews.activeFrom = new Date();
+            $scope.newNews.activeUntil = new Date();
+            $scope.newNews.dpFrom = false;
+            $scope.newNews.dpUntil = false;
+            $scope.newNews.contactName = '';
+            $scope.newNews.contactEmail = '';
+            $scope.newNews.contactPhone = '';
+
+            $scope.currentPage = 1;
+            $scope.maxPageSize = 10;
+            $scope.perPage = 20;
+
+            $scope.onNewsDPFocusFrom = function($event, index){
+                $event.preventDefault();
+                $event.stopPropagation();
+                if (typeof index != 'undefined' && index >= 0)
+                    $scope.data.news[index].dpFrom = true;
+                else
+                    $scope.newNews.dpFrom = true;
+            };
+            $scope.onNewsDPFocusUntil = function($event, index){
+                $event.preventDefault();
+                $event.stopPropagation();
+                if (typeof index != 'undefined' && index >= 0)
+                    $scope.data.news[index].dpUntil = true;
+                else
+                    $scope.newNews.dpUntil = true;
+            };
+
+            $scope.toggleNews = function(news){
+                $scope.data.news[$scope.data.news.indexOf(news)].show =
+                    !$scope.data.news[$scope.data.news.indexOf(news)].show;
+            };
+            $scope.sortBy = function(by){
+                if ($scope.sortMode === by)
+                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
+                else
+                    $scope.sortMode = by;
+            };
+
+            $scope.approveNews = function(news){
+                news.admin = $scope.newNews.creator;
+                if (confirm("Are you sure you want to approve " + news.title  + "?") == true){
+                    newsFactory.postData({action : 4}, news)
+                        .success(function(data, status, headers, config) {
+                            if (data == 1){
+                                $scope.data.news[$scope.data.news.indexOf(news)].status = 1;
+                            } else {
+                                alert("Error: Can not approve news item! " + data);
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            alert("Error: Could not approve news item! " + data);
+                            console.log(data);
+                        });
+                }
+            };
+            $scope.deleteNews = function(news){
+                if (confirm("Delete " + news.title  + " permanently?") == true){
+                    newsFactory.postData({action : 1}, news)
+                        .success(function(data, status, headers, config) {
+                            if (data == 1){
+                                $scope.data.news.splice($scope.data.news.indexOf(news), 1);
+                                $scope.formResponse = "News item has been deleted.";
+                            } else {
+                                $scope.formResponse = "Error: Can not delete news item! " + data;
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.formResponse = "Error: Could not delete news item! " + data;
+                            console.log(data);
+                        });
+                }
+            };
+            $scope.updateNews = function(news){
+                $scope.data.news[$scope.data.news.indexOf(news)].formResponse = $scope.validateNews(news);
+                if ($scope.data.news[$scope.data.news.indexOf(news)].formResponse.length > 0)
+                    return false;
+                news.tsFrom = news.activeFrom.valueOf() / 1000;
+                news.tsUntil = news.activeUntil.valueOf() / 1000;
+                if (typeof news.picFile === 'undefined'){
+                    newsFactory.postData({action : 21}, news)
+                        .success(function(data, status, headers, config) {
+                            if ((typeof data === 'object') && (data !== null)){
+                                $scope.data.news[$scope.data.news.indexOf(news)].formResponse =
+                                    "News has been updated, Icon has not changed.";
+                            } else {
+                                $scope.data.news[$scope.data.news.indexOf(news)].formResponse =
+                                    "Error: Can not update news! " + data;
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.data.news[$scope.data.news.indexOf(news)].formResponse =
+                                "Error: Could not update news! " + data;
+                            console.log(data);
+                        });
+                } else {
+                    news.picFile.upload = Upload.upload({
+                        url: appURL + 'processData.php?action=2',
+                        method: 'POST',
+                        fields: {
+                            news: news
+                        },
+                        file: news.picFile,
+                        fileFormDataName: 'editNewsExh' + news.nid
+                    });
+                    news.picFile.upload.then(function(response) {
+                        $timeout(function() {
+                            if ((typeof response.data === 'object') && (response.data !== null)){
+                                $scope.data.news[$scope.data.news.indexOf(news)].formResponse = "News has been updated, ";
+                                if (response.data.iconUploaded)
+                                    $scope.data.news[$scope.data.news.indexOf(news)].formResponse += "Icon uploaded.";
+                                else
+                                    $scope.data.news[$scope.data.news.indexOf(news)].formResponse += "Icon has not changed.";
+                            } else {
+                                $scope.data.news[$scope.data.news.indexOf(news)].formResponse = 
+                                    "Error: Can not update news! " + response.data;
+                            }
+                            console.log(response.data);
+                        });
+                    }, function(response) {
+                        if (response.status > 0)
+                            $scope.data.news[$scope.data.news.indexOf(news)].formResponse = response.status + ': ' + response.data;
+                    });
+                    news.picFile.upload.progress(function(evt) {
+                        // Math.min is to fix IE which reports 200% sometimes
+                        news.picFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    });
+                }
+            };
+            $scope.createNews = function(){
+                $scope.newNews.formResponse = $scope.validateNews($scope.newNews);
+                if ($scope.newNews.formResponse.length > 0)
+                    return false;
+                $scope.newNews.tsFrom = $scope.newNews.activeFrom.valueOf() / 1000;
+                $scope.newNews.tsUntil = $scope.newNews.activeUntil.valueOf() / 1000;
+
+                if (typeof $scope.newNews.picFile === 'undefined'){
+                    newsFactory.postData({action : 31}, $scope.newNews)
+                        .success(function(data, status, headers, config) {
+                            if ((typeof data === 'object') && (data !== null)){
+                                var newNews = {};
+                                newNews.nid = data.id;
+                                newNews.title = $scope.newNews.title;
+                                newNews.description = $scope.newNews.description;
+                                newNews.show = false;
+                                newNews.class = "";
+                                newNews.img = data.img;
+                                newNews.type = $scope.newNews.selType.value;
+                                newNews.status = 0;
+                                $scope.data.news.push(newNews);
+                                $scope.newNews.formResponse = "News has been added.";
+                            } else {
+                                $scope.newNews.formResponse = "Error: Can not add news 2! " + data;
+                            }
+                            console.dir(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.data.news[$scope.data.news.indexOf(news)].formResponse =
+                                "Error: Could not add news 2! " + data;
+                            console.log(data);
+                        });
+                } else {
+                    $scope.newNews.picFile.upload = Upload.upload({
+                        url: appURL + 'processData.php?action=3',
+                        method: 'POST',
+                        fields: {
+                            news: $scope.newNews
+                        },
+                        file: $scope.newNews.picFile,
+                        fileFormDataName: 'addNewsExh'
+                    });
+                    $scope.newNews.picFile.upload.then(function(response) {
+                        $timeout(function() {
+                            if ((typeof response.data === 'object') && (response.data !== null)){
+                                var newNews = {};
+                                newNews.nid = response.data.id;
+                                newNews.title = $scope.newNews.title;
+                                newNews.description = $scope.newNews.description;
+                                newNews.show = false;
+                                newNews.class = "";
+                                newNews.img = response.data.img;
+                                newNews.type = $scope.newNews.selType.value;
+                                newNews.status = 0;
+                                $scope.data.news.push(newNews);
+                                $scope.newNews.formResponse = "News has been added.";
+                            } else {
+                                $scope.newNews.formResponse = "Error: Can not add news! " + response.data;
+                            }
+                            console.dir(response.data);
+                        });
+                    }, function(response) {
+                        if (response.status > 0)
+                            $scope.newNews.formResponse = response.status + ': ' + response.data;
+                    });
+                    $scope.newNews.picFile.upload.progress(function(evt) {
+                        // Math.min is to fix IE which reports 200% sometimes
+                        $scope.newNews.picFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    });
+                }
+            };
+        }])
+
+    .directive('manageNewsList', function() {
+        return {
+            restrict: 'A',
+            controller: 'manageNewsListCtrl',
+            link: function(scope, elm, attrs){
+
+            },
+            templateUrl: 'manageNews/manageNewsList.tpl.html'
+        };
+    })
+    .filter('startFrom', function() {
+        return function(input, start) {
+            start = +start; //parse to int
+            if (typeof input == 'undefined')
+                return input;
+            return input.slice(start);
+        }
+    })
+
+    .controller('viewNEECtrl', ['$scope', '$timeout', 'newsFactory',
+        function viewNEECtrl($scope, $timeout, newsFactory){
+            $scope.data = {};
+
+            newsFactory.getData("today")
+                .success(function(data) {
+                    console.dir(data);
+                    $scope.data = data;
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                });
+
+            //events will be pulled from XML feed
+            //http://events.ua.edu/category/22/feed
+
+        }])
+    .directive('viewNewsEventsExhibitions', function() {
+        return {
+            restrict: 'AC',
+            scope: {},
+            controller: 'viewNEECtrl',
+            link: function(scope, elm, attrs){
+                //Preload the spinner element
+                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
+                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
+                var titleElm = elm.find('h2');
+                //Enter the spinner animation, appending it to the title element
+                $animate.enter(spinner, titleElm[0]);
+
+                var loadingWatcher = scope.$watch(
+                    'data.totalTime',
+                    function(newVal, oldVal){
+                        if (newVal != oldVal){
+                            $animate.leave(spinner);
+                            console.log("News data loaded");
+                        }
+                    },
+                    true
+                );
+            },
+            templateUrl: 'manageNews/viewNewsEventsExhibitions.tpl.html'
+        };
+    })
+
 angular.module('manage.manageOneSearch', [])
-    .controller('manageOneSearchCtrl', ['$scope', '$http', 'osFactory',
-        function manageOneSearchCtrl($scope, $http, osFactory){
+    .controller('manageOneSearchCtrl', ['$scope', 'tokenFactory', 'osFactory',
+        function manageOneSearchCtrl($scope, tokenFactory, osFactory){
             $scope.recList = [];
             $scope.addRec = {};
             $scope.addRec.keyword = "";
@@ -1026,22 +1476,9 @@ angular.module('manage.manageOneSearch', [])
             $scope.filterLink = '';
             $scope.filterLinkTitle = '';
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
+            tokenFactory("CSRF-libOneSearch");
 
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-                return cookies[name];
-            };
-            $http.defaults.headers.post = { 'X-CSRF-libOneSearch' : $scope.GetCookie("CSRF-libOneSearch") };
-
-            osFactory.getData({recList : 1})
+            osFactory.getData()
                 .success(function(data) {
                     console.dir(data);
                     $scope.recList = data;
@@ -1094,9 +1531,647 @@ angular.module('manage.manageOneSearch', [])
             templateUrl: 'manageOneSearch/manageOneSearch.tpl.html'
         };
     })
+angular.module('manage.manageSoftware', ['ngFileUpload'])
+    .controller('manageSWCtrl', ['$scope', 'tokenFactory', 'swFactory',
+        function manageSWCtrl($scope, tokenFactory, swFactory){
+            $scope.SWList = {};
+            $scope.newSW = {};
+            $scope.os = [
+                {name:'MS Windows', value:1},
+                {name:'Apple Mac', value:2}
+            ];
+
+            tokenFactory("CSRF-libSoftware");
+
+            swFactory.getData()
+                .success(function(data) {
+                    console.dir(data);
+                    for (var i = 0; i < data.software.length; i++){
+                        data.software[i].show = false;
+                        data.software[i].class = "";
+                        data.software[i].selCat = data.categories[0];
+                        data.software[i].newVer = {};
+                        data.software[i].newVer.selOS = $scope.os[0];
+                        for (var j = 0; j < data.software[i].versions.length; j++){
+                            data.software[i].versions[j].newLoc = {};
+                            data.software[i].versions[j].newLoc.selLoc = data.locations[0];
+                            data.software[i].versions[j].newLoc.devices = [];
+                            for (var k = 0; k < data.devices.length; k++)
+                                data.software[i].versions[j].newLoc.devices[k] = false;
+                        }
+                        data.software[i].newLink = {};
+                    }
+                    $scope.newSW.selCat = data.categories[0];
+                    $scope.SWList = data;
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                });
+
+            $scope.tabs = [
+                { name: 'Software List',
+                    number: 0,
+                    active: true
+                },
+                { name: 'Locations and Categories',
+                    number: 1,
+                    active: false
+                }];
+        }])
+
+    .directive('manageSoftwareMain', function($animate) {
+        return {
+            restrict: 'A',
+            scope: {},
+            controller: 'manageSWCtrl',
+            link: function(scope, elm, attrs){
+                //Preload the spinner element
+                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
+                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
+                var titleElm = elm.find('h2');
+                //Enter the spinner animation, appending it to the title element
+                $animate.enter(spinner, titleElm[0]);
+
+                var loadingWatcher = scope.$watch(
+                    'SWList.totalTime',
+                    function(newVal, oldVal){
+                        if (newVal != oldVal){
+                            $animate.leave(spinner);
+                            console.log("Software loaded");
+                        }
+                    },
+                    true
+                );
+            },
+            templateUrl: 'manageSoftware/manageSoftware.tpl.html'
+        };
+    })
+
+    .controller('manageSWListCtrl', ['$scope', '$timeout', 'Upload', 'swFactory', 'SOFTWARE_URL',
+        function manageSWListCtrl($scope, $timeout, Upload, swFactory, appURL){
+            $scope.titleFilter = '';
+            $scope.descrFilter = '';
+            $scope.sortMode = 0;
+            $scope.sortModes = [
+                {by:'title', reverse:false},
+                {by:'location', reverse:false}
+            ];
+            $scope.sortButton = $scope.sortMode;
+            $scope.mOver = 0;
+            $scope.appURL = appURL;
+
+            $scope.newSW.versions = [];
+            $scope.newSW.links = [];
+            $scope.newSW.categories = [];
+            $scope.newSW.newVer = {};
+            $scope.newSW.newVer.selOS = $scope.os[0];
+            $scope.newSW.newLink = {};
+            $scope.newSW.details = '';
+
+            $scope.currentPage = 1;
+            $scope.maxPageSize = 10;
+            $scope.perPage = 20;
+
+            $scope.startTitle = function(actual, expected){
+                if (!expected)
+                    return true;
+                if (actual.toLowerCase().indexOf(expected.toLowerCase()) == 0)
+                    return true;
+                return false;
+            };
+            $scope.toggleSW = function(sw){
+                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].show =
+                    !$scope.SWList.software[$scope.SWList.software.indexOf(sw)].show;
+            };
+            $scope.setOver = function(sw){
+                $scope.mOver = sw.sid;
+            };
+            $scope.sortBy = function(by){
+                if ($scope.sortMode === by)
+                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
+                else
+                    $scope.sortMode = by;
+            };
+
+            $scope.deleteSW = function(sw){
+                if (confirm("Delete " + sw.title  + " permanently?") == true){
+                    swFactory.postData({action : 1}, sw)
+                        .success(function(data, status, headers, config) {
+                            if (data == 1){
+                                $scope.SWList.software.splice($scope.SWList.software.indexOf(sw), 1);
+                                $scope.formResponse = "Software has been deleted.";
+                            } else {
+                                $scope.formResponse = "Error: Can not delete software! " + data;
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.formResponse = "Error: Could not delete software! " + data;
+                            console.log(data);
+                        });
+                }
+            };
+            $scope.updateSW = function(sw){
+                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse = $scope.validateSW(sw);
+                if ($scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse.length > 0)
+                    return false;
+                console.dir(sw);
+                if (typeof sw.picFile === 'undefined'){
+                    swFactory.postData({action : 21}, sw)
+                        .success(function(data, status, headers, config) {
+                            if ((typeof data === 'object') && (data !== null)){
+                                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse =
+                                    "Software has been updated, Icon has not changed.";
+                            } else {
+                                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse =
+                                    "Error: Can not update software! " + data;
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse =
+                                "Error: Could not delete software! " + data;
+                            console.log(data);
+                        });
+                } else {
+                    sw.picFile.upload = Upload.upload({
+                        url: appURL + 'processData.php?action=2',
+                        method: 'POST',
+                        fields: {
+                            sw: sw
+                        },
+                        file: sw.picFile,
+                        fileFormDataName: 'editSW' + sw.sid
+                    });
+                    sw.picFile.upload.then(function(response) {
+                        $timeout(function() {
+                            if ((typeof response.data === 'object') && (response.data !== null)){
+                                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse = "Software has been updated, ";
+                                if (response.data.iconUploaded)
+                                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse += "Icon uploaded.";
+                                else
+                                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse += "Icon has not changed.";
+                            } else {
+                                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse = "Error: Can not update software! " + response.data;
+                            }
+                            console.log(response.data);
+                        });
+                    }, function(response) {
+                        if (response.status > 0)
+                            $scope.SWList.software[$scope.SWList.software.indexOf(sw)].formResponse = response.status + ': ' + response.data;
+                    });
+                    sw.picFile.upload.progress(function(evt) {
+                        // Math.min is to fix IE which reports 200% sometimes
+                        sw.picFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    });
+                }
+            };
+            $scope.createSW = function(){
+                if (typeof $scope.newSW.picFile === 'undefined'){
+                    $scope.newSW.formResponse = "Please select icon file (.png)!";
+                    return false;
+                }
+                $scope.newSW.formResponse = $scope.validateSW($scope.newSW);
+                if ($scope.newSW.formResponse.length > 0)
+                    return false;
+                $scope.newSW.picFile.upload = Upload.upload({
+                    url: appURL + 'processData.php?action=3',
+                    method: 'POST',
+                    fields: {
+                        sw: $scope.newSW
+                    },
+                    file: $scope.newSW.picFile,
+                    fileFormDataName: 'addNewSW'
+                });
+                $scope.newSW.picFile.upload.then(function(response) {
+                    $timeout(function() {
+                        if ((typeof response.data === 'object') && (response.data !== null)){
+                            var newSW = {};
+                            newSW.sid = response.data.id;
+                            newSW.title = $scope.newSW.title;
+                            newSW.description = $scope.newSW.description;
+                            newSW.modules = $scope.newSW.modules;
+                            newSW.versions = angular.copy(response.data.versions);
+                            newSW.links = angular.copy(response.data.links);
+                            newSW.categories = angular.copy(response.data.categories);
+                            newSW.show = false;
+                            newSW.class = "";
+                            for (var i = 0; i < newSW.versions.length; i++){
+                                newSW.versions[i].newLoc = {};
+                                newSW.versions[i].newLoc.selLoc = $scope.SWList.locations[0];
+                                newSW.versions[i].newLoc.devices = [];
+                                for (var j = 0; j < $scope.SWList.devices.length; j++)
+                                    newSW.versions[i].newLoc.devices[j] = false;
+                            }
+                            newSW.selCat = response.data.categories[0];
+                            newSW.newVer = {};
+                            newSW.newVer.selOS = $scope.os[0];
+                            newSW.newLink = {};
+                            $scope.SWList.software.push(newSW);
+                            $scope.newSW.formResponse = "Software has been added.";
+                        } else {
+                            $scope.newSW.formResponse = "Error: Can not add software! " + response.data;
+                        }
+                        console.dir(response.data);
+                    });
+                }, function(response) {
+                    if (response.status > 0)
+                        $scope.newSW.formResponse = response.status + ': ' + response.data;
+                });
+                $scope.newSW.picFile.upload.progress(function(evt) {
+                    // Math.min is to fix IE which reports 200% sometimes
+                    $scope.newSW.picFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                });
+            };
+            $scope.validateSW = function(sw){
+                if (sw.title.length < 1)
+                    return "Form error: Please fill out Title!";
+                if (sw.description.length < 1)
+                    return "Form error: Please fill out Description!";
+                if (sw.versions.length < 1)
+                    return "Form error: Please add a version!";
+                if (sw.categories.length < 1)
+                    return "Form error: Please add a category!";
+
+                return "";
+            };
+            $scope.checkDevices = function(device, number){
+                device = parseInt(device);
+                number = parseInt(number);
+                if ((device & number) === number)
+                    return true;
+                return false;
+            };
+
+            $scope.addVersion = function(sw){
+                if (sw.newVer.version.length > 0){
+                    var newVer = {};
+                    newVer.vid = -1;
+                    newVer.sid = sw.sid;
+                    newVer.version = sw.newVer.version;
+                    newVer.os = sw.newVer.selOS.value;
+                    newVer.locations = [];
+                    newVer.newLoc = {};
+                    newVer.newLoc.selLoc = $scope.SWList.locations[0];
+                    newVer.newLoc.devices = [];
+                    for (var j = 0; j < $scope.SWList.devices.length; j++)
+                        newVer.newLoc.devices[j] = false;
+                    var isPresent = false;
+                    for (var i = 0; i < sw.versions.length; i++)
+                        if (sw.versions[i].version === newVer.version &&
+                            sw.versions[i].os === newVer.os){
+                            isPresent = true;
+                            break;
+                        }
+                    if (!isPresent)
+                        $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.push(newVer);
+                }
+            };
+            $scope.deleteVersion = function(sw, version){
+                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.splice(
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version),1
+                );
+            };
+            $scope.addLocation = function(sw,version){
+                var newLoc = {};
+                newLoc.id = -1;
+                newLoc.sid = sw.sid;
+                newLoc.vid = version.vid;
+                newLoc.lid = version.newLoc.selLoc.lid;
+                newLoc.name = version.newLoc.selLoc.name;
+                newLoc.parent = version.newLoc.selLoc.parent;
+                newLoc.devices = 0;
+                var isPresent = false;
+                for (var i = 0; i < version.locations.length; i++)
+                    if (version.locations[i].lid == newLoc.lid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent){
+                    for (var i = 0; i < $scope.SWList.devices.length; i++)
+                        if (version.newLoc.devices[i])
+                            newLoc.devices += parseInt($scope.SWList.devices[i].did);
+                    if (newLoc.devices > 0)
+                        $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions[$scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version)].locations.push(newLoc);
+                    else
+                        alert("Please select at least one device type!");
+                }
+            };
+            $scope.deleteLocation = function(sw, version, location){
+                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions[$scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version)].locations.splice(
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions[$scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version)].locations.indexOf(location),1
+                );
+            };
+            $scope.addCategory = function(sw){
+                var newCat = {};
+                newCat.id = -1;
+                newCat.cid = sw.selCat.cid;
+                newCat.name = sw.selCat.name;
+                var isPresent = false;
+                for (var i = 0; i < sw.categories.length; i++)
+                    if (sw.categories[i].cid == newCat.cid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].categories.push(newCat);
+            };
+            $scope.deleteCategory = function(sw, category){
+                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].categories.splice(
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].categories.indexOf(category),1
+                );
+            };
+            $scope.addLink = function(sw){
+                if (sw.newLink.title.length > 0 && sw.newLink.url.length > 1){
+                    var newLink = {};
+                    newLink.linkid = -1;
+                    newLink.sid = sw.sid;
+                    newLink.description = sw.newLink.description;
+                    newLink.title = sw.newLink.title;
+                    newLink.url = sw.newLink.url;
+                    var isPresent = false;
+                    for (var i = 0; i < sw.links.length; i++)
+                        if (sw.links[i].title === newLink.title &&
+                            sw.links[i].url === newLink.url){
+                            isPresent = true;
+                            break;
+                        }
+                    if (!isPresent)
+                        $scope.SWList.software[$scope.SWList.software.indexOf(sw)].links.push(newLink);
+                }
+            };
+            $scope.deleteLink = function(sw, link){
+                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].links.splice(
+                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].links.indexOf(link),1
+                );
+            };
+
+            $scope.delNewSWVer = function(version){
+                $scope.newSW.versions.splice($scope.newSW.versions.indexOf(version), 1);
+            };
+            $scope.delNewSWLoc = function(version,location){
+                $scope.newSW.versions[$scope.newSW.versions.indexOf(version)].locations.splice(
+                    $scope.newSW.versions[$scope.newSW.versions.indexOf(version)].locations.indexOf(location),
+                    1
+                );
+            };
+            $scope.delNewSWCat = function(category){
+                $scope.newSW.categories.splice($scope.newSW.categories.indexOf(category), 1);
+            };
+            $scope.delNewSWLink = function(link){
+                $scope.newSW.links.splice($scope.newSW.links.indexOf(link), 1);
+            };
+            $scope.addNewSWVer = function(){
+                if ($scope.newSW.newVer.version.length > 0){
+                    var newVersion = {};
+                    newVersion.version = $scope.newSW.newVer.version;
+                    newVersion.os = $scope.newSW.newVer.selOS.value;
+                    newVersion.locations = [];
+                    newVersion.newLoc = {};
+                    newVersion.newLoc.selLoc = $scope.SWList.locations[0];
+                    newVersion.newLoc.devices = [];
+                    for (var j = 0; j < $scope.SWList.devices.length; j++)
+                        newVersion.newLoc.devices[j] = false;
+                    var isPresent = false;
+                    for (var i = 0; i < $scope.newSW.versions.length; i++)
+                        if ($scope.newSW.versions[i].version == newVersion.version &&
+                            $scope.newSW.versions[i].os == newVersion.os){
+                            isPresent = true;
+                            break;
+                        }
+                    if (!isPresent)
+                        $scope.newSW.versions.push(newVersion);
+                }
+            };
+            $scope.addNewSWLoc = function(version){
+                var newLoc = {};
+                newLoc.lid = version.newLoc.selLoc.lid;
+                newLoc.name = version.newLoc.selLoc.name;
+                newLoc.parent = version.newLoc.selLoc.parent;
+                newLoc.devices = 0;
+                var isPresent = false;
+                for (var i = 0; i < version.locations.length; i++)
+                    if (version.locations[i].lid == newLoc.lid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent){
+                    for (var i = 0; i < $scope.SWList.devices.length; i++)
+                        if (version.newLoc.devices[i])
+                            newLoc.devices += parseInt($scope.SWList.devices[i].did);
+                    if (newLoc.devices > 0)
+                        $scope.newSW.versions[$scope.newSW.versions.indexOf(version)].locations.push(newLoc);
+                    else
+                        alert("Please select at least one device type!");
+                }
+            };
+            $scope.addNewSWCat = function(){
+                var newCategory = {};
+                newCategory.cid = $scope.newSW.selCat.cid;
+                newCategory.name = $scope.newSW.selCat.name;
+                var isPresent = false;
+                for (var i = 0; i < $scope.newSW.categories.length; i++)
+                    if ($scope.newSW.categories[i].cid == newCategory.cid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent)
+                    $scope.newSW.categories.push(newCategory);
+            };
+            $scope.addNewSWLink = function(){
+                if ($scope.newSW.newLink.title.length > 0 && $scope.newSW.newLink.url.length > 11){
+                    var newLink = {};
+                    newLink.description = $scope.newSW.newLink.description;
+                    newLink.title = $scope.newSW.newLink.title;
+                    newLink.url = $scope.newSW.newLink.url;
+                    var isPresent = false;
+                    for (var i = 0; i < $scope.newSW.links.length; i++)
+                        if ($scope.newSW.links[i].title == newLink.title &&
+                            $scope.newSW.links[i].url == newLink.url){
+                            isPresent = true;
+                            break;
+                        }
+                    if (!isPresent)
+                        $scope.newSW.links.push(newLink);
+                }
+            };
+
+            $scope.generateThumb = function(file) {
+                if (file != null) {
+                    if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
+                        $timeout(function() {
+                            var fileReader = new FileReader();
+                            fileReader.readAsDataURL(file);
+                            fileReader.onload = function(e) {
+                                $timeout(function() {
+                                    file.dataUrl = e.target.result;
+                                });
+                            }
+                        });
+                    }
+                }
+            };
+
+    }])
+
+    .directive('softwareManageList', function() {
+        return {
+            restrict: 'A',
+            controller: 'manageSWListCtrl',
+            link: function(scope, elm, attrs){
+
+            },
+            templateUrl: 'manageSoftware/manageSoftwareList.tpl.html'
+        };
+    })
+    .filter('startFrom', function() {
+        return function(input, start) {
+            start = +start; //parse to int
+            if (typeof input == 'undefined')
+                return input;
+            return input.slice(start);
+        }
+    })
+    .controller('manageSWLocCatCtrl', ['$scope', '$timeout', 'swFactory',
+        function manageSWLocCatCtrl($scope, $timeout, swFactory){
+            $scope.selLocation = -1;
+            $scope.selCategory = -1;
+            $scope.newLocation = {};
+            $scope.newLocation.name = '';
+            $scope.newLocation.parent = 0;
+            $scope.newCategory = '';
+            $scope.locResponse = '';
+            $scope.catResponse = '';
+
+
+            $scope.selectLocation = function(location){
+                $scope.selLocation = location.lid;
+            };
+            $scope.selectCategory = function(category){
+                $scope.selCategory = category.cid;
+            };
+            $scope.addLocation = function(){
+                swFactory.postData({action : 4}, $scope.newLocation)
+                    .success(function(data, status, headers, config) {
+                        if ((typeof data === 'object') && (data !== null)){
+                            var newLoc = {};
+                            newLoc.lid = data.id;
+                            newLoc.name = $scope.newLocation.name;
+                            newLoc.parent = 0;
+                            if ($scope.newLocation.parent > 0)
+                                newLoc.parent = $scope.newLocation.parent;
+                            $scope.SWList.locations.push(newLoc);
+                            $scope.locResponse = "Location has been added!";
+                        } else {
+                            $scope.locResponse = "Error: Can not add location! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.locResponse = "Error: Could not add location! " + data;
+                        console.log(data);
+                    });
+            };
+            $scope.deleteLocation = function(location){
+                if (confirm("Delete " + location.name  + " permanently?") == true){
+                    swFactory.postData({action : 5}, location)
+                        .success(function(data, status, headers, config) {
+                            if (data == 1){
+                                $scope.SWList.locations.splice($scope.SWList.locations.indexOf(location), 1);
+                                $scope.locResponse = "Location has been deleted!";
+                            } else {
+                                $scope.locResponse = "Error: Can not delete location! " + data;
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.locResponse = "Error: Could not delete location! " + data;
+                            console.log(data);
+                        });
+                }
+            };
+            $scope.editLocation = function(location){
+                swFactory.postData({action : 6}, location)
+                    .success(function(data, status, headers, config) {
+                        if (data == 1){
+                            $scope.locResponse = "Location name has been updated!";
+                        } else {
+                            $scope.locResponse = "Error: Can not update location! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.locResponse = "Error: Could not update location! " + data;
+                        console.log(data);
+                    });
+            };
+            $scope.addCategory = function(){
+                swFactory.postData({action : 7}, {name: $scope.newCategory})
+                    .success(function(data, status, headers, config) {
+                        if ((typeof data === 'object') && (data !== null)){
+                            var newCat = {};
+                            newCat.cid = data.id;
+                            newCat.name = $scope.newCategory;
+                            $scope.SWList.categories.push(newCat);
+                            $scope.catResponse = "Category has been added!";
+                        } else {
+                            $scope.catResponse = "Error: Can not add category! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.catResponse = "Error: Could not add category! " + data;
+                        console.log(data);
+                    });
+            };
+            $scope.deleteCategory = function(category){
+                if (confirm("Delete " + category.name  + " permanently?") == true){
+                    swFactory.postData({action : 8}, category)
+                        .success(function(data, status, headers, config) {
+                            if (data == 1){
+                                $scope.SWList.categories.splice($scope.SWList.categories.indexOf(category), 1);
+                                $scope.catResponse = "Category has been deleted!";
+                            } else {
+                                $scope.catResponse = "Error: Can not delete category! " + data;
+                            }
+                            console.log(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.catResponse = "Error: Could not delete category! " + data;
+                            console.log(data);
+                        });
+                }
+            };
+            $scope.editCategory = function(category){
+                swFactory.postData({action : 9}, category)
+                    .success(function(data, status, headers, config) {
+                        if (data == 1){
+                            $scope.catResponse = "Category name has been updated!";
+                        } else {
+                            $scope.catResponse = "Error: Can not update category! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.catResponse = "Error: Could not update category! " + data;
+                        console.log(data);
+                    });
+            };
+        }])
+    .directive('softwareManageLocCat', function() {
+        return {
+            restrict: 'A',
+            controller: 'manageSWLocCatCtrl',
+            link: function(scope, elm, attrs){
+
+            },
+            templateUrl: 'manageSoftware/manageSoftwareLocCat.tpl.html'
+        };
+    })
+
 angular.module('manage.manageUserGroups', [])
-    .controller('userGroupsCtrl', ['$scope', '$http', '$window', 'ugFactory',
-        function userGroupsCtrl($scope, $http, $window, ugFactory){
+    .controller('userGroupsCtrl', ['$scope', '$window', 'tokenFactory', 'ugFactory',
+        function userGroupsCtrl($scope, $window, tokenFactory, ugFactory){
         $scope.expUser = -1;
         $scope.users = $window.users;
         $scope.apps = $window.apps;
@@ -1116,21 +2191,7 @@ angular.module('manage.manageUserGroups', [])
                 active: false
             }];
 
-        var cookies;
-        $scope.GetCSRFCookie = function (name,c,C,i){
-            if(cookies){ return cookies[name]; }
-
-            c = document.cookie.split('; ');
-            cookies = {};
-
-            for(i=c.length-1; i>=0; i--){
-                C = c[i].split('=');
-                cookies[C[0]] = C[1];
-            }
-
-            return cookies[name];
-        };
-        $http.defaults.headers.post = { "X-CSRF-libAdmin" : $scope.GetCSRFCookie("CSRF-libAdmin") };
+        tokenFactory("CSRF-libAdmin");
 
         $scope.expandUser = function(user){
             $scope.result = "";
@@ -1232,24 +2293,11 @@ angular.module('manage.manageUserGroups', [])
         };
     })
 angular.module('manage.siteFeedback', [])
-    .controller('siteFeedbackCtrl', ['$scope', '$http', 'sfFactory',
-        function siteFeedbackCtrl($scope, $http, sfFactory){
+    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'sfFactory',
+        function siteFeedbackCtrl($scope, tokenFactory, sfFactory){
             $scope.responses = [];
 
-            var cookies;
-            $scope.GetCSRFCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
-
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-                return cookies[name];
-            };
-            $http.defaults.headers.post = { "X-CSRF-libSiteFeedback" : $scope.GetCSRFCookie("CSRF-libSiteFeedback") };
+            tokenFactory("CSRF-libSiteFeedback");
 
             sfFactory.getData({json : 1})
                 .success(function(data) {
@@ -1304,8 +2352,8 @@ angular.module('manage.staffDirectory', [])
         "Web Services"
     ])
 
-    .controller('staffDirCtrl', ['$scope', '$http', '$window', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_DEPTS', 'STAFF_DIR_URL',
-        function staffDirCtrl($scope, $http, $window, sdFactory, ranks, departments, appUrl){
+    .controller('staffDirCtrl', ['$scope', '$window', 'tokenFactory', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_DEPTS', 'STAFF_DIR_URL',
+        function staffDirCtrl($scope, $window, tokenFactory, sdFactory, ranks, departments, appUrl){
             $scope.sortMode = 'lastname';
             $scope.lastNameFilter = '';
             $scope.firstNameFilter = '';
@@ -1321,20 +2369,7 @@ angular.module('manage.staffDirectory', [])
             $scope.maxPageSize = 10;
             $scope.perPage = 15;
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
-
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-                return cookies[name];
-            };
-            $http.defaults.headers.post = { 'X-CSRF-libStaffDir' : $scope.GetCookie("CSRF-libStaffDir") };
+            tokenFactory("CSRF-libStaffDir");
 
             sdFactory.getData()
                 .success(function(data) {
@@ -1524,3 +2559,109 @@ angular.module('manage.staffDirectory', [])
             return input.slice(start);
         }
     })
+angular.module('manage.submittedForms', [])
+    .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'tokenFactory', 'formFactory',
+        function manageSubFormsCtrl($scope, $timeout, tokenFactory, formFactory){
+            $scope.data = {};
+            $scope.currentPage = 1;
+            $scope.maxPageSize = 10;
+            $scope.perPage = 20;
+            $scope.titleFilter = '';
+            $scope.sortModes = [
+                {by:'title', reverse:false},
+                {by:'status', reverse:false},
+                {by:'created', reverse:false}
+            ];
+            $scope.sortMode = 0;
+            $scope.sortButton = $scope.sortMode;
+            $scope.mOver = 0;
+
+            tokenFactory("CSRF-libForms");
+
+            formFactory.getData()
+                .success(function(data) {
+                    console.dir(data);
+                    for (var i = 0; i < data.forms.length; i++){
+                        data.forms[i].show = false;
+                        data.forms[i].class = "";
+                    }
+                    $scope.data = data;
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                });
+
+            $scope.setOver = function(form){
+                $scope.mOver = form.fid;
+            };
+            $scope.toggleForms = function(form){
+                $scope.data.forms[$scope.data.forms.indexOf(form)].show =
+                    !$scope.data.forms[$scope.data.forms.indexOf(form)].show;
+            };
+        }])
+
+    .directive('submittedFormsList', function($animate) {
+        return {
+            restrict: 'AC',
+            scope: {},
+            controller: 'manageSubFormsCtrl',
+            link: function(scope, elm, attrs){
+                //Preload the spinner element
+                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
+                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
+                var titleElm = elm.find('h2');
+                //Enter the spinner animation, appending it to the title element
+                $animate.enter(spinner, titleElm[0]);
+
+                var loadingWatcher = scope.$watch(
+                    'data.totalTime',
+                    function(newVal, oldVal){
+                        if (newVal != oldVal){
+                            $animate.leave(spinner);
+                            console.log("Forms data loaded");
+                        }
+                    },
+                    true
+                );
+            },
+            templateUrl: 'submittedForms/submittedForms.tpl.html'
+        };
+    })
+    .filter('startFrom', function() {
+        return function(input, start) {
+            start = +start; //parse to int
+            if (typeof input == 'undefined')
+                return input;
+            return input.slice(start);
+        }
+    })
+
+    .controller('customFormCtrl', ['$scope', 'formFactory',
+    function customFormCtrl($scope, formFactory){
+
+        $scope.submit = function(event){
+            var form = {};
+            form.length = event.target.length - 1;
+            form.url = event.target.baseURI;
+            console.dir(event.target);
+            //copy every field but the submit button
+            for (var i = 0; i < event.target.length - 1; i++){
+                form[i] = {};
+                form[i].name = event.target[i].name;
+                form[i].value = event.target[i].value;
+                if (event.target[i].type == 'checkbox' || event.target[i].type == 'radio')
+                    if (!event.target[i].checked)
+                        form[i].value = "";
+            }
+            formFactory.submitForm(form)
+                .success(function(data) {
+                    $scope.formResponse = data;
+                    console.log(data);
+                })
+                .error(function(data, status, headers, config) {
+                    $scope.formResponse = "Error! " + data;
+                    console.log(data);
+                });
+
+        };
+    }])

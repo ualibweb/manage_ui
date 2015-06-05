@@ -1,6 +1,6 @@
 angular.module('manage.manageOneSearch', [])
-    .controller('manageOneSearchCtrl', ['$scope', '$http', 'osFactory',
-        function manageOneSearchCtrl($scope, $http, osFactory){
+    .controller('manageOneSearchCtrl', ['$scope', 'tokenFactory', 'osFactory',
+        function manageOneSearchCtrl($scope, tokenFactory, osFactory){
             $scope.recList = [];
             $scope.addRec = {};
             $scope.addRec.keyword = "";
@@ -11,22 +11,9 @@ angular.module('manage.manageOneSearch', [])
             $scope.filterLink = '';
             $scope.filterLinkTitle = '';
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
+            tokenFactory("CSRF-libOneSearch");
 
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-                return cookies[name];
-            };
-            $http.defaults.headers.post = { 'X-CSRF-libOneSearch' : $scope.GetCookie("CSRF-libOneSearch") };
-
-            osFactory.getData({recList : 1})
+            osFactory.getData()
                 .success(function(data) {
                     console.dir(data);
                     $scope.recList = data;

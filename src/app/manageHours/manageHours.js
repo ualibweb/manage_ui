@@ -1,12 +1,7 @@
 angular.module('manage.manageHours', [])
     .constant('HOURS_FROM', [
-        {name:'Closed', value:'-1'},
+        {name:'Closed 24hrs', value:'-1'},
         {name:'Midnight', value:'0'},
-        {name:'1:00 am', value:'100'},
-        {name:'2:00 am', value:'200'},
-        {name:'3:00 am', value:'300'},
-        {name:'4:00 am', value:'400'},
-        {name:'5:00 am', value:'500'},
         {name:'6:00 am', value:'600'},
         {name:'7:00 am', value:'700'},
         {name:'7:30 am', value:'730'},
@@ -16,31 +11,12 @@ angular.module('manage.manageHours', [])
         {name:'10:00 am', value:'1000'},
         {name:'11:00 am', value:'1100'},
         {name:'Noon', value:'1200'},
-        {name:'1:00 pm', value:'1300'},
-        {name:'2:00 pm', value:'1400'},
-        {name:'3:00 pm', value:'1500'},
-        {name:'4:00 pm', value:'1600'},
-        {name:'4:30 pm', value:'1630'},
-        {name:'5:00 pm', value:'1700'},
-        {name:'5:30 pm', value:'1730'},
-        {name:'6:00 pm', value:'1800'},
-        {name:'7:00 pm', value:'1900'},
-        {name:'8:00 pm', value:'2000'},
-        {name:'9:00 pm', value:'2100'},
-        {name:'10:00 pm', value:'2200'},
-        {name:'11:00 pm', value:'2300'}
+        {name:'1:00 pm', value:'1300'}
     ])
     .constant('HOURS_TO', [
-        {name:'Closed', value:'0'},
         {name:'1:00 am', value:'100'},
         {name:'2:00 am', value:'200'},
         {name:'3:00 am', value:'300'},
-        {name:'4:00 am', value:'400'},
-        {name:'5:00 am', value:'500'},
-        {name:'6:00 am', value:'600'},
-        {name:'7:00 am', value:'700'},
-        {name:'7:30 am', value:'730'},
-        {name:'7:45 am', value:'745'},
         {name:'8:00 am', value:'800'},
         {name:'9:00 am', value:'900'},
         {name:'10:00 am', value:'1000'},
@@ -51,6 +27,7 @@ angular.module('manage.manageHours', [])
         {name:'3:00 pm', value:'1500'},
         {name:'4:00 pm', value:'1600'},
         {name:'4:30 pm', value:'1630'},
+        {name:'4:45 pm', value:'1645'},
         {name:'5:00 pm', value:'1700'},
         {name:'5:30 pm', value:'1730'},
         {name:'6:00 pm', value:'1800'},
@@ -63,29 +40,24 @@ angular.module('manage.manageHours', [])
     ])
     .constant('DP_FORMAT', 'MM/dd/yyyy')
 
-    .controller('manageHrsCtrl', ['$scope', '$http', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT',
-        function manageHrsCtrl($scope, $http, $animate, hmFactory, hoursFrom, hoursTo, dpFormat){
+    .controller('manageHrsCtrl', ['$scope', '$animate', 'tokenFactory', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT',
+        function manageHrsCtrl($scope, $animate, tokenFactory, hmFactory, hoursFrom, hoursTo, dpFormat){
             $scope.allowedLibraries = [];
             $scope.format = dpFormat;
             $scope.hrsFrom = hoursFrom;
             $scope.hrsTo = hoursTo;
             $scope.selLib = {};
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
+            tokenFactory("CSRF-libHours");
 
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
+            $scope.initSemesters = function(semesters){
+                for (var sem = 0; sem < semesters.length; sem++){
+                    semesters[sem].startdate = new Date(semesters[sem].startdate);
+                    semesters[sem].enddate = new Date(semesters[sem].enddate);
+                    semesters[sem].dp = false;
                 }
-
-                return cookies[name];
+                return semesters;
             };
-            $http.defaults.headers.post = { 'X-CSRF-libHours' : $scope.GetCookie("CSRF-libHours") };
 
             hmFactory.getData("semesters")
                 .success(function(data) {
@@ -96,10 +68,7 @@ angular.module('manage.manageHours', [])
                             data.exc[lib][ex].datems = new Date(data.exc[lib][ex].date * 1000);
                             data.exc[lib][ex].dp = false;
                         }
-                        for (var sem = 0; sem < data.sem[lib].length; sem++){
-                            data.sem[lib][sem].startdate = new Date(data.sem[lib][sem].startdate);
-                            data.sem[lib][sem].dp = false;
-                        }
+                        data.sem[lib] = $scope.initSemesters(data.sem[lib]);
                     }
                     $scope.allowedLibraries = data;
                 })
@@ -154,14 +123,12 @@ angular.module('manage.manageHours', [])
         $scope.newSemester.dp = false;
         $scope.newSemester.dow = [];
 
-        function init(){
-            for (var day = 0; day < 7; day++) {
-                $scope.newSemester.dow[day] = {};
-                $scope.newSemester.dow[day].from = -1;
-                $scope.newSemester.dow[day].to = 0;
-            }
+        for (var day = 0; day < 7; day++) {
+            $scope.newSemester.dow[day] = {};
+            $scope.newSemester.dow[day].from = -1;
+            $scope.newSemester.dow[day].to = 0;
         }
-        init();
+
         $scope.onSemFocus = function($event, index){
             $event.preventDefault();
             $event.stopPropagation();
@@ -203,11 +170,13 @@ angular.module('manage.manageHours', [])
 
         $scope.saveChanges = function(semester){
             semester.lid = $scope.selLib.lid;
+            semester.libName = $scope.selLib.name;
             $scope.loading = true;
             hmFactory.postData({action : 1}, semester)
                 .success(function(data) {
-                    if (data == 1){
-                        $scope.result = "Saved";
+                    if ((typeof data === 'object') && (data !== null)){
+                        $scope.result = "Semester updated";
+                        $scope.allowedLibraries.sem[$scope.selLib.index] = $scope.initSemesters(data);
                     } else
                         $scope.result = "Error! Could not save data!";
                     $scope.loading = false;
@@ -220,11 +189,12 @@ angular.module('manage.manageHours', [])
             if (confirm("Are you sure you want to delete " + semester.name + " semester?")){
                 $scope.loading = true;
                 semester.lid = $scope.selLib.lid;
+                semester.libName = $scope.selLib.name;
                 hmFactory.postData({action : 3}, semester)
                     .success(function(data) {
-                        if (data == 1){
+                        if ((typeof data === 'object') && (data !== null)){
                             $scope.result = "Semester deleted";
-                            $scope.allowedLibraries.sem[$scope.selLib.index].splice(index, 1);
+                            $scope.allowedLibraries.sem[$scope.selLib.index] = $scope.initSemesters(data);
                         } else
                             $scope.result = "Error! Could not delete semester!";
                         $scope.loading = false;
@@ -242,11 +212,7 @@ angular.module('manage.manageHours', [])
                 .success(function(data) {
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.result = "Semester created";
-                        for (var sem = 0; sem < data.length; sem++){
-                            data[sem].startdate = new Date(data[sem].startdate);
-                            data[sem].dp = false;
-                        }
-                        $scope.allowedLibraries.sem[$scope.selLib.index] = data;
+                        $scope.allowedLibraries.sem[$scope.selLib.index] = $scope.initSemesters(data);
                     }else
                         $scope.result = "Error! Could not create semester!";
                     $scope.loading = false;

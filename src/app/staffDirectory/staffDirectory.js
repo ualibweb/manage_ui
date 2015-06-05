@@ -33,8 +33,8 @@ angular.module('manage.staffDirectory', [])
         "Web Services"
     ])
 
-    .controller('staffDirCtrl', ['$scope', '$http', '$window', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_DEPTS', 'STAFF_DIR_URL',
-        function staffDirCtrl($scope, $http, $window, sdFactory, ranks, departments, appUrl){
+    .controller('staffDirCtrl', ['$scope', '$window', 'tokenFactory', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_DEPTS', 'STAFF_DIR_URL',
+        function staffDirCtrl($scope, $window, tokenFactory, sdFactory, ranks, departments, appUrl){
             $scope.sortMode = 'lastname';
             $scope.lastNameFilter = '';
             $scope.firstNameFilter = '';
@@ -50,20 +50,7 @@ angular.module('manage.staffDirectory', [])
             $scope.maxPageSize = 10;
             $scope.perPage = 15;
 
-            var cookies;
-            $scope.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
-
-                c = document.cookie.split('; ');
-                cookies = {};
-
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-                return cookies[name];
-            };
-            $http.defaults.headers.post = { 'X-CSRF-libStaffDir' : $scope.GetCookie("CSRF-libStaffDir") };
+            tokenFactory("CSRF-libStaffDir");
 
             sdFactory.getData()
                 .success(function(data) {
