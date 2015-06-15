@@ -332,7 +332,18 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                                 var newNews = {};
                                 newNews.nid = data.id;
                                 newNews.title = $scope.newNews.title;
+                                newNews.blurb = $scope.newNews.blurb;
                                 newNews.description = $scope.newNews.description;
+                                newNews.activeFrom = new Date($scope.newNews.activeFrom * 1000);
+                                newNews.activeUntil = new Date($scope.newNews.activeUntil * 1000);
+                                newNews.contactName = $scope.newNews.contactName;
+                                newNews.contactEmail = $scope.newNews.contactEmail;
+                                newNews.contactPhone = $scope.newNews.contactPhone;
+                                for (var j = 0; j < $scope.data.people.length; j++)
+                                    if ($scope.newNews.contactID.uid === $scope.data.people[j].uid){
+                                        newNews.contactID = $scope.data.people[j];
+                                        break;
+                                    }
                                 newNews.show = false;
                                 newNews.class = "";
                                 newNews.img = data.img;
@@ -366,7 +377,18 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                                 var newNews = {};
                                 newNews.nid = response.data.id;
                                 newNews.title = $scope.newNews.title;
+                                newNews.blurb = $scope.newNews.blurb;
                                 newNews.description = $scope.newNews.description;
+                                newNews.activeFrom = new Date($scope.newNews.activeFrom * 1000);
+                                newNews.activeUntil = new Date($scope.newNews.activeUntil * 1000);
+                                newNews.contactName = $scope.newNews.contactName;
+                                newNews.contactEmail = $scope.newNews.contactEmail;
+                                newNews.contactPhone = $scope.newNews.contactPhone;
+                                for (var j = 0; j < $scope.data.people.length; j++)
+                                    if ($scope.newNews.contactID.uid === $scope.data.people[j].uid){
+                                        newNews.contactID = $scope.data.people[j];
+                                        break;
+                                    }
                                 newNews.show = false;
                                 newNews.class = "";
                                 newNews.img = response.data.img;
