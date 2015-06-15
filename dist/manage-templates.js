@@ -759,7 +759,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                    <div class=\"col-md-5 form-group\">\n" +
     "                        <label for=\"title\">Title</label>\n" +
     "                        <input type=\"text\" class=\"form-control\" placeholder=\"Enter Title\" ng-model=\"newNews.title\"\n" +
-    "                               id=\"title\" required>\n" +
+    "                               id=\"title\" maxlength=\"100\" required>\n" +
     "                    </div>\n" +
     "                    <div class=\"col-md-2 form-group\">\n" +
     "                        <label for=\"from\">Active From</label>\n" +
@@ -777,7 +777,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                <div class=\"col-md-12\">\n" +
     "                    <div class=\"col-md-10 form-group\">\n" +
     "                        <label for=\"blurb\">Short Description</label>\n" +
-    "                        <textarea class=\"form-control\" rows=\"1\" id=\"blurb\" ng-model=\"newNews.blurb\" maxlength=\"200\" required></textarea>\n" +
+    "                        <textarea class=\"form-control\" rows=\"1\" id=\"blurb\" ng-model=\"newNews.blurb\" maxlength=\"250\" required></textarea>\n" +
     "                    </div>\n" +
     "                    <div class=\"col-md-2 form-group\">\n" +
     "                        <label for=\"type\">Type</label>\n" +
@@ -805,17 +805,17 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                        <div class=\"col-md-3\">\n" +
     "                            <label for=\"contact2\">Name</label>\n" +
     "                            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Name\" ng-model=\"newNews.contactName\"\n" +
-    "                                   id=\"contact2\">\n" +
+    "                                   id=\"contact2\" maxlength=\"60\">\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-3\">\n" +
     "                            <label for=\"contact3\">Email</label>\n" +
     "                            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Email\" ng-model=\"newNews.contactEmail\"\n" +
-    "                                   id=\"contact3\">\n" +
+    "                                   id=\"contact3\"  maxlength=\"1024\">\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-3\">\n" +
     "                            <label for=\"contact4\">Phone</label>\n" +
     "                            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Phone\" ng-model=\"newNews.contactPhone\"\n" +
-    "                                   id=\"contact4\">\n" +
+    "                                   id=\"contact4\" maxlength=\"20\">\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -908,7 +908,8 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                            <h4>\n" +
     "                                <span ng-hide=\"news.show\" ng-click=\"toggleNews(news)\"><a>{{news.title}}</a></span>\n" +
     "                                <span ng-show=\"news.show\">\n" +
-    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Title\" ng-model=\"news.title\" required>\n" +
+    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Title\" ng-model=\"news.title\"\n" +
+    "                                           maxlength=\"100\" required>\n" +
     "                                </span>\n" +
     "                            </h4>\n" +
     "                        </div>\n" +
@@ -923,7 +924,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                    <h4 style=\"text-align: justify;\">\n" +
     "                        <span ng-hide=\"news.show\" ng-click=\"toggleNews(news)\"><small>{{news.blurb}}</small></span>\n" +
     "                        <span ng-show=\"news.show\">\n" +
-    "                            <textarea class=\"form-control\" rows=\"1\" ng-model=\"news.blurb\" maxlength=\"200\" required></textarea>\n" +
+    "                            <textarea class=\"form-control\" rows=\"1\" ng-model=\"news.blurb\" maxlength=\"250\" required></textarea>\n" +
     "                        </span>\n" +
     "                    </h4>\n" +
     "                    <div ng-show=\"news.show\">\n" +
@@ -971,17 +972,17 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                            <div class=\"col-md-3\">\n" +
     "                                <label for=\"{{news.nid}}_contact2\">Name</label>\n" +
     "                                <input type=\"text\" class=\"form-control\" placeholder=\"Contact Name\" ng-model=\"news.contactName\"\n" +
-    "                                       id=\"{{news.nid}}_contact2\">\n" +
+    "                                       id=\"{{news.nid}}_contact2\" maxlength=\"60\">\n" +
     "                            </div>\n" +
     "                            <div class=\"col-md-3\">\n" +
     "                                <label for=\"{{news.nid}}_contact3\">Email</label>\n" +
     "                                <input type=\"text\" class=\"form-control\" placeholder=\"Contact Email\" ng-model=\"news.contactEmail\"\n" +
-    "                                       id=\"{{news.nid}}_contact3\">\n" +
+    "                                       id=\"{{news.nid}}_contact3\" maxlength=\"1024\">\n" +
     "                            </div>\n" +
     "                            <div class=\"col-md-3\">\n" +
     "                                <label for=\"{{news.nid}}_contact4\">Phone</label>\n" +
     "                                <input type=\"text\" class=\"form-control\" placeholder=\"Contact Phone\" ng-model=\"news.contactPhone\"\n" +
-    "                                       id=\"{{news.nid}}_contact4\">\n" +
+    "                                       id=\"{{news.nid}}_contact4\" maxlength=\"20\">\n" +
     "                            </div>\n" +
     "                        </div>\n" +
     "                        <div class=\"row text-center\">\n" +
