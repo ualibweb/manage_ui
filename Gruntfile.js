@@ -54,5 +54,5 @@ module.exports = function(grunt){
         }
     });
 
-    grunt.registerTask('default', ['html2js', 'concat', 'bump']);
+    grunt.registerTask('default', ['html2js', 'concat']);
 };

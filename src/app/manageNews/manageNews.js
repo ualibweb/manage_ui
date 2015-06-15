@@ -59,8 +59,14 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.validateNews = function(news){
                 if (news.title.length < 1)
                     return "Form error: Please fill out Title!";
+                if (news.blurb.length < 1)
+                    return "Form error: Please fill out Short Description!";
                 if (news.description.length < 1)
                     return "Form error: Please fill out Description!";
+                if (!(news.activeFrom.valueOf() > 1000))
+                    return "Form error: Please fill out Active From!";
+                if (!(news.activeUntil.valueOf() > 1000))
+                    return "Form error: Please fill out Active Until!";
 
                 return "";
             };
@@ -404,47 +410,18 @@ angular.module('manage.manageNews', ['ngFileUpload'])
         }
     })
 
-    .controller('viewNEECtrl', ['$scope', '$timeout', 'newsFactory',
-        function viewNEECtrl($scope, $timeout, newsFactory){
-            $scope.data = {};
-
-            newsFactory.getData("today")
-                .success(function(data) {
-                    console.dir(data);
-                    $scope.data = data;
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
-
-            //events will be pulled from XML feed
-            //http://events.ua.edu/category/22/feed
+    .controller('manageAdminsListCtrl', ['$scope', 'newsFactory',
+        function manageAdminsListCtrl($scope, newsFactory){
 
         }])
-    .directive('viewNewsEventsExhibitions', function() {
-        return {
-            restrict: 'AC',
-            scope: {},
-            controller: 'viewNEECtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
 
-                var loadingWatcher = scope.$watch(
-                    'data.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("News data loaded");
-                        }
-                    },
-                    true
-                );
+    .directive('manageAdminsList', function() {
+        return {
+            restrict: 'A',
+            controller: 'manageAdminsListCtrl',
+            link: function(scope, elm, attrs){
+
             },
-            templateUrl: 'manageNews/viewNewsEventsExhibitions.tpl.html'
+            templateUrl: 'manageNews/manageNewsAdmins.tpl.html'
         };
     })
