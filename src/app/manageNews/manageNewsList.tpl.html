@@ -1,83 +1,85 @@
 <div>
     <form name="addNewsExh" ng-submit="createNews()">
         <div class="row">
-            <div class="col-md-12 sdOpen">
-                <h3>Add News Record</h3>
-                <div class="col-md-12">
-                    <div class="col-md-3 form-group">
-                        <label for="up">Upload Icon</label>
-                        <input type="file" ngf-select="" ng-model="newNews.picFile" accept="image/png"
-                               ngf-change="generateThumb(newNews.picFile[0], $files)" id="up">
-                            <span class="progress" ng-show="newNews.picFile[0].progress >= 0">
-                                <div class="ng-binding" style="width:{{newNews.picFile[0].progress}}%" ng-bind="newNews.picFile[0].progress + '%'"></div>
-                            </span>
+            <div class="col-md-12">
+                <div class="col-md-12 sdOpen">
+                    <h3>Add News Record</h3>
+                    <div class="col-md-12">
+                        <div class="col-md-3 form-group">
+                            <label for="up">Upload Icon</label>
+                            <input type="file" ngf-select="" ng-model="newNews.picFile" accept="image/png"
+                                   ngf-change="generateThumb(newNews.picFile[0], $files)" id="up">
+                                <span class="progress" ng-show="newNews.picFile[0].progress >= 0">
+                                    <div class="ng-binding" style="width:{{newNews.picFile[0].progress}}%" ng-bind="newNews.picFile[0].progress + '%'"></div>
+                                </span>
+                        </div>
+                        <div class="col-md-5 form-group">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" placeholder="Enter Title" ng-model="newNews.title"
+                                   id="title" maxlength="100" required>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="from">Active From</label>
+                            <input type="text" class="form-control" id="from" datepicker-popup="{{dpFormat}}"
+                                   ng-model="newNews.activeFrom" is-open="newNews.dpFrom" ng-required="true" close-text="Close"
+                                   ng-focus="onNewsDPFocusFrom($event)"/>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="until">Active Until</label>
+                            <input type="text" class="form-control" id="until" datepicker-popup="{{dpFormat}}"
+                                   ng-model="newNews.activeUntil" is-open="newNews.dpUntil" ng-required="true" close-text="Close"
+                                   ng-focus="onNewsDPFocusUntil($event)"/>
+                        </div>
                     </div>
-                    <div class="col-md-5 form-group">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control" placeholder="Enter Title" ng-model="newNews.title"
-                               id="title" maxlength="100" required>
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <label for="from">Active From</label>
-                        <input type="text" class="form-control" id="from" datepicker-popup="{{dpFormat}}"
-                               ng-model="newNews.activeFrom" is-open="newNews.dpFrom" ng-required="true" close-text="Close"
-                               ng-focus="onNewsDPFocusFrom($event)"/>
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <label for="until">Active Until</label>
-                        <input type="text" class="form-control" id="until" datepicker-popup="{{dpFormat}}"
-                               ng-model="newNews.activeUntil" is-open="newNews.dpUntil" ng-required="true" close-text="Close"
-                               ng-focus="onNewsDPFocusUntil($event)"/>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-10 form-group">
-                        <label for="blurb">Short Description</label>
-                        <textarea class="form-control" rows="1" id="blurb" ng-model="newNews.blurb" maxlength="250" required></textarea>
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <label for="type">Type</label>
-                        <select class="form-control" id="type" ng-options="type.name for type in types"
-                                ng-model="newNews.selType">
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-12 form-group">
-                        <label>Detailed Description</label>
-                        <textarea data-ui-tinymce id="description" data-ng-model="newNews.description" rows="5"
-                                  maxlength="64000" required></textarea>
-                    </div>
-                </div>
-                <div class="col-md-12 form-group">
-                    <h4><small>Select contact person from the list or enter new contact information</small></h4>
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            <label for="contact1">Library Faculty and Staff</label>
-                            <select class="form-control" id="contact1" ng-options="people.fullName for people in data.people"
-                                    ng-model="newNews.contactID">
+                    <div class="col-md-12">
+                        <div class="col-md-10 form-group">
+                            <label for="blurb">Short Description</label>
+                            <textarea class="form-control" rows="1" id="blurb" ng-model="newNews.blurb" maxlength="250" required></textarea>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="type">Type</label>
+                            <select class="form-control" id="type" ng-options="type.name for type in types"
+                                    ng-model="newNews.selType">
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <label for="contact2">Name</label>
-                            <input type="text" class="form-control" placeholder="Contact Name" ng-model="newNews.contactName"
-                                   id="contact2" maxlength="60">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="contact3">Email</label>
-                            <input type="text" class="form-control" placeholder="Contact Email" ng-model="newNews.contactEmail"
-                                   id="contact3"  maxlength="1024">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="contact4">Phone</label>
-                            <input type="text" class="form-control" placeholder="Contact Phone" ng-model="newNews.contactPhone"
-                                   id="contact4" maxlength="20">
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-12 form-group">
+                            <label>Detailed Description</label>
+                            <textarea data-ui-tinymce id="description" data-ng-model="newNews.description" rows="5"
+                                      maxlength="64000" required></textarea>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-12 text-center form-group">
-                    <button type="submit" class="btn btn-success">Create New Record</button><br>
-                    {{newNews.formResponse}}
+                    <div class="col-md-12 form-group">
+                        <h4><small>Select contact person from the list or enter new contact information</small></h4>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label for="contact1">Library Faculty and Staff</label>
+                                <select class="form-control" id="contact1" ng-options="people.fullName for people in data.people"
+                                        ng-model="newNews.contactID">
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="contact2">Name</label>
+                                <input type="text" class="form-control" placeholder="Contact Name" ng-model="newNews.contactName"
+                                       id="contact2" maxlength="60">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="contact3">Email</label>
+                                <input type="text" class="form-control" placeholder="Contact Email" ng-model="newNews.contactEmail"
+                                       id="contact3"  maxlength="1024">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="contact4">Phone</label>
+                                <input type="text" class="form-control" placeholder="Contact Phone" ng-model="newNews.contactPhone"
+                                       id="contact4" maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center form-group">
+                        <button type="submit" class="btn btn-success">Create New Record</button><br>
+                        {{newNews.formResponse}}
+                    </div>
                 </div>
             </div>
         </div>

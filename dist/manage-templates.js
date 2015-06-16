@@ -710,31 +710,35 @@ angular.module("manageNews/manageNews.tpl.html", []).run(["$templateCache", func
 angular.module("manageNews/manageNewsAdmins.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageNews/manageNewsAdmins.tpl.html",
     "<div class=\"row\" ng-if=\"isAdmin\">\n" +
-    "    <div class=\"panel panel-default col-md-12\">\n" +
-    "        <div class=\"panel-heading\">\n" +
-    "            <h3 class=\"panel-title\">People who can approve submitted News and Exhibits</h3>\n" +
-    "        </div>\n" +
-    "        <div class=\"panel-body\">\n" +
-    "            <ul class=\"list-group\">\n" +
-    "                <li class=\"list-group-item\" ng-repeat=\"admin in data.admins\">\n" +
-    "                    {{admin.name}}\n" +
-    "                </li>\n" +
-    "            </ul>\n" +
+    "    <div class=\"col-md-12\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\">\n" +
+    "                <h3 class=\"panel-title\">People who can approve submitted News and Exhibits</h3>\n" +
+    "            </div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "                <ul class=\"list-group\">\n" +
+    "                    <li class=\"list-group-item\" ng-repeat=\"admin in data.admins\">\n" +
+    "                        {{admin.name}}\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"row\" ng-if=\"!isAdmin\">\n" +
-    "    <div class=\"panel panel-default col-md-12\">\n" +
-    "        <div class=\"panel-heading\">\n" +
-    "            <h3 class=\"panel-title\">People who can approve submitted News and Exhibits</h3>\n" +
-    "        </div>\n" +
-    "        <div class=\"panel-body\">\n" +
-    "            <ul class=\"list-group\">\n" +
-    "                <li class=\"list-group-item\" ng-repeat=\"admin in data.admins\">\n" +
-    "                    {{admin.name}}\n" +
-    "                </li>\n" +
-    "            </ul>\n" +
+    "    <div class=\"col-md-12\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\">\n" +
+    "                <h3 class=\"panel-title\">People who can approve submitted News and Exhibits</h3>\n" +
+    "            </div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "                <ul class=\"list-group\">\n" +
+    "                    <li class=\"list-group-item\" ng-repeat=\"admin in data.admins\">\n" +
+    "                        {{admin.name}}\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</div>");
@@ -745,83 +749,85 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "<div>\n" +
     "    <form name=\"addNewsExh\" ng-submit=\"createNews()\">\n" +
     "        <div class=\"row\">\n" +
-    "            <div class=\"col-md-12 sdOpen\">\n" +
-    "                <h3>Add News Record</h3>\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <div class=\"col-md-3 form-group\">\n" +
-    "                        <label for=\"up\">Upload Icon</label>\n" +
-    "                        <input type=\"file\" ngf-select=\"\" ng-model=\"newNews.picFile\" accept=\"image/png\"\n" +
-    "                               ngf-change=\"generateThumb(newNews.picFile[0], $files)\" id=\"up\">\n" +
-    "                            <span class=\"progress\" ng-show=\"newNews.picFile[0].progress >= 0\">\n" +
-    "                                <div class=\"ng-binding\" style=\"width:{{newNews.picFile[0].progress}}%\" ng-bind=\"newNews.picFile[0].progress + '%'\"></div>\n" +
-    "                            </span>\n" +
+    "            <div class=\"col-md-12\">\n" +
+    "                <div class=\"col-md-12 sdOpen\">\n" +
+    "                    <h3>Add News Record</h3>\n" +
+    "                    <div class=\"col-md-12\">\n" +
+    "                        <div class=\"col-md-3 form-group\">\n" +
+    "                            <label for=\"up\">Upload Icon</label>\n" +
+    "                            <input type=\"file\" ngf-select=\"\" ng-model=\"newNews.picFile\" accept=\"image/png\"\n" +
+    "                                   ngf-change=\"generateThumb(newNews.picFile[0], $files)\" id=\"up\">\n" +
+    "                                <span class=\"progress\" ng-show=\"newNews.picFile[0].progress >= 0\">\n" +
+    "                                    <div class=\"ng-binding\" style=\"width:{{newNews.picFile[0].progress}}%\" ng-bind=\"newNews.picFile[0].progress + '%'\"></div>\n" +
+    "                                </span>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-5 form-group\">\n" +
+    "                            <label for=\"title\">Title</label>\n" +
+    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Title\" ng-model=\"newNews.title\"\n" +
+    "                                   id=\"title\" maxlength=\"100\" required>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-2 form-group\">\n" +
+    "                            <label for=\"from\">Active From</label>\n" +
+    "                            <input type=\"text\" class=\"form-control\" id=\"from\" datepicker-popup=\"{{dpFormat}}\"\n" +
+    "                                   ng-model=\"newNews.activeFrom\" is-open=\"newNews.dpFrom\" ng-required=\"true\" close-text=\"Close\"\n" +
+    "                                   ng-focus=\"onNewsDPFocusFrom($event)\"/>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-2 form-group\">\n" +
+    "                            <label for=\"until\">Active Until</label>\n" +
+    "                            <input type=\"text\" class=\"form-control\" id=\"until\" datepicker-popup=\"{{dpFormat}}\"\n" +
+    "                                   ng-model=\"newNews.activeUntil\" is-open=\"newNews.dpUntil\" ng-required=\"true\" close-text=\"Close\"\n" +
+    "                                   ng-focus=\"onNewsDPFocusUntil($event)\"/>\n" +
+    "                        </div>\n" +
     "                    </div>\n" +
-    "                    <div class=\"col-md-5 form-group\">\n" +
-    "                        <label for=\"title\">Title</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Enter Title\" ng-model=\"newNews.title\"\n" +
-    "                               id=\"title\" maxlength=\"100\" required>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"col-md-2 form-group\">\n" +
-    "                        <label for=\"from\">Active From</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" id=\"from\" datepicker-popup=\"{{dpFormat}}\"\n" +
-    "                               ng-model=\"newNews.activeFrom\" is-open=\"newNews.dpFrom\" ng-required=\"true\" close-text=\"Close\"\n" +
-    "                               ng-focus=\"onNewsDPFocusFrom($event)\"/>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"col-md-2 form-group\">\n" +
-    "                        <label for=\"until\">Active Until</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" id=\"until\" datepicker-popup=\"{{dpFormat}}\"\n" +
-    "                               ng-model=\"newNews.activeUntil\" is-open=\"newNews.dpUntil\" ng-required=\"true\" close-text=\"Close\"\n" +
-    "                               ng-focus=\"onNewsDPFocusUntil($event)\"/>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <div class=\"col-md-10 form-group\">\n" +
-    "                        <label for=\"blurb\">Short Description</label>\n" +
-    "                        <textarea class=\"form-control\" rows=\"1\" id=\"blurb\" ng-model=\"newNews.blurb\" maxlength=\"250\" required></textarea>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"col-md-2 form-group\">\n" +
-    "                        <label for=\"type\">Type</label>\n" +
-    "                        <select class=\"form-control\" id=\"type\" ng-options=\"type.name for type in types\"\n" +
-    "                                ng-model=\"newNews.selType\">\n" +
-    "                        </select>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <div class=\"col-md-12 form-group\">\n" +
-    "                        <label>Detailed Description</label>\n" +
-    "                        <textarea data-ui-tinymce id=\"description\" data-ng-model=\"newNews.description\" rows=\"5\"\n" +
-    "                                  maxlength=\"64000\" required></textarea>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-12 form-group\">\n" +
-    "                    <h4><small>Select contact person from the list or enter new contact information</small></h4>\n" +
-    "                    <div class=\"form-group\">\n" +
-    "                        <div class=\"col-md-3\">\n" +
-    "                            <label for=\"contact1\">Library Faculty and Staff</label>\n" +
-    "                            <select class=\"form-control\" id=\"contact1\" ng-options=\"people.fullName for people in data.people\"\n" +
-    "                                    ng-model=\"newNews.contactID\">\n" +
+    "                    <div class=\"col-md-12\">\n" +
+    "                        <div class=\"col-md-10 form-group\">\n" +
+    "                            <label for=\"blurb\">Short Description</label>\n" +
+    "                            <textarea class=\"form-control\" rows=\"1\" id=\"blurb\" ng-model=\"newNews.blurb\" maxlength=\"250\" required></textarea>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-2 form-group\">\n" +
+    "                            <label for=\"type\">Type</label>\n" +
+    "                            <select class=\"form-control\" id=\"type\" ng-options=\"type.name for type in types\"\n" +
+    "                                    ng-model=\"newNews.selType\">\n" +
     "                            </select>\n" +
     "                        </div>\n" +
-    "                        <div class=\"col-md-3\">\n" +
-    "                            <label for=\"contact2\">Name</label>\n" +
-    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Name\" ng-model=\"newNews.contactName\"\n" +
-    "                                   id=\"contact2\" maxlength=\"60\">\n" +
-    "                        </div>\n" +
-    "                        <div class=\"col-md-3\">\n" +
-    "                            <label for=\"contact3\">Email</label>\n" +
-    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Email\" ng-model=\"newNews.contactEmail\"\n" +
-    "                                   id=\"contact3\"  maxlength=\"1024\">\n" +
-    "                        </div>\n" +
-    "                        <div class=\"col-md-3\">\n" +
-    "                            <label for=\"contact4\">Phone</label>\n" +
-    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Phone\" ng-model=\"newNews.contactPhone\"\n" +
-    "                                   id=\"contact4\" maxlength=\"20\">\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-12\">\n" +
+    "                        <div class=\"col-md-12 form-group\">\n" +
+    "                            <label>Detailed Description</label>\n" +
+    "                            <textarea data-ui-tinymce id=\"description\" data-ng-model=\"newNews.description\" rows=\"5\"\n" +
+    "                                      maxlength=\"64000\" required></textarea>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-12 text-center form-group\">\n" +
-    "                    <button type=\"submit\" class=\"btn btn-success\">Create New Record</button><br>\n" +
-    "                    {{newNews.formResponse}}\n" +
+    "                    <div class=\"col-md-12 form-group\">\n" +
+    "                        <h4><small>Select contact person from the list or enter new contact information</small></h4>\n" +
+    "                        <div class=\"form-group\">\n" +
+    "                            <div class=\"col-md-3\">\n" +
+    "                                <label for=\"contact1\">Library Faculty and Staff</label>\n" +
+    "                                <select class=\"form-control\" id=\"contact1\" ng-options=\"people.fullName for people in data.people\"\n" +
+    "                                        ng-model=\"newNews.contactID\">\n" +
+    "                                </select>\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-3\">\n" +
+    "                                <label for=\"contact2\">Name</label>\n" +
+    "                                <input type=\"text\" class=\"form-control\" placeholder=\"Contact Name\" ng-model=\"newNews.contactName\"\n" +
+    "                                       id=\"contact2\" maxlength=\"60\">\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-3\">\n" +
+    "                                <label for=\"contact3\">Email</label>\n" +
+    "                                <input type=\"text\" class=\"form-control\" placeholder=\"Contact Email\" ng-model=\"newNews.contactEmail\"\n" +
+    "                                       id=\"contact3\"  maxlength=\"1024\">\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-3\">\n" +
+    "                                <label for=\"contact4\">Phone</label>\n" +
+    "                                <input type=\"text\" class=\"form-control\" placeholder=\"Contact Phone\" ng-model=\"newNews.contactPhone\"\n" +
+    "                                       id=\"contact4\" maxlength=\"20\">\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-12 text-center form-group\">\n" +
+    "                        <button type=\"submit\" class=\"btn btn-success\">Create New Record</button><br>\n" +
+    "                        {{newNews.formResponse}}\n" +
+    "                    </div>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
