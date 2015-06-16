@@ -48,6 +48,11 @@
                             {{sw.title}}
                         </h4>
                     </td>
+                    <td style="width: 79px;">
+                        <button type="button" class="btn btn-danger" ng-click="publishSW(sw)" ng-if="sw.status == 0">
+                            Publish
+                        </button>
+                    </td>
                 </tr>
             </table>
         </div>
