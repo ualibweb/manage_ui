@@ -1148,6 +1148,11 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                            {{sw.title}}\n" +
     "                        </h4>\n" +
     "                    </td>\n" +
+    "                    <td style=\"width: 79px;\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"publishSW(sw)\" ng-if=\"sw.status == 0\">\n" +
+    "                            Publish\n" +
+    "                        </button>\n" +
+    "                    </td>\n" +
     "                </tr>\n" +
     "            </table>\n" +
     "        </div>\n" +

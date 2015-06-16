@@ -113,7 +113,7 @@ angular.module('common.manage', [])
     .factory('swFactory', ['$http', 'SOFTWARE_URL', function swFactory($http, url){
         return {
             getData: function(){
-                return $http({method: 'GET', url: url + "api/all", params: {}})
+                return $http({method: 'GET', url: url + "api/all/backend", params: {}})
             },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
@@ -1650,6 +1650,23 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
                 else
                     $scope.sortMode = by;
+            };
+
+            $scope.publishSW = function(sw){
+                swFactory.postData({action : 10}, sw)
+                    .success(function(data, status, headers, config) {
+                        if (data == 1){
+                            $scope.SWList.software[$scope.SWList.software.indexOf(sw)].status = 1;
+                            $scope.formResponse = "Software has been published.";
+                        } else {
+                            $scope.formResponse = "Error: Can not publish software! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.formResponse = "Error: Could not publish software! " + data;
+                        console.log(data);
+                    });
             };
 
             $scope.deleteSW = function(sw){
