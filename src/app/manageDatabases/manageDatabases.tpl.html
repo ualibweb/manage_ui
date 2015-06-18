@@ -74,42 +74,42 @@
                 <div class="col-md-6 form-group">
                     <label for="{{db.id}}_title">Title</label>
                     <input type="text" class="form-control" placeholder="{{db.title}}" ng-model="db.title"
-                           id="{{db.id}}_title">
+                           id="{{db.id}}_title" maxlength="200">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_Publisher">Publisher</label>
                     <input type="text" class="form-control" placeholder="{{db.publisher}}" ng-model="db.publisher"
-                           id="{{db.id}}_Publisher">
+                           id="{{db.id}}_Publisher" maxlength="100">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_Vendor">Vendor</label>
                     <input type="text" class="form-control" placeholder="{{db.vendor}}" ng-model="db.vendor"
-                           id="{{db.id}}_Vendor">
+                           id="{{db.id}}_Vendor" maxlength="100">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_Format">Format</label>
                     <input type="text" class="form-control" placeholder="{{db.format}}" ng-model="db.format"
-                           id="{{db.id}}_Format">
+                           id="{{db.id}}_Format" maxlength="50">
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="{{db.id}}_URL">URL</label>
                     <input type="text" class="form-control" placeholder="{{db.url}}" ng-model="db.url"
-                           id="{{db.id}}_URL">
+                           id="{{db.id}}_URL" maxlength="2000">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_Location">Location</label>
                     <input type="text" class="form-control" placeholder="{{db.location}}" ng-model="db.location"
-                           id="{{db.id}}_Location">
+                           id="{{db.id}}_Location" maxlength="50">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_NotInEDS">Not in EDS</label>
                     <input type="text" class="form-control" placeholder="{{db.notInEDS}}" ng-model="db.notInEDS"
-                           id="{{db.id}}_NotInEDS">
+                           id="{{db.id}}_NotInEDS" maxlength="1">
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Full-text">Fulltext</label>
                     <input type="text" class="form-control" placeholder="{{db.hasFullText}}" ng-model="db.hasFullText"
-                           id="{{db.id}}_Full-text">
+                           id="{{db.id}}_Full-text" maxlength="1">
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Authenticate">Authenticate</label>
@@ -119,36 +119,36 @@
                 <div class="col-md-6 form-group">
                     <label for="{{db.id}}_Coverage">Coverage</label>
                     <input type="text" class="form-control" placeholder="{{db.coverage}}" ng-model="db.coverage"
-                           id="{{db.id}}_Coverage" >
+                           id="{{db.id}}_Coverage" maxlength="256">
                 </div>
                 <div class="col-md-3 form-group">
                     <label for="{{db.id}}_Notes">Notes</label>
                     <input type="text" class="form-control" placeholder="{{db.notes}}" ng-model="db.notes"
-                           id="{{db.id}}_Notes">
+                           id="{{db.id}}_Notes" maxlength="100">
                 </div>
                 <div class="col-md-3 form-group">
                     <label for="{{db.id}}_Status">Status</label>
                     <input type="text" class="form-control" placeholder="{{db.status}}" ng-model="db.status"
-                           id="{{db.id}}_Status">
+                           id="{{db.id}}_Status" maxlength="100">
                 </div>
                 <div class="col-md-12 form-group">
                     <label for="{{db.id}}_descr">Database Description</label>
-                    <textarea class="form-control" rows="3" id="{{db.id}}_descr" ng-model="db.description" ></textarea>
+                    <textarea class="form-control" rows="3" id="{{db.id}}_descr" ng-model="db.description" maxlength="4096"></textarea>
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_presented">PresentedBy</label>
                     <input type="text" class="form-control" placeholder="{{db.presentedBy}}" ng-model="db.presentedBy"
-                           id="{{db.id}}_presented">
+                           id="{{db.id}}_presented" maxlength="50">
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Audience1">Audience1</label>
                     <input type="text" class="form-control" placeholder="{{db.audience1}}" ng-model="db.audience1"
-                           id="{{db.id}}_Audience1">
+                           id="{{db.id}}_Audience1" maxlength="30">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_Audience2">Audience2</label>
                     <input type="text" class="form-control" placeholder="{{db.audience2}}" ng-model="db.audience2"
-                           id="{{db.id}}_Audience2">
+                           id="{{db.id}}_Audience2" maxlength="30">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_updatedBy">Updated by</label>
@@ -157,7 +157,7 @@
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_dAuthor">Description Author</label>
                     <input type="text" class="form-control" placeholder="{{db.descrAuthor}}" ng-model="db.descrAuthor"
-                           id="{{db.id}}_dAuthor">
+                           id="{{db.id}}_dAuthor" maxlength="50">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_date1">Created/Modified</label>
@@ -233,42 +233,42 @@
             <div class="col-md-6 form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" placeholder="Database Title" ng-model="newDB.title"
-                       id="title" required>
+                       id="title" maxlength="200" required>
             </div>
             <div class="col-md-2 form-group">
                 <label for="Publisher">Publisher</label>
                 <input type="text" class="form-control" placeholder="Publisher" ng-model="newDB.publisher"
-                       id="Publisher">
+                       id="Publisher" maxlength="100">
             </div>
             <div class="col-md-2 form-group">
                 <label for="Vendor">Vendor</label>
                 <input type="text" class="form-control" placeholder="Vendor" ng-model="newDB.vendor"
-                       id="Vendor">
+                       id="Vendor" maxlength="100">
             </div>
             <div class="col-md-2 form-group">
                 <label for="Format">Format</label>
                 <input type="text" class="form-control" placeholder="Format" ng-model="newDB.format"
-                       id="Format">
+                       id="Format" maxlength="50">
             </div>
             <div class="col-md-6 form-group">
                 <label for="URL">URL</label>
                 <input type="text" class="form-control" placeholder="http://www.example.com/" ng-model="newDB.url"
-                       id="URL" required>
+                       id="URL" maxlength="2000" required>
             </div>
             <div class="col-md-2 form-group">
                 <label for="Location">Location</label>
                 <input type="text" class="form-control" placeholder="Location" ng-model="newDB.location"
-                       id="Location">
+                       id="Location" maxlength="50">
             </div>
             <div class="col-md-2 form-group">
                 <label for="NotInEDS">Not in EDS</label>
                 <input type="text" class="form-control" ng-model="newDB.notInEDS"
-                       id="NotInEDS">
+                       id="NotInEDS" maxlength="1">
             </div>
             <div class="col-md-1 form-group">
                 <label for="Full-text">Fulltext</label>
                 <input type="text" class="form-control" ng-model="newDB.hasFullText"
-                       id="Full-text">
+                       id="Full-text" maxlength="1">
             </div>
             <div class="col-md-1 form-group">
                 <label for="Authenticate">Authenticate</label>
@@ -278,41 +278,41 @@
             <div class="col-md-6 form-group">
                 <label for="Coverage">Coverage</label>
                 <input type="text" class="form-control" placeholder="Database Coverage" ng-model="newDB.coverage"
-                       id="Coverage" required>
+                       id="Coverage" maxlength="256" required>
             </div>
             <div class="col-md-3 form-group">
                 <label for="dAuthor">Description Author</label>
                 <input type="text" class="form-control" placeholder="Enter Author Name" ng-model="newDB.descrAuthor"
-                       id="dAuthor">
+                       id="dAuthor" maxlength="50">
             </div>
             <div class="col-md-3 form-group">
                 <label for="Status">Status</label>
                 <input type="text" class="form-control" placeholder="Status" ng-model="newDB.status"
-                       id="Status">
+                       id="Status" maxlength="100">
             </div>
             <div class="col-md-12 form-group">
                 <label for="descr">Database Description</label>
-                <textarea class="form-control" rows="3" id="descr" ng-model="newDB.description" required></textarea>
+                <textarea class="form-control" rows="3" id="descr" ng-model="newDB.description" maxlength="4096" required></textarea>
             </div>
             <div class="col-md-2 form-group">
                 <label for="presented">Presented by</label>
                 <input type="text" class="form-control" placeholder="Presented By" ng-model="newDB.presentedBy"
-                       id="presented">
+                       id="presented" maxlength="50">
             </div>
             <div class="col-md-2 form-group">
                 <label for="Audience1">Audience One</label>
                 <input type="text" class="form-control" placeholder="Audience One" ng-model="newDB.audience1"
-                       id="Audience1">
+                       id="Audience1" maxlength="30">
             </div>
             <div class="col-md-2 form-group">
                 <label for="Audience2">Audience Two</label>
                 <input type="text" class="form-control" placeholder="Audience Two" ng-model="newDB.audience2"
-                       id="Audience2">
+                       id="Audience2" maxlength="30">
             </div>
             <div class="col-md-4 form-group">
                 <label for="Notes">Notes</label>
                 <input type="text" class="form-control" placeholder="Notes" ng-model="newDB.notes"
-                       id="Notes">
+                       id="Notes" maxlength="100">
             </div>
             <div class="col-md-1 form-group">
                 <label for="Disable">Disabled</label>

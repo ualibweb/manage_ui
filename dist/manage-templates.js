@@ -78,42 +78,42 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{db.id}}_title\">Title</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.title}}\" ng-model=\"db.title\"\n" +
-    "                           id=\"{{db.id}}_title\">\n" +
+    "                           id=\"{{db.id}}_title\" maxlength=\"200\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Publisher\">Publisher</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.publisher}}\" ng-model=\"db.publisher\"\n" +
-    "                           id=\"{{db.id}}_Publisher\">\n" +
+    "                           id=\"{{db.id}}_Publisher\" maxlength=\"100\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Vendor\">Vendor</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.vendor}}\" ng-model=\"db.vendor\"\n" +
-    "                           id=\"{{db.id}}_Vendor\">\n" +
+    "                           id=\"{{db.id}}_Vendor\" maxlength=\"100\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Format\">Format</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.format}}\" ng-model=\"db.format\"\n" +
-    "                           id=\"{{db.id}}_Format\">\n" +
+    "                           id=\"{{db.id}}_Format\" maxlength=\"50\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{db.id}}_URL\">URL</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.url}}\" ng-model=\"db.url\"\n" +
-    "                           id=\"{{db.id}}_URL\">\n" +
+    "                           id=\"{{db.id}}_URL\" maxlength=\"2000\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Location\">Location</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.location}}\" ng-model=\"db.location\"\n" +
-    "                           id=\"{{db.id}}_Location\">\n" +
+    "                           id=\"{{db.id}}_Location\" maxlength=\"50\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_NotInEDS\">Not in EDS</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.notInEDS}}\" ng-model=\"db.notInEDS\"\n" +
-    "                           id=\"{{db.id}}_NotInEDS\">\n" +
+    "                           id=\"{{db.id}}_NotInEDS\" maxlength=\"1\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-1 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Full-text\">Fulltext</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.hasFullText}}\" ng-model=\"db.hasFullText\"\n" +
-    "                           id=\"{{db.id}}_Full-text\">\n" +
+    "                           id=\"{{db.id}}_Full-text\" maxlength=\"1\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-1 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Authenticate\">Authenticate</label>\n" +
@@ -123,36 +123,36 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Coverage\">Coverage</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.coverage}}\" ng-model=\"db.coverage\"\n" +
-    "                           id=\"{{db.id}}_Coverage\" >\n" +
+    "                           id=\"{{db.id}}_Coverage\" maxlength=\"256\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-3 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Notes\">Notes</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.notes}}\" ng-model=\"db.notes\"\n" +
-    "                           id=\"{{db.id}}_Notes\">\n" +
+    "                           id=\"{{db.id}}_Notes\" maxlength=\"100\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-3 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Status\">Status</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.status}}\" ng-model=\"db.status\"\n" +
-    "                           id=\"{{db.id}}_Status\">\n" +
+    "                           id=\"{{db.id}}_Status\" maxlength=\"100\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-12 form-group\">\n" +
     "                    <label for=\"{{db.id}}_descr\">Database Description</label>\n" +
-    "                    <textarea class=\"form-control\" rows=\"3\" id=\"{{db.id}}_descr\" ng-model=\"db.description\" ></textarea>\n" +
+    "                    <textarea class=\"form-control\" rows=\"3\" id=\"{{db.id}}_descr\" ng-model=\"db.description\" maxlength=\"4096\"></textarea>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-1 form-group\">\n" +
     "                    <label for=\"{{db.id}}_presented\">PresentedBy</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.presentedBy}}\" ng-model=\"db.presentedBy\"\n" +
-    "                           id=\"{{db.id}}_presented\">\n" +
+    "                           id=\"{{db.id}}_presented\" maxlength=\"50\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-1 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Audience1\">Audience1</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.audience1}}\" ng-model=\"db.audience1\"\n" +
-    "                           id=\"{{db.id}}_Audience1\">\n" +
+    "                           id=\"{{db.id}}_Audience1\" maxlength=\"30\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Audience2\">Audience2</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.audience2}}\" ng-model=\"db.audience2\"\n" +
-    "                           id=\"{{db.id}}_Audience2\">\n" +
+    "                           id=\"{{db.id}}_Audience2\" maxlength=\"30\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_updatedBy\">Updated by</label>\n" +
@@ -161,7 +161,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_dAuthor\">Description Author</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.descrAuthor}}\" ng-model=\"db.descrAuthor\"\n" +
-    "                           id=\"{{db.id}}_dAuthor\">\n" +
+    "                           id=\"{{db.id}}_dAuthor\" maxlength=\"50\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_date1\">Created/Modified</label>\n" +
@@ -237,42 +237,42 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"title\">Title</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Database Title\" ng-model=\"newDB.title\"\n" +
-    "                       id=\"title\" required>\n" +
+    "                       id=\"title\" maxlength=\"200\" required>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"Publisher\">Publisher</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Publisher\" ng-model=\"newDB.publisher\"\n" +
-    "                       id=\"Publisher\">\n" +
+    "                       id=\"Publisher\" maxlength=\"100\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"Vendor\">Vendor</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Vendor\" ng-model=\"newDB.vendor\"\n" +
-    "                       id=\"Vendor\">\n" +
+    "                       id=\"Vendor\" maxlength=\"100\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"Format\">Format</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Format\" ng-model=\"newDB.format\"\n" +
-    "                       id=\"Format\">\n" +
+    "                       id=\"Format\" maxlength=\"50\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"URL\">URL</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" ng-model=\"newDB.url\"\n" +
-    "                       id=\"URL\" required>\n" +
+    "                       id=\"URL\" maxlength=\"2000\" required>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"Location\">Location</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Location\" ng-model=\"newDB.location\"\n" +
-    "                       id=\"Location\">\n" +
+    "                       id=\"Location\" maxlength=\"50\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"NotInEDS\">Not in EDS</label>\n" +
     "                <input type=\"text\" class=\"form-control\" ng-model=\"newDB.notInEDS\"\n" +
-    "                       id=\"NotInEDS\">\n" +
+    "                       id=\"NotInEDS\" maxlength=\"1\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-1 form-group\">\n" +
     "                <label for=\"Full-text\">Fulltext</label>\n" +
     "                <input type=\"text\" class=\"form-control\" ng-model=\"newDB.hasFullText\"\n" +
-    "                       id=\"Full-text\">\n" +
+    "                       id=\"Full-text\" maxlength=\"1\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-1 form-group\">\n" +
     "                <label for=\"Authenticate\">Authenticate</label>\n" +
@@ -282,41 +282,41 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"Coverage\">Coverage</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Database Coverage\" ng-model=\"newDB.coverage\"\n" +
-    "                       id=\"Coverage\" required>\n" +
+    "                       id=\"Coverage\" maxlength=\"256\" required>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-3 form-group\">\n" +
     "                <label for=\"dAuthor\">Description Author</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Enter Author Name\" ng-model=\"newDB.descrAuthor\"\n" +
-    "                       id=\"dAuthor\">\n" +
+    "                       id=\"dAuthor\" maxlength=\"50\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-3 form-group\">\n" +
     "                <label for=\"Status\">Status</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Status\" ng-model=\"newDB.status\"\n" +
-    "                       id=\"Status\">\n" +
+    "                       id=\"Status\" maxlength=\"100\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 form-group\">\n" +
     "                <label for=\"descr\">Database Description</label>\n" +
-    "                <textarea class=\"form-control\" rows=\"3\" id=\"descr\" ng-model=\"newDB.description\" required></textarea>\n" +
+    "                <textarea class=\"form-control\" rows=\"3\" id=\"descr\" ng-model=\"newDB.description\" maxlength=\"4096\" required></textarea>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"presented\">Presented by</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Presented By\" ng-model=\"newDB.presentedBy\"\n" +
-    "                       id=\"presented\">\n" +
+    "                       id=\"presented\" maxlength=\"50\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"Audience1\">Audience One</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Audience One\" ng-model=\"newDB.audience1\"\n" +
-    "                       id=\"Audience1\">\n" +
+    "                       id=\"Audience1\" maxlength=\"30\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"Audience2\">Audience Two</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Audience Two\" ng-model=\"newDB.audience2\"\n" +
-    "                       id=\"Audience2\">\n" +
+    "                       id=\"Audience2\" maxlength=\"30\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-4 form-group\">\n" +
     "                <label for=\"Notes\">Notes</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Notes\" ng-model=\"newDB.notes\"\n" +
-    "                       id=\"Notes\">\n" +
+    "                       id=\"Notes\" maxlength=\"100\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-1 form-group\">\n" +
     "                <label for=\"Disable\">Disabled</label>\n" +
