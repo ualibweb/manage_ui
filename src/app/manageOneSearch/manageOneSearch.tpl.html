@@ -8,13 +8,13 @@
                    id="K" required>
         </div>
         <div class="col-md-3 form-group">
-            <label for="L">Link</label>
+            <label for="L">Link URL</label>
             <input type="text" class="form-control" placeholder="http://www.example.com/" maxlength="1024"
                    id="L" ng-model="addRec.link" required>
         </div>
         <div class="col-md-3 form-group">
             <label for="LT">Link Title</label>
-            <input type="text" class="form-control" placeholder="Link Title" maxlength="100" ng-model="addRec.title"
+            <input type="text" class="form-control" placeholder="Link Title" maxlength="100" ng-model="addRec.description"
                    id="LT" required>
         </div>
         <div class="col-md-3 form-group">
@@ -26,25 +26,83 @@
 <div ng-show="response.length > 0">
     {{response}}
 </div>
-<div class="row">
-    <div class="col-md-4 form-group">
-        <label for="filterK">Filter by Keyword</label>
-        <input type="text" class="form-control" placeholder="Keyword" id="filterK" ng-model="filterKeyword">
-    </div>
-    <div class="col-md-4 form-group">
-        <label for="filterLT">Filter by Link Title</label>
-        <input type="text" class="form-control" placeholder="Link Title" id="filterLT" ng-model="filterLinkTitle">
-    </div>
-    <div class="col-md-4 form-group">
-        <label for="filterL">Filter by Link</label>
-        <input type="text" class="form-control" placeholder="Link" id="filterL" ng-model="filterLink">
+
+<div class="row form-inline">
+    <div class="form-group col-md-12">
+        <label for="filterBy">Filter <small>{{filteredList.length}}</small> results by</label>
+        <div id="filterBy">
+            <input type="text" class="form-control" placeholder="Keyword contains" ng-model="filterKeyword">
+            <input type="text" class="form-control" placeholder="Title contains" ng-model="filterLinkTitle">
+            <input type="text" class="form-control" placeholder="URL contains" ng-model="filterLink">
+        </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-6"
-         ng-repeat="rec in recList.RecList | filter:{keyword:filterKeyword} | filter:{link:filterLink} | filter:{description:filterLinkTitle}">
-        <button type="button" class="btn btn-danger" ng-click="deleteRec(rec, $index)">Delete</button>
-        <span>{{rec.keyword}} = <a href="{{rec.link}}">{{rec.description}}</a></span>
-    </div>
+<div class="table-responsive">
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th class="hidden-xs" style="width:20%">
+                <a
+                        ng-click="sortBy(0)"
+                        ng-class="{'sortable': !sortModes[0].reverse && sortMode == 0, 'sortable-reverse': sortModes[0].reverse && sortMode == 0}">
+                    Keyword
+                </a>
+            </th>
+            <th class="hidden-xs">
+                <a
+                        ng-click="sortBy(1)"
+                        ng-class="{'sortable': !sortModes[1].reverse && sortMode == 1, 'sortable-reverse': sortModes[1].reverse && sortMode == 1}">
+                    Title
+                </a>
+            </th>
+            <th class="hidden-xs">
+                <a
+                        ng-click="sortBy(2)"
+                        ng-class="{'sortable': !sortModes[2].reverse && sortMode == 2, 'sortable-reverse': sortModes[2].reverse && sortMode == 2}">
+                    URL
+                </a>
+            </th>
+            <th style="width:120px">
+                Action
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="rec in (filteredList = recList.RecList | filter:{keyword:filterKeyword}
+                                                              | filter:{link:filterLink}
+                                                              | filter:{description:filterLinkTitle}
+                                                              | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)"
+                ng-click="expand(rec)">
+            <td>
+                <span ng-show="expanded != rec.id">{{rec.keyword}}</span>
+                <span ng-show="expanded == rec.id">
+                    <input type="text" class="form-control" placeholder="Keyword" maxlength="200" ng-model="rec.keyword">
+                </span>
+            </td>
+            <td>
+                <span ng-show="expanded != rec.id">{{rec.description}}</span>
+                <span ng-show="expanded == rec.id">
+                    <input type="text" class="form-control" placeholder="Title" maxlength="100" ng-model="rec.description">
+                </span>
+            </td>
+            <td>
+                <span ng-show="expanded != rec.id"><a href="{{rec.link}}">{{rec.link}}</a></span>
+                <span ng-show="expanded == rec.id">
+                    <input type="text" class="form-control" placeholder="URL" maxlength="1024" ng-model="rec.link">
+                </span>
+            </td>
+            <td>
+                <span ng-show="expanded == rec.id">
+                    <button type="button" class="btn btn-success" ng-click="updateRec(rec)">
+                        <span class="fa fa-fw fa-edit"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="deleteRec(rec, $index)">
+                        <span class="fa fa-fw fa-close"></span>
+                    </button>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>

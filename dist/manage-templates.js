@@ -1041,13 +1041,13 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
     "                   id=\"K\" required>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"L\">Link</label>\n" +
+    "            <label for=\"L\">Link URL</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" maxlength=\"1024\"\n" +
     "                   id=\"L\" ng-model=\"addRec.link\" required>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
     "            <label for=\"LT\">Link Title</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\" maxlength=\"100\" ng-model=\"addRec.title\"\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\" maxlength=\"100\" ng-model=\"addRec.description\"\n" +
     "                   id=\"LT\" required>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
@@ -1059,28 +1059,87 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
     "<div ng-show=\"response.length > 0\">\n" +
     "    {{response}}\n" +
     "</div>\n" +
-    "<div class=\"row\">\n" +
-    "    <div class=\"col-md-4 form-group\">\n" +
-    "        <label for=\"filterK\">Filter by Keyword</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Keyword\" id=\"filterK\" ng-model=\"filterKeyword\">\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-4 form-group\">\n" +
-    "        <label for=\"filterLT\">Filter by Link Title</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\" id=\"filterLT\" ng-model=\"filterLinkTitle\">\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-4 form-group\">\n" +
-    "        <label for=\"filterL\">Filter by Link</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Link\" id=\"filterL\" ng-model=\"filterLink\">\n" +
+    "\n" +
+    "<div class=\"row form-inline\">\n" +
+    "    <div class=\"form-group col-md-12\">\n" +
+    "        <label for=\"filterBy\">Filter <small>{{filteredList.length}}</small> results by</label>\n" +
+    "        <div id=\"filterBy\">\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Keyword contains\" ng-model=\"filterKeyword\">\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"filterLinkTitle\">\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"URL contains\" ng-model=\"filterLink\">\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"row\">\n" +
-    "    <div class=\"col-md-6\"\n" +
-    "         ng-repeat=\"rec in recList.RecList | filter:{keyword:filterKeyword} | filter:{link:filterLink} | filter:{description:filterLinkTitle}\">\n" +
-    "        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteRec(rec, $index)\">Delete</button>\n" +
-    "        <span>{{rec.keyword}} = <a href=\"{{rec.link}}\">{{rec.description}}</a></span>\n" +
-    "    </div>\n" +
-    "</div>");
+    "<div class=\"table-responsive\">\n" +
+    "    <table class=\"table table-condensed table-hover\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th class=\"hidden-xs\" style=\"width:20%\">\n" +
+    "                <a\n" +
+    "                        ng-click=\"sortBy(0)\"\n" +
+    "                        ng-class=\"{'sortable': !sortModes[0].reverse && sortMode == 0, 'sortable-reverse': sortModes[0].reverse && sortMode == 0}\">\n" +
+    "                    Keyword\n" +
+    "                </a>\n" +
+    "            </th>\n" +
+    "            <th class=\"hidden-xs\">\n" +
+    "                <a\n" +
+    "                        ng-click=\"sortBy(1)\"\n" +
+    "                        ng-class=\"{'sortable': !sortModes[1].reverse && sortMode == 1, 'sortable-reverse': sortModes[1].reverse && sortMode == 1}\">\n" +
+    "                    Title\n" +
+    "                </a>\n" +
+    "            </th>\n" +
+    "            <th class=\"hidden-xs\">\n" +
+    "                <a\n" +
+    "                        ng-click=\"sortBy(2)\"\n" +
+    "                        ng-class=\"{'sortable': !sortModes[2].reverse && sortMode == 2, 'sortable-reverse': sortModes[2].reverse && sortMode == 2}\">\n" +
+    "                    URL\n" +
+    "                </a>\n" +
+    "            </th>\n" +
+    "            <th style=\"width:120px\">\n" +
+    "                Action\n" +
+    "            </th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"rec in (filteredList = recList.RecList | filter:{keyword:filterKeyword}\n" +
+    "                                                              | filter:{link:filterLink}\n" +
+    "                                                              | filter:{description:filterLinkTitle}\n" +
+    "                                                              | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\"\n" +
+    "                ng-click=\"expand(rec)\">\n" +
+    "            <td>\n" +
+    "                <span ng-show=\"expanded != rec.id\">{{rec.keyword}}</span>\n" +
+    "                <span ng-show=\"expanded == rec.id\">\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"Keyword\" maxlength=\"200\" ng-model=\"rec.keyword\">\n" +
+    "                </span>\n" +
+    "            </td>\n" +
+    "            <td>\n" +
+    "                <span ng-show=\"expanded != rec.id\">{{rec.description}}</span>\n" +
+    "                <span ng-show=\"expanded == rec.id\">\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"Title\" maxlength=\"100\" ng-model=\"rec.description\">\n" +
+    "                </span>\n" +
+    "            </td>\n" +
+    "            <td>\n" +
+    "                <span ng-show=\"expanded != rec.id\"><a href=\"{{rec.link}}\">{{rec.link}}</a></span>\n" +
+    "                <span ng-show=\"expanded == rec.id\">\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"URL\" maxlength=\"1024\" ng-model=\"rec.link\">\n" +
+    "                </span>\n" +
+    "            </td>\n" +
+    "            <td>\n" +
+    "                <span ng-show=\"expanded == rec.id\">\n" +
+    "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"updateRec(rec)\">\n" +
+    "                        <span class=\"fa fa-fw fa-edit\"></span>\n" +
+    "                    </button>\n" +
+    "                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteRec(rec, $index)\">\n" +
+    "                        <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                    </button>\n" +
+    "                </span>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCache", function($templateCache) {
