@@ -48,7 +48,7 @@
                         </h4>
                     </td>
                     <td style="width: 79px;">
-                        <button type="button" class="btn btn-danger" ng-click="publishSW(sw)" ng-if="sw.status == 0">
+                        <button type="button" class="btn btn-danger" ng-click="publishSW(sw)" ng-show="sw.status == 0">
                             Publish
                         </button>
                     </td>
@@ -237,6 +237,9 @@
                 </div>
                 <div class="col-md-12 text-center">
                     <button type="submit" class="btn btn-success">Update information</button>
+                    <button type="button" class="btn btn-success" ng-click="unpublishSW(sw)" ng-hide="sw.status == 0">
+                        Unpublish
+                    </button>
                     <button type="button" class="btn btn-danger" ng-click="deleteSW(sw)">
                         Delete {{sw.title}} software
                     </button>

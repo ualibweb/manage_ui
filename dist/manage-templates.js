@@ -1213,7 +1213,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                        </h4>\n" +
     "                    </td>\n" +
     "                    <td style=\"width: 79px;\">\n" +
-    "                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"publishSW(sw)\" ng-if=\"sw.status == 0\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"publishSW(sw)\" ng-show=\"sw.status == 0\">\n" +
     "                            Publish\n" +
     "                        </button>\n" +
     "                    </td>\n" +
@@ -1402,6 +1402,9 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                </div>\n" +
     "                <div class=\"col-md-12 text-center\">\n" +
     "                    <button type=\"submit\" class=\"btn btn-success\">Update information</button>\n" +
+    "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"unpublishSW(sw)\" ng-hide=\"sw.status == 0\">\n" +
+    "                        Unpublish\n" +
+    "                    </button>\n" +
     "                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSW(sw)\">\n" +
     "                        Delete {{sw.title}} software\n" +
     "                    </button>\n" +

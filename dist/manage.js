@@ -1704,6 +1704,22 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         console.log(data);
                     });
             };
+            $scope.unpublishSW = function(sw){
+                swFactory.postData({action : 11}, sw)
+                    .success(function(data, status, headers, config) {
+                        if (data == 1){
+                            $scope.SWList.software[$scope.SWList.software.indexOf(sw)].status = 0;
+                            $scope.formResponse = "Software has been unpublished.";
+                        } else {
+                            $scope.formResponse = "Error: Can not unpublish software! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.formResponse = "Error: Could not unpublish software! " + data;
+                        console.log(data);
+                    });
+            };
 
             $scope.deleteSW = function(sw){
                 if (confirm("Delete " + sw.title  + " permanently?") == true){
