@@ -1107,23 +1107,22 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "<div>\n" +
     "    <div class=\"row form-inline\">\n" +
     "        <div class=\"form-group col-md-12\">\n" +
-    "            <label for=\"filterBy\">Filter <small>{{filteredSW.length}}</small> results by</label>\n" +
-    "            <div id=\"filterBy\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"titleFilter\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Description contains\" ng-model=\"descrFilter\">\n" +
+    "            <div class=\"col-md-6\">\n" +
+    "                <label for=\"filterBy\">Filter <small>{{filteredSW.length}}</small> results by</label>\n" +
+    "                <div id=\"filterBy\">\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"titleFilter\">\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"Description contains\" ng-model=\"descrFilter\">\n" +
+    "                </div>\n" +
     "            </div>\n" +
-    "            <label for=\"sortBy\">Sort by</label>\n" +
-    "            <div id=\"sortBy\">\n" +
-    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"0\" ng-click=\"sortBy(0)\">\n" +
-    "                    Title\n" +
-    "                    <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[0].reverse\"></span>\n" +
-    "                    <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[0].reverse\"></span>\n" +
-    "                </button>\n" +
-    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"1\" ng-click=\"sortBy(1)\">\n" +
-    "                    Location\n" +
-    "                    <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[1].reverse\"></span>\n" +
-    "                    <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[1].reverse\"></span>\n" +
-    "                </button>\n" +
+    "            <div class=\"col-md-6\">\n" +
+    "                <label for=\"sortBy\">Sort by</label>\n" +
+    "                <div id=\"sortBy\">\n" +
+    "                    <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"0\" ng-click=\"sortBy(0)\">\n" +
+    "                        Title\n" +
+    "                        <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[0].reverse\"></span>\n" +
+    "                        <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[0].reverse\"></span>\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -1162,7 +1161,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                </tr>\n" +
     "            </table>\n" +
     "        </div>\n" +
-    "        <div ng-show=\"sw.show\">\n" +
+    "        <div ng-if=\"sw.show\">\n" +
     "            <form name=\"editSW{{sw.sid}}\" ng-submit=\"updateSW(sw)\">\n" +
     "                <div class=\"col-md-12\">\n" +
     "                    <div class=\"col-md-6 form-group\">\n" +
@@ -1176,17 +1175,19 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                    <div class=\"col-md-6 form-group\">\n" +
     "                        <label for=\"{{sw.sid}}_title\">Title</label>\n" +
     "                        <input type=\"text\" class=\"form-control\" placeholder=\"{{sw.title}}\" ng-model=\"sw.title\"\n" +
-    "                               id=\"{{sw.sid}}_title\" required>\n" +
+    "                               id=\"{{sw.sid}}_title\" maxlength=\"50\" required>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-12\">\n" +
     "                    <div class=\"col-md-6 form-group\">\n" +
     "                        <label for=\"{{sw.sid}}_descr\">Description</label>\n" +
-    "                        <textarea class=\"form-control\" rows=\"3\" id=\"{{sw.sid}}_descr\" ng-model=\"sw.description\" required></textarea>\n" +
+    "                        <textarea class=\"form-control\" rows=\"3\" id=\"{{sw.sid}}_descr\" ng-model=\"sw.description\"\n" +
+    "                                  maxlength=\"4096\" required></textarea>\n" +
     "                    </div>\n" +
     "                    <div class=\"col-md-6 form-group\">\n" +
     "                        <label for=\"{{sw.sid}}_mod\">List of Installed Modules</label>\n" +
-    "                        <textarea class=\"form-control\" rows=\"3\" id=\"{{sw.sid}}_mod\" ng-model=\"sw.modules\" ></textarea>\n" +
+    "                        <textarea class=\"form-control\" rows=\"3\" id=\"{{sw.sid}}_mod\" ng-model=\"sw.modules\"\n" +
+    "                                  maxlength=\"4096\"></textarea>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-12\">\n" +
@@ -1201,13 +1202,16 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                            </li>\n" +
     "                            <li class=\"list-group-item col-md-12\">\n" +
     "                                <div class=\"col-md-4\">\n" +
-    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Link Description\" ng-model=\"sw.newLink.description\">\n" +
+    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Link Description\"\n" +
+    "                                           ng-model=\"sw.newLink.description\" maxlength=\"200\">\n" +
     "                                </div>\n" +
     "                                <div class=\"col-md-3\">\n" +
-    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\" ng-model=\"sw.newLink.title\">\n" +
+    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\"\n" +
+    "                                           ng-model=\"sw.newLink.title\" maxlength=\"100\">\n" +
     "                                </div>\n" +
     "                                <div class=\"col-md-4\">\n" +
-    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" ng-model=\"sw.newLink.url\">\n" +
+    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\"\n" +
+    "                                           ng-model=\"sw.newLink.url\" maxlength=\"1024\">\n" +
     "                                </div>\n" +
     "                                <div class=\"col-md-1\">\n" +
     "                                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"addLink(sw)\"\n" +
@@ -1224,25 +1228,28 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                        <label for=\"{{sw.sid}}_ver\">Versions</label>\n" +
     "                        <ul class=\"list-group\" id=\"{{sw.sid}}_ver\">\n" +
     "                            <li class=\"list-group-item col-md-12\" ng-repeat=\"version in sw.versions\">\n" +
-    "                                <div class=\"col-md-4\">\n" +
+    "                                <div class=\"col-md-1\">\n" +
     "                                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteVersion(sw,version)\">\n" +
     "                                        <span class=\"fa fa-fw fa-close\"></span>\n" +
     "                                    </button>\n" +
-    "                                    {{version.version}}\n" +
     "                                    <span class=\"fa fa-fw fa-windows\" ng-show=\"version.os == 1\"></span>\n" +
     "                                    <span class=\"fa fa-fw fa-apple\" ng-show=\"version.os == 2\"></span>\n" +
+    "                                </div>\n" +
+    "                                <div class=\"col-md-3\">\n" +
+    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Version\" ng-model=\"version.version\"\n" +
+    "                                           maxlength=\"50\">\n" +
     "                                </div>\n" +
     "                                <div class=\"col-md-8 form-group\">\n" +
     "                                    <label for=\"{{sw.sid}}_loc\">Locations</label>\n" +
     "                                    <ul class=\"list-group\" id=\"{{sw.sid}}_loc\">\n" +
     "                                        <li class=\"list-group-item col-md-12\" ng-repeat=\"loc in version.locations\">\n" +
-    "                                            <div class=\"col-md-6\">\n" +
+    "                                            <div class=\"col-md-8\">\n" +
     "                                                <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteLocation(sw,version,loc)\">\n" +
     "                                                    <span class=\"fa fa-fw fa-close\"></span>\n" +
     "                                                </button>\n" +
     "                                                {{loc.name}}\n" +
     "                                            </div>\n" +
-    "                                            <div class=\"col-md-5\">\n" +
+    "                                            <div class=\"col-md-3\">\n" +
     "                                                <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 1)\">\n" +
     "                                                    <span class=\"fa fa-fw fa-windows\"></span>\n" +
     "                                                    <span class=\"fa fa-fw fa-desktop\"></span>\n" +
@@ -1265,12 +1272,12 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                            </div>\n" +
     "                                        </li>\n" +
     "                                        <li class=\"list-group-item col-md-12\">\n" +
-    "                                            <div class=\"col-md-6\">\n" +
+    "                                            <div class=\"col-md-8\">\n" +
     "                                                <select class=\"form-control\" ng-model=\"version.newLoc.selLoc\"\n" +
     "                                                        ng-options=\"loc.name for loc in SWList.locations\">\n" +
     "                                                </select>\n" +
     "                                            </div>\n" +
-    "                                            <div class=\"col-md-5\">\n" +
+    "                                            <div class=\"col-md-3\">\n" +
     "                                                <div class=\"col-md-6\" ng-repeat=\"device in version.newLoc.devices track by $index\"\n" +
     "                                                     ng-show=\"(($index == 0 || $index == 2) && version.os == 1) ||\n" +
     "                                                              (($index == 1 || $index == 3) && version.os == 2)\">\n" +
@@ -1294,7 +1301,8 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                            </li>\n" +
     "                            <li class=\"list-group-item col-md-6\">\n" +
     "                                <div class=\"col-md-6\">\n" +
-    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Version\" ng-model=\"sw.newVer.version\">\n" +
+    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Version\" ng-model=\"sw.newVer.version\"\n" +
+    "                                           maxlength=\"50\">\n" +
     "                                </div>\n" +
     "                                <div class=\"col-md-4\">\n" +
     "                                    <select class=\"form-control\" ng-model=\"sw.newVer.selOS\" ng-options=\"opSys.name for opSys in os\">\n" +
@@ -1373,17 +1381,17 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"title\">Title</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Software Title\" ng-model=\"newSW.title\"\n" +
-    "                       id=\"title\">\n" +
+    "                       id=\"title\" maxlength=\"50\">\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-12\">\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"descr\">Description</label>\n" +
-    "                <textarea class=\"form-control\" rows=\"3\" id=\"descr\" ng-model=\"newSW.description\" required></textarea>\n" +
+    "                <textarea class=\"form-control\" rows=\"3\" id=\"descr\" ng-model=\"newSW.description\" maxlength=\"4096\" required></textarea>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"mod\">List of Installed Modules</label>\n" +
-    "                <textarea class=\"form-control\" rows=\"3\" id=\"mod\" ng-model=\"newSW.modules\" ></textarea>\n" +
+    "                <textarea class=\"form-control\" rows=\"3\" id=\"mod\" ng-model=\"newSW.modules\" maxlength=\"4096\"></textarea>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-12\">\n" +
@@ -1398,13 +1406,16 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                    </li>\n" +
     "                    <li class=\"list-group-item col-md-12\">\n" +
     "                        <div class=\"col-md-4\">\n" +
-    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Link Description\" ng-model=\"newSW.newLink.description\">\n" +
+    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Link Description\"\n" +
+    "                                   ng-model=\"newSW.newLink.description\" maxlength=\"200\">\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-3\">\n" +
-    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\" ng-model=\"newSW.newLink.title\">\n" +
+    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Link Title\"\n" +
+    "                                   ng-model=\"newSW.newLink.title\" maxlength=\"100\">\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-4\">\n" +
-    "                            <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\" ng-model=\"newSW.newLink.url\">\n" +
+    "                            <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com/\"\n" +
+    "                                   ng-model=\"newSW.newLink.url\" maxlength=\"1024\">\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-1\">\n" +
     "                            <button type=\"button\" class=\"btn btn-success\" ng-click=\"addNewSWLink()\"\n" +
@@ -1433,13 +1444,13 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                            <label for=\"loc\">Locations</label>\n" +
     "                            <ul class=\"list-group\" id=\"loc\">\n" +
     "                                <li class=\"list-group-item col-md-12\" ng-repeat=\"loc in version.locations\">\n" +
-    "                                    <div class=\"col-md-6\">\n" +
+    "                                    <div class=\"col-md-8\">\n" +
     "                                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"delNewSWLoc(version,loc)\">\n" +
     "                                            <span class=\"fa fa-fw fa-close\"></span>\n" +
     "                                        </button>\n" +
     "                                        {{loc.name}}\n" +
     "                                    </div>\n" +
-    "                                    <div class=\"col-md-5\">\n" +
+    "                                    <div class=\"col-md-3\">\n" +
     "                                        <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 1)\">\n" +
     "                                            <span class=\"fa fa-fw fa-windows\"></span>\n" +
     "                                            <span class=\"fa fa-fw fa-desktop\"></span>\n" +
@@ -1462,12 +1473,12 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                    </div>\n" +
     "                                </li>\n" +
     "                                <li class=\"list-group-item col-md-12\">\n" +
-    "                                    <div class=\"col-md-6\">\n" +
+    "                                    <div class=\"col-md-8\">\n" +
     "                                        <select class=\"form-control\" ng-model=\"version.newLoc.selLoc\"\n" +
     "                                                ng-options=\"loc.name for loc in SWList.locations\">\n" +
     "                                        </select>\n" +
     "                                    </div>\n" +
-    "                                    <div class=\"col-md-5\">\n" +
+    "                                    <div class=\"col-md-3\">\n" +
     "                                        <div class=\"col-md-6\" ng-repeat=\"device in version.newLoc.devices track by $index\"\n" +
     "                                                ng-show=\"(($index == 0 || $index == 2) && version.os == 1) ||\n" +
     "                                                         (($index == 1 || $index == 3) && version.os == 2)\">\n" +
@@ -1491,7 +1502,8 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                    </li>\n" +
     "                    <li class=\"list-group-item col-md-6\">\n" +
     "                        <div class=\"col-md-6\">\n" +
-    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Version\" ng-model=\"newSW.newVer.version\">\n" +
+    "                            <input type=\"text\" class=\"form-control\" placeholder=\"Version\" ng-model=\"newSW.newVer.version\"\n" +
+    "                                   maxlength=\"50\">\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-4\">\n" +
     "                            <select class=\"form-control\" ng-model=\"newSW.newVer.selOS\" ng-options=\"opSys.name for opSys in os\">\n" +
@@ -1548,30 +1560,32 @@ angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templa
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-6\">\n" +
     "        <h3>Locations</h3>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-2\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Parent ID\" ng-model=\"newLocation.parent\"\n" +
+    "                       maxlength=\"3\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-8\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"New Location Name\" ng-model=\"newLocation.name\"\n" +
+    "                       maxlength=\"50\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2\">\n" +
+    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"addLocation()\" ng-disabled=\"newLocation.name.length == 0\">\n" +
+    "                    <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                </button>\n" +
+    "            </div>\n" +
+    "            {{locResponse}}\n" +
+    "        </div>\n" +
     "        <table class=\"table table-hover\">\n" +
     "            <thead>\n" +
     "            <tr>\n" +
-    "                <th>ID</th>\n" +
-    "                <th>Parent ID</th>\n" +
+    "                <th style=\"width:50px;\">ID</th>\n" +
+    "                <th style=\"width:75px;\">Parent</th>\n" +
     "                <th>Name</th>\n" +
-    "                <th>Action</th>\n" +
+    "                <th style=\"width:120px;\">Action</th>\n" +
     "            </tr>\n" +
     "            </thead>\n" +
     "            <tbody>\n" +
-    "            <tr>\n" +
-    "                <div class=\"col-md-2\">\n" +
-    "                    <input type=\"text\" class=\"form-control\" placeholder=\"Parent ID\" ng-model=\"newLocation.parent\">\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-8\">\n" +
-    "                    <input type=\"text\" class=\"form-control\" placeholder=\"New Location Name\" ng-model=\"newLocation.name\">\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-2\">\n" +
-    "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"addLocation()\" ng-disabled=\"newLocation.name.length == 0\">\n" +
-    "                        <span class=\"fa fa-fw fa-plus\"></span>\n" +
-    "                    </button>\n" +
-    "                </div>\n" +
-    "                {{locResponse}}\n" +
-    "            </tr>\n" +
     "            <tr ng-repeat=\"location in SWList.locations\" ng-click=\"selectLocation(location)\">\n" +
     "                <td>\n" +
     "                    {{location.lid}}\n" +
@@ -1581,7 +1595,8 @@ angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templa
     "                        {{location.parent}}\n" +
     "                    </span>\n" +
     "                    <span ng-show=\"selLocation == location.lid\">\n" +
-    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Parent ID\" ng-model=\"location.parent\">\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Parent ID\" ng-model=\"location.parent\"\n" +
+    "                               maxlength=\"3\">\n" +
     "                    </span>\n" +
     "                </td>\n" +
     "                <td>\n" +
@@ -1589,7 +1604,8 @@ angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templa
     "                        {{location.name}}\n" +
     "                    </span>\n" +
     "                    <span ng-show=\"selLocation == location.lid\">\n" +
-    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Location Name\" ng-model=\"location.name\">\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Location Name\" ng-model=\"location.name\"\n" +
+    "                               maxlength=\"50\">\n" +
     "                    </span>\n" +
     "                </td>\n" +
     "                <td>\n" +
@@ -1608,26 +1624,26 @@ angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templa
     "    </div>\n" +
     "    <div class=\"col-md-6\">\n" +
     "        <h3>Categories</h3>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-10\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"New Category\" ng-model=\"newCategory\" maxlength=\"30\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2\">\n" +
+    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"addCategory()\" ng-disabled=\"newCategory.length == 0\">\n" +
+    "                    <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                </button>\n" +
+    "            </div>\n" +
+    "            {{catResponse}}\n" +
+    "        </div>\n" +
     "        <table class=\"table table-hover\">\n" +
     "            <thead>\n" +
     "            <tr>\n" +
-    "                <th>ID</th>\n" +
+    "                <th style=\"width:50px;\">ID</th>\n" +
     "                <th>Name</th>\n" +
-    "                <th>Action</th>\n" +
+    "                <th style=\"width:120px;\">Action</th>\n" +
     "            </tr>\n" +
     "            </thead>\n" +
     "            <tbody>\n" +
-    "            <tr>\n" +
-    "                <div class=\"col-md-10\">\n" +
-    "                    <input type=\"text\" class=\"form-control\" placeholder=\"New Category\" ng-model=\"newCategory\">\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-2\">\n" +
-    "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"addCategory()\" ng-disabled=\"newCategory.length == 0\">\n" +
-    "                        <span class=\"fa fa-fw fa-plus\"></span>\n" +
-    "                    </button>\n" +
-    "                </div>\n" +
-    "                {{catResponse}}\n" +
-    "            </tr>\n" +
     "            <tr ng-repeat=\"category in SWList.categories\" ng-click=\"selectCategory(category)\">\n" +
     "                <td>\n" +
     "                    {{category.cid}}\n" +
@@ -1637,7 +1653,8 @@ angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templa
     "                        {{category.name}}\n" +
     "                    </span>\n" +
     "                    <span ng-show=\"selCategory == category.cid\">\n" +
-    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Category Name\" ng-model=\"category.name\">\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Category Name\" ng-model=\"category.name\"\n" +
+    "                               maxlength=\"30\">\n" +
     "                    </span>\n" +
     "                </td>\n" +
     "                <td>\n" +

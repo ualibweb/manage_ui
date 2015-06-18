@@ -1,23 +1,22 @@
 <div>
     <div class="row form-inline">
         <div class="form-group col-md-12">
-            <label for="filterBy">Filter <small>{{filteredSW.length}}</small> results by</label>
-            <div id="filterBy">
-                <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
-                <input type="text" class="form-control" placeholder="Description contains" ng-model="descrFilter">
+            <div class="col-md-6">
+                <label for="filterBy">Filter <small>{{filteredSW.length}}</small> results by</label>
+                <div id="filterBy">
+                    <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
+                    <input type="text" class="form-control" placeholder="Description contains" ng-model="descrFilter">
+                </div>
             </div>
-            <label for="sortBy">Sort by</label>
-            <div id="sortBy">
-                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
-                    Title
-                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[0].reverse"></span>
-                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[0].reverse"></span>
-                </button>
-                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
-                    Location
-                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[1].reverse"></span>
-                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[1].reverse"></span>
-                </button>
+            <div class="col-md-6">
+                <label for="sortBy">Sort by</label>
+                <div id="sortBy">
+                    <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
+                        Title
+                        <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[0].reverse"></span>
+                        <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[0].reverse"></span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -56,7 +55,7 @@
                 </tr>
             </table>
         </div>
-        <div ng-show="sw.show">
+        <div ng-if="sw.show">
             <form name="editSW{{sw.sid}}" ng-submit="updateSW(sw)">
                 <div class="col-md-12">
                     <div class="col-md-6 form-group">
@@ -70,17 +69,19 @@
                     <div class="col-md-6 form-group">
                         <label for="{{sw.sid}}_title">Title</label>
                         <input type="text" class="form-control" placeholder="{{sw.title}}" ng-model="sw.title"
-                               id="{{sw.sid}}_title" required>
+                               id="{{sw.sid}}_title" maxlength="50" required>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-6 form-group">
                         <label for="{{sw.sid}}_descr">Description</label>
-                        <textarea class="form-control" rows="3" id="{{sw.sid}}_descr" ng-model="sw.description" required></textarea>
+                        <textarea class="form-control" rows="3" id="{{sw.sid}}_descr" ng-model="sw.description"
+                                  maxlength="4096" required></textarea>
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="{{sw.sid}}_mod">List of Installed Modules</label>
-                        <textarea class="form-control" rows="3" id="{{sw.sid}}_mod" ng-model="sw.modules" ></textarea>
+                        <textarea class="form-control" rows="3" id="{{sw.sid}}_mod" ng-model="sw.modules"
+                                  maxlength="4096"></textarea>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -95,13 +96,16 @@
                             </li>
                             <li class="list-group-item col-md-12">
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" placeholder="Link Description" ng-model="sw.newLink.description">
+                                    <input type="text" class="form-control" placeholder="Link Description"
+                                           ng-model="sw.newLink.description" maxlength="200">
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="text" class="form-control" placeholder="Link Title" ng-model="sw.newLink.title">
+                                    <input type="text" class="form-control" placeholder="Link Title"
+                                           ng-model="sw.newLink.title" maxlength="100">
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" placeholder="http://www.example.com/" ng-model="sw.newLink.url">
+                                    <input type="text" class="form-control" placeholder="http://www.example.com/"
+                                           ng-model="sw.newLink.url" maxlength="1024">
                                 </div>
                                 <div class="col-md-1">
                                     <button type="button" class="btn btn-success" ng-click="addLink(sw)"
@@ -118,25 +122,28 @@
                         <label for="{{sw.sid}}_ver">Versions</label>
                         <ul class="list-group" id="{{sw.sid}}_ver">
                             <li class="list-group-item col-md-12" ng-repeat="version in sw.versions">
-                                <div class="col-md-4">
+                                <div class="col-md-1">
                                     <button type="button" class="btn btn-danger" ng-click="deleteVersion(sw,version)">
                                         <span class="fa fa-fw fa-close"></span>
                                     </button>
-                                    {{version.version}}
                                     <span class="fa fa-fw fa-windows" ng-show="version.os == 1"></span>
                                     <span class="fa fa-fw fa-apple" ng-show="version.os == 2"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" placeholder="Version" ng-model="version.version"
+                                           maxlength="50">
                                 </div>
                                 <div class="col-md-8 form-group">
                                     <label for="{{sw.sid}}_loc">Locations</label>
                                     <ul class="list-group" id="{{sw.sid}}_loc">
                                         <li class="list-group-item col-md-12" ng-repeat="loc in version.locations">
-                                            <div class="col-md-6">
+                                            <div class="col-md-8">
                                                 <button type="button" class="btn btn-danger" ng-click="deleteLocation(sw,version,loc)">
                                                     <span class="fa fa-fw fa-close"></span>
                                                 </button>
                                                 {{loc.name}}
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-3">
                                                 <div class="col-md-6" ng-show="checkDevices(loc.devices, 1)">
                                                     <span class="fa fa-fw fa-windows"></span>
                                                     <span class="fa fa-fw fa-desktop"></span>
@@ -159,12 +166,12 @@
                                             </div>
                                         </li>
                                         <li class="list-group-item col-md-12">
-                                            <div class="col-md-6">
+                                            <div class="col-md-8">
                                                 <select class="form-control" ng-model="version.newLoc.selLoc"
                                                         ng-options="loc.name for loc in SWList.locations">
                                                 </select>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-3">
                                                 <div class="col-md-6" ng-repeat="device in version.newLoc.devices track by $index"
                                                      ng-show="(($index == 0 || $index == 2) && version.os == 1) ||
                                                               (($index == 1 || $index == 3) && version.os == 2)">
@@ -188,7 +195,8 @@
                             </li>
                             <li class="list-group-item col-md-6">
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Version" ng-model="sw.newVer.version">
+                                    <input type="text" class="form-control" placeholder="Version" ng-model="sw.newVer.version"
+                                           maxlength="50">
                                 </div>
                                 <div class="col-md-4">
                                     <select class="form-control" ng-model="sw.newVer.selOS" ng-options="opSys.name for opSys in os">
@@ -267,17 +275,17 @@
             <div class="col-md-6 form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" placeholder="Software Title" ng-model="newSW.title"
-                       id="title">
+                       id="title" maxlength="50">
             </div>
         </div>
         <div class="col-md-12">
             <div class="col-md-6 form-group">
                 <label for="descr">Description</label>
-                <textarea class="form-control" rows="3" id="descr" ng-model="newSW.description" required></textarea>
+                <textarea class="form-control" rows="3" id="descr" ng-model="newSW.description" maxlength="4096" required></textarea>
             </div>
             <div class="col-md-6 form-group">
                 <label for="mod">List of Installed Modules</label>
-                <textarea class="form-control" rows="3" id="mod" ng-model="newSW.modules" ></textarea>
+                <textarea class="form-control" rows="3" id="mod" ng-model="newSW.modules" maxlength="4096"></textarea>
             </div>
         </div>
         <div class="col-md-12">
@@ -292,13 +300,16 @@
                     </li>
                     <li class="list-group-item col-md-12">
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="Link Description" ng-model="newSW.newLink.description">
+                            <input type="text" class="form-control" placeholder="Link Description"
+                                   ng-model="newSW.newLink.description" maxlength="200">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder="Link Title" ng-model="newSW.newLink.title">
+                            <input type="text" class="form-control" placeholder="Link Title"
+                                   ng-model="newSW.newLink.title" maxlength="100">
                         </div>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="http://www.example.com/" ng-model="newSW.newLink.url">
+                            <input type="text" class="form-control" placeholder="http://www.example.com/"
+                                   ng-model="newSW.newLink.url" maxlength="1024">
                         </div>
                         <div class="col-md-1">
                             <button type="button" class="btn btn-success" ng-click="addNewSWLink()"
@@ -327,13 +338,13 @@
                             <label for="loc">Locations</label>
                             <ul class="list-group" id="loc">
                                 <li class="list-group-item col-md-12" ng-repeat="loc in version.locations">
-                                    <div class="col-md-6">
+                                    <div class="col-md-8">
                                         <button type="button" class="btn btn-danger" ng-click="delNewSWLoc(version,loc)">
                                             <span class="fa fa-fw fa-close"></span>
                                         </button>
                                         {{loc.name}}
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="col-md-6" ng-show="checkDevices(loc.devices, 1)">
                                             <span class="fa fa-fw fa-windows"></span>
                                             <span class="fa fa-fw fa-desktop"></span>
@@ -356,12 +367,12 @@
                                     </div>
                                 </li>
                                 <li class="list-group-item col-md-12">
-                                    <div class="col-md-6">
+                                    <div class="col-md-8">
                                         <select class="form-control" ng-model="version.newLoc.selLoc"
                                                 ng-options="loc.name for loc in SWList.locations">
                                         </select>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="col-md-6" ng-repeat="device in version.newLoc.devices track by $index"
                                                 ng-show="(($index == 0 || $index == 2) && version.os == 1) ||
                                                          (($index == 1 || $index == 3) && version.os == 2)">
@@ -385,7 +396,8 @@
                     </li>
                     <li class="list-group-item col-md-6">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Version" ng-model="newSW.newVer.version">
+                            <input type="text" class="form-control" placeholder="Version" ng-model="newSW.newVer.version"
+                                   maxlength="50">
                         </div>
                         <div class="col-md-4">
                             <select class="form-control" ng-model="newSW.newVer.selOS" ng-options="opSys.name for opSys in os">

@@ -18,6 +18,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         data.software[i].class = "";
                         data.software[i].selCat = data.categories[0];
                         data.software[i].newVer = {};
+                        data.software[i].newVer.version = "";
                         data.software[i].newVer.selOS = $scope.os[0];
                         for (var j = 0; j < data.software[i].versions.length; j++){
                             data.software[i].versions[j].newLoc = {};
@@ -27,6 +28,9 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                                 data.software[i].versions[j].newLoc.devices[k] = false;
                         }
                         data.software[i].newLink = {};
+                        data.software[i].newLink.description = "";
+                        data.software[i].newLink.title = "";
+                        data.software[i].newLink.url = "";
                     }
                     $scope.newSW.selCat = data.categories[0];
                     $scope.SWList = data;
@@ -80,8 +84,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.descrFilter = '';
             $scope.sortMode = 0;
             $scope.sortModes = [
-                {by:'title', reverse:false},
-                {by:'location', reverse:false}
+                {by:'title', reverse:false}
             ];
             $scope.sortButton = $scope.sortMode;
             $scope.mOver = 0;
@@ -92,8 +95,12 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.newSW.categories = [];
             $scope.newSW.newVer = {};
             $scope.newSW.newVer.selOS = $scope.os[0];
+            $scope.newSW.newVer.version = "";
             $scope.newSW.newLink = {};
-            $scope.newSW.modules = '';
+            $scope.newSW.newLink.description = "";
+            $scope.newSW.newLink.title = "";
+            $scope.newSW.newLink.url = "";
+            $scope.newSW.modules = "";
 
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
@@ -252,7 +259,11 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             newSW.selCat = response.data.categories[0];
                             newSW.newVer = {};
                             newSW.newVer.selOS = $scope.os[0];
+                            newSW.newVer.version = "";
                             newSW.newLink = {};
+                            newSW.newLink.description = "";
+                            newSW.newLink.title = "";
+                            newSW.newLink.url = "";
                             $scope.SWList.software.push(newSW);
                             $scope.newSW.formResponse = "Software has been added.";
                         } else {

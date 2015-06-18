@@ -1,30 +1,32 @@
 <div class="row">
     <div class="col-md-6">
         <h3>Locations</h3>
+        <div class="row">
+            <div class="col-md-2">
+                <input type="text" class="form-control" placeholder="Parent ID" ng-model="newLocation.parent"
+                       maxlength="3">
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" placeholder="New Location Name" ng-model="newLocation.name"
+                       maxlength="50">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-success" ng-click="addLocation()" ng-disabled="newLocation.name.length == 0">
+                    <span class="fa fa-fw fa-plus"></span>
+                </button>
+            </div>
+            {{locResponse}}
+        </div>
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Parent ID</th>
+                <th style="width:50px;">ID</th>
+                <th style="width:75px;">Parent</th>
                 <th>Name</th>
-                <th>Action</th>
+                <th style="width:120px;">Action</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <div class="col-md-2">
-                    <input type="text" class="form-control" placeholder="Parent ID" ng-model="newLocation.parent">
-                </div>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" placeholder="New Location Name" ng-model="newLocation.name">
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-success" ng-click="addLocation()" ng-disabled="newLocation.name.length == 0">
-                        <span class="fa fa-fw fa-plus"></span>
-                    </button>
-                </div>
-                {{locResponse}}
-            </tr>
             <tr ng-repeat="location in SWList.locations" ng-click="selectLocation(location)">
                 <td>
                     {{location.lid}}
@@ -34,7 +36,8 @@
                         {{location.parent}}
                     </span>
                     <span ng-show="selLocation == location.lid">
-                        <input type="text" class="form-control" placeholder="Parent ID" ng-model="location.parent">
+                        <input type="text" class="form-control" placeholder="Parent ID" ng-model="location.parent"
+                               maxlength="3">
                     </span>
                 </td>
                 <td>
@@ -42,7 +45,8 @@
                         {{location.name}}
                     </span>
                     <span ng-show="selLocation == location.lid">
-                        <input type="text" class="form-control" placeholder="Location Name" ng-model="location.name">
+                        <input type="text" class="form-control" placeholder="Location Name" ng-model="location.name"
+                               maxlength="50">
                     </span>
                 </td>
                 <td>
@@ -61,26 +65,26 @@
     </div>
     <div class="col-md-6">
         <h3>Categories</h3>
+        <div class="row">
+            <div class="col-md-10">
+                <input type="text" class="form-control" placeholder="New Category" ng-model="newCategory" maxlength="30">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-success" ng-click="addCategory()" ng-disabled="newCategory.length == 0">
+                    <span class="fa fa-fw fa-plus"></span>
+                </button>
+            </div>
+            {{catResponse}}
+        </div>
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>ID</th>
+                <th style="width:50px;">ID</th>
                 <th>Name</th>
-                <th>Action</th>
+                <th style="width:120px;">Action</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" placeholder="New Category" ng-model="newCategory">
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-success" ng-click="addCategory()" ng-disabled="newCategory.length == 0">
-                        <span class="fa fa-fw fa-plus"></span>
-                    </button>
-                </div>
-                {{catResponse}}
-            </tr>
             <tr ng-repeat="category in SWList.categories" ng-click="selectCategory(category)">
                 <td>
                     {{category.cid}}
@@ -90,7 +94,8 @@
                         {{category.name}}
                     </span>
                     <span ng-show="selCategory == category.cid">
-                        <input type="text" class="form-control" placeholder="Category Name" ng-model="category.name">
+                        <input type="text" class="form-control" placeholder="Category Name" ng-model="category.name"
+                               maxlength="30">
                     </span>
                 </td>
                 <td>
