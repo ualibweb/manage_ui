@@ -1308,7 +1308,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                                </button>\n" +
     "                                                {{loc.name}}\n" +
     "                                            </div>\n" +
-    "                                            <div class=\"col-md-3\">\n" +
+    "                                            <div class=\"col-md-4\">\n" +
     "                                                <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 1)\">\n" +
     "                                                    <span class=\"fa fa-fw fa-windows\"></span>\n" +
     "                                                    <span class=\"fa fa-fw fa-desktop\"></span>\n" +
@@ -1325,9 +1325,6 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                                    <span class=\"fa fa-fw fa-apple\"></span>\n" +
     "                                                    <span class=\"fa fa-fw fa-laptop\"></span>\n" +
     "                                                </div>\n" +
-    "                                            </div>\n" +
-    "                                            <div class=\"col-md-1\">\n" +
-    "\n" +
     "                                            </div>\n" +
     "                                        </li>\n" +
     "                                        <li class=\"list-group-item col-md-12\">\n" +
@@ -1509,7 +1506,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                        </button>\n" +
     "                                        {{loc.name}}\n" +
     "                                    </div>\n" +
-    "                                    <div class=\"col-md-3\">\n" +
+    "                                    <div class=\"col-md-4\">\n" +
     "                                        <div class=\"col-md-6\" ng-show=\"checkDevices(loc.devices, 1)\">\n" +
     "                                            <span class=\"fa fa-fw fa-windows\"></span>\n" +
     "                                            <span class=\"fa fa-fw fa-desktop\"></span>\n" +
@@ -1526,9 +1523,6 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                            <span class=\"fa fa-fw fa-apple\"></span>\n" +
     "                                            <span class=\"fa fa-fw fa-laptop\"></span>\n" +
     "                                        </div>\n" +
-    "                                    </div>\n" +
-    "                                    <div class=\"col-md-1\">\n" +
-    "\n" +
     "                                    </div>\n" +
     "                                </li>\n" +
     "                                <li class=\"list-group-item col-md-12\">\n" +
