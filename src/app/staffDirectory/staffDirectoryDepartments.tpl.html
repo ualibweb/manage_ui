@@ -1,0 +1,146 @@
+<div class="row">
+    <div class="col-md-6">
+        <h3>Departments</h3>
+        <div class="row">
+            <div class="col-md-5">
+                <input type="text" class="form-control" placeholder="Department Name" ng-model="newDept.name"
+                       maxlength="100">
+            </div>
+            <div class="col-md-5">
+                <select class="form-control" ng-model="newDept.selLib" ng-options="lib.name for lib in Directory.libraries">
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-success" ng-click="addDepartment()" ng-disabled="newDept.name.length == 0">
+                    <span class="fa fa-fw fa-plus"></span>
+                </button>
+            </div>
+            {{depResponse}}
+        </div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Department</th>
+                <th>Location</th>
+                <th style="width:120px;">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="dept in Directory.departments" ng-click="expandDepartment(dept)">
+                <td>
+                    <span ng-hide="dept.show">{{dept.name}}</span>
+                    <span ng-show="dept.show">
+                        <input type="text" class="form-control" placeholder="Department Name" ng-model="dept.name"
+                               maxlength="100">
+                    </span>
+                </td>
+                <td>
+                    <span ng-hide="dept.show">{{dept.selLib.name}}</span>
+                    <span ng-show="dept.show">
+                        <select class="form-control" ng-model="dept.selLib" ng-options="lib.name for lib in Directory.libraries">
+                        </select>
+                    </span>
+                </td>
+                <td>
+                    <div ng-show="dept.show">
+                        <button type="button" class="btn btn-success" ng-click="editDepartment(dept)" ng-disabled="dept.name.length == 0">
+                            <span class="fa fa-fw fa-edit"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-click="deleteDepartment(dept)">
+                            <span class="fa fa-fw fa-close"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h3>Libraries/Locations</h3>
+        <div class="row">
+            <div class="col-md-10">
+                <input type="text" class="form-control" placeholder="Location Name" ng-model="newLoc.name"
+                       maxlength="100">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-success" ng-click="addLibrary()" ng-disabled="newLoc.name.length == 0">
+                    <span class="fa fa-fw fa-plus"></span>
+                </button>
+            </div>
+            {{libResponse}}
+        </div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Library/Location</th>
+                <th style="width:120px;">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="lib in Directory.libraries" ng-click="expandLibrary(lib)">
+                <td>
+                    <span ng-hide="lib.show">{{lib.name}}</span>
+                    <span ng-show="lib.show">
+                        <input type="text" class="form-control" placeholder="Library Name" ng-model="lib.name"
+                               maxlength="100">
+                    </span>
+                </td>
+                <td>
+                    <div ng-show="lib.show">
+                        <button type="button" class="btn btn-success" ng-click="editLibrary(lib)" ng-disabled="lib.name.length == 0">
+                            <span class="fa fa-fw fa-edit"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-click="deleteLibrary(lib)">
+                            <span class="fa fa-fw fa-close"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h3>Divisions</h3>
+        <div class="row">
+            <div class="col-md-10">
+                <input type="text" class="form-control" placeholder="Division Name" ng-model="newDiv.name"
+                       maxlength="100">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-success" ng-click="addDivision()" ng-disabled="newDiv.name.length == 0">
+                    <span class="fa fa-fw fa-plus"></span>
+                </button>
+            </div>
+            {{divResponse}}
+        </div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Division</th>
+                <th style="width:120px;">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="division in Directory.divisions" ng-click="expandDivision(division)" ng-if="division.divid > 0">
+                <td>
+                    <span ng-hide="division.show">{{division.name}}</span>
+                    <span ng-show="division.show">
+                        <input type="text" class="form-control" placeholder="Division Name" ng-model="division.name"
+                               maxlength="100">
+                    </span>
+                </td>
+                <td>
+                    <div ng-show="division.show">
+                        <button type="button" class="btn btn-success" ng-click="editDivision(division)"
+                                ng-disabled="division.name.length == 0">
+                            <span class="fa fa-fw fa-edit"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-click="deleteDivision(division)">
+                            <span class="fa fa-fw fa-close"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'submittedForms/submittedForms.tpl.html']);
+angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
 
 angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
@@ -1402,7 +1402,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                </div>\n" +
     "                <div class=\"col-md-12 text-center\">\n" +
     "                    <button type=\"submit\" class=\"btn btn-success\">Update information</button>\n" +
-    "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"unpublishSW(sw)\" ng-hide=\"sw.status == 0\">\n" +
+    "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"unpublishSW(sw)\" ng-hide=\"\">\n" +
     "                        Unpublish\n" +
     "                    </button>\n" +
     "                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSW(sw)\">\n" +
@@ -1877,207 +1877,470 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
   $templateCache.put("staffDirectory/staffDirectory.tpl.html",
     "<h2>Library Staff Directory</h2>\n" +
     "\n" +
-    "<div>\n" +
-    "    <div class=\"text-center row form-inline\">\n" +
-    "        <div class=\"col-md-5 form-group text-right\">\n" +
-    "            <label for=\"sortBy\">Sort By</label>\n" +
-    "            <div id=\"sortBy\">\n" +
-    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"'first'\"\n" +
-    "                        ng-click=\"sortMode='firstname'\">\n" +
-    "                    First Name\n" +
-    "                </button>\n" +
-    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"'last'\"\n" +
-    "                        ng-click=\"sortMode='lastname'\">\n" +
-    "                    Last Name\n" +
-    "                </button>\n" +
-    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"'title'\"\n" +
-    "                        ng-click=\"sortMode='title'\">\n" +
-    "                    Title\n" +
-    "                </button>\n" +
-    "                <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"'dept'\"\n" +
-    "                        ng-click=\"sortMode='department'\">\n" +
-    "                    Department\n" +
-    "                </button>\n" +
+    "<tabset justified=\"true\">\n" +
+    "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
+    "        <div ng-if=\"tab.number == 0\">\n" +
+    "            <div manage-sd-people>\n" +
     "            </div>\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-7 form-group text-left\">\n" +
-    "            <label for=\"filterBy\">Filter by</label>\n" +
-    "            <div id=\"filterBy\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Last Name\" ng-model=\"lastNameFilter\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"First Name\" ng-model=\"firstNameFilter\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Title\" ng-model=\"titleFilter\">\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Department\" ng-model=\"deptFilter\">\n" +
+    "        <div ng-if=\"tab.number == 1\" >\n" +
+    "            <div manage-sd-subjects>\n" +
     "            </div>\n" +
     "        </div>\n" +
-    "    </div>\n" +
+    "        <div ng-if=\"tab.number == 2\">\n" +
+    "            <div manage-sd-departments>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </tab>\n" +
+    "</tabset>\n" +
     "\n" +
-    "    <div class=\"text-center\">\n" +
-    "        <pagination total-items=\"filteredDB.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
-    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredDB.length > perPage\"></pagination>\n" +
-    "    </div>\n" +
-    "    <div class=\"row\" ng-repeat=\"person in filteredDB = (Directory.list\n" +
-    "                                                        | filter:{lastname:lastNameFilter}\n" +
-    "                                                        | filter:{firstname:firstNameFilter}\n" +
-    "                                                        | filter:{title:titleFilter}\n" +
-    "                                                        | filter:{department:deptFilter}\n" +
-    "                                                        | orderBy:sortMode)\n" +
-    "                                | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
-    "         ng-class=\"{sdOpen: person.show, sdOver: person.id == mOver}\" ng-mouseover=\"setOver(person)\">\n" +
-    "        <div class=\"col-md-7\" ng-click=\"togglePerson(person)\">\n" +
-    "            <h4>\n" +
-    "                <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"person.show\"></span>\n" +
-    "                <span class=\"fa fa-fw fa-caret-down\" ng-show=\"person.show\"></span>\n" +
-    "                {{person.firstname}} {{person.lastname}} <small>{{person.title}}</small>\n" +
-    "            </h4>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-5\" ng-click=\"togglePerson(person)\">\n" +
-    "            <h4>{{person.department}}</h4>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-12\" ng-show=\"person.show\">\n" +
-    "            <div class=\"col-md-3\">\n" +
-    "                <img ng-src=\"{{person.image}}\" style=\"height:250px;\" alt=\"{{person.firstname}} {{person.lastname}}\"/>\n" +
+    "");
+}]);
+
+angular.module("staffDirectory/staffDirectoryDepartments.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("staffDirectory/staffDirectoryDepartments.tpl.html",
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-6\">\n" +
+    "        <h3>Departments</h3>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-5\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Department Name\" ng-model=\"newDept.name\"\n" +
+    "                       maxlength=\"100\">\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-9\" ng-show=\"person.show && hasAccess == 1\">\n" +
-    "                <div class=\"col-md-4 form-group\">\n" +
+    "            <div class=\"col-md-5\">\n" +
+    "                <select class=\"form-control\" ng-model=\"newDept.selLib\" ng-options=\"lib.name for lib in Directory.libraries\">\n" +
+    "                </select>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2\">\n" +
+    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"addDepartment()\" ng-disabled=\"newDept.name.length == 0\">\n" +
+    "                    <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                </button>\n" +
+    "            </div>\n" +
+    "            {{depResponse}}\n" +
+    "        </div>\n" +
+    "        <table class=\"table table-hover\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <th>Department</th>\n" +
+    "                <th>Location</th>\n" +
+    "                <th style=\"width:120px;\">Action</th>\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr ng-repeat=\"dept in Directory.departments\" ng-click=\"expandDepartment(dept)\">\n" +
+    "                <td>\n" +
+    "                    <span ng-hide=\"dept.show\">{{dept.name}}</span>\n" +
+    "                    <span ng-show=\"dept.show\">\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Department Name\" ng-model=\"dept.name\"\n" +
+    "                               maxlength=\"100\">\n" +
+    "                    </span>\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <span ng-hide=\"dept.show\">{{dept.selLib.name}}</span>\n" +
+    "                    <span ng-show=\"dept.show\">\n" +
+    "                        <select class=\"form-control\" ng-model=\"dept.selLib\" ng-options=\"lib.name for lib in Directory.libraries\">\n" +
+    "                        </select>\n" +
+    "                    </span>\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <div ng-show=\"dept.show\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-success\" ng-click=\"editDepartment(dept)\" ng-disabled=\"dept.name.length == 0\">\n" +
+    "                            <span class=\"fa fa-fw fa-edit\"></span>\n" +
+    "                        </button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteDepartment(dept)\">\n" +
+    "                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                        </button>\n" +
+    "                    </div>\n" +
+    "                </td>\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-6\">\n" +
+    "        <h3>Libraries/Locations</h3>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-10\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Location Name\" ng-model=\"newLoc.name\"\n" +
+    "                       maxlength=\"100\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2\">\n" +
+    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"addLibrary()\" ng-disabled=\"newLoc.name.length == 0\">\n" +
+    "                    <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                </button>\n" +
+    "            </div>\n" +
+    "            {{libResponse}}\n" +
+    "        </div>\n" +
+    "        <table class=\"table table-hover\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <th>Library/Location</th>\n" +
+    "                <th style=\"width:120px;\">Action</th>\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr ng-repeat=\"lib in Directory.libraries\" ng-click=\"expandLibrary(lib)\">\n" +
+    "                <td>\n" +
+    "                    <span ng-hide=\"lib.show\">{{lib.name}}</span>\n" +
+    "                    <span ng-show=\"lib.show\">\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Library Name\" ng-model=\"lib.name\"\n" +
+    "                               maxlength=\"100\">\n" +
+    "                    </span>\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <div ng-show=\"lib.show\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-success\" ng-click=\"editLibrary(lib)\" ng-disabled=\"lib.name.length == 0\">\n" +
+    "                            <span class=\"fa fa-fw fa-edit\"></span>\n" +
+    "                        </button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteLibrary(lib)\">\n" +
+    "                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                        </button>\n" +
+    "                    </div>\n" +
+    "                </td>\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "\n" +
+    "        <h3>Divisions</h3>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-10\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Division Name\" ng-model=\"newDiv.name\"\n" +
+    "                       maxlength=\"100\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-2\">\n" +
+    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"addDivision()\" ng-disabled=\"newDiv.name.length == 0\">\n" +
+    "                    <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                </button>\n" +
+    "            </div>\n" +
+    "            {{divResponse}}\n" +
+    "        </div>\n" +
+    "        <table class=\"table table-hover\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <th>Division</th>\n" +
+    "                <th style=\"width:120px;\">Action</th>\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr ng-repeat=\"division in Directory.divisions\" ng-click=\"expandDivision(division)\" ng-if=\"division.divid > 0\">\n" +
+    "                <td>\n" +
+    "                    <span ng-hide=\"division.show\">{{division.name}}</span>\n" +
+    "                    <span ng-show=\"division.show\">\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Division Name\" ng-model=\"division.name\"\n" +
+    "                               maxlength=\"100\">\n" +
+    "                    </span>\n" +
+    "                </td>\n" +
+    "                <td>\n" +
+    "                    <div ng-show=\"division.show\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-success\" ng-click=\"editDivision(division)\"\n" +
+    "                                ng-disabled=\"division.name.length == 0\">\n" +
+    "                            <span class=\"fa fa-fw fa-edit\"></span>\n" +
+    "                        </button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteDivision(division)\">\n" +
+    "                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                        </button>\n" +
+    "                    </div>\n" +
+    "                </td>\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+
+angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("staffDirectory/staffDirectoryPeople.tpl.html",
+    "<h3>Add New Person</h3>\n" +
+    "<form style=\"background-color:#f9f9f9;\" ng-submit=\"addPerson()\">\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
+    "            <label for=\"rank\">Rank</label>\n" +
+    "            <select class=\"form-control\" ng-model=\"newPerson.rank\" ng-options=\"rank for rank in ranks\" id=\"rank\">\n" +
+    "            </select>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"firstName\">First Name</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"First Name\" maxlength=\"25\"\n" +
+    "                   ng-model=\"newPerson.first\" id=\"firstName\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"lastName\">Last Name</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Last Name\" maxlength=\"25\"\n" +
+    "                   ng-model=\"newPerson.last\" id=\"lastName\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-4 form-group\">\n" +
+    "            <label for=\"title\">Title</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Title\" maxlength=\"150\"\n" +
+    "                   ng-model=\"newPerson.title\" id=\"title\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
+    "            <label for=\"divis\">Division</label>\n" +
+    "            <select class=\"form-control\" ng-model=\"newPerson.selDiv\" ng-options=\"div.name for div in Directory.divisions\" id=\"divis\">\n" +
+    "            </select>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"dept\">Department</label>\n" +
+    "            <select class=\"form-control\" ng-model=\"newPerson.selDept\" ng-options=\"dept.name for dept in Directory.departments\" id=\"dept\">\n" +
+    "            </select>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"email\">Email</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Email\" maxlength=\"255\"\n" +
+    "                   ng-model=\"newPerson.email\" id=\"email\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
+    "            <label for=\"phone\">Phone</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Phone\" maxlength=\"8\"\n" +
+    "                   ng-model=\"newPerson.phone\" id=\"phone\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
+    "            <label for=\"fax\">Fax</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Fax\" maxlength=\"8\" ng-model=\"newPerson.fax\" id=\"fax\">\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-12 form-group text-center\">\n" +
+    "            <button type=\"submit\" class=\"btn btn-success\">\n" +
+    "                Create New Record\n" +
+    "            </button><br>\n" +
+    "            {{formResponse}}\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</form>\n" +
+    "\n" +
+    "<h3>People List</h3>\n" +
+    "<div class=\"row form-inline\">\n" +
+    "    <div class=\"form-group col-md-12\">\n" +
+    "        <label for=\"filterBy\">Filter <small>{{filteredList.length}}</small> results by</label>\n" +
+    "        <div id=\"filterBy\">\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Last name contains\" ng-model=\"lastNameFilter\">\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"First name contains\" ng-model=\"firstNameFilter\">\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Title contains\" ng-model=\"titleFilter\">\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Department contains\" ng-model=\"deptFilter\">\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"text-center\">\n" +
+    "    <pagination total-items=\"filteredList.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredList.length > perPage\"></pagination>\n" +
+    "</div>\n" +
+    "<div class=\"table-responsive\">\n" +
+    "    <table class=\"table table-condensed table-hover\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th class=\"hidden-xs\" style=\"width:21%\">\n" +
+    "                <a ng-click=\"sortBy(0)\"\n" +
+    "                   ng-class=\"{'sortable': !sortModes[0].reverse && sortMode == 0, 'sortable-reverse': sortModes[0].reverse && sortMode == 0}\">\n" +
+    "                    Name\n" +
+    "                </a>\n" +
+    "            </th>\n" +
+    "            <th class=\"hidden-xs\" style=\"width:21%\">\n" +
+    "                <a ng-click=\"sortBy(1)\"\n" +
+    "                   ng-class=\"{'sortable': !sortModes[1].reverse && sortMode == 1, 'sortable-reverse': sortModes[1].reverse && sortMode == 1}\">\n" +
+    "                    Title\n" +
+    "                </a>\n" +
+    "            </th>\n" +
+    "            <th class=\"hidden-xs\" style=\"width:21%\">\n" +
+    "                <a ng-click=\"sortBy(2)\"\n" +
+    "                   ng-class=\"{'sortable': !sortModes[2].reverse && sortMode == 2, 'sortable-reverse': sortModes[2].reverse && sortMode == 2}\">\n" +
+    "                    Department/Division\n" +
+    "                </a>\n" +
+    "            </th>\n" +
+    "            <th class=\"hidden-xs\" style=\"width:16%\">\n" +
+    "                Contact Info\n" +
+    "            </th>\n" +
+    "            <th class=\"hidden-xs\" style=\"width:21%\">\n" +
+    "                Subjects\n" +
+    "            </th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"person in filteredList = (Directory.list\n" +
+    "                                                    | filter:{lastname:lastNameFilter}\n" +
+    "                                                    | filter:{firstname:firstNameFilter}\n" +
+    "                                                    | filter:{title:titleFilter}\n" +
+    "                                                    | filter:{department:deptFilter}\n" +
+    "                                                    | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
+    "                                                    | startFrom:(currentPage-1)*perPage\n" +
+    "                                                    | limitTo:perPage\">\n" +
+    "            <td ng-click=\"togglePerson(person)\">\n" +
+    "                <h4>\n" +
+    "                    <a>\n" +
+    "                        <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"person.show\"></span>\n" +
+    "                        <span class=\"fa fa-fw fa-caret-down\" ng-show=\"person.show\"></span>\n" +
+    "                        {{person.firstname}} {{person.lastname}}\n" +
+    "                    </a>\n" +
+    "                    <span ng-show=\"person.rank.length > 0\">\n" +
+    "                        <small>{{person.rank}}</small>\n" +
+    "                    </span>\n" +
+    "                </h4>\n" +
+    "            </td>\n" +
+    "            <td>\n" +
+    "                <h4 ng-hide=\"person.show\">\n" +
+    "                    <small>{{person.title}}</small>\n" +
+    "                </h4>\n" +
+    "                <div class=\"form-group\" ng-show=\"person.show\">\n" +
     "                    <label for=\"{{person.id}}_title\">Title</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{person.title}}\" maxlength=\"150\" ng-model=\"person.title\" required\n" +
     "                           id=\"{{person.id}}_title\">\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-2 form-group\">\n" +
+    "                <div class=\"form-group\" ng-show=\"person.show\">\n" +
     "                    <label for=\"{{person.id}}_rank\">Rank</label>\n" +
     "                    <select class=\"form-control\" id=\"{{person.id}}_rank\" ng-model=\"person.rank\"\n" +
     "                            ng-options=\"rank for rank in ranks\">\n" +
     "                    </select>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-6 form-group\">\n" +
+    "                <div ng-show=\"person.show\">\n" +
+    "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"updatePerson(person)\">\n" +
+    "                        Update information\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
+    "            </td>\n" +
+    "            <td>\n" +
+    "                <h4 ng-hide=\"person.show\">\n" +
+    "                    <small>{{person.department}}</small>\n" +
+    "                </h4>\n" +
+    "                <h4 ng-hide=\"person.show\">\n" +
+    "                    <small>{{person.division}}</small>\n" +
+    "                </h4>\n" +
+    "                <div class=\"form-group\" ng-show=\"person.show\">\n" +
     "                    <label for=\"{{person.id}}_dept\">Department</label>\n" +
-    "                    <select class=\"form-control\" id=\"{{person.id}}_dept\" ng-model=\"person.department\"\n" +
-    "                            ng-options=\"dept for dept in departments\">\n" +
+    "                    <select class=\"form-control\" id=\"{{person.id}}_dept\" ng-model=\"person.selDept\"\n" +
+    "                            ng-options=\"dept.name for dept in Directory.departments\">\n" +
     "                    </select>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-3 form-group\">\n" +
-    "                    <label for=\"{{person.id}}_email\">Email</label>\n" +
-    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{person.email}}\" maxlength=\"1024\" ng-model=\"person.email\" required\n" +
-    "                           id=\"{{person.id}}_email\">\n" +
+    "                <div class=\"form-group\" ng-show=\"person.show\">\n" +
+    "                    <label for=\"{{person.id}}_divis\">Division</label>\n" +
+    "                    <select class=\"form-control\" id=\"{{person.id}}_divis\" ng-model=\"person.selDiv\"\n" +
+    "                            ng-options=\"div.name for div in Directory.divisions\">\n" +
+    "                    </select>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-3 form-group\">\n" +
-    "                    <label for=\"{{person.id}}_phone\">Phone</label>\n" +
-    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{person.phone}}\" maxlength=\"8\" ng-model=\"person.phone\" required\n" +
-    "                           id=\"{{person.id}}_phone\">\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-3 form-group\">\n" +
-    "                    <label for=\"{{person.id}}_fax\">Fax</label>\n" +
-    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{person.fax}}\" maxlength=\"8\" ng-model=\"person.fax\"\n" +
-    "                           id=\"{{person.id}}_fax\">\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-3 form-group\">\n" +
-    "                    <label for=\"{{person.id}}_div\">Division</label>\n" +
-    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{person.division}}\" maxlength=\"150\" ng-model=\"person.division\"\n" +
-    "                           id=\"{{person.id}}_div\">\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-6 text-center\">\n" +
-    "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"updatePerson(person)\">Update information</button>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-6 text-center\">\n" +
+    "                <div ng-show=\"person.show\">\n" +
     "                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deletePerson(person)\">\n" +
     "                        Delete {{person.firstname}} {{person.lastname}} record\n" +
     "                    </button>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <h5>LibGuide Subjects</h5>\n" +
-    "                    <dd>\n" +
-    "                        <ul class=\"list-unstyled\">\n" +
-    "                            <li  ng-repeat=\"subject in person.subjects\">\n" +
-    "                                <button type=\"button\" class=\"btn btn-success\" ng-click=\"deleteSubject(person, subject.id, $index)\">\n" +
-    "                                    Delete\n" +
-    "                                </button>\n" +
-    "                                <a href=\"{{subject.link}}\">{{subject.subject}}</a>\n" +
-    "                            </li>\n" +
-    "                        </ul>\n" +
-    "                        <form class=\"form-inline\">\n" +
+    "            </td>\n" +
+    "            <td>\n" +
+    "                <div ng-hide=\"person.show\">\n" +
+    "                    <span class=\"fa fa-fw fa-envelope\"></span><small>{{person.email}}</small>\n" +
+    "                </div>\n" +
+    "                <div ng-hide=\"person.show\">\n" +
+    "                    <span class=\"fa fa-fw fa-phone\"></span><small>{{person.phone}}</small>\n" +
+    "                </div>\n" +
+    "                <div ng-hide=\"person.show\">\n" +
+    "                    <span class=\"fa fa-fw fa-fax\"></span><small>{{person.fax}}</small>\n" +
+    "                </div>\n" +
+    "                <div class=\"form-group\" ng-show=\"person.show\">\n" +
+    "                    <label for=\"{{person.id}}_email\">Email</label>\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{person.email}}\" maxlength=\"1024\" ng-model=\"person.email\" required\n" +
+    "                           id=\"{{person.id}}_email\">\n" +
+    "                </div>\n" +
+    "                <div class=\"form-group\" ng-show=\"person.show\">\n" +
+    "                    <label for=\"{{person.id}}_phone\">Phone</label>\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{person.phone}}\" maxlength=\"8\" ng-model=\"person.phone\" required\n" +
+    "                           id=\"{{person.id}}_phone\">\n" +
+    "                </div>\n" +
+    "                <div class=\"form-group\" ng-show=\"person.show\">\n" +
+    "                    <label for=\"{{person.id}}_fax\">Fax</label>\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{person.fax}}\" maxlength=\"8\" ng-model=\"person.fax\"\n" +
+    "                           id=\"{{person.id}}_fax\">\n" +
+    "                </div>\n" +
+    "            </td>\n" +
+    "            <td>\n" +
+    "                <div ng-repeat=\"subject in person.subjects\" ng-hide=\"person.show\">\n" +
+    "                    <a href=\"{{subject.link}}\">{{subject.subject}}</a>\n" +
+    "                </div>\n" +
+    "                <div class=\"form-group\" ng-show=\"person.show\">\n" +
+    "                    <label for=\"{{person.id}}_subj\">Subjects</label>\n" +
+    "                    <div class=\"row\" id=\"{{person.id}}_subj\">\n" +
+    "                        <div class=\"col-md-12\" ng-repeat=\"subject in person.subjects\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSubject(person, subject, $index)\">\n" +
+    "                                <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                            </button>\n" +
+    "                            <a href=\"{{subject.link}}\">{{subject.subject}}</a>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-9\">\n" +
     "                            <select class=\"form-control\" ng-model=\"person.selSubj\" ng-options=\"sub.subject for sub in Directory.subjects\">\n" +
     "                            </select>\n" +
-    "                            <button type=\"button\" class=\"btn btn-danger\" ng-click=\"addSubject(person)\">Assign Subject</button>\n" +
-    "                            <p>{{person.subjResponse}}</p>\n" +
-    "                        </form>\n" +
-    "                    </dd>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-3\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-success\" ng-click=\"addSubject(person)\">\n" +
+    "                                <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                            </button>\n" +
+    "                        </div>\n" +
+    "                        <p>{{person.subjResponse}}</p>\n" +
+    "                    </div>\n" +
     "                </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"col-md-9\" ng-show=\"person.show && hasAccess == 0\">\n" +
-    "                <dt>Title</dt><dd>{{person.title}}</dd>\n" +
-    "                <dt ng-show=\"person.rank.length > 0\">Rank</dt>  <dd>{{person.rank}}</dd>\n" +
-    "                <dt>Departent</dt>  <dd>{{person.department}}</dd>\n" +
-    "                <dt ng-show=\"person.division.length > 0\">Division</dt>  <dd>{{person.division}}</dd>\n" +
-    "                <dt>Email</dt>  <dd>{{person.email}}</dd>\n" +
-    "                <dt>Phone</dt>  <dd>{{person.phone}}</dd>\n" +
-    "                <dt ng-show=\"person.fax.length > 0\">Fax</dt>  <dd>{{person.fax}}</dd>\n" +
-    "                <dt ng-show=\"person.subjects.length > 0\">LibGuide Subjects</dt>\n" +
-    "                <dd>\n" +
-    "                    <ul class=\"list-inline\">\n" +
-    "                        <li ng-repeat=\"subject in person.subjects\">\n" +
-    "                            <a href=\"{{subject.link}}\">{{subject.subject}}</a>\n" +
-    "                        </li>\n" +
-    "                    </ul>\n" +
-    "                </dd>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "    </div>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
     "</div>\n" +
+    "\n" +
     "<div class=\"text-center\">\n" +
-    "    <pagination total-items=\"filteredDB.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
-    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredDB.length > perPage\"></pagination>\n" +
+    "    <pagination total-items=\"filteredList.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredList.length > perPage\"></pagination>\n" +
     "</div>\n" +
-    "\n" +
-    "<div ng-show=\"hasAccess\" style=\"background-color:#f9f9f9;\">\n" +
+    "");
+}]);
+
+angular.module("staffDirectory/staffDirectorySubjects.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("staffDirectory/staffDirectorySubjects.tpl.html",
+    "<h3>Manage Subjects</h3>\n" +
+    "<div class=\"row\">\n" +
     "    <div class=\"row\">\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"firstName\">Firts Name</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"First Name\" maxlength=\"25\"\n" +
-    "                   ng-model=\"formData.first\" id=\"firstName\" required>\n" +
+    "        <div class=\"col-md-5\">\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Subject Name\" ng-model=\"newSubj.subject\"\n" +
+    "                   maxlength=\"255\">\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"lastName\">Last Name</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Last Name\" maxlength=\"25\"\n" +
-    "                   ng-model=\"formData.last\" id=\"lastName\" required>\n" +
+    "        <div class=\"col-md-5\">\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://guides.lib.ua.edu/example\" ng-model=\"newSubj.link\"\n" +
+    "                   maxlength=\"1024\">\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"email\">Email</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Email\" maxlength=\"255\"\n" +
-    "                   ng-model=\"formData.email\" id=\"email\" required>\n" +
+    "        <div class=\"col-md-2\">\n" +
+    "            <button type=\"button\" class=\"btn btn-success\" ng-click=\"addSubject()\" ng-disabled=\"newSubj.subject.length == 0\">\n" +
+    "                <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "            </button>\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"title\">Title</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Title\" maxlength=\"150\"\n" +
-    "                   ng-model=\"formData.title\" id=\"title\" required>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-2 form-group\">\n" +
-    "            <label for=\"rank\">Rank</label>\n" +
-    "            <select class=\"form-control\" ng-model=\"formData.rank\" ng-options=\"rank for rank in ranks\" id=\"rank\">\n" +
-    "            </select>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-4 form-group\">\n" +
-    "            <label for=\"dept\">Department</label>\n" +
-    "            <select class=\"form-control\" ng-model=\"formData.dept\" ng-options=\"dept for dept in departments\" id=\"dept\">\n" +
-    "            </select>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-2 form-group\">\n" +
-    "            <label for=\"phone\">Phone</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Phone\" maxlength=\"8\"\n" +
-    "                   ng-model=\"formData.phone\" id=\"phone\" required>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-2 form-group\">\n" +
-    "            <label for=\"fax\">Fax</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Fax\" maxlength=\"8\" ng-model=\"formData.fax\" id=\"fax\">\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-2 form-group text-right\">\n" +
-    "            <label for=\"addButton\">&nbsp</label><br>\n" +
-    "            <button type=\"submit\" class=\"btn btn-success\" ng-click=\"addPerson()\" id=\"addButton\">Create New Record</button>\n" +
-    "        </div>\n" +
+    "        {{subResponse}}\n" +
     "    </div>\n" +
-    "    <p ng-model=\"formResponse\">{{formResponse}}</p>\n" +
+    "    <table class=\"table table-hover\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th style=\"width:41.6%;\">Subject</th>\n" +
+    "            <th style=\"width:41.6%;\">Subject Link</th>\n" +
+    "            <th style=\"width:120px;\">Action</th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"subject in Directory.subjects\" ng-click=\"expandSubject(subject)\">\n" +
+    "            <td>\n" +
+    "                <span ng-hide=\"subject.show\">{{subject.subject}}</span>\n" +
+    "                <span ng-show=\"subject.show\">\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"Subject Name\" ng-model=\"subject.subject\"\n" +
+    "                           maxlength=\"255\">\n" +
+    "                </span>\n" +
+    "            </td>\n" +
+    "            <td>\n" +
+    "                <span ng-hide=\"subject.show\"><a href=\"{{subject.link}}\">{{subject.link}}</a></span>\n" +
+    "                <span ng-show=\"subject.show\">\n" +
+    "                    <input type=\"text\" class=\"form-control\" placeholder=\"Subject Link\" ng-model=\"subject.link\"\n" +
+    "                           maxlength=\"1024\">\n" +
+    "                </span>\n" +
+    "            </td>\n" +
+    "            <td>\n" +
+    "                <div ng-show=\"subject.show\">\n" +
+    "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"editSubject(subject)\" ng-disabled=\"subject.subject.length == 0\">\n" +
+    "                        <span class=\"fa fa-fw fa-edit\"></span>\n" +
+    "                    </button>\n" +
+    "                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSubject(subject)\">\n" +
+    "                        <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
     "</div>\n" +
-    "\n" +
-    "\n" +
     "");
 }]);
 

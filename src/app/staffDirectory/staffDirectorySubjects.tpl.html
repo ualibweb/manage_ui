@@ -1,0 +1,56 @@
+<h3>Manage Subjects</h3>
+<div class="row">
+    <div class="row">
+        <div class="col-md-5">
+            <input type="text" class="form-control" placeholder="Subject Name" ng-model="newSubj.subject"
+                   maxlength="255">
+        </div>
+        <div class="col-md-5">
+            <input type="text" class="form-control" placeholder="http://guides.lib.ua.edu/example" ng-model="newSubj.link"
+                   maxlength="1024">
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-success" ng-click="addSubject()" ng-disabled="newSubj.subject.length == 0">
+                <span class="fa fa-fw fa-plus"></span>
+            </button>
+        </div>
+        {{subResponse}}
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th style="width:41.6%;">Subject</th>
+            <th style="width:41.6%;">Subject Link</th>
+            <th style="width:120px;">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="subject in Directory.subjects" ng-click="expandSubject(subject)">
+            <td>
+                <span ng-hide="subject.show">{{subject.subject}}</span>
+                <span ng-show="subject.show">
+                    <input type="text" class="form-control" placeholder="Subject Name" ng-model="subject.subject"
+                           maxlength="255">
+                </span>
+            </td>
+            <td>
+                <span ng-hide="subject.show"><a href="{{subject.link}}">{{subject.link}}</a></span>
+                <span ng-show="subject.show">
+                    <input type="text" class="form-control" placeholder="Subject Link" ng-model="subject.link"
+                           maxlength="1024">
+                </span>
+            </td>
+            <td>
+                <div ng-show="subject.show">
+                    <button type="button" class="btn btn-success" ng-click="editSubject(subject)" ng-disabled="subject.subject.length == 0">
+                        <span class="fa fa-fw fa-edit"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="deleteSubject(subject)">
+                        <span class="fa fa-fw fa-close"></span>
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -150,12 +150,12 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             $scope.SWList.software[$scope.SWList.software.indexOf(sw)].status = 0;
                             $scope.formResponse = "Software has been unpublished.";
                         } else {
-                            $scope.formResponse = "Error: Can not unpublish software! " + data;
+                            $scope.formResponse = "Error: Can not publish software! " + data;
                         }
                         console.log(data);
                     })
                     .error(function(data, status, headers, config) {
-                        $scope.formResponse = "Error: Could not unpublish software! " + data;
+                        $scope.formResponse = "Error: Could not publish software! " + data;
                         console.log(data);
                     });
             };
