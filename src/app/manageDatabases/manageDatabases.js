@@ -84,8 +84,8 @@ angular.module('manage.manageDatabases', [])
                                 $scope.formResponse = "Database has been deleted.";
                             } else {
                                 $scope.formResponse = "Error: Can not delete database! " + data;
+                                alert($scope.formResponse);
                             }
-                            alert($scope.formResponse);
                             console.log(data);
                         })
                         .error(function(data, status, headers, config) {
@@ -149,12 +149,10 @@ angular.module('manage.manageDatabases', [])
                         } else {
                             $scope.formResponse = "Error: Can not create database! " + data;
                         }
-                        alert($scope.formResponse);
                         console.dir(data);
                     })
                     .error(function(data, status, headers, config) {
                         $scope.formResponse = "Error: Could not create database! " + data;
-                        alert($scope.formResponse);
                         console.dir(data);
                     });
             };
@@ -176,15 +174,18 @@ angular.module('manage.manageDatabases', [])
                             $scope.formResponse = "Subject has been added.";
                         } else {
                             $scope.formResponse = "Error: Can not add subject! " + data;
+                            alert($scope.formResponse);
                         }
                         console.dir(data);
                     })
                     .error(function(data, status, headers, config) {
                         $scope.formResponse = "Error: Could not add subject! " + data;
+                        alert($scope.formResponse);
                         console.dir(data);
                     });
             };
             $scope.deleteSubject = function(db,subject){
+                subject.dbid = db.id;
                 subject.updatedBy = $scope.newDB.updatedBy;
                 mdbFactory.postData({action : 5}, subject)
                     .success(function(data, status, headers, config) {
@@ -195,10 +196,12 @@ angular.module('manage.manageDatabases', [])
                             $scope.formResponse = "Subject has been deleted.";
                         } else {
                             $scope.formResponse = "Error: Can not delete subject! " + data;
+                            alert($scope.formResponse);
                         }
                     })
                     .error(function(data, status, headers, config) {
                         $scope.formResponse = "Error: Could not delete subject! " + data;
+                        alert($scope.formResponse);
                     });
             };
             $scope.addType = function(db){
@@ -217,10 +220,12 @@ angular.module('manage.manageDatabases', [])
                             $scope.formResponse = "Type has been added.";
                         } else {
                             $scope.formResponse = "Error: Can not add type! " + data;
+                            alert($scope.formResponse);
                         }
                     })
                     .error(function(data, status, headers, config) {
                         $scope.formResponse = "Error: Could not add type! " + data;
+                        alert($scope.formResponse);
                     });
             };
             $scope.deleteType = function(db,type){
@@ -234,10 +239,12 @@ angular.module('manage.manageDatabases', [])
                             $scope.formResponse = "Type has been deleted.";
                         } else {
                             $scope.formResponse = "Error: Can not delete type! " + data;
+                            alert($scope.formResponse);
                         }
                     })
                     .error(function(data, status, headers, config) {
                         $scope.formResponse = "Error: Could not delete type! " + data;
+                        alert($scope.formResponse);
                     });
             };
 

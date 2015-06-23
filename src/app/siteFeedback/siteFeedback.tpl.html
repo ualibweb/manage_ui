@@ -9,7 +9,9 @@
             </button>
         </div>
         <div class="col-md-2">
-            Score: {{record.score}}
+            <span class="fa fa-fw fa-thumbs-o-down" ng-show="record.score < 0"></span>
+            <span class="fa fa-fw fa-meh-o" ng-show="record.score == 0"></span>
+            <span class="fa fa-fw fa-thumbs-o-up" ng-show="record.score > 0"></span>
         </div>
         <div class="col-md-4">
             {{record.when}}
@@ -19,6 +21,6 @@
         </div>
     </div>
     <div class="col-md-6">
-        Comments: {{record.comments}}
+        {{record.comments}}
     </div>
 </div>

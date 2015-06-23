@@ -367,7 +367,8 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 text-center\">\n" +
-    "                <button type=\"submit\" class=\"btn btn-success\">Create Database Record</button>\n" +
+    "                <button type=\"submit\" class=\"btn btn-success\">Create Database Record</button><br>\n" +
+    "                {{formResponse}}\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -1865,7 +1866,9 @@ angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", 
     "            </button>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-2\">\n" +
-    "            Score: {{record.score}}\n" +
+    "            <span class=\"fa fa-fw fa-thumbs-o-down\" ng-show=\"record.score < 0\"></span>\n" +
+    "            <span class=\"fa fa-fw fa-meh-o\" ng-show=\"record.score == 0\"></span>\n" +
+    "            <span class=\"fa fa-fw fa-thumbs-o-up\" ng-show=\"record.score > 0\"></span>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-4\">\n" +
     "            {{record.when}}\n" +
@@ -1875,7 +1878,7 @@ angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", 
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-6\">\n" +
-    "        Comments: {{record.comments}}\n" +
+    "        {{record.comments}}\n" +
     "    </div>\n" +
     "</div>\n" +
     "");
