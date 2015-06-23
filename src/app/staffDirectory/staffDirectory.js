@@ -26,6 +26,18 @@ angular.module('manage.staffDirectory', [])
                     active: false
                 }
             ];
+            $scope.sortModes = [
+                {by:'lastname', reverse:false},
+                {by:'title', reverse:false},
+                {by:'department', reverse:false}
+            ];
+            $scope.sortMode = $scope.sortModes[0];
+            $scope.sortBy = function(by){
+                if ($scope.sortMode === by)
+                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
+                else
+                    $scope.sortMode = by;
+            };
 
             tokenFactory("CSRF-libStaffDir");
 
@@ -66,6 +78,8 @@ angular.module('manage.staffDirectory', [])
                     for (var i = 0; i < $scope.Directory.divisions.length; i++)
                         $scope.Directory.divisions[i].show = false;
                     $scope.newDept.selLib = $scope.Directory.libraries[0];
+
+                    $scope.sortBy(0);
                 })
                 .error(function(data, status, headers, config) {
                     console.log(data);
@@ -119,24 +133,10 @@ angular.module('manage.staffDirectory', [])
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
 
-            $scope.sortModes = [
-                {by:'lastname', reverse:true},
-                {by:'title', reverse:false},
-                {by:'department', reverse:false}
-            ];
-            $scope.sortMode = $scope.sortModes[0];
-
             $scope.togglePerson = function(person){
                 $scope.Directory.list[$scope.Directory.list.indexOf(person)].show =
                     !$scope.Directory.list[$scope.Directory.list.indexOf(person)].show;
                 $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse = "";
-            };
-
-            $scope.sortBy = function(by){
-                if ($scope.sortMode === by)
-                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
-                else
-                    $scope.sortMode = by;
             };
 
             $scope.deletePerson = function(person){
