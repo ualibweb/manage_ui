@@ -33,6 +33,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         data.software[i].newLink.url = "";
                     }
                     $scope.newSW.selCat = data.categories[0];
+
                     $scope.SWList = data;
                 })
                 .error(function(data, status, headers, config) {
@@ -571,8 +572,14 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             newLoc.lid = data.id;
                             newLoc.name = $scope.newLocation.name;
                             newLoc.parent = 0;
+                            newLoc.fullName = newLoc.name;
                             if ($scope.newLocation.parent > 0)
-                                newLoc.parent = $scope.newLocation.parent;
+                                for (var i = 0; i < $scope.SWList.locations.length; i++)
+                                    if ($scope.SWList.locations[i].lid === $scope.newLocation.parent){
+                                        newLoc.parent = $scope.newLocation.parent;
+                                        newLoc.fullName = $scope.SWList.locations[i].name + ": " + newLoc.name;
+                                        break;
+                                    }
                             $scope.SWList.locations.push(newLoc);
                             $scope.locResponse = "Location has been added!";
                         } else {

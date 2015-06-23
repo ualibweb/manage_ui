@@ -1330,7 +1330,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                        <li class=\"list-group-item col-md-12\">\n" +
     "                                            <div class=\"col-md-8\">\n" +
     "                                                <select class=\"form-control\" ng-model=\"version.newLoc.selLoc\"\n" +
-    "                                                        ng-options=\"loc.name for loc in SWList.locations\">\n" +
+    "                                                        ng-options=\"loc.fullName for loc in SWList.locations | orderBy:'fullName'\">\n" +
     "                                                </select>\n" +
     "                                            </div>\n" +
     "                                            <div class=\"col-md-3\">\n" +
@@ -1531,7 +1531,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                                <li class=\"list-group-item col-md-12\">\n" +
     "                                    <div class=\"col-md-8\">\n" +
     "                                        <select class=\"form-control\" ng-model=\"version.newLoc.selLoc\"\n" +
-    "                                                ng-options=\"loc.name for loc in SWList.locations\">\n" +
+    "                                                ng-options=\"loc.fullName for loc in SWList.locations | orderBy:'fullName'\">\n" +
     "                                        </select>\n" +
     "                                    </div>\n" +
     "                                    <div class=\"col-md-3\">\n" +

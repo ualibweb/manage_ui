@@ -165,7 +165,7 @@
                                         <li class="list-group-item col-md-12">
                                             <div class="col-md-8">
                                                 <select class="form-control" ng-model="version.newLoc.selLoc"
-                                                        ng-options="loc.name for loc in SWList.locations">
+                                                        ng-options="loc.fullName for loc in SWList.locations | orderBy:'fullName'">
                                                 </select>
                                             </div>
                                             <div class="col-md-3">
@@ -366,7 +366,7 @@
                                 <li class="list-group-item col-md-12">
                                     <div class="col-md-8">
                                         <select class="form-control" ng-model="version.newLoc.selLoc"
-                                                ng-options="loc.name for loc in SWList.locations">
+                                                ng-options="loc.fullName for loc in SWList.locations | orderBy:'fullName'">
                                         </select>
                                     </div>
                                     <div class="col-md-3">
