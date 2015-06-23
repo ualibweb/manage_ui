@@ -378,6 +378,7 @@ angular.module('manage.manageDatabases', [])
                     });
             };
             $scope.deleteType = function(db,type){
+                type.dbid = db.id;
                 type.updatedBy = $scope.newDB.updatedBy;
                 mdbFactory.postData({action : 7}, type)
                     .success(function(data, status, headers, config) {
