@@ -1,76 +1,83 @@
-<table class="table table-hover table-condensed" ng-repeat="semData in allowedLibraries.sem" ng-if="$index == selLib.index">
-    <thead>
-    <tr>
-        <th>Semester</th>
-        <th class="text-center">Sun</th>
-        <th class="text-center">Mon</th>
-        <th class="text-center">Tue</th>
-        <th class="text-center">Wed</th>
-        <th class="text-center">Thu</th>
-        <th class="text-center">Fri</th>
-        <th class="text-center">Sat</th>
-    </tr>
-    </thead>
-    <tr ng-repeat="sem in semData" ng-click="expandSem($event, sem)">
-        <th scope="row" ng-hide="isExpSem(sem.dsid)">{{sem.name}}<br>
-            {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate | date : 'MMM d, y'}}
-        </th>
-        <th scope="row" ng-if="isExpSem(sem.dsid)">{{sem.name}}<br>
-            <div class="input-group">
-                <input type="text" class="form-control" datepicker-popup="{{format}}" size="3"
-                       ng-model="sem.startdate" is-open="sem.dp" ng-required="true" close-text="Close"
-                       ng-focus="onSemFocus($event, $index)" />
-                <button type="button" class="btn btn-success" ng-click="saveChanges(sem)" ng-disabled="loading">Save</button>
-                {{result}}
-                <button type="button" class="btn btn-danger" ng-click="deleteSem(sem, $index)" ng-disabled="loading">Delete {{sem.name}}</button>
-            </div>
-        </th>
-        <td class="text-center" style="width:11%" ng-repeat="day in sem.dow">
-            <div ng-hide="isExpSem(sem.dsid)">
-                {{day.hours}}
-            </div>
-            <div ng-if="isExpSem(sem.dsid)">
-                <select class="form-control" ng-model="day.from">
-                    <option ng-repeat="hours in hrsFrom" ng-selected="{{day.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
-                </select>
-                <select class="form-control" ng-model="day.to">
-                    <option ng-repeat="hours in hrsTo" ng-selected="{{day.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
-                </select>
-            </div>
-        </td>
-    </tr>
-</table>
-<table class="table table-hover table-condensed">
-    <thead>
-    <tr>
-        <th>Semester</th>
-        <th class="text-center">Sun</th>
-        <th class="text-center">Mon</th>
-        <th class="text-center">Tue</th>
-        <th class="text-center">Wed</th>
-        <th class="text-center">Thu</th>
-        <th class="text-center">Fri</th>
-        <th class="text-center">Sat</th>
-    </tr>
-    </thead>
-    <tr>
-        <th scope="row">
-            <div class="input-group">
-                <input type="text" class="form-control" ng-minlength="4" ng-maxlength="32" ng-model="newSemester.name" placeholder="Semester Name" ng-required /><br>
-                <input type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Start Date (MM/DD/YYYY)"
-                       ng-model="newSemester.startdate" is-open="newSemester.dp" ng-required="true" close-text="Close"
-                       ng-focus="onSemFocus($event)" />
-            </div>
-            <button type="button" class="btn btn-success" ng-click="createSem()" ng-disabled="loading">Create New Semester</button>
-            {{result}}
-        </th>
-        <td class="text-center" style="width:11%" ng-repeat="day in newSemester.dow">
-            <select class="form-control" ng-model="day.from">
-                <option ng-repeat="hours in hrsFrom" ng-selected="{{day.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
-            </select>
-            <select class="form-control" ng-model="day.to">
-                <option ng-repeat="hours in hrsTo" ng-selected="{{day.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
-            </select>
-        </td>
-    </tr>
-</table>
+<div>
+    <h3>Semester List</h3>
+    <table class="table table-hover table-condensed" ng-repeat="semData in allowedLibraries.sem" ng-if="$index == selLib.index">
+        <thead>
+        <tr>
+            <th>Semester</th>
+            <th class="text-center">Sun</th>
+            <th class="text-center">Mon</th>
+            <th class="text-center">Tue</th>
+            <th class="text-center">Wed</th>
+            <th class="text-center">Thu</th>
+            <th class="text-center">Fri</th>
+            <th class="text-center">Sat</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="sem in semData" ng-click="expandSem($event, sem)">
+            <th scope="row" ng-hide="isExpSem(sem.dsid)">{{sem.name}}<br>
+                {{sem.startdate | date : 'MMM d, y'}}<br>{{sem.enddate | date : 'MMM d, y'}}
+            </th>
+            <th scope="row" ng-if="isExpSem(sem.dsid)">{{sem.name}}<br>
+                <div class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" size="3"
+                           ng-model="sem.startdate" is-open="sem.dp" ng-required="true" close-text="Close"
+                           ng-focus="onSemFocus($event, $index)" />
+                    <button type="button" class="btn btn-success" ng-click="saveChanges(sem)" ng-disabled="loading">Save</button>
+                    {{result}}
+                    <button type="button" class="btn btn-danger" ng-click="deleteSem(sem, $index)" ng-disabled="loading">Delete {{sem.name}}</button>
+                </div>
+            </th>
+            <td class="text-center" style="width:11%" ng-repeat="day in sem.dow">
+                <div ng-hide="isExpSem(sem.dsid)">
+                    {{day.hours}}
+                </div>
+                <div ng-if="isExpSem(sem.dsid)">
+                    <select class="form-control" ng-model="day.from">
+                        <option ng-repeat="hours in hrsFrom" ng-selected="{{day.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                    </select>
+                    <select class="form-control" ng-model="day.to">
+                        <option ng-repeat="hours in hrsTo" ng-selected="{{day.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <h3>Create New Semester</h3>
+    <div class="sdOpen">
+        <table class="table table-hover table-condensed">
+            <thead>
+            <tr>
+                <th>Semester</th>
+                <th class="text-center">Sun</th>
+                <th class="text-center">Mon</th>
+                <th class="text-center">Tue</th>
+                <th class="text-center">Wed</th>
+                <th class="text-center">Thu</th>
+                <th class="text-center">Fri</th>
+                <th class="text-center">Sat</th>
+            </tr>
+            </thead>
+            <tr>
+                <th scope="row">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-minlength="4" ng-maxlength="32" ng-model="newSemester.name" placeholder="Semester Name" ng-required /><br>
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Start Date (MM/DD/YYYY)"
+                               ng-model="newSemester.startdate" is-open="newSemester.dp" ng-required="true" close-text="Close"
+                               ng-focus="onSemFocus($event)" />
+                    </div>
+                    <button type="button" class="btn btn-success" ng-click="createSem()" ng-disabled="loading">Create New Semester</button>
+                    {{result}}
+                </th>
+                <td class="text-center" style="width:11%" ng-repeat="day in newSemester.dow">
+                    <select class="form-control" ng-model="day.from">
+                        <option ng-repeat="hours in hrsFrom" ng-selected="{{day.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                    </select>
+                    <select class="form-control" ng-model="day.to">
+                        <option ng-repeat="hours in hrsTo" ng-selected="{{day.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

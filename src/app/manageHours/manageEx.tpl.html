@@ -1,89 +1,92 @@
-<div class="text-right">
-    <button type="button" class="btn btn-danger" ng-click="deleteOldExc()" ng-disabled="loading">Delete All Outdated Exceptions</button>
-    <br>{{resultDel}}
+<div>
+    <h3>List of Exceptions</h3>
+    <div class="text-right">
+        <button type="button" class="btn btn-danger" ng-click="deleteOldExc()" ng-disabled="loading">Delete All Outdated Exceptions</button>
+        <br>{{resultDel}}
+    </div>
+    <table class="table table-hover table-condensed" ng-repeat="excData in allowedLibraries.exc" ng-if="$index == selLib.index">
+        <thead>
+        <tr>
+            <th>Exception Description</th>
+            <th class="text-center">Date</th>
+            <th class="text-center">Days</th>
+            <th class="text-center">Hours</th>
+            <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="exception in excData track by exception.id" ng-click="expandExc($event, exception)">
+            <td style="width:30%">
+                <div ng-hide="isExpExc(exception.id)">{{exception.desc}}</div>
+                <div ng-if="isExpExc(exception.id)"><input type="text" class="form-control" ng-model="exception.desc" ng-required /></div>
+            </td>
+            <td class="text-center">
+                <div ng-hide="isExpExc(exception.id)">{{exception.datems | date : 'MMM d, y'}}</div>
+                <div ng-if="isExpExc(exception.id)">
+
+                    <input type="text" class="form-control" datepicker-popup="{{format}}"
+                           ng-model="exception.datems" is-open="exception.dp"
+                           ng-required="true" close-text="Close"
+                           ng-focus="onExcFocus($event, $index)" />
+                </div>
+            </td>
+            <td class="text-center">
+                <div ng-hide="isExpExc(exception.id)">{{exception.days}}</div>
+                <div ng-if="isExpExc(exception.id)"><input type="text" class="form-control" ng-model="exception.days" ng-required /></div>
+            </td>
+            <td class="text-center">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="form-control" ng-model="exception.from">
+                            <option ng-repeat="hours in hrsFrom" ng-selected="{{exception.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control" ng-model="exception.to">
+                            <option ng-repeat="hours in hrsTo" ng-selected="{{exception.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </td>
+            <td class="text-right">
+                <button type="button" class="btn btn-success" ng-click="updateExc(exception)" ng-show="isExpExc(exception.id)" ng-disabled="loading">Save</button>
+                <button type="button" class="btn btn-danger" ng-click="deleteExc(exception, $index)" ng-show="isExpExc(exception.id)" ng-disabled="loading">Delete</button>
+                <div ng-show="isExpExc(exception.id)"><br>{{result}}</div>
+            </td>
+        </tr>
+        <tr class="sdOpen">
+            <td>
+                <input type="text" class="form-control" ng-model="newException.desc" placeholder="Exception Description" ng-required />
+            </td>
+            <td class="text-center">
+
+                <input type="text" class="form-control" datepicker-popup="{{format}}" show-button-bar="false"
+                       ng-model="newException.datems" is-open="newException.dp" close-text="Close"
+                       ng-required="true" placeholder="MM/DD/YYYY" ng-focus="onExcFocus($event)" />
+            </td>
+            <td class="text-center">
+                <input type="text" class="form-control" ng-model="newException.days" placeholder="Days" ng-required />
+            </td>
+            <td class="text-center">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="form-control" ng-model="newException.from">
+                            <option ng-repeat="hours in hrsFrom" ng-selected="{{newException.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control" ng-model="newException.to">
+                            <option ng-repeat="hours in hrsTo" ng-selected="{{newException.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </td>
+            <td class="text-right">
+                <label for="isGlobal">Create For All Libraries</label>
+                <input type="checkbox" ng-model="newException.isGlobal" id="isGlobal">
+                <br>
+                <button type="button" class="btn btn-success" ng-click="createExc()" ng-disabled="loading">Create Exception</button>
+                <br>{{result}}
+            </td>
+        </tr>
+    </table>
 </div>
-<table class="table table-hover table-condensed" ng-repeat="excData in allowedLibraries.exc" ng-if="$index == selLib.index">
-    <thead>
-    <tr>
-        <th>Exception Description</th>
-        <th class="text-center">Date</th>
-        <th class="text-center">Days</th>
-        <th class="text-center">Hours</th>
-        <th class="text-center">Action</th>
-    </tr>
-    </thead>
-    <tr ng-repeat="exception in excData track by exception.id" ng-click="expandExc($event, exception)">
-        <td style="width:30%">
-            <div ng-hide="isExpExc(exception.id)">{{exception.desc}}</div>
-            <div ng-if="isExpExc(exception.id)"><input type="text" class="form-control" ng-model="exception.desc" ng-required /></div>
-        </td>
-        <td class="text-center">
-            <div ng-hide="isExpExc(exception.id)">{{exception.datems | date : 'MMM d, y'}}</div>
-            <div ng-if="isExpExc(exception.id)">
-
-                <input type="text" class="form-control" datepicker-popup="{{format}}"
-                       ng-model="exception.datems" is-open="exception.dp"
-                       ng-required="true" close-text="Close"
-                       ng-focus="onExcFocus($event, $index)" />
-            </div>
-        </td>
-        <td class="text-center">
-            <div ng-hide="isExpExc(exception.id)">{{exception.days}}</div>
-            <div ng-if="isExpExc(exception.id)"><input type="text" class="form-control" ng-model="exception.days" ng-required /></div>
-        </td>
-        <td class="text-center">
-            <div class="row">
-                <div class="col-md-6">
-                    <select class="form-control" ng-model="exception.from">
-                        <option ng-repeat="hours in hrsFrom" ng-selected="{{exception.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <select class="form-control" ng-model="exception.to">
-                        <option ng-repeat="hours in hrsTo" ng-selected="{{exception.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
-                    </select>
-                </div>
-            </div>
-        </td>
-        <td class="text-right">
-            <button type="button" class="btn btn-success" ng-click="updateExc(exception)" ng-show="isExpExc(exception.id)" ng-disabled="loading">Save</button>
-            <button type="button" class="btn btn-danger" ng-click="deleteExc(exception, $index)" ng-show="isExpExc(exception.id)" ng-disabled="loading">Delete</button>
-            <div ng-show="isExpExc(exception.id)"><br>{{result}}</div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <input type="text" class="form-control" ng-model="newException.desc" placeholder="Exception Description" ng-required />
-        </td>
-        <td class="text-center">
-
-            <input type="text" class="form-control" datepicker-popup="{{format}}" show-button-bar="false"
-                   ng-model="newException.datems" is-open="newException.dp" close-text="Close"
-                   ng-required="true" placeholder="MM/DD/YYYY" ng-focus="onExcFocus($event)" />
-        </td>
-        <td class="text-center">
-            <input type="text" class="form-control" ng-model="newException.days" placeholder="Days" ng-required />
-        </td>
-        <td class="text-center">
-            <div class="row">
-                <div class="col-md-6">
-                    <select class="form-control" ng-model="newException.from">
-                        <option ng-repeat="hours in hrsFrom" ng-selected="{{newException.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <select class="form-control" ng-model="newException.to">
-                        <option ng-repeat="hours in hrsTo" ng-selected="{{newException.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
-                    </select>
-                </div>
-            </div>
-        </td>
-        <td class="text-right">
-            <label for="isGlobal">Create For All Libraries</label>
-            <input type="checkbox" ng-model="newException.isGlobal" id="isGlobal">
-            <br>
-            <button type="button" class="btn btn-success" ng-click="createExc()" ng-disabled="loading">Create Exception</button>
-            <br>{{result}}
-        </td>
-    </tr>
-</table>

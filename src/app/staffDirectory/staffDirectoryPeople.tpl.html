@@ -1,7 +1,7 @@
 <div>
     <h3>Add New Person</h3>
-    <form style="background-color:#f9f9f9;" ng-submit="addPerson()">
-        <div class="row">
+    <form ng-submit="addPerson()">
+        <div class="row sdOpen">
             <div class="col-md-2 form-group">
                 <label for="rank">Rank</label>
                 <select class="form-control" ng-model="newPerson.rank" ng-options="rank for rank in ranks" id="rank">
