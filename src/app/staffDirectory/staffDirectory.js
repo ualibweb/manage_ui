@@ -120,7 +120,7 @@ angular.module('manage.staffDirectory', [])
             $scope.perPage = 20;
 
             $scope.sortModes = [
-                {by:'lastname', reverse:false},
+                {by:'lastname', reverse:true},
                 {by:'title', reverse:false},
                 {by:'department', reverse:false}
             ];
@@ -207,49 +207,44 @@ angular.module('manage.staffDirectory', [])
                             if ( $scope.newPerson.title.length > 0 )
                             {
                                 if ( $scope.newPerson.phone.length >= 7 )
-                                {
-                                    if ( $scope.newPerson.fax.length >= 7 ){
-                                        sdFactory.postData({action : 3}, $scope.newPerson)
-                                            .success(function(data, status, headers, config) {
-                                                if ((typeof data === 'object') && (data !== null)){
-                                                    var createdUser = {};
-                                                    createdUser.id = data.id;
-                                                    createdUser.lastname = $scope.newPerson.last;
-                                                    createdUser.firstname = $scope.newPerson.first;
-                                                    createdUser.title = $scope.newPerson.title;
-                                                    createdUser.rank = $scope.newPerson.rank;
-                                                    createdUser.department = $scope.newPerson.selDept.name;
-                                                    createdUser.division = $scope.newPerson.selDiv.name;
-                                                    createdUser.phone = $scope.newPerson.phone;
-                                                    createdUser.email = $scope.newPerson.email;
-                                                    createdUser.fax = $scope.newPerson.fax;
-                                                    createdUser.subjects = [];
-                                                    createdUser.show = false;
-                                                    createdUser.selSubj = $scope.Directory.subjects[0];
-                                                    for (var j = 0; j < $scope.Directory.departments.length; j++)
-                                                        if ($scope.Directory.departments[j].depid == $scope.newPerson.selDept.depid){
-                                                            createdUser.selDept = $scope.Directory.departments[j];
-                                                            break;
-                                                        }
-                                                    for (var j = 0; j < $scope.Directory.divisions.length; j++)
-                                                        if ($scope.Directory.divisions[j].divid == $scope.newPerson.selDiv.divid){
-                                                            createdUser.selDiv = $scope.Directory.divisions[j];
-                                                            break;
-                                                        }
-                                                    createdUser.class = "";
-                                                    createdUser.image = appUrl + "staffImages/" + createdUser.id + ".jpg";
-                                                    $scope.Directory.list.push(createdUser);
-                                                    $scope.resetNewPersonForm();
-                                                    $scope.formResponse = "Person has been added!";
-                                                } else
-                                                    $scope.formResponse = "Error: Person could not be added! " + data;
-                                            })
-                                            .error(function(data, status, headers, config) {
-                                                $scope.formResponse = "Error: Person Creation failed! " + data;
-                                            });
-                                    } else
-                                        alert("Fax number is too short!");
-                                } else
+                                    sdFactory.postData({action : 3}, $scope.newPerson)
+                                        .success(function(data, status, headers, config) {
+                                            if ((typeof data === 'object') && (data !== null)){
+                                                var createdUser = {};
+                                                createdUser.id = data.id;
+                                                createdUser.lastname = $scope.newPerson.last;
+                                                createdUser.firstname = $scope.newPerson.first;
+                                                createdUser.title = $scope.newPerson.title;
+                                                createdUser.rank = $scope.newPerson.rank;
+                                                createdUser.department = $scope.newPerson.selDept.name;
+                                                createdUser.division = $scope.newPerson.selDiv.name;
+                                                createdUser.phone = $scope.newPerson.phone;
+                                                createdUser.email = $scope.newPerson.email;
+                                                createdUser.fax = $scope.newPerson.fax;
+                                                createdUser.subjects = [];
+                                                createdUser.show = false;
+                                                createdUser.selSubj = $scope.Directory.subjects[0];
+                                                for (var j = 0; j < $scope.Directory.departments.length; j++)
+                                                    if ($scope.Directory.departments[j].depid == $scope.newPerson.selDept.depid){
+                                                        createdUser.selDept = $scope.Directory.departments[j];
+                                                        break;
+                                                    }
+                                                for (var j = 0; j < $scope.Directory.divisions.length; j++)
+                                                    if ($scope.Directory.divisions[j].divid == $scope.newPerson.selDiv.divid){
+                                                        createdUser.selDiv = $scope.Directory.divisions[j];
+                                                        break;
+                                                    }
+                                                createdUser.class = "";
+                                                createdUser.image = appUrl + "staffImages/" + createdUser.id + ".jpg";
+                                                $scope.Directory.list.push(createdUser);
+                                                $scope.formResponse = "Person has been added!";
+                                            } else
+                                                $scope.formResponse = "Error: Person could not be added! " + data;
+                                        })
+                                        .error(function(data, status, headers, config) {
+                                            $scope.formResponse = "Error: Person Creation failed! " + data;
+                                        });
+                                else
                                     alert("Phone number is too short!");
                             } else
                                 alert("Title is too short!");
