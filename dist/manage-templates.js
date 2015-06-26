@@ -1178,7 +1178,7 @@ angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$
   $templateCache.put("manageSoftware/manageSoftwareComputerMaps.tpl.html",
     "<div>\n" +
     "    <div class=\"row\">\n" +
-    "        <div class=\"col-md-2\">\n" +
+    "        <div class=\"col-md-4\">\n" +
     "            <h3>\n" +
     "                Computer maps:\n" +
     "            </h3>\n" +
