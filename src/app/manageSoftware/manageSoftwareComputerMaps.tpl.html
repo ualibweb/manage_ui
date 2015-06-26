@@ -1,17 +1,16 @@
 <div>
     <div class="row">
-        <div class="col-md-4">
-            <h3>
-                Computer maps:
-            </h3>
-        </div>
-        <div class="col-md-4">
-            <h3>
-                <select class="form-control" ng-model="selMap" ng-change="updateMap()"
-                    ng-options="map.name for map in SWList.maps | orderBy:'name'">
+        <form class="form-inline">
+            <div class="col-md-6 form-group">
+                <label for="plan">Choose Floor Plan</label>
+                <select class="form-control" ng-model="selMap" ng-change="updateMap()" id="plan"
+                        ng-options="map.name for map in SWList.maps | orderBy:'name'">
                 </select>
-            </h3>
-        </div>
+            </div>
+        </form>
+    </div>
+    <div class="alert alert-success" role="alert">
+        <span class="fa fa-exclamation-triangle"></span> Note: Right-click on the floor plan map in order to add a computer or left-click on existing one in order to edit it.
     </div>
     <div class="row">
         <div class="comps-map" id="computer-map"
@@ -33,7 +32,7 @@
                  style="left:{{selCompX}}px;top:{{selCompY}}px;width:450px;"
                     >
                 <div class="col-md-8">
-                    <h4>Computer ID: {{selMap.computers[selComp].compid}} ({{selMap.computers[selComp].mapX}},{{selMap.computers[selComp].mapY}})</h4>
+                    <h4>Computer ID: {{selMap.computers[selComp].compid}}</h4>
                 </div>
                 <div class="col-md-4 text-right">
                     <button type="button" class="btn btn-primary" ng-click="selComp = -1" style="left:450px;top:-15px;">
@@ -41,6 +40,16 @@
                     </button>
                 </div>
                 <form ng-submit="updateComp()">
+                    <div class="col-md-6 form-group">
+                        <label for="sel_X">Coordinate X</label>
+                        <input type="text" class="form-control" placeholder="X" ng-model="selMap.computers[selComp].mapX" id="sel_X"
+                               maxlength="4" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="sel_Y">Coordinate Y</label>
+                        <input type="text" class="form-control" placeholder="Y" ng-model="selMap.computers[selComp].mapY" id="sel_Y"
+                               maxlength="4" required>
+                    </div>
                     <div class="col-md-6 form-group">
                         <label for="sel_name">Computer Name</label>
                         <input type="text" class="form-control" placeholder="Enter Computer Name" ng-model="selMap.computers[selComp].name"
