@@ -2300,6 +2300,10 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             } else
                 $scope.selComp = -1;
         };
+        $scope.updateMap = function(){
+            $scope.selComp = -1;
+            $scope.showCreate = false;
+        };
 
         $scope.createComp = function(event){
             if (event.button === 2 && event.target.id === "computer-map"){

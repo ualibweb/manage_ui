@@ -1185,7 +1185,7 @@ angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$
     "        </div>\n" +
     "        <div class=\"col-md-4\">\n" +
     "            <h3>\n" +
-    "                <select class=\"form-control\" ng-model=\"selMap\"\n" +
+    "                <select class=\"form-control\" ng-model=\"selMap\" ng-change=\"updateMap()\"\n" +
     "                    ng-options=\"map.name for map in SWList.maps | orderBy:'name'\">\n" +
     "                </select>\n" +
     "            </h3>\n" +
