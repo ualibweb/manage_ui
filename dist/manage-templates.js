@@ -1192,7 +1192,7 @@ angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"row\">\n" +
-    "        <div class=\"comps-map\"\n" +
+    "        <div class=\"comps-map\" id=\"computer-map\"\n" +
     "             style=\"background: transparent url('//wwwdev.lib.ua.edu/softwareList/floorMaps/{{selMap.floor_plan_file}}') no-repeat 0 0;\n" +
     "                    width:{{selMap.width}}px;\n" +
     "                    height:{{selMap.height}}px;\n" +
