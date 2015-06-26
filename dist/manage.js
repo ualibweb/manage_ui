@@ -1572,6 +1572,8 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         function manageSWCtrl($scope, tokenFactory, swFactory){
             $scope.SWList = {};
             $scope.newSW = {};
+            $scope.newComp = {};
+
             $scope.os = [
                 {name:'MS Windows', value:1},
                 {name:'Apple Mac', value:2}
@@ -1602,6 +1604,8 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         data.software[i].newLink.url = "";
                     }
                     $scope.newSW.selCat = data.categories[0];
+                    $scope.selMap = data.maps[3];
+                    $scope.newComp.selLoc = data.locations[0];
 
                     $scope.SWList = data;
                 })
@@ -1617,7 +1621,12 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 { name: 'Locations and Categories',
                     number: 1,
                     active: false
-                }];
+                },
+                { name: 'Computer Maps',
+                    number: 2,
+                    active: false
+                }
+            ];
         }])
 
     .directive('manageSoftwareMain', function($animate) {
@@ -2255,6 +2264,124 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
 
             },
             templateUrl: 'manageSoftware/manageSoftwareLocCat.tpl.html'
+        };
+    })
+
+    .controller('manageSWCompMapsCtrl', ['$scope', 'swFactory', function manageSWCompMapsCtrl($scope, swFactory){
+        $scope.selComp = -1;
+        $scope.selCompX = 0;
+        $scope.selCompY = 0;
+        $scope.selCompOS = {};
+        $scope.selCompLoc = {};
+        $scope.high = -1;
+        $scope.newComp.name = "";
+        $scope.newComp.selType = $scope.os[0];
+        $scope.showCreate = false;
+
+        $scope.highlight = function(comp){
+            $scope.high = comp.compid;
+        };
+        $scope.expand = function(index){
+            if ($scope.selComp !== index){
+                $scope.selComp = index;
+                var comp = $scope.selMap.computers[index];
+                $scope.selCompX = parseInt(comp.mapX) + 15;
+                $scope.selCompY = parseInt(comp.mapY) + 15;
+                if (comp.type == $scope.os[0].value)
+                    $scope.selCompOS = $scope.os[0];
+                else
+                    $scope.selCompOS = $scope.os[1];
+                for (var i = 0; i < $scope.SWList.locations.length; i++)
+                    if ($scope.SWList.locations[i].lid == comp.lid){
+                        $scope.selCompLoc = $scope.SWList.locations[i];
+                        break;
+                    }
+            } else
+                $scope.selComp = -1;
+        };
+
+        $scope.createComp = function($event){
+            if ($event.button === 2){
+                $scope.newComp.mid = $scope.selMap.mid;
+                $scope.newComp.mapX = $event.layerX;
+                $scope.newComp.mapY = $event.layerY;
+
+                $scope.showCreate = true;
+                $event.preventDefault();
+                $event.stopPropagation();
+            }
+        };
+
+        $scope.addComp = function(){
+            swFactory.postData({action : 12}, $scope.newComp)
+                .success(function(data, status, headers, config) {
+                    if ((typeof data === 'object') && (data !== null)){
+                        var newComputer = {};
+                        newComputer.compid = data.id;
+                        newComputer.name = $scope.newComp.name;
+                        newComputer.type = $scope.newComp.selType.value;
+                        newComputer.lid = $scope.newComp.selLoc.lid;
+                        newComputer.mid = $scope.newComp.mid;
+                        newComputer.mapX = $scope.newComp.mapX;
+                        newComputer.mapY = $scope.newComp.mapY;
+                        newComputer.status = 0;
+                        $scope.SWList.maps[$scope.SWList.maps.indexOf($scope.selMap)].computers.push(newComputer);
+                        $scope.compResponse = "Computer has been added!";
+                    } else {
+                        $scope.compResponse = "Error: Can not add Computer! " + data;
+                    }
+                    console.log(data);
+                })
+                .error(function(data, status, headers, config) {
+                    $scope.compResponse = "Error: Could not add Computer! " + data;
+                    console.log(data);
+                });
+        };
+        $scope.deleteComp = function(){
+            if (confirm("Delete " + $scope.selMap.computers[$scope.selComp].name + " permanently?") == true){
+                swFactory.postData({action : 13}, $scope.selMap.computers[$scope.selComp])
+                    .success(function(data, status, headers, config) {
+                        if (data == 1){
+                            $scope.selMap.computers[$scope.selComp].splice($scope.selComp, 1);
+                            $scope.selComp = -1;
+                            $scope.compResponse = "Computer has been deleted!";
+                        } else {
+                            $scope.compResponse = "Error: Can not delete Computer! " + data;
+                        }
+                        console.log(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        $scope.compResponse = "Error: Could not delete Computer! " + data;
+                        console.log(data);
+                    });
+            }
+        };
+        $scope.updateComp = function(){
+            swFactory.postData({action : 14}, $scope.selMap.computers[$scope.selComp])
+                .success(function(data, status, headers, config) {
+                    if (data == 1){
+                        $scope.compResponse = "Computer name has been updated!";
+                    } else {
+                        $scope.compResponse = "Error: Can not update Computer! " + data;
+                    }
+                    console.log(data);
+                })
+                .error(function(data, status, headers, config) {
+                    $scope.compResponse = "Error: Could not update Computer! " + data;
+                    console.log(data);
+                });
+        };
+
+
+    }])
+    .directive('softwareManageComputerMaps', function() {
+        return {
+            restrict: 'A',
+            controller: 'manageSWCompMapsCtrl',
+            link: function(scope, elm, attrs){
+
+            },
+            templateUrl: 'manageSoftware/manageSoftwareComputerMaps.tpl.html'
         };
     })
 

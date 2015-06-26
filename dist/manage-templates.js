@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
+angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareComputerMaps.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
 
 angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
@@ -328,7 +328,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                <input type=\"checkbox\" class=\"form-control\" ng-model=\"newDB.tmpDisabled\" ng-true-value=\"'1'\" ng-false-value=\"'0'\"\n" +
     "                       id=\"tmpDisable\">\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-12\">\n" +
+    "            <div class=\"row\">\n" +
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"subjects\">Subjects</label>\n" +
     "                    <ul class=\"list-group\" id=\"subjects\">\n" +
@@ -1165,9 +1165,139 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "            <div software-manage-loc-cat>\n" +
     "            </div>\n" +
     "        </div>\n" +
+    "        <div ng-if=\"tab.number == 2\" >\n" +
+    "            <div software-manage-computer-maps>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
     "    </tab>\n" +
     "</tabset>\n" +
     "");
+}]);
+
+angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageSoftware/manageSoftwareComputerMaps.tpl.html",
+    "<div>\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-2\">\n" +
+    "            <h3>\n" +
+    "                Computer maps:\n" +
+    "            </h3>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-4\">\n" +
+    "            <h3>\n" +
+    "                <select class=\"form-control\" ng-model=\"selMap\"\n" +
+    "                    ng-options=\"map.name for map in SWList.maps | orderBy:'name'\">\n" +
+    "                </select>\n" +
+    "            </h3>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"comps-map\"\n" +
+    "             style=\"background: transparent url('//wwwdev.lib.ua.edu/softwareList/floorMaps/{{selMap.floor_plan_file}}') no-repeat 0 0;\n" +
+    "                    width:{{selMap.width}}px;\n" +
+    "                    height:{{selMap.height}}px;\n" +
+    "                    clear: both;\"\n" +
+    "             ng-mousedown=\"createComp($event)\"\n" +
+    "            >\n" +
+    "            <div class=\"comps-map-comp open\"\n" +
+    "                 ng-repeat=\"comp in selMap.computers\"\n" +
+    "                 ng-class=\"{'MAC': comp.type == 2, 'PC': comp.type == 1, 'higlighted': comp.compid == high, 'selected': selComp == $index}\"\n" +
+    "                 style=\"left:{{comp.mapX}}px;top:{{comp.mapY}}px;\"\n" +
+    "                 ng-mouseenter=\"highlight(comp)\" ng-mouseleave=\"highlight(-1)\"\n" +
+    "                 ng-click=\"expand($index)\"\n" +
+    "                    >\n" +
+    "            </div>\n" +
+    "            <div class=\"selected-form row\" ng-show=\"selComp >= 0\"\n" +
+    "                 style=\"left:{{selCompX}}px;top:{{selCompY}}px;width:450px;\"\n" +
+    "                    >\n" +
+    "                <div class=\"col-md-8\">\n" +
+    "                    <h4>Computer ID: {{selMap.computers[selComp].compid}} ({{selMap.computers[selComp].mapX}},{{selMap.computers[selComp].mapY}})</h4>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-4 text-right\">\n" +
+    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"selComp = -1\" style=\"left:450px;top:-15px;\">\n" +
+    "                        <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
+    "                <form ng-submit=\"updateComp()\">\n" +
+    "                    <div class=\"col-md-6 form-group\">\n" +
+    "                        <label for=\"sel_name\">Computer Name</label>\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Enter Computer Name\" ng-model=\"selMap.computers[selComp].name\"\n" +
+    "                               id=\"sel_name\" maxlength=\"100\" required>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-6 form-group\">\n" +
+    "                        <label for=\"sel_os\">OS</label>\n" +
+    "                        <select class=\"form-control\" ng-model=\"selCompOS\" ng-options=\"opSys.name for opSys in os\" id=\"sel_os\">\n" +
+    "                        </select>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-12 form-group\">\n" +
+    "                        <label for=\"sel_loc\">Location</label>\n" +
+    "                        <select class=\"form-control\" ng-model=\"selCompLoc\"\n" +
+    "                                ng-options=\"loc.fullName for loc in SWList.locations | orderBy:'fullName'\" id=\"sel_loc\">\n" +
+    "                        </select>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-12 text-center form-group\">\n" +
+    "                        <label></label>\n" +
+    "                        <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"selMap.computers[selComp].name.length == 0\">\n" +
+    "                            <span class=\"fa fa-fw fa-edit\"></span> Update Information\n" +
+    "                        </button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteComp()\">\n" +
+    "                            <span class=\"fa fa-fw fa-close\"></span> Delete Computer\n" +
+    "                        </button><br>\n" +
+    "                        {{compResponse}}\n" +
+    "                    </div>\n" +
+    "                </form>\n" +
+    "            </div>\n" +
+    "            <div class=\"selected-form row\" ng-show=\"showCreate\"\n" +
+    "                 style=\"left:{{newComp.mapX}}px;top:{{newComp.mapY}}px;width:450px;\"\n" +
+    "                    >\n" +
+    "                <div class=\"col-md-8\">\n" +
+    "                    <h4>New Computer</h4>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-md-4 text-right\">\n" +
+    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"showCreate = false\" style=\"left:450px;top:-15px;\">\n" +
+    "                        <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
+    "                <form ng-submit=\"addComp()\">\n" +
+    "                    <div class=\"col-md-6 form-group\">\n" +
+    "                        <label for=\"newComp_X\">Coordinate X</label>\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"X\" ng-model=\"newComp.mapX\" id=\"newComp_X\"\n" +
+    "                               maxlength=\"4\" required>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-6 form-group\">\n" +
+    "                        <label for=\"newComp_Y\">Coordinate Y</label>\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Y\" ng-model=\"newComp.mapY\" id=\"newComp_Y\"\n" +
+    "                               maxlength=\"4\" required>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-6 form-group\">\n" +
+    "                        <label for=\"newComp_name\">Computer Name</label>\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Enter Computer Name\" ng-model=\"newComp.name\"\n" +
+    "                               id=\"newComp_name\" maxlength=\"100\" required>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-6 form-group\">\n" +
+    "                        <label for=\"newComp_os\">OS</label>\n" +
+    "                        <select class=\"form-control\" ng-model=\"newComp.selType\" ng-options=\"opSys.name for opSys in os\" id=\"newComp_os\">\n" +
+    "                        </select>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-12 form-group\">\n" +
+    "                        <label for=\"newComp_loc\">Location</label>\n" +
+    "                        <select class=\"form-control\" ng-model=\"newComp.selLoc\"\n" +
+    "                                ng-options=\"loc.fullName for loc in SWList.locations | orderBy:'fullName'\" id=\"newComp_loc\">\n" +
+    "                        </select>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-12 text-center form-group\">\n" +
+    "                        <label></label>\n" +
+    "                        <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"newComp.name.length == 0\">\n" +
+    "                            <span class=\"fa fa-fw fa-plus\"></span> Create Computer\n" +
+    "                        </button>\n" +
+    "                    </div>\n" +
+    "                </form>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "</div>");
 }]);
 
 angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$templateCache", function($templateCache) {

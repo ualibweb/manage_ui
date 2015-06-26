@@ -1,0 +1,122 @@
+<div>
+    <div class="row">
+        <div class="col-md-2">
+            <h3>
+                Computer maps:
+            </h3>
+        </div>
+        <div class="col-md-4">
+            <h3>
+                <select class="form-control" ng-model="selMap"
+                    ng-options="map.name for map in SWList.maps | orderBy:'name'">
+                </select>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="comps-map"
+             style="background: transparent url('//wwwdev.lib.ua.edu/softwareList/floorMaps/{{selMap.floor_plan_file}}') no-repeat 0 0;
+                    width:{{selMap.width}}px;
+                    height:{{selMap.height}}px;
+                    clear: both;"
+             ng-mousedown="createComp($event)"
+            >
+            <div class="comps-map-comp open"
+                 ng-repeat="comp in selMap.computers"
+                 ng-class="{'MAC': comp.type == 2, 'PC': comp.type == 1, 'higlighted': comp.compid == high, 'selected': selComp == $index}"
+                 style="left:{{comp.mapX}}px;top:{{comp.mapY}}px;"
+                 ng-mouseenter="highlight(comp)" ng-mouseleave="highlight(-1)"
+                 ng-click="expand($index)"
+                    >
+            </div>
+            <div class="selected-form row" ng-show="selComp >= 0"
+                 style="left:{{selCompX}}px;top:{{selCompY}}px;width:450px;"
+                    >
+                <div class="col-md-8">
+                    <h4>Computer ID: {{selMap.computers[selComp].compid}} ({{selMap.computers[selComp].mapX}},{{selMap.computers[selComp].mapY}})</h4>
+                </div>
+                <div class="col-md-4 text-right">
+                    <button type="button" class="btn btn-primary" ng-click="selComp = -1" style="left:450px;top:-15px;">
+                        <span class="fa fa-fw fa-close"></span>
+                    </button>
+                </div>
+                <form ng-submit="updateComp()">
+                    <div class="col-md-6 form-group">
+                        <label for="sel_name">Computer Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Computer Name" ng-model="selMap.computers[selComp].name"
+                               id="sel_name" maxlength="100" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="sel_os">OS</label>
+                        <select class="form-control" ng-model="selCompOS" ng-options="opSys.name for opSys in os" id="sel_os">
+                        </select>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="sel_loc">Location</label>
+                        <select class="form-control" ng-model="selCompLoc"
+                                ng-options="loc.fullName for loc in SWList.locations | orderBy:'fullName'" id="sel_loc">
+                        </select>
+                    </div>
+                    <div class="col-md-12 text-center form-group">
+                        <label></label>
+                        <button type="submit" class="btn btn-success" ng-disabled="selMap.computers[selComp].name.length == 0">
+                            <span class="fa fa-fw fa-edit"></span> Update Information
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-click="deleteComp()">
+                            <span class="fa fa-fw fa-close"></span> Delete Computer
+                        </button><br>
+                        {{compResponse}}
+                    </div>
+                </form>
+            </div>
+            <div class="selected-form row" ng-show="showCreate"
+                 style="left:{{newComp.mapX}}px;top:{{newComp.mapY}}px;width:450px;"
+                    >
+                <div class="col-md-8">
+                    <h4>New Computer</h4>
+                </div>
+                <div class="col-md-4 text-right">
+                    <button type="button" class="btn btn-primary" ng-click="showCreate = false" style="left:450px;top:-15px;">
+                        <span class="fa fa-fw fa-close"></span>
+                    </button>
+                </div>
+                <form ng-submit="addComp()">
+                    <div class="col-md-6 form-group">
+                        <label for="newComp_X">Coordinate X</label>
+                        <input type="text" class="form-control" placeholder="X" ng-model="newComp.mapX" id="newComp_X"
+                               maxlength="4" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="newComp_Y">Coordinate Y</label>
+                        <input type="text" class="form-control" placeholder="Y" ng-model="newComp.mapY" id="newComp_Y"
+                               maxlength="4" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="newComp_name">Computer Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Computer Name" ng-model="newComp.name"
+                               id="newComp_name" maxlength="100" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="newComp_os">OS</label>
+                        <select class="form-control" ng-model="newComp.selType" ng-options="opSys.name for opSys in os" id="newComp_os">
+                        </select>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="newComp_loc">Location</label>
+                        <select class="form-control" ng-model="newComp.selLoc"
+                                ng-options="loc.fullName for loc in SWList.locations | orderBy:'fullName'" id="newComp_loc">
+                        </select>
+                    </div>
+                    <div class="col-md-12 text-center form-group">
+                        <label></label>
+                        <button type="submit" class="btn btn-success" ng-disabled="newComp.name.length == 0">
+                            <span class="fa fa-fw fa-plus"></span> Create Computer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
