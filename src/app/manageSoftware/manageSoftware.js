@@ -116,6 +116,19 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.newSW.newLink.title = "";
             $scope.newSW.newLink.url = "";
             $scope.newSW.modules = "";
+            $scope.newSW.trf = 0;
+            $scope.newSW.po = 0;
+            $scope.newSW.num_licenses = 0;
+            $scope.newSW.trf_notes = "";
+            $scope.newSW.purch_date = "2015-1-1";
+            $scope.newSW.vendor_name = "";
+            $scope.newSW.vendor_contact = "";
+            $scope.newSW.vendor_phone = "";
+            $scope.newSW.vendor_email = "";
+            $scope.newSW.main_effect = "2015-1-1";
+            $scope.newSW.main_exp = "2015-1-1";
+            $scope.newSW.pkey = "";
+            $scope.newSW.devices = "";
 
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
