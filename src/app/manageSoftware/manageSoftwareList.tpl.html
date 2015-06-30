@@ -305,7 +305,7 @@
                 <div class="col-md-12">
                     <div class="col-md-6 form-group">
                         <label for="{{sw.sid}}_prodKey">Product Key</label>
-                        <input type="text" class="form-control" placeholder="Product Key" ng-model="sw.key"
+                        <input type="text" class="form-control" placeholder="Product Key" ng-model="sw.pkey"
                                maxlength="100" id="{{sw.sid}}_prodKey">
                     </div>
                     <div class="col-md-6 form-group">
@@ -501,7 +501,7 @@
                             {{category.name}}
                         </div>
                     </li>
-                    <li class="list-group-item col-md-6">
+                    <li class="list-group-item col-md-12">
                         <div class="col-md-10">
                             <select class="form-control" ng-model="newSW.selCat" ng-options="cat.name for cat in SWList.categories">
                             </select>
@@ -583,7 +583,7 @@
         <div class="col-md-12">
             <div class="col-md-6 form-group">
                 <label for="prodKey">Product Key</label>
-                <input type="text" class="form-control" placeholder="Product Key" ng-model="newSW.key"
+                <input type="text" class="form-control" placeholder="Product Key" ng-model="newSW.pkey"
                        maxlength="100" id="prodKey">
             </div>
             <div class="col-md-6 form-group">
