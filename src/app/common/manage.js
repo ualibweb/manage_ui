@@ -16,6 +16,7 @@ angular.module('common.manage', [])
             };
             var header = {};
             header["X-" + tokenName] = this.GetCookie(tokenName);
+            $http.defaults.headers.get = header;
             $http.defaults.headers.post = header;
         }
     }])

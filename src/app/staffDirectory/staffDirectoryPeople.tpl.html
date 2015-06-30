@@ -110,7 +110,7 @@
                                                         | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
                                                         | startFrom:(currentPage-1)*perPage
                                                         | limitTo:perPage">
-                <td ng-click="togglePerson(person)">
+                <td ng-click="togglePerson(person)" style="cursor: pointer;">
                     <h4>
                         <a>
                             <span class="fa fa-fw fa-caret-right" ng-hide="person.show"></span>
