@@ -1836,12 +1836,12 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "            </div>\n" +
     "            <div class=\"col-md-3 form-group\">\n" +
     "                <label for=\"effectDate\">Maintenance Effective Date</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"MM/DD/YYYY\" ng-model=\"newSW.main_effect\"\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"YYYY-MM-DD\" ng-model=\"newSW.main_effect\"\n" +
     "                       maxlength=\"10\" id=\"effectDate\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-3 form-group\">\n" +
     "                <label for=\"expDate\">Maintenance Expiration Date</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"MM/DD/YYYY\" ng-model=\"newSW.main_exp\"\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"YYYY-MM-DD\" ng-model=\"newSW.main_exp\"\n" +
     "                       maxlength=\"10\" id=\"expDate\">\n" +
     "            </div>\n" +
     "        </div>\n" +
@@ -1874,7 +1874,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"purDate\">Purchase Date</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"MM/DD/YYYY\" ng-model=\"newSW.purch_date\"\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"YYYY-MM-DD\" ng-model=\"newSW.purch_date\"\n" +
     "                       maxlength=\"10\" id=\"purDate\">\n" +
     "            </div>\n" +
     "        </div>\n" +
