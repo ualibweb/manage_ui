@@ -1,14 +1,11 @@
+<h2>
+    Manage Hours <small>{{selLib.name}}</small>
+</h2>
+
 <div class="row">
-    <div class="col-md-3 form-group">
-        <h2>
-            Hours Management
-        </h2>
-    </div>
-    <div class="col-md-3 form-group">
-        <h2>
-            <select class="form-control" ng-model="selLib" ng-options="lib.name for lib in allowedLibraries.libraries">
-            </select>
-        </h2>
+    <div class="col-md-4 form-group">
+        <select class="form-control" ng-model="selLib" ng-options="lib.name for lib in allowedLibraries.libraries">
+        </select>
     </div>
 </div>
 

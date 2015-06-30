@@ -483,17 +483,14 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
 
 angular.module("manageHours/manageHours.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageHours/manageHours.tpl.html",
+    "<h2>\n" +
+    "    Manage Hours <small>{{selLib.name}}</small>\n" +
+    "</h2>\n" +
+    "\n" +
     "<div class=\"row\">\n" +
-    "    <div class=\"col-md-3 form-group\">\n" +
-    "        <h2>\n" +
-    "            Hours Management\n" +
-    "        </h2>\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-3 form-group\">\n" +
-    "        <h2>\n" +
-    "            <select class=\"form-control\" ng-model=\"selLib\" ng-options=\"lib.name for lib in allowedLibraries.libraries\">\n" +
-    "            </select>\n" +
-    "        </h2>\n" +
+    "    <div class=\"col-md-4 form-group\">\n" +
+    "        <select class=\"form-control\" ng-model=\"selLib\" ng-options=\"lib.name for lib in allowedLibraries.libraries\">\n" +
+    "        </select>\n" +
     "    </div>\n" +
     "</div>\n" +
     "\n" +
