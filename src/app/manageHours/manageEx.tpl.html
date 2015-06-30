@@ -8,18 +8,18 @@
         <thead>
         <tr>
             <th>Exception Description</th>
-            <th class="text-center">Date</th>
-            <th class="text-center">Days</th>
-            <th class="text-center">Hours</th>
-            <th class="text-center">Action</th>
+            <th class="text-center" style="width:140px;">Date</th>
+            <th class="text-center" style="width:80px;">Days</th>
+            <th class="text-center" style="width:320px;">Hours</th>
+            <th class="text-center" style="width:120px;">Action</th>
         </tr>
         </thead>
         <tr ng-repeat="exception in excData track by exception.id" ng-click="expandExc($event, exception)">
-            <td style="width:30%">
-                <div ng-hide="isExpExc(exception.id)">{{exception.desc}}</div>
+            <td style="cursor: pointer;">
+                <div ng-hide="isExpExc(exception.id)"><a>{{exception.desc}}</a></div>
                 <div ng-if="isExpExc(exception.id)"><input type="text" class="form-control" ng-model="exception.desc" ng-required /></div>
             </td>
-            <td class="text-center">
+            <td class="text-center" style="cursor: pointer;">
                 <div ng-hide="isExpExc(exception.id)">{{exception.datems | date : 'MMM d, y'}}</div>
                 <div ng-if="isExpExc(exception.id)">
 
@@ -29,28 +29,34 @@
                            ng-focus="onExcFocus($event, $index)" />
                 </div>
             </td>
-            <td class="text-center">
+            <td class="text-center" style="cursor: pointer;">
                 <div ng-hide="isExpExc(exception.id)">{{exception.days}}</div>
                 <div ng-if="isExpExc(exception.id)"><input type="text" class="form-control" ng-model="exception.days" ng-required /></div>
             </td>
             <td class="text-center">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 form-group">
                         <select class="form-control" ng-model="exception.from">
                             <option ng-repeat="hours in hrsFrom" ng-selected="{{exception.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 form-group">
                         <select class="form-control" ng-model="exception.to">
                             <option ng-repeat="hours in hrsTo" ng-selected="{{exception.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
                         </select>
                     </div>
                 </div>
             </td>
-            <td class="text-right">
-                <button type="button" class="btn btn-success" ng-click="updateExc(exception)" ng-show="isExpExc(exception.id)" ng-disabled="loading">Save</button>
-                <button type="button" class="btn btn-danger" ng-click="deleteExc(exception, $index)" ng-show="isExpExc(exception.id)" ng-disabled="loading">Delete</button>
-                <div ng-show="isExpExc(exception.id)"><br>{{result}}</div>
+            <td class="form-group text-center">
+                <div ng-show="isExpExc(exception.id)">
+                    <button type="button" class="btn btn-success" ng-click="updateExc(exception)" ng-disabled="loading">
+                        <span class="fa fa-fw fa-edit"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="deleteExc(exception, $index)" ng-disabled="loading">
+                        <span class="fa fa-fw fa-close"></span>
+                    </button>
+                    <br>{{result}}
+                </div>
             </td>
         </tr>
         <tr class="sdOpen">
@@ -80,7 +86,7 @@
                     </div>
                 </div>
             </td>
-            <td class="text-right">
+            <td class="form-group text-right">
                 <label for="isGlobal">Create For All Libraries</label>
                 <input type="checkbox" ng-model="newException.isGlobal" id="isGlobal">
                 <br>

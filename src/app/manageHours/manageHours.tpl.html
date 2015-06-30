@@ -1,12 +1,21 @@
-<h2>Hours Management
+<div class="row">
+    <div class="col-md-3 form-group">
+        <h2>
+            Hours Management
+        </h2>
+    </div>
+    <div class="col-md-3 form-group">
+        <h2>
+            <select class="form-control" ng-model="selLib" ng-options="lib.name for lib in allowedLibraries.libraries">
+            </select>
+        </h2>
+    </div>
+</div>
 
-    <select class="form-control" ng-model="selLib" ng-options="lib.name for lib in allowedLibraries.libraries">
-    </select>
-
-</h2>
-<h2 class="text-center">{{selLib.name}}</h2>
-
-<p><strong>*</strong> Set From and To hours to Midnight in order to indicate Open 24 hours.</p>
+<div class="alert alert-info" role="alert">
+    <span class="fa fa-exclamation-triangle"></span> Note: set <strong>From</strong> and <strong>To</strong> hours to
+    <strong>Midnight</strong> in order to indicate <strong>Open 24 hours</strong>.
+</div>
 
 <tabset justified="true">
     <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
