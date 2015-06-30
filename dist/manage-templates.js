@@ -1331,6 +1331,11 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                        <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[0].reverse\"></span>\n" +
     "                        <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[0].reverse\"></span>\n" +
     "                    </button>\n" +
+    "                    <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"1\" ng-click=\"sortBy(1)\">\n" +
+    "                        Status\n" +
+    "                        <span class=\"fa fa-fw fa-long-arrow-down\" ng-show=\"!sortModes[1].reverse\"></span>\n" +
+    "                        <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[1].reverse\"></span>\n" +
+    "                    </button>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
@@ -1629,7 +1634,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                               maxlength=\"100\" id=\"{{sw.sid}}_apDev\">\n" +
     "                    </div>\n" +
     "                </div>\n" +
-    "                <div class=\"col-md-12 text-center\">\n" +
+    "                <div class=\"col-md-12 form-group text-center\">\n" +
     "                    <button type=\"submit\" class=\"btn btn-success\">Update information</button>\n" +
     "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"unpublishSW(sw)\" ng-hide=\"sw.status == 0\">\n" +
     "                        Unpublish\n" +
@@ -1809,7 +1814,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                <label for=\"cat\">Categories</label>\n" +
     "                <ul class=\"list-group\" id=\"cat\">\n" +
     "                    <li class=\"list-group-item col-md-12\">\n" +
-    "                        <div class=\"col-md-2\" ng-repeat=\"category in newSW.categories\">\n" +
+    "                        <div class=\"col-md-4\" ng-repeat=\"category in newSW.categories\">\n" +
     "                            <button type=\"button\" class=\"btn btn-danger\" ng-click=\"delNewSWCat(category)\">\n" +
     "                                <span class=\"fa fa-fw fa-close\"></span>\n" +
     "                            </button>\n" +
@@ -1907,7 +1912,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                       maxlength=\"100\" id=\"apDev\">\n" +
     "            </div>\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-12 text-center\">\n" +
+    "        <div class=\"col-md-12 form-group text-center\">\n" +
     "            <button type=\"submit\" class=\"btn btn-success\">Create Software Record</button>\n" +
     "            {{newSW.formResponse}}\n" +
     "        </div>\n" +

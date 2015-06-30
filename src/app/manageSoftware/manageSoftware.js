@@ -99,7 +99,8 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.descrFilter = '';
             $scope.sortMode = 0;
             $scope.sortModes = [
-                {by:'title', reverse:false}
+                {by:'title', reverse:false},
+                {by:'status', reverse:false}
             ];
             $scope.sortButton = $scope.sortMode;
             $scope.mOver = 0;
