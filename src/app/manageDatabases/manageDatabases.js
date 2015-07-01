@@ -21,7 +21,6 @@ angular.module('manage.manageDatabases', [])
                 {by:'tmpDisabled', reverse:true}
                 ];
             $scope.sortButton = $scope.sortMode;
-            $scope.mOver = 0;
             $scope.newDB = {};
             $scope.newDB.updatedBy = $window.userName;
             $scope.newDB.subjects = [];
@@ -64,9 +63,6 @@ angular.module('manage.manageDatabases', [])
             $scope.toggleDB = function(db){
                 $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].show =
                     !$scope.DBList.databases[$scope.DBList.databases.indexOf(db)].show;
-            };
-            $scope.setOver = function(db){
-                $scope.mOver = db.id;
             };
             $scope.sortBy = function(by){
                 if ($scope.sortMode === by)

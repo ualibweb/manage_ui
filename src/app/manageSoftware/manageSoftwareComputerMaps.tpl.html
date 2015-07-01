@@ -9,7 +9,7 @@
             </div>
         </form>
     </div>
-    <div class="alert alert-success" role="alert">
+    <div class="alert alert-info" role="alert">
         <span class="fa fa-exclamation-triangle"></span> Note: Right-click on the floor plan map in order to add a computer or left-click on existing one in order to edit it.
     </div>
     <div class="row">
@@ -20,35 +20,49 @@
                     clear: both;"
              ng-mousedown="createComp($event)"
             >
-            <div class="comps-map-comp open"
+            <span class="comp-normal"
                  ng-repeat="comp in selMap.computers"
-                 ng-class="{'MAC': comp.type == 2, 'PC': comp.type == 1, 'higlighted': comp.compid == high, 'selected': selComp == $index}"
-                 style="left:{{comp.mapX}}px;top:{{comp.mapY}}px;"
-                 ng-mouseenter="highlight(comp)" ng-mouseleave="highlight(-1)"
+                 style="left:{{comp.mapX}}px;top:{{comp.mapY}}px;position: absolute;"
                  ng-click="expand($index)"
+                 ng-class="{
+                 'fa fa-windows': comp.type == 1,
+                 'fa fa-apple': comp.type == 2,
+                 'comp-selected': selComp == $index,
+                 'comp-turned-off': comp.status !== 1
+                 }"
                     >
-            </div>
-            <div class="selected-form row" ng-show="selComp >= 0"
-                 style="left:{{selCompX}}px;top:{{selCompY}}px;width:450px;"
-                    >
-                <div class="col-md-8">
-                    <h4>Computer ID: {{selMap.computers[selComp].compid}}</h4>
-                </div>
-                <div class="col-md-4 text-right">
-                    <button type="button" class="btn btn-primary" ng-click="selComp = -1" style="left:450px;top:-15px;">
-                        <span class="fa fa-fw fa-close"></span>
-                    </button>
+            </span>
+            <div class="selected-form" ng-show="selComp >= 0" style="left:{{selCompX}}px;top:{{selCompY}}px;">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4>&nbsp; Computer ID: {{selMap.computers[selComp].compid}}</h4>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <button type="button" class="btn btn-primary" ng-click="selComp = -1" style="left:450px;top:-15px;">
+                            <span class="fa fa-fw fa-close"></span>
+                        </button>
+                    </div>
                 </div>
                 <form ng-submit="updateComp()">
-                    <div class="col-md-6 form-group">
-                        <label for="sel_X">Coordinate X</label>
-                        <input type="text" class="form-control" placeholder="X" ng-model="selMap.computers[selComp].mapX" id="sel_X"
-                               maxlength="4" required>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label for="sel_Y">Coordinate Y</label>
-                        <input type="text" class="form-control" placeholder="Y" ng-model="selMap.computers[selComp].mapY" id="sel_Y"
-                               maxlength="4" required>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4 form-group">
+                                <label for="sel_X">Coordinate X</label>
+                                <input type="text" class="form-control" placeholder="X" ng-model="selMap.computers[selComp].mapX" id="sel_X"
+                                       maxlength="4" required>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="sel_Y">Coordinate Y</label>
+                                <input type="text" class="form-control" placeholder="Y" ng-model="selMap.computers[selComp].mapY" id="sel_Y"
+                                       maxlength="4" required>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="sel_status">Status</label>
+                                <select class="form-control" ng-model="selCompStatus" ng-options="status.name for status in compStatus"
+                                        id="sel_status">
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="sel_name">Computer Name</label>
@@ -79,7 +93,7 @@
                 </form>
             </div>
             <div class="selected-form row" ng-show="showCreate"
-                 style="left:{{newComp.mapX}}px;top:{{newComp.mapY}}px;width:450px;"
+                 style="left:{{newComp.mapX}}px;top:{{newComp.mapY}}px;"
                     >
                 <div class="col-md-8">
                     <h4>New Computer</h4>

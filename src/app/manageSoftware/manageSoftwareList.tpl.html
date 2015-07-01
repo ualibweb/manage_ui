@@ -30,12 +30,12 @@
         <pagination total-items="filteredSW.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
                     boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredSW.length > perPage"></pagination>
     </div>
-    <div class="row"
+    <div class="row row-clickable"
          ng-repeat="sw in filteredSW = (SWList.software | filter:{title:titleFilter}
                                                         | filter:{description:descrFilter}
                                                         | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
         | startFrom:(currentPage-1)*perPage | limitTo:perPage"
-         ng-class="{sdOpen: sw.show, sdOver: sw.sid == mOver}" ng-mouseover="setOver(sw)">
+         ng-class="{sdOpen: sw.show}">
         <div class="col-md-12" ng-click="toggleSW(sw)" style="cursor: pointer;">
             <table class="table">
                 <tr>

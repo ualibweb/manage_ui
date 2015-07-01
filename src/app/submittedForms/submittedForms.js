@@ -13,7 +13,6 @@ angular.module('manage.submittedForms', [])
             ];
             $scope.sortMode = 0;
             $scope.sortButton = $scope.sortMode;
-            $scope.mOver = 0;
 
             tokenFactory("CSRF-libForms");
 
@@ -30,9 +29,6 @@ angular.module('manage.submittedForms', [])
                     console.log(data);
                 });
 
-            $scope.setOver = function(form){
-                $scope.mOver = form.fid;
-            };
             $scope.toggleForms = function(form){
                 $scope.data.forms[$scope.data.forms.indexOf(form)].show =
                     !$scope.data.forms[$scope.data.forms.indexOf(form)].show;

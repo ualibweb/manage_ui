@@ -43,7 +43,7 @@
         <pagination total-items="filteredDB.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
                     boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredDB.length > perPage"></pagination>
     </div>
-    <div class="row"
+    <div class="row row-clickable"
          ng-repeat="db in filteredDB = (DBList.databases | filter:{title:titleStartFilter}:startTitle
                                                          | filter:{title:titleFilter}
                                                          | filter:{description:descrFilter}
@@ -52,7 +52,7 @@
                                                          | filter:{disabled:disFilter.value}
                                                          | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
         | startFrom:(currentPage-1)*perPage | limitTo:perPage"
-         ng-class="{sdOpen: db.show, sdOver: db.id == mOver}" ng-mouseover="setOver(db)">
+         ng-class="{sdOpen: db.show}">
         <div class="col-md-12" ng-click="toggleDB(db)" style="cursor: pointer;">
             <div class="col-md-10">
                 <h4>

@@ -29,17 +29,17 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             for (var k = 0; k < data.devices.length; k++)
                                 data.software[i].versions[j].newLoc.devices[k] = false;
                         }
-                        for (var j = 0; j < data.licenseModes.length; j++)
+/*                        for (var j = 0; j < data.licenseModes.length; j++)
                             if (data.licenseModes[j].lmid === data.software[i].lmid){
                                 data.software[i].selMode = data.licenseModes[j];
                             }
-                        data.software[i].newLink = {};
+  */                      data.software[i].newLink = {};
                         data.software[i].newLink.description = "";
                         data.software[i].newLink.title = "";
                         data.software[i].newLink.url = "";
                     }
                     $scope.newSW.selCat = data.categories[0];
-                    $scope.newSW.selMode = data.licenseModes[0];
+//                    $scope.newSW.selMode = data.licenseModes[0];
                     $scope.selMap = data.maps[3];
                     $scope.newComp.selLoc = data.locations[0];
 
@@ -103,7 +103,6 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 {by:'status', reverse:false}
             ];
             $scope.sortButton = $scope.sortMode;
-            $scope.mOver = 0;
             $scope.appURL = appURL;
 
             $scope.newSW.versions = [];
@@ -145,9 +144,6 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.toggleSW = function(sw){
                 $scope.SWList.software[$scope.SWList.software.indexOf(sw)].show =
                     !$scope.SWList.software[$scope.SWList.software.indexOf(sw)].show;
-            };
-            $scope.setOver = function(sw){
-                $scope.mOver = sw.sid;
             };
             $scope.sortBy = function(by){
                 if ($scope.sortMode === by)
@@ -727,6 +723,11 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         $scope.newComp.name = "";
         $scope.newComp.selType = $scope.os[0];
         $scope.showCreate = false;
+        $scope.compStatus = [
+            {name: 'Off', value: 0},
+            {name: 'On', value: 1}
+        ];
+        $scope.selCompStatus = $scope.compStatus[0];
 
         $scope.highlight = function(comp){
             $scope.high = comp.compid;
@@ -741,6 +742,10 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     $scope.selCompOS = $scope.os[0];
                 else
                     $scope.selCompOS = $scope.os[1];
+                if (comp.status == 1)
+                    $scope.selCompStatus = $scope.compStatus[1];
+                else
+                    $scope.selCompStatus = $scope.compStatus[0];
                 for (var i = 0; i < $scope.SWList.locations.length; i++)
                     if ($scope.SWList.locations[i].lid == comp.lid){
                         $scope.selCompLoc = $scope.SWList.locations[i];
@@ -791,7 +796,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         newComputer.mid = $scope.newComp.mid;
                         newComputer.mapX = $scope.newComp.mapX;
                         newComputer.mapY = $scope.newComp.mapY;
-                        newComputer.status = 0;
+                        newComputer.status = 1;
                         $scope.SWList.maps[$scope.SWList.maps.indexOf($scope.selMap)].computers.push(newComputer);
                         $scope.showCreate = false;
                         $scope.compResponse = "Computer has been added!";
@@ -827,6 +832,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         $scope.updateComp = function(){
             $scope.SWList.maps[$scope.SWList.maps.indexOf($scope.selMap)].computers[$scope.selComp].type = $scope.selCompOS.value;
             $scope.SWList.maps[$scope.SWList.maps.indexOf($scope.selMap)].computers[$scope.selComp].lid = $scope.selCompLoc.lid;
+            $scope.SWList.maps[$scope.SWList.maps.indexOf($scope.selMap)].computers[$scope.selComp].status = $scope.selCompStatus.value;
             swFactory.postData({action : 14}, $scope.SWList.maps[$scope.SWList.maps.indexOf($scope.selMap)].computers[$scope.selComp])
                 .success(function(data, status, headers, config) {
                     if (data == 1){

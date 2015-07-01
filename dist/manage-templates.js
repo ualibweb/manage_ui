@@ -47,7 +47,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "        <pagination total-items=\"filteredDB.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
     "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredDB.length > perPage\"></pagination>\n" +
     "    </div>\n" +
-    "    <div class=\"row\"\n" +
+    "    <div class=\"row row-clickable\"\n" +
     "         ng-repeat=\"db in filteredDB = (DBList.databases | filter:{title:titleStartFilter}:startTitle\n" +
     "                                                         | filter:{title:titleFilter}\n" +
     "                                                         | filter:{description:descrFilter}\n" +
@@ -56,7 +56,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                                                         | filter:{disabled:disFilter.value}\n" +
     "                                                         | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
     "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
-    "         ng-class=\"{sdOpen: db.show, sdOver: db.id == mOver}\" ng-mouseover=\"setOver(db)\">\n" +
+    "         ng-class=\"{sdOpen: db.show}\">\n" +
     "        <div class=\"col-md-12\" ng-click=\"toggleDB(db)\" style=\"cursor: pointer;\">\n" +
     "            <div class=\"col-md-10\">\n" +
     "                <h4>\n" +
@@ -1214,7 +1214,7 @@ angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$
     "            </div>\n" +
     "        </form>\n" +
     "    </div>\n" +
-    "    <div class=\"alert alert-success\" role=\"alert\">\n" +
+    "    <div class=\"alert alert-info\" role=\"alert\">\n" +
     "        <span class=\"fa fa-exclamation-triangle\"></span> Note: Right-click on the floor plan map in order to add a computer or left-click on existing one in order to edit it.\n" +
     "    </div>\n" +
     "    <div class=\"row\">\n" +
@@ -1225,35 +1225,49 @@ angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$
     "                    clear: both;\"\n" +
     "             ng-mousedown=\"createComp($event)\"\n" +
     "            >\n" +
-    "            <div class=\"comps-map-comp open\"\n" +
+    "            <span class=\"comp-normal\"\n" +
     "                 ng-repeat=\"comp in selMap.computers\"\n" +
-    "                 ng-class=\"{'MAC': comp.type == 2, 'PC': comp.type == 1, 'higlighted': comp.compid == high, 'selected': selComp == $index}\"\n" +
-    "                 style=\"left:{{comp.mapX}}px;top:{{comp.mapY}}px;\"\n" +
-    "                 ng-mouseenter=\"highlight(comp)\" ng-mouseleave=\"highlight(-1)\"\n" +
+    "                 style=\"left:{{comp.mapX}}px;top:{{comp.mapY}}px;position: absolute;\"\n" +
     "                 ng-click=\"expand($index)\"\n" +
+    "                 ng-class=\"{\n" +
+    "                 'fa fa-windows': comp.type == 1,\n" +
+    "                 'fa fa-apple': comp.type == 2,\n" +
+    "                 'comp-selected': selComp == $index,\n" +
+    "                 'comp-turned-off': comp.status !== 1\n" +
+    "                 }\"\n" +
     "                    >\n" +
-    "            </div>\n" +
-    "            <div class=\"selected-form row\" ng-show=\"selComp >= 0\"\n" +
-    "                 style=\"left:{{selCompX}}px;top:{{selCompY}}px;width:450px;\"\n" +
-    "                    >\n" +
-    "                <div class=\"col-md-8\">\n" +
-    "                    <h4>Computer ID: {{selMap.computers[selComp].compid}}</h4>\n" +
-    "                </div>\n" +
-    "                <div class=\"col-md-4 text-right\">\n" +
-    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"selComp = -1\" style=\"left:450px;top:-15px;\">\n" +
-    "                        <span class=\"fa fa-fw fa-close\"></span>\n" +
-    "                    </button>\n" +
+    "            </span>\n" +
+    "            <div class=\"selected-form\" ng-show=\"selComp >= 0\" style=\"left:{{selCompX}}px;top:{{selCompY}}px;\">\n" +
+    "                <div class=\"row\">\n" +
+    "                    <div class=\"col-md-8\">\n" +
+    "                        <h4>&nbsp; Computer ID: {{selMap.computers[selComp].compid}}</h4>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"col-md-4 text-right\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"selComp = -1\" style=\"left:450px;top:-15px;\">\n" +
+    "                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                        </button>\n" +
+    "                    </div>\n" +
     "                </div>\n" +
     "                <form ng-submit=\"updateComp()\">\n" +
-    "                    <div class=\"col-md-6 form-group\">\n" +
-    "                        <label for=\"sel_X\">Coordinate X</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" placeholder=\"X\" ng-model=\"selMap.computers[selComp].mapX\" id=\"sel_X\"\n" +
-    "                               maxlength=\"4\" required>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"col-md-6 form-group\">\n" +
-    "                        <label for=\"sel_Y\">Coordinate Y</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" placeholder=\"Y\" ng-model=\"selMap.computers[selComp].mapY\" id=\"sel_Y\"\n" +
-    "                               maxlength=\"4\" required>\n" +
+    "                    <div class=\"row\">\n" +
+    "                        <div class=\"col-md-12\">\n" +
+    "                            <div class=\"col-md-4 form-group\">\n" +
+    "                                <label for=\"sel_X\">Coordinate X</label>\n" +
+    "                                <input type=\"text\" class=\"form-control\" placeholder=\"X\" ng-model=\"selMap.computers[selComp].mapX\" id=\"sel_X\"\n" +
+    "                                       maxlength=\"4\" required>\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-4 form-group\">\n" +
+    "                                <label for=\"sel_Y\">Coordinate Y</label>\n" +
+    "                                <input type=\"text\" class=\"form-control\" placeholder=\"Y\" ng-model=\"selMap.computers[selComp].mapY\" id=\"sel_Y\"\n" +
+    "                                       maxlength=\"4\" required>\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-4 form-group\">\n" +
+    "                                <label for=\"sel_status\">Status</label>\n" +
+    "                                <select class=\"form-control\" ng-model=\"selCompStatus\" ng-options=\"status.name for status in compStatus\"\n" +
+    "                                        id=\"sel_status\">\n" +
+    "                                </select>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
     "                    </div>\n" +
     "                    <div class=\"col-md-6 form-group\">\n" +
     "                        <label for=\"sel_name\">Computer Name</label>\n" +
@@ -1284,7 +1298,7 @@ angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$
     "                </form>\n" +
     "            </div>\n" +
     "            <div class=\"selected-form row\" ng-show=\"showCreate\"\n" +
-    "                 style=\"left:{{newComp.mapX}}px;top:{{newComp.mapY}}px;width:450px;\"\n" +
+    "                 style=\"left:{{newComp.mapX}}px;top:{{newComp.mapY}}px;\"\n" +
     "                    >\n" +
     "                <div class=\"col-md-8\">\n" +
     "                    <h4>New Computer</h4>\n" +
@@ -1370,12 +1384,12 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "        <pagination total-items=\"filteredSW.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
     "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredSW.length > perPage\"></pagination>\n" +
     "    </div>\n" +
-    "    <div class=\"row\"\n" +
+    "    <div class=\"row row-clickable\"\n" +
     "         ng-repeat=\"sw in filteredSW = (SWList.software | filter:{title:titleFilter}\n" +
     "                                                        | filter:{description:descrFilter}\n" +
     "                                                        | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
     "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
-    "         ng-class=\"{sdOpen: sw.show, sdOver: sw.sid == mOver}\" ng-mouseover=\"setOver(sw)\">\n" +
+    "         ng-class=\"{sdOpen: sw.show}\">\n" +
     "        <div class=\"col-md-12\" ng-click=\"toggleSW(sw)\" style=\"cursor: pointer;\">\n" +
     "            <table class=\"table\">\n" +
     "                <tr>\n" +
@@ -2718,11 +2732,11 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
     "        <pagination total-items=\"filteredForms.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
     "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredNews.length > 0\"></pagination>\n" +
     "    </div>\n" +
-    "    <div class=\"row\"\n" +
+    "    <div class=\"row row-clickable\"\n" +
     "         ng-repeat=\"form in filteredForms = (data.forms | filter:{title:titleFilter}\n" +
     "                                                         | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
     "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
-    "         ng-class=\"{sdOpen: form.show, sdOver: form.sid == mOver}\" ng-mouseover=\"setOver(form)\">\n" +
+    "         ng-class=\"{sdOpen: form.show}\">\n" +
     "        <div class=\"col-md-12\" ng-click=\"toggleForms(form)\">\n" +
     "            <div class=\"col-md-10\">\n" +
     "                <h4>\n" +
