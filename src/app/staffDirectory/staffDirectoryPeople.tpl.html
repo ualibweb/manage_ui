@@ -198,9 +198,9 @@
                     <div ng-repeat="subject in person.subjects" ng-hide="person.show">
                         <a href="{{subject.link}}">{{subject.subject}}</a>
                     </div>
-                    <div class="form-group" ng-show="person.show">
+                    <div class="col-md-12 form-group" ng-show="person.show">
                         <label for="{{person.id}}_subj">Subjects</label>
-                        <div class="row" id="{{person.id}}_subj">
+                        <div id="{{person.id}}_subj">
                             <div class="col-md-12" ng-repeat="subject in person.subjects">
                                 <button type="button" class="btn btn-danger" ng-click="deleteSubject(person, subject, $index)">
                                     <span class="fa fa-fw fa-close"></span>

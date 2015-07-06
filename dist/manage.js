@@ -1595,17 +1595,17 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             for (var k = 0; k < data.devices.length; k++)
                                 data.software[i].versions[j].newLoc.devices[k] = false;
                         }
-/*                        for (var j = 0; j < data.licenseModes.length; j++)
+                        for (var j = 0; j < data.licenseModes.length; j++)
                             if (data.licenseModes[j].lmid === data.software[i].lmid){
                                 data.software[i].selMode = data.licenseModes[j];
                             }
-  */                      data.software[i].newLink = {};
+                        data.software[i].newLink = {};
                         data.software[i].newLink.description = "";
                         data.software[i].newLink.title = "";
                         data.software[i].newLink.url = "";
                     }
                     $scope.newSW.selCat = data.categories[0];
-//                    $scope.newSW.selMode = data.licenseModes[0];
+                    $scope.newSW.selMode = data.licenseModes[0];
                     $scope.selMap = data.maps[3];
                     $scope.newComp.selLoc = data.locations[0];
 

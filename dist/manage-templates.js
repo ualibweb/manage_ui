@@ -2600,9 +2600,9 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                    <div ng-repeat=\"subject in person.subjects\" ng-hide=\"person.show\">\n" +
     "                        <a href=\"{{subject.link}}\">{{subject.subject}}</a>\n" +
     "                    </div>\n" +
-    "                    <div class=\"form-group\" ng-show=\"person.show\">\n" +
+    "                    <div class=\"col-md-12 form-group\" ng-show=\"person.show\">\n" +
     "                        <label for=\"{{person.id}}_subj\">Subjects</label>\n" +
-    "                        <div class=\"row\" id=\"{{person.id}}_subj\">\n" +
+    "                        <div id=\"{{person.id}}_subj\">\n" +
     "                            <div class=\"col-md-12\" ng-repeat=\"subject in person.subjects\">\n" +
     "                                <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSubject(person, subject, $index)\">\n" +
     "                                    <span class=\"fa fa-fw fa-close\"></span>\n" +
