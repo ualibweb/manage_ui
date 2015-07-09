@@ -26,6 +26,11 @@ angular.module('manage.staffDirectory', [])
                     active: false
                 }
             ];
+            $scope.subjectTypes = [
+                {name: 'Specialist', value: 1},
+                {name: 'Instructor', value: 2},
+                {name: 'Both', value: 3}
+            ];
             $scope.sortModes = [
                 {by:'lastname', reverse:false},
                 {by:'title', reverse:false},
@@ -47,6 +52,7 @@ angular.module('manage.staffDirectory', [])
                     $scope.Directory = data;
                     for (var i = 0; i < $scope.Directory.list.length; i++){
                         $scope.Directory.list[i].selSubj = $scope.Directory.subjects[0];
+                        $scope.Directory.list[i].selType = $scope.subjectTypes[0];
                         for (var j = 0; j < $scope.Directory.departments.length; j++)
                             if ($scope.Directory.departments[j].depid == $scope.Directory.list[i].dept){
                                 $scope.Directory.list[i].selDept = $scope.Directory.departments[j];
@@ -161,34 +167,24 @@ angular.module('manage.staffDirectory', [])
                     });
             };
             $scope.deleteSubject = function(person, subject, index){
-                if (confirm("Delete this subject from " + person.firstname + " " + person.lastname + "?") == true){
-                    sdFactory.postData({action : 4}, subject)
-                        .success(function(data, status, headers, config) {
-                            $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects.splice(index, 1);
-                            $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse = "Subject Deleted!";
-                            console.log(data);
-                        })
-                        .error(function(data, status, headers, config) {
-                            $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse =
-                                "Error: Could not delete subject! " + data;
-                        });
-                }
+                $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects.splice(index, 1);
             };
             $scope.addSubject = function(person){
-                sdFactory.postData({action : 5}, person)
-                    .success(function(data, status, headers, config) {
-                        var newSubj = {};
-                        newSubj.id = person.selSubj.id;
-                        newSubj.subject = person.selSubj.subject;
-                        newSubj.link = person.selSubj.link;
-                        $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects.push(newSubj);
-                        $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse = "Subject Added!";
-                        console.log(data);
-                    })
-                    .error(function(data, status, headers, config) {
-                        $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse =
-                            "Error: Could not add subject! " + data;
-                    });
+                var isPresent = false;
+                for (var i = 0; i < person.subjects.length; i++)
+                    if (person.subjects[i].sid === person.selSubj.sid){
+                        isPresent = true;
+                        $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects[i].type = person.selType.value;
+                        break;
+                    }
+                if (!isPresent){
+                    var newSubj = {};
+                    newSubj.sid = person.selSubj.sid;
+                    newSubj.subject = person.selSubj.subject;
+                    newSubj.link = person.selSubj.link;
+                    newSubj.type = person.selType.value;
+                    $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects.push(newSubj);
+                }
             };
 
             $scope.isValidEmailAddress = function(emailAddress) {
@@ -224,6 +220,7 @@ angular.module('manage.staffDirectory', [])
                                                 createdUser.subjects = [];
                                                 createdUser.show = false;
                                                 createdUser.selSubj = $scope.Directory.subjects[0];
+                                                createdUser.selType = $scope.subjectTypes[0];
                                                 for (var j = 0; j < $scope.Directory.departments.length; j++)
                                                     if ($scope.Directory.departments[j].depid == $scope.newPerson.selDept.depid){
                                                         createdUser.selDept = $scope.Directory.departments[j];

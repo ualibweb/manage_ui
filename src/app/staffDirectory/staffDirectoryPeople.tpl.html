@@ -137,7 +137,13 @@
                                 ng-options="rank for rank in ranks">
                         </select>
                     </div>
-                    <div ng-show="person.show">
+                    <div class="form-group" ng-show="person.show">
+                        <label for="{{person.id}}_addSubj">Select New Subject</label>
+                        <select class="form-control" id="{{person.id}}_addSubj" ng-model="person.selSubj"
+                                ng-options="sub.subject for sub in Directory.subjects">
+                        </select>
+                    </div>
+                    <div class="text-center" ng-show="person.show">
                         <button type="button" class="btn btn-success" ng-click="updatePerson(person)">
                             Update information
                         </button>
@@ -162,9 +168,23 @@
                                 ng-options="div.name for div in Directory.divisions">
                         </select>
                     </div>
-                    <div ng-show="person.show">
+                    <div class="row form-group" ng-show="person.show">
+                        <div class="col-md-8">
+                            <label for="{{person.id}}_addType">Select Subject Type</label>
+                            <select class="form-control" id="{{person.id}}_addType" ng-model="person.selType"
+                                    ng-options="type.name for type in subjectTypes">
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Add</label>
+                            <button type="button" class="btn btn-success" ng-click="addSubject(person)">
+                                <span class="fa fa-fw fa-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-center" ng-show="person.show">
                         <button type="button" class="btn btn-danger" ng-click="deletePerson(person)">
-                            Delete {{person.firstname}} {{person.lastname}} record
+                            Delete {{person.firstname}} {{person.lastname}}
                         </button>
                     </div>
                 </td>
@@ -201,22 +221,17 @@
                     <div class="col-md-12 form-group" ng-show="person.show">
                         <label for="{{person.id}}_subj">Subjects</label>
                         <div id="{{person.id}}_subj">
-                            <div class="col-md-12" ng-repeat="subject in person.subjects">
-                                <button type="button" class="btn btn-danger" ng-click="deleteSubject(person, subject, $index)">
-                                    <span class="fa fa-fw fa-close"></span>
-                                </button>
-                                <a href="{{subject.link}}">{{subject.subject}}</a>
+                            <div class="row form-group" ng-repeat="subject in person.subjects">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-danger" ng-click="deleteSubject(person, subject, $index)">
+                                        <span class="fa fa-fw fa-close"></span>
+                                    </button>
+                                </div>
+                                <div class="col-md-10">
+                                    <a href="{{subject.link}}">{{subject.subject}}</a><br>
+                                    <small>{{subjectTypes[subject.type - 1].name}}</small>
+                                </div>
                             </div>
-                            <div class="col-md-9">
-                                <select class="form-control" ng-model="person.selSubj" ng-options="sub.subject for sub in Directory.subjects">
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <button type="button" class="btn btn-success" ng-click="addSubject(person)">
-                                    <span class="fa fa-fw fa-plus"></span>
-                                </button>
-                            </div>
-                            <p>{{person.subjResponse}}</p>
                         </div>
                     </div>
                 </td>

@@ -13,6 +13,7 @@ angular.module('manage.submittedForms', [])
             ];
             $scope.sortMode = 0;
             $scope.sortButton = $scope.sortMode;
+            $scope.mOver = 0;
 
             tokenFactory("CSRF-libForms");
 

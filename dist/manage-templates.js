@@ -2539,7 +2539,13 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                                ng-options=\"rank for rank in ranks\">\n" +
     "                        </select>\n" +
     "                    </div>\n" +
-    "                    <div ng-show=\"person.show\">\n" +
+    "                    <div class=\"form-group\" ng-show=\"person.show\">\n" +
+    "                        <label for=\"{{person.id}}_addSubj\">Select New Subject</label>\n" +
+    "                        <select class=\"form-control\" id=\"{{person.id}}_addSubj\" ng-model=\"person.selSubj\"\n" +
+    "                                ng-options=\"sub.subject for sub in Directory.subjects\">\n" +
+    "                        </select>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"text-center\" ng-show=\"person.show\">\n" +
     "                        <button type=\"button\" class=\"btn btn-success\" ng-click=\"updatePerson(person)\">\n" +
     "                            Update information\n" +
     "                        </button>\n" +
@@ -2564,9 +2570,23 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                                ng-options=\"div.name for div in Directory.divisions\">\n" +
     "                        </select>\n" +
     "                    </div>\n" +
-    "                    <div ng-show=\"person.show\">\n" +
+    "                    <div class=\"row form-group\" ng-show=\"person.show\">\n" +
+    "                        <div class=\"col-md-8\">\n" +
+    "                            <label for=\"{{person.id}}_addType\">Select Subject Type</label>\n" +
+    "                            <select class=\"form-control\" id=\"{{person.id}}_addType\" ng-model=\"person.selType\"\n" +
+    "                                    ng-options=\"type.name for type in subjectTypes\">\n" +
+    "                            </select>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-4\">\n" +
+    "                            <label>Add</label>\n" +
+    "                            <button type=\"button\" class=\"btn btn-success\" ng-click=\"addSubject(person)\">\n" +
+    "                                <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "                            </button>\n" +
+    "                        </div>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"text-center\" ng-show=\"person.show\">\n" +
     "                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deletePerson(person)\">\n" +
-    "                            Delete {{person.firstname}} {{person.lastname}} record\n" +
+    "                            Delete {{person.firstname}} {{person.lastname}}\n" +
     "                        </button>\n" +
     "                    </div>\n" +
     "                </td>\n" +
@@ -2603,22 +2623,17 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                    <div class=\"col-md-12 form-group\" ng-show=\"person.show\">\n" +
     "                        <label for=\"{{person.id}}_subj\">Subjects</label>\n" +
     "                        <div id=\"{{person.id}}_subj\">\n" +
-    "                            <div class=\"col-md-12\" ng-repeat=\"subject in person.subjects\">\n" +
-    "                                <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSubject(person, subject, $index)\">\n" +
-    "                                    <span class=\"fa fa-fw fa-close\"></span>\n" +
-    "                                </button>\n" +
-    "                                <a href=\"{{subject.link}}\">{{subject.subject}}</a>\n" +
+    "                            <div class=\"row form-group\" ng-repeat=\"subject in person.subjects\">\n" +
+    "                                <div class=\"col-md-2\">\n" +
+    "                                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSubject(person, subject, $index)\">\n" +
+    "                                        <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                                    </button>\n" +
+    "                                </div>\n" +
+    "                                <div class=\"col-md-10\">\n" +
+    "                                    <a href=\"{{subject.link}}\">{{subject.subject}}</a><br>\n" +
+    "                                    <small>{{subjectTypes[subject.type - 1].name}}</small>\n" +
+    "                                </div>\n" +
     "                            </div>\n" +
-    "                            <div class=\"col-md-9\">\n" +
-    "                                <select class=\"form-control\" ng-model=\"person.selSubj\" ng-options=\"sub.subject for sub in Directory.subjects\">\n" +
-    "                                </select>\n" +
-    "                            </div>\n" +
-    "                            <div class=\"col-md-3\">\n" +
-    "                                <button type=\"button\" class=\"btn btn-success\" ng-click=\"addSubject(person)\">\n" +
-    "                                    <span class=\"fa fa-fw fa-plus\"></span>\n" +
-    "                                </button>\n" +
-    "                            </div>\n" +
-    "                            <p>{{person.subjResponse}}</p>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </td>\n" +
