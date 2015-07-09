@@ -2548,7 +2548,8 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                    <div class=\"text-center\" ng-show=\"person.show\">\n" +
     "                        <button type=\"button\" class=\"btn btn-success\" ng-click=\"updatePerson(person)\">\n" +
     "                            Update information\n" +
-    "                        </button>\n" +
+    "                        </button><br>\n" +
+    "                        {{person.subjResponse}}\n" +
     "                    </div>\n" +
     "                </td>\n" +
     "                <td>\n" +

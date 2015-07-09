@@ -2737,10 +2737,10 @@ angular.module('manage.staffDirectory', [])
             $scope.updatePerson = function(person){
                 sdFactory.postData({action : 2}, person)
                     .success(function(data, status, headers, config) {
-                        $scope.formResponse = "Person has been updated!";
+                        $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse = "Person has been updated!";
                     })
                     .error(function(data, status, headers, config) {
-                        $scope.formResponse = "Error: Person update failed! " + data;
+                        $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjResponse = "Error: Person update failed! " + data;
                     });
             };
             $scope.deleteSubject = function(person, subject, index){
@@ -2892,8 +2892,9 @@ angular.module('manage.staffDirectory', [])
                     .success(function(data, status, headers, config) {
                         if (typeof data == 'object' && data != null){
                             var newSubject = {};
-                            newSubject.id = data.id;
+                            newSubject.sid = data.id;
                             newSubject.subject = $scope.newSubj.subject;
+                            newSubject.link = $scope.newSubj.link;
                             newSubject.show = false;
                             $scope.Directory.subjects.push(newSubject);
                             $scope.subResponse = "Subject has been added!";
