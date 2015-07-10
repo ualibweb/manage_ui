@@ -1678,6 +1678,9 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                    <button type=\"button\" class=\"btn btn-success\" ng-click=\"unpublishSW(sw)\" ng-hide=\"sw.status == 0\">\n" +
     "                        Unpublish\n" +
     "                    </button>\n" +
+    "                    <button type=\"button\" class=\"btn btn-primary\" ng-click=\"copySW(sw)\">\n" +
+    "                        Copy to New\n" +
+    "                    </button>\n" +
     "                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSW(sw)\">\n" +
     "                        Delete {{sw.title}} software\n" +
     "                    </button>\n" +
