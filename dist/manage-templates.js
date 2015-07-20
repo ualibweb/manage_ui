@@ -789,18 +789,16 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                <div class=\"col-md-12 sdOpen\">\n" +
     "                    <h3>Add News Record</h3>\n" +
     "                    <div class=\"col-md-12\">\n" +
-    "                        <div class=\"col-md-3 form-group\">\n" +
-    "                            <label for=\"up\">Upload Icon</label>\n" +
-    "                            <input type=\"file\" ngf-select=\"\" ng-model=\"newNews.picFile\" accept=\"image/png\"\n" +
-    "                                   ngf-change=\"generateThumb(newNews.picFile[0], $files)\" id=\"up\">\n" +
-    "                                <span class=\"progress\" ng-show=\"newNews.picFile[0].progress >= 0\">\n" +
-    "                                    <div class=\"ng-binding\" style=\"width:{{newNews.picFile[0].progress}}%\" ng-bind=\"newNews.picFile[0].progress + '%'\"></div>\n" +
-    "                                </span>\n" +
-    "                        </div>\n" +
-    "                        <div class=\"col-md-5 form-group\">\n" +
+    "                        <div class=\"col-md-6 form-group\">\n" +
     "                            <label for=\"title\">Title</label>\n" +
     "                            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Title\" ng-model=\"newNews.title\"\n" +
     "                                   id=\"title\" maxlength=\"100\" required>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-2 form-group\">\n" +
+    "                            <label for=\"sticky\">Make Sticky</label>\n" +
+    "                            <div class=\"checkbox text-center\" id=\"sticky\">\n" +
+    "                                <input type=\"checkbox\" ng-model=\"newNews.sticky\" ng-true-value=\"1\" ng-false-value=\"0\">\n" +
+    "                            </div>\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-2 form-group\">\n" +
     "                            <label for=\"from\">Active From</label>\n" +
@@ -816,15 +814,25 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                        </div>\n" +
     "                    </div>\n" +
     "                    <div class=\"col-md-12\">\n" +
-    "                        <div class=\"col-md-10 form-group\">\n" +
-    "                            <label for=\"blurb\">Short Description</label>\n" +
-    "                            <textarea class=\"form-control\" rows=\"1\" id=\"blurb\" ng-model=\"newNews.blurb\" maxlength=\"250\" required></textarea>\n" +
-    "                        </div>\n" +
     "                        <div class=\"col-md-2 form-group\">\n" +
-    "                            <label for=\"type\">Type</label>\n" +
-    "                            <select class=\"form-control\" id=\"type\" ng-options=\"type.name for type in types\"\n" +
-    "                                    ng-model=\"newNews.selType\">\n" +
-    "                            </select>\n" +
+    "                            <label for=\"browse\">Select Images</label>\n" +
+    "                            <div id=\"browse\">\n" +
+    "                                <button type=\"file\" ngf-select=\"\" ng-model=\"newNews.picFile\" accept=\"image/*\" ngf-multiple=\"true\"\n" +
+    "                                   ngf-change=\"generateThumb(newNews.picFile, $files)\" class=\"btn btn-success\">\n" +
+    "                                    <span class=\"fa fa-fw fa-plus\"></span>Browse\n" +
+    "                                </button>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"col-md-10 form-group\">\n" +
+    "                            <label for=\"uploaded\">Uploaded Images</label>\n" +
+    "                            <div id=\"uploaded\">\n" +
+    "                                <div class=\"col-md-3\" ng-repeat=\"img in newNews.picFile\">\n" +
+    "                                    <img ngf-src=\"img\" class=\"thumb\" width=\"150px\" height=\"100px\">\n" +
+    "                                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"newNews.picFile.splice($index,1)\">\n" +
+    "                                        <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                                    </button>\n" +
+    "                                </div>\n" +
+    "                            </div>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                    <div class=\"col-md-12\">\n" +
@@ -897,25 +905,11 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                        Details\n" +
     "                    </a>\n" +
     "                </th>\n" +
-    "                <th class=\"hidden-xs\" style=\"width: 5%\">\n" +
-    "                    <a\n" +
-    "                            ng-click=\"sortBy(3)\"\n" +
-    "                            ng-class=\"{'sortable': !sortModes[3].reverse && sortMode == 3, 'sortable-reverse': sortModes[3].reverse && sortMode == 3}\">\n" +
-    "                        Type\n" +
-    "                    </a>\n" +
-    "                </th>\n" +
     "                <th class=\"hidden-xs\" style=\"width: 8%\">\n" +
     "                    <a\n" +
     "                       ng-click=\"sortBy(1)\"\n" +
     "                       ng-class=\"{'sortable': !sortModes[1].reverse && sortMode == 1, 'sortable-reverse': sortModes[1].reverse && sortMode == 1}\">\n" +
-    "                        Start Date\n" +
-    "                    </a>\n" +
-    "                </th>\n" +
-    "                <th class=\"hidden-xs\" style=\"width: 8%\">\n" +
-    "                    <a\n" +
-    "                       ng-click=\"sortBy(2)\"\n" +
-    "                       ng-class=\"{'sortable': !sortModes[2].reverse && sortMode == 2, 'sortable-reverse': sortModes[2].reverse && sortMode == 2}\">\n" +
-    "                        Finish Date\n" +
+    "                        Date\n" +
     "                    </a>\n" +
     "                </th>\n" +
     "            </tr>\n" +
@@ -927,7 +921,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                                                             | startFrom:(currentPage-1)*perPage\n" +
     "                                                             | limitTo:perPage\"\n" +
     "                >\n" +
-    "                <td ng-click=\"toggleNews(news)\" style=\"\">\n" +
+    "                <td ng-click=\"toggleNews(news)\" style=\"cursor: pointer;\">\n" +
     "                    <table>\n" +
     "                        <tr>\n" +
     "                            <td>\n" +
@@ -937,22 +931,18 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                                </a>\n" +
     "                            </td>\n" +
     "                            <td style=\"width:64px\">\n" +
-    "                                <img ng-hide=\"news.picFile[0] != null\" src=\"{{news.img}}\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
+    "                                <img ng-hide=\"news.picFile[0] != null\" src=\"{{news.images[0].image}}\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
     "                                <img ng-show=\"news.picFile[0] != null\" ngf-src=\"news.picFile[0]\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
     "                            </td>\n" +
     "                        </tr>\n" +
     "                    </table>\n" +
     "                </td>\n" +
     "                <td>\n" +
-    "                    <form name=\"editNewsExh{{news.nid}}\" ng-submit=\"updateNews(news)\">\n" +
     "                    <div class=\"row\">\n" +
     "                        <div class=\"col-md-10\">\n" +
-    "                            <h4>\n" +
-    "                                <span ng-hide=\"news.show\" ng-click=\"toggleNews(news)\"><a>{{news.title}}</a></span>\n" +
-    "                                <span ng-show=\"news.show\">\n" +
-    "                                    <input type=\"text\" class=\"form-control\" placeholder=\"Title\" ng-model=\"news.title\"\n" +
-    "                                           maxlength=\"100\" required>\n" +
-    "                                </span>\n" +
+    "                            <h4 style=\"cursor: pointer;\" ng-click=\"toggleNews(news)\">\n" +
+    "                                <a>{{news.title}}</a>\n" +
+    "                                <small>{{news.creator}}</small>\n" +
     "                            </h4>\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-2 text-right\">\n" +
@@ -963,37 +953,59 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                            <span ng-if=\"news.status == 0 && !isAdmin\">Approval Pending</span>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
-    "                    <h4 style=\"text-align: justify;\">\n" +
-    "                        <span ng-hide=\"news.show\" ng-click=\"toggleNews(news)\"><small>{{news.blurb}}</small></span>\n" +
-    "                        <span ng-show=\"news.show\">\n" +
-    "                            <textarea class=\"form-control\" rows=\"1\" ng-model=\"news.blurb\" maxlength=\"250\" required></textarea>\n" +
-    "                        </span>\n" +
-    "                    </h4>\n" +
-    "                    <div ng-show=\"news.show\">\n" +
+    "                    <form name=\"editNewsExh{{news.nid}}\" ng-submit=\"updateNews(news)\" ng-if=\"news.show\">\n" +
+    "                    <div>\n" +
     "                        <div class=\"row\">\n" +
-    "                            <div class=\"col-md-3 form-group\">\n" +
-    "                                <label for=\"{{news.nid}}_up\">Upload Icon</label>\n" +
-    "                                <input type=\"file\" ngf-select=\"\" ng-model=\"news.picFile\" accept=\"image/png\"\n" +
-    "                                       ngf-change=\"generateThumb(news.picFile[0], $files)\" id=\"{{news.nid}}_up\">\n" +
-    "                                <span class=\"progress\" ng-show=\"news.picFile[0].progress >= 0\">\n" +
-    "                                    <div class=\"ng-binding\" style=\"width:{{news.picFile[0].progress}}%\" ng-bind=\"news.picFile[0].progress + '%'\"></div>\n" +
-    "                                </span>\n" +
+    "                            <div class=\"col-md-6 form-group\">\n" +
+    "                                <label for=\"{{news.nid}}_title\">Title</label>\n" +
+    "                                <input type=\"text\" class=\"form-control\" placeholder=\"Enter Title\" ng-model=\"news.title\"\n" +
+    "                                       id=\"{{news.nid}}_title\" maxlength=\"100\" required>\n" +
     "                            </div>\n" +
-    "                            <div class=\"col-md-3 form-group\">\n" +
-    "                                <label>Author</label>\n" +
-    "                                <div><strong>{{news.creator}}</strong></div>\n" +
+    "                            <div class=\"col-md-2 form-group\">\n" +
+    "                                <label for=\"{{news.nid}}_sticky\">Sticky</label>\n" +
+    "                                <div class=\"checkbox text-center\" id=\"{{news.nid}}_sticky\">\n" +
+    "                                    <input type=\"checkbox\" ng-model=\"newNews.sticky\" ng-true-value=\"1\" ng-false-value=\"0\">\n" +
+    "                                </div>\n" +
     "                            </div>\n" +
-    "                            <div class=\"col-md-3 form-group\">\n" +
+    "                            <div class=\"col-md-2 form-group\">\n" +
     "                                <label for=\"{{news.nid}}_from\">Active From</label>\n" +
     "                                <input type=\"text\" class=\"form-control\" id=\"{{news.nid}}_from\" datepicker-popup=\"{{dpFormat}}\"\n" +
     "                                       ng-model=\"news.activeFrom\" is-open=\"news.dpFrom\" ng-required=\"true\" close-text=\"Close\"\n" +
     "                                       ng-focus=\"onNewsDPFocusFrom($event, $index)\"/>\n" +
     "                            </div>\n" +
-    "                            <div class=\"col-md-3 form-group\">\n" +
+    "                            <div class=\"col-md-2 form-group\">\n" +
     "                                <label for=\"{{news.nid}}_until\">Active Until</label>\n" +
     "                                <input type=\"text\" class=\"form-control\" id=\"{{news.nid}}_until\" datepicker-popup=\"{{dpFormat}}\"\n" +
     "                                       ng-model=\"news.activeUntil\" is-open=\"news.dpUntil\" ng-required=\"true\" close-text=\"Close\"\n" +
     "                                       ng-focus=\"onNewsDPFocusUntil($event, $index)\"/>\n" +
+    "                            </div>\n" +
+    "                        </div>\n" +
+    "                        <div class=\"row\">\n" +
+    "                            <div class=\"col-md-2 form-group\">\n" +
+    "                                <label for=\"{{news.nid}}_browse\">Select Images</label>\n" +
+    "                                <div id=\"{{news.nid}}_browse\">\n" +
+    "                                    <button type=\"file\" ngf-select=\"\" ng-model=\"news.picFile\" accept=\"image/*\" ngf-multiple=\"true\"\n" +
+    "                                            ngf-change=\"generateThumb(news.picFile, $files)\" class=\"btn btn-success\">\n" +
+    "                                        <span class=\"fa fa-fw fa-plus\"></span>Browse\n" +
+    "                                    </button>\n" +
+    "                                </div>\n" +
+    "                            </div>\n" +
+    "                            <div class=\"col-md-10 form-group\">\n" +
+    "                                <label for=\"{{news.nid}}_uploaded\">Uploaded Images</label>\n" +
+    "                                <div id=\"{{news.nid}}_uploaded\">\n" +
+    "                                    <div class=\"col-md-3\" ng-repeat=\"img in news.images\">\n" +
+    "                                        <img ngf-src=\"img\" class=\"thumb\" width=\"150px\" height=\"100px\">\n" +
+    "                                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"news.images.splice($index,1)\">\n" +
+    "                                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                                        </button>\n" +
+    "                                    </div>\n" +
+    "                                    <div class=\"col-md-3\" ng-repeat=\"img in news.picFile\">\n" +
+    "                                        <img ngf-src=\"img\" class=\"thumb\" width=\"150px\" height=\"100px\">\n" +
+    "                                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"news.picFile.splice($index,1)\">\n" +
+    "                                            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "                                        </button>\n" +
+    "                                    </div>\n" +
+    "                                </div>\n" +
     "                            </div>\n" +
     "                        </div>\n" +
     "                        <div class=\"row\">\n" +
@@ -1037,17 +1049,8 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                    </div>\n" +
     "                    </form>\n" +
     "                </td>\n" +
-    "                <td class=\"hidden-xs\" ng-click=\"toggleNews(news)\">\n" +
-    "                    <h5>\n" +
-    "                        <span ng-show=\"news.type == 0\">News</span>\n" +
-    "                        <span ng-show=\"news.type == 1\">Exhibit</span>\n" +
-    "                    </h5>\n" +
-    "                </td>\n" +
-    "                <td class=\"hidden-xs\" ng-click=\"toggleNews(news)\">\n" +
-    "                    <h5>{{news.activeFrom | date : 'MMM d, y'}}</h5>\n" +
-    "                </td>\n" +
-    "                <td class=\"hidden-xs\" ng-click=\"toggleNews(news)\">\n" +
-    "                    <h5>{{news.activeUntil | date : 'MMM d, y'}}</h5>\n" +
+    "                <td class=\"hidden-xs\" ng-click=\"toggleNews(news)\" style=\"cursor: pointer;\">\n" +
+    "                    <h5>{{news.created | date : 'MMM d, y'}}</h5>\n" +
     "                </td>\n" +
     "            </tr>\n" +
     "            </tbody>\n" +

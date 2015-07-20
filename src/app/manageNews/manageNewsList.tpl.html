@@ -5,18 +5,16 @@
                 <div class="col-md-12 sdOpen">
                     <h3>Add News Record</h3>
                     <div class="col-md-12">
-                        <div class="col-md-3 form-group">
-                            <label for="up">Upload Icon</label>
-                            <input type="file" ngf-select="" ng-model="newNews.picFile" accept="image/png"
-                                   ngf-change="generateThumb(newNews.picFile[0], $files)" id="up">
-                                <span class="progress" ng-show="newNews.picFile[0].progress >= 0">
-                                    <div class="ng-binding" style="width:{{newNews.picFile[0].progress}}%" ng-bind="newNews.picFile[0].progress + '%'"></div>
-                                </span>
-                        </div>
-                        <div class="col-md-5 form-group">
+                        <div class="col-md-6 form-group">
                             <label for="title">Title</label>
                             <input type="text" class="form-control" placeholder="Enter Title" ng-model="newNews.title"
                                    id="title" maxlength="100" required>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="sticky">Make Sticky</label>
+                            <div class="checkbox text-center" id="sticky">
+                                <input type="checkbox" ng-model="newNews.sticky" ng-true-value="1" ng-false-value="0">
+                            </div>
                         </div>
                         <div class="col-md-2 form-group">
                             <label for="from">Active From</label>
@@ -32,15 +30,25 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-md-10 form-group">
-                            <label for="blurb">Short Description</label>
-                            <textarea class="form-control" rows="1" id="blurb" ng-model="newNews.blurb" maxlength="250" required></textarea>
-                        </div>
                         <div class="col-md-2 form-group">
-                            <label for="type">Type</label>
-                            <select class="form-control" id="type" ng-options="type.name for type in types"
-                                    ng-model="newNews.selType">
-                            </select>
+                            <label for="browse">Select Images</label>
+                            <div id="browse">
+                                <button type="file" ngf-select="" ng-model="newNews.picFile" accept="image/*" ngf-multiple="true"
+                                   ngf-change="generateThumb(newNews.picFile, $files)" class="btn btn-success">
+                                    <span class="fa fa-fw fa-plus"></span>Browse
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-10 form-group">
+                            <label for="uploaded">Uploaded Images</label>
+                            <div id="uploaded">
+                                <div class="col-md-3" ng-repeat="img in newNews.picFile">
+                                    <img ngf-src="img" class="thumb" width="150px" height="100px">
+                                    <button type="button" class="btn btn-danger" ng-click="newNews.picFile.splice($index,1)">
+                                        <span class="fa fa-fw fa-close"></span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -113,25 +121,11 @@
                         Details
                     </a>
                 </th>
-                <th class="hidden-xs" style="width: 5%">
-                    <a
-                            ng-click="sortBy(3)"
-                            ng-class="{'sortable': !sortModes[3].reverse && sortMode == 3, 'sortable-reverse': sortModes[3].reverse && sortMode == 3}">
-                        Type
-                    </a>
-                </th>
                 <th class="hidden-xs" style="width: 8%">
                     <a
                        ng-click="sortBy(1)"
                        ng-class="{'sortable': !sortModes[1].reverse && sortMode == 1, 'sortable-reverse': sortModes[1].reverse && sortMode == 1}">
-                        Start Date
-                    </a>
-                </th>
-                <th class="hidden-xs" style="width: 8%">
-                    <a
-                       ng-click="sortBy(2)"
-                       ng-class="{'sortable': !sortModes[2].reverse && sortMode == 2, 'sortable-reverse': sortModes[2].reverse && sortMode == 2}">
-                        Finish Date
+                        Date
                     </a>
                 </th>
             </tr>
@@ -143,7 +137,7 @@
                                                              | startFrom:(currentPage-1)*perPage
                                                              | limitTo:perPage"
                 >
-                <td ng-click="toggleNews(news)" style="">
+                <td ng-click="toggleNews(news)" style="cursor: pointer;">
                     <table>
                         <tr>
                             <td>
@@ -153,22 +147,18 @@
                                 </a>
                             </td>
                             <td style="width:64px">
-                                <img ng-hide="news.picFile[0] != null" src="{{news.img}}" class="thumb" width="64px" height="64px">
+                                <img ng-hide="news.picFile[0] != null" src="{{news.images[0].image}}" class="thumb" width="64px" height="64px">
                                 <img ng-show="news.picFile[0] != null" ngf-src="news.picFile[0]" class="thumb" width="64px" height="64px">
                             </td>
                         </tr>
                     </table>
                 </td>
                 <td>
-                    <form name="editNewsExh{{news.nid}}" ng-submit="updateNews(news)">
                     <div class="row">
                         <div class="col-md-10">
-                            <h4>
-                                <span ng-hide="news.show" ng-click="toggleNews(news)"><a>{{news.title}}</a></span>
-                                <span ng-show="news.show">
-                                    <input type="text" class="form-control" placeholder="Title" ng-model="news.title"
-                                           maxlength="100" required>
-                                </span>
+                            <h4 style="cursor: pointer;" ng-click="toggleNews(news)">
+                                <a>{{news.title}}</a>
+                                <small>{{news.creator}}</small>
                             </h4>
                         </div>
                         <div class="col-md-2 text-right">
@@ -179,37 +169,59 @@
                             <span ng-if="news.status == 0 && !isAdmin">Approval Pending</span>
                         </div>
                     </div>
-                    <h4 style="text-align: justify;">
-                        <span ng-hide="news.show" ng-click="toggleNews(news)"><small>{{news.blurb}}</small></span>
-                        <span ng-show="news.show">
-                            <textarea class="form-control" rows="1" ng-model="news.blurb" maxlength="250" required></textarea>
-                        </span>
-                    </h4>
-                    <div ng-show="news.show">
+                    <form name="editNewsExh{{news.nid}}" ng-submit="updateNews(news)" ng-if="news.show">
+                    <div>
                         <div class="row">
-                            <div class="col-md-3 form-group">
-                                <label for="{{news.nid}}_up">Upload Icon</label>
-                                <input type="file" ngf-select="" ng-model="news.picFile" accept="image/png"
-                                       ngf-change="generateThumb(news.picFile[0], $files)" id="{{news.nid}}_up">
-                                <span class="progress" ng-show="news.picFile[0].progress >= 0">
-                                    <div class="ng-binding" style="width:{{news.picFile[0].progress}}%" ng-bind="news.picFile[0].progress + '%'"></div>
-                                </span>
+                            <div class="col-md-6 form-group">
+                                <label for="{{news.nid}}_title">Title</label>
+                                <input type="text" class="form-control" placeholder="Enter Title" ng-model="news.title"
+                                       id="{{news.nid}}_title" maxlength="100" required>
                             </div>
-                            <div class="col-md-3 form-group">
-                                <label>Author</label>
-                                <div><strong>{{news.creator}}</strong></div>
+                            <div class="col-md-2 form-group">
+                                <label for="{{news.nid}}_sticky">Sticky</label>
+                                <div class="checkbox text-center" id="{{news.nid}}_sticky">
+                                    <input type="checkbox" ng-model="newNews.sticky" ng-true-value="1" ng-false-value="0">
+                                </div>
                             </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="{{news.nid}}_from">Active From</label>
                                 <input type="text" class="form-control" id="{{news.nid}}_from" datepicker-popup="{{dpFormat}}"
                                        ng-model="news.activeFrom" is-open="news.dpFrom" ng-required="true" close-text="Close"
                                        ng-focus="onNewsDPFocusFrom($event, $index)"/>
                             </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="{{news.nid}}_until">Active Until</label>
                                 <input type="text" class="form-control" id="{{news.nid}}_until" datepicker-popup="{{dpFormat}}"
                                        ng-model="news.activeUntil" is-open="news.dpUntil" ng-required="true" close-text="Close"
                                        ng-focus="onNewsDPFocusUntil($event, $index)"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 form-group">
+                                <label for="{{news.nid}}_browse">Select Images</label>
+                                <div id="{{news.nid}}_browse">
+                                    <button type="file" ngf-select="" ng-model="news.picFile" accept="image/*" ngf-multiple="true"
+                                            ngf-change="generateThumb(news.picFile, $files)" class="btn btn-success">
+                                        <span class="fa fa-fw fa-plus"></span>Browse
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                <label for="{{news.nid}}_uploaded">Uploaded Images</label>
+                                <div id="{{news.nid}}_uploaded">
+                                    <div class="col-md-3" ng-repeat="img in news.images">
+                                        <img ngf-src="img" class="thumb" width="150px" height="100px">
+                                        <button type="button" class="btn btn-danger" ng-click="news.images.splice($index,1)">
+                                            <span class="fa fa-fw fa-close"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3" ng-repeat="img in news.picFile">
+                                        <img ngf-src="img" class="thumb" width="150px" height="100px">
+                                        <button type="button" class="btn btn-danger" ng-click="news.picFile.splice($index,1)">
+                                            <span class="fa fa-fw fa-close"></span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -253,17 +265,8 @@
                     </div>
                     </form>
                 </td>
-                <td class="hidden-xs" ng-click="toggleNews(news)">
-                    <h5>
-                        <span ng-show="news.type == 0">News</span>
-                        <span ng-show="news.type == 1">Exhibit</span>
-                    </h5>
-                </td>
-                <td class="hidden-xs" ng-click="toggleNews(news)">
-                    <h5>{{news.activeFrom | date : 'MMM d, y'}}</h5>
-                </td>
-                <td class="hidden-xs" ng-click="toggleNews(news)">
-                    <h5>{{news.activeUntil | date : 'MMM d, y'}}</h5>
+                <td class="hidden-xs" ng-click="toggleNews(news)" style="cursor: pointer;">
+                    <h5>{{news.created | date : 'MMM d, y'}}</h5>
                 </td>
             </tr>
             </tbody>

@@ -11,15 +11,8 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                     $scope.isAdmin = true;
             $scope.sortModes = [
                 {by:'title', reverse:false},
-                {by:'activeFrom', reverse:false},
-                {by:'activeUntil', reverse:false},
-                {by:'type', reverse:false}
+                {by:'created', reverse:true}
             ];
-            $scope.types = [
-                {name:'News', value:0},
-                {name:'Exhibition', value:1}
-            ];
-            $scope.newNews.selType = $scope.types[0];
 
             tokenFactory("CSRF-libNews");
 
@@ -27,6 +20,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                 .success(function(data) {
                     console.dir(data);
                     for (var i = 0; i < data.news.length; i++){
+                        data.news[i].created = new Date(data.news[i].created * 1000);
                         data.news[i].activeFrom = new Date(data.news[i].activeFrom * 1000);
                         data.news[i].activeUntil = new Date(data.news[i].activeUntil * 1000);
                         for (var j = 0; j < data.people.length; j++)
@@ -59,14 +53,8 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.validateNews = function(news){
                 if (news.title.length < 1)
                     return "Form error: Please fill out Title!";
-                if (news.blurb.length < 1)
-                    return "Form error: Please fill out Short Description!";
                 if (news.description.length < 1)
                     return "Form error: Please fill out Description!";
-                if (!(news.activeFrom.valueOf() > 1000))
-                    return "Form error: Please fill out Active From!";
-                if (!(news.activeUntil.valueOf() > 1000))
-                    return "Form error: Please fill out Active Until!";
 
                 return "";
             };
@@ -116,7 +104,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
     })
 
     //from http://codepen.io/paulbhartzog/pen/Ekztl?editors=101
-    .value('uiTinymceConfig', {plugins: 'code textcolor link image spellchecker'})
+    .value('uiTinymceConfig', {plugins: 'link spellchecker'})
     .directive('uiTinymce', ['uiTinymceConfig', function(uiTinymceConfig) {
         uiTinymceConfig = uiTinymceConfig || {};
         var generatedIds = 0;
@@ -182,7 +170,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
         function manageNewsListCtrl($scope, $timeout, Upload, newsFactory, appURL){
             $scope.titleFilter = '';
             $scope.descrFilter = '';
-            $scope.sortMode = 0;
+            $scope.sortMode = 1;
             $scope.appURL = appURL;
 
             $scope.newNews.activeFrom = new Date();
@@ -192,6 +180,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.newNews.contactName = '';
             $scope.newNews.contactEmail = '';
             $scope.newNews.contactPhone = '';
+            $scope.newNews.sticky = 0;
 
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
@@ -297,11 +286,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                     news.picFile.upload.then(function(response) {
                         $timeout(function() {
                             if ((typeof response.data === 'object') && (response.data !== null)){
-                                $scope.data.news[$scope.data.news.indexOf(news)].formResponse = "News has been updated, ";
-                                if (response.data.iconUploaded)
-                                    $scope.data.news[$scope.data.news.indexOf(news)].formResponse += "Icon uploaded.";
-                                else
-                                    $scope.data.news[$scope.data.news.indexOf(news)].formResponse += "Icon has not changed.";
+                                $scope.data.news[$scope.data.news.indexOf(news)].formResponse = "News has been updated.";
                             } else {
                                 $scope.data.news[$scope.data.news.indexOf(news)].formResponse = 
                                     "Error: Can not update news! " + response.data;
@@ -331,14 +316,15 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                             if ((typeof data === 'object') && (data !== null)){
                                 var newNews = {};
                                 newNews.nid = data.id;
+                                newNews.images = angular.copy(data.images);
                                 newNews.title = $scope.newNews.title;
-                                newNews.blurb = $scope.newNews.blurb;
                                 newNews.description = $scope.newNews.description;
                                 newNews.activeFrom = new Date($scope.newNews.activeFrom * 1000);
                                 newNews.activeUntil = new Date($scope.newNews.activeUntil * 1000);
                                 newNews.contactName = $scope.newNews.contactName;
                                 newNews.contactEmail = $scope.newNews.contactEmail;
                                 newNews.contactPhone = $scope.newNews.contactPhone;
+                                newNews.sticky = $scope.newNews.sticky;
                                 for (var j = 0; j < $scope.data.people.length; j++)
                                     if ($scope.newNews.contactID.uid === $scope.data.people[j].uid){
                                         newNews.contactID = $scope.data.people[j];
@@ -346,8 +332,6 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                                     }
                                 newNews.show = false;
                                 newNews.class = "";
-                                newNews.img = data.img;
-                                newNews.type = $scope.newNews.selType.value;
                                 newNews.status = 0;
                                 $scope.data.news.push(newNews);
                                 $scope.newNews.formResponse = "News has been added.";
@@ -376,14 +360,15 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                             if ((typeof response.data === 'object') && (response.data !== null)){
                                 var newNews = {};
                                 newNews.nid = response.data.id;
+                                newNews.images = angular.copy(response.data.images);
                                 newNews.title = $scope.newNews.title;
-                                newNews.blurb = $scope.newNews.blurb;
                                 newNews.description = $scope.newNews.description;
                                 newNews.activeFrom = new Date($scope.newNews.activeFrom * 1000);
                                 newNews.activeUntil = new Date($scope.newNews.activeUntil * 1000);
                                 newNews.contactName = $scope.newNews.contactName;
                                 newNews.contactEmail = $scope.newNews.contactEmail;
                                 newNews.contactPhone = $scope.newNews.contactPhone;
+                                newNews.sticky = $scope.newNews.sticky;
                                 for (var j = 0; j < $scope.data.people.length; j++)
                                     if ($scope.newNews.contactID.uid === $scope.data.people[j].uid){
                                         newNews.contactID = $scope.data.people[j];
@@ -391,8 +376,6 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                                     }
                                 newNews.show = false;
                                 newNews.class = "";
-                                newNews.img = response.data.img;
-                                newNews.type = $scope.newNews.selType.value;
                                 newNews.status = 0;
                                 $scope.data.news.push(newNews);
                                 $scope.newNews.formResponse = "News has been added.";
