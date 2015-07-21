@@ -43,7 +43,7 @@
                             <label for="uploaded">Uploaded Images</label>
                             <div id="uploaded">
                                 <div class="col-md-3" ng-repeat="img in newNews.picFile">
-                                    <img ngf-src="img" class="thumb" width="150px" height="100px">
+                                    <img ngf-src="img" width="150px" height="100px">
                                     <button type="button" class="btn btn-danger" ng-click="newNews.picFile.splice($index,1)">
                                         <span class="fa fa-fw fa-close"></span>
                                     </button>
@@ -210,13 +210,13 @@
                                 <label for="{{news.nid}}_uploaded">Uploaded Images</label>
                                 <div id="{{news.nid}}_uploaded">
                                     <div class="col-md-3" ng-repeat="img in news.images">
-                                        <img ngf-src="img.image" class="thumb" width="150px" height="100px">
+                                        <img src="{{img.image}}" width="150px" height="100px">
                                         <button type="button" class="btn btn-danger" ng-click="news.images.splice($index,1)">
                                             <span class="fa fa-fw fa-close"></span>
                                         </button>
                                     </div>
                                     <div class="col-md-3" ng-repeat="img in news.picFile">
-                                        <img ngf-src="img" class="thumb" width="150px" height="100px">
+                                        <img ngf-src="img" width="150px" height="100px">
                                         <button type="button" class="btn btn-danger" ng-click="news.picFile.splice($index,1)">
                                             <span class="fa fa-fw fa-close"></span>
                                         </button>
