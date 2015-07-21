@@ -869,7 +869,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                        </div>\n" +
     "                    </div>\n" +
     "                    <div class=\"col-md-12 text-center form-group\">\n" +
-    "                        <button type=\"submit\" class=\"btn btn-success\">Create New Record</button><br>\n" +
+    "                        <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"uploading\">Create New Record</button><br>\n" +
     "                        {{newNews.formResponse}}\n" +
     "                    </div>\n" +
     "                </div>\n" +

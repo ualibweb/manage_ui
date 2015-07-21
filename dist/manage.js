@@ -1191,6 +1191,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.descrFilter = '';
             $scope.sortMode = 1;
             $scope.appURL = appURL;
+            $scope.uploading = false;
 
             $scope.newNews.activeFrom = new Date();
             $scope.newNews.activeUntil = new Date();
@@ -1273,6 +1274,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                 $scope.data.news[$scope.data.news.indexOf(news)].formResponse = $scope.validateNews(news);
                 if ($scope.data.news[$scope.data.news.indexOf(news)].formResponse.length > 0)
                     return false;
+                $scope.uploading = true;
                 news.tsFrom = news.activeFrom.valueOf() / 1000;
                 news.tsUntil = news.activeUntil.valueOf() / 1000;
                 if (typeof news.picFile === 'undefined'){
@@ -1280,19 +1282,24 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                         .success(function(data, status, headers, config) {
                             if ((typeof data === 'object') && (data !== null)){
                                 $scope.data.news[$scope.data.news.indexOf(news)].formResponse =
-                                    "News has been updated, Icon has not changed.";
+                                    "News has been updated.";
                             } else {
                                 $scope.data.news[$scope.data.news.indexOf(news)].formResponse =
                                     "Error: Can not update news! " + data;
                             }
                             console.log(data);
+                            $scope.uploading = false;
                         })
                         .error(function(data, status, headers, config) {
                             $scope.data.news[$scope.data.news.indexOf(news)].formResponse =
                                 "Error: Could not update news! " + data;
                             console.log(data);
+                            $scope.uploading = false;
                         });
                 } else {
+                    var names = [];
+                    for (var i = 0; i < news.picFile.length; i++)
+                        names.push(news.picFile[i].name);
                     news.picFile.upload = Upload.upload({
                         url: appURL + 'processData.php?action=2',
                         method: 'POST',
@@ -1300,21 +1307,25 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                             news: news
                         },
                         file: news.picFile,
-                        fileFormDataName: 'editNewsExh' + news.nid
+                        fileFormDataName: names
                     });
                     news.picFile.upload.then(function(response) {
                         $timeout(function() {
                             if ((typeof response.data === 'object') && (response.data !== null)){
-                                $scope.data.news[$scope.data.news.indexOf(news)].formResponse = "News has been updated.";
+                                $scope.data.news[$scope.data.news.indexOf(news)].images = [];
+                                $scope.data.news[$scope.data.news.indexOf(news)].images = angular.copy(response.data.images);
+                                $scope.data.news[$scope.data.news.indexOf(news)].formResponse = "News has been updated, images have been uploaded.";
                             } else {
                                 $scope.data.news[$scope.data.news.indexOf(news)].formResponse = 
                                     "Error: Can not update news! " + response.data;
                             }
                             console.log(response.data);
+                            $scope.uploading = false;
                         });
                     }, function(response) {
                         if (response.status > 0)
                             $scope.data.news[$scope.data.news.indexOf(news)].formResponse = response.status + ': ' + response.data;
+                        $scope.uploading = false;
                     });
                     news.picFile.upload.progress(function(evt) {
                         // Math.min is to fix IE which reports 200% sometimes
@@ -1326,6 +1337,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                 $scope.newNews.formResponse = $scope.validateNews($scope.newNews);
                 if ($scope.newNews.formResponse.length > 0)
                     return false;
+                $scope.uploading = true;
                 $scope.newNews.tsFrom = $scope.newNews.activeFrom.valueOf() / 1000;
                 $scope.newNews.tsUntil = $scope.newNews.activeUntil.valueOf() / 1000;
 
@@ -1358,11 +1370,13 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                                 $scope.newNews.formResponse = "Error: Can not add news 2! " + data;
                             }
                             console.dir(data);
+                            $scope.uploading = false;
                         })
                         .error(function(data, status, headers, config) {
                             $scope.data.news[$scope.data.news.indexOf(news)].formResponse =
                                 "Error: Could not add news 2! " + data;
                             console.log(data);
+                            $scope.uploading = false;
                         });
                 } else {
                     var names = [];
@@ -1405,10 +1419,12 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                                 $scope.newNews.formResponse = "Error: Can not add news! " + response.data;
                             }
                             console.dir(response.data);
+                            $scope.uploading = false;
                         });
                     }, function(response) {
                         if (response.status > 0)
                             $scope.newNews.formResponse = response.status + ': ' + response.data;
+                        $scope.uploading = false;
                     });
                     $scope.newNews.picFile.upload.progress(function(evt) {
                         // Math.min is to fix IE which reports 200% sometimes
