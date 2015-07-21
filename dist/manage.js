@@ -1365,6 +1365,9 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                             console.log(data);
                         });
                 } else {
+                    var names = [];
+                    for (var i = 0; i < $scope.newNews.picFile.length; i++)
+                        names.push($scope.newNews.picFile[i].name);
                     $scope.newNews.picFile.upload = Upload.upload({
                         url: appURL + 'processData.php?action=3',
                         method: 'POST',
@@ -1372,7 +1375,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                             news: $scope.newNews
                         },
                         file: $scope.newNews.picFile,
-                        fileFormDataName: 'addNewsExh'
+                        fileFormDataName: names
                     });
                     $scope.newNews.picFile.upload.then(function(response) {
                         $timeout(function() {
