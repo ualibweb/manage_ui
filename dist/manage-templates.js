@@ -2695,7 +2695,10 @@ angular.module("staffDirectory/staffDirectorySubjects.tpl.html", []).run(["$temp
     "                    </span>\n" +
     "                </td>\n" +
     "                <td>\n" +
-    "                    <span ng-hide=\"subject.show\"><a href=\"{{subject.link}}\">{{subject.link}}</a></span>\n" +
+    "                    <span ng-hide=\"subject.show\">\n" +
+    "                        <a href=\"{{subject.link}}\" ng-if=\"subject.link.length > 0\">{{subject.link}}</a>\n" +
+    "                        <span ng-if=\"subject.link.length == 0\">{{subject.link}}</span>\n" +
+    "                    </span>\n" +
     "                    <span ng-show=\"subject.show\">\n" +
     "                        <input type=\"text\" class=\"form-control\" placeholder=\"Subject Link\" ng-model=\"subject.link\"\n" +
     "                               maxlength=\"1024\">\n" +

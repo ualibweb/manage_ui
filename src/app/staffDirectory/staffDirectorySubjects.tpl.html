@@ -35,7 +35,10 @@
                     </span>
                 </td>
                 <td>
-                    <span ng-hide="subject.show"><a href="{{subject.link}}">{{subject.link}}</a></span>
+                    <span ng-hide="subject.show">
+                        <a href="{{subject.link}}" ng-if="subject.link.length > 0">{{subject.link}}</a>
+                        <span ng-if="subject.link.length == 0">{{subject.link}}</span>
+                    </span>
                     <span ng-show="subject.show">
                         <input type="text" class="form-control" placeholder="Subject Link" ng-model="subject.link"
                                maxlength="1024">
