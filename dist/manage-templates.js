@@ -1040,7 +1040,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                            </div>\n" +
     "                        </div>\n" +
     "                        <div class=\"row text-center\">\n" +
-    "                            <button type=\"submit\" class=\"btn btn-success\">Update information</button>\n" +
+    "                            <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"uploading\">Update information</button>\n" +
     "                            <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteNews(news)\">\n" +
     "                                Delete News\n" +
     "                            </button><br>\n" +
