@@ -697,7 +697,7 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "    </tr>\n" +
     "    <tr>\n" +
     "        <th scope=\"row\">\n" +
-    "            <select class=\"form-control\" ng-model=\"newUser\" ng-options=\"user.name for user in users\">\n" +
+    "            <select class=\"form-control\" ng-model=\"newUser\" ng-options=\"user.fullName for user in users | orderBy:'fullName'\">\n" +
     "            </select>\n" +
     "        </th>\n" +
     "        <td class=\"text-center\">\n" +
@@ -715,7 +715,9 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "        </td>\n" +
     "        <td class=\"text-center\">\n" +
     "            <div>\n" +
-    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"createUser(newUser)\" ng-disabled=\"isLoading\">Grant Access</button><br>\n" +
+    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"createUser(newUser)\" ng-disabled=\"isLoading || newUser.login.length <= 1\">\n" +
+    "                    Grant Access\n" +
+    "                </button><br>\n" +
     "                {{result2}}\n" +
     "            </div>\n" +
     "        </td>\n" +

@@ -35,7 +35,7 @@
     </tr>
     <tr>
         <th scope="row">
-            <select class="form-control" ng-model="newUser" ng-options="user.name for user in users">
+            <select class="form-control" ng-model="newUser" ng-options="user.fullName for user in users | orderBy:'fullName'">
             </select>
         </th>
         <td class="text-center">
@@ -53,7 +53,9 @@
         </td>
         <td class="text-center">
             <div>
-                <button type="button" class="btn btn-success" ng-click="createUser(newUser)" ng-disabled="isLoading">Grant Access</button><br>
+                <button type="button" class="btn btn-success" ng-click="createUser(newUser)" ng-disabled="isLoading || newUser.login.length <= 1">
+                    Grant Access
+                </button><br>
                 {{result2}}
             </div>
         </td>
