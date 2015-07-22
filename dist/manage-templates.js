@@ -2102,8 +2102,8 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
     "            <table class=\"table table-hover table-condensed\">\n" +
     "                <thead>\n" +
     "                <tr>\n" +
-    "                    <th style=\"width:15%;\"><a ng-click=\"sortBy(0)\">Login</a></th>\n" +
-    "                    <th style=\"width:15%;\" class=\"text-center\"><a ng-click=\"sortBy(1)\">Name</a></th>\n" +
+    "                    <th style=\"width:15%;\"><a ng-click=\"sortBy(0)\" style=\"cursor: pointer;\">Login</a></th>\n" +
+    "                    <th style=\"width:15%;\" class=\"text-center\"><a ng-click=\"sortBy(1)\" style=\"cursor: pointer;\">Name</a></th>\n" +
     "                    <th class=\"text-center\">Access Rights to Web Applications</th>\n" +
     "                    <th class=\"text-center\" style=\"width:120px;\">Action</th>\n" +
     "                </tr>\n" +
