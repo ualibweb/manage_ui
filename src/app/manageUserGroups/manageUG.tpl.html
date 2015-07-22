@@ -50,12 +50,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">
+                    <td colspan="2">
                         <select class="form-control" ng-model="newUser" ng-options="user.fullName for user in wpUsers | orderBy:'name'">
                         </select>
-                    </th>
-                    <td class="text-center">
-
                     </td>
                     <td>
                         <div class="row" ng-repeat="app in apps">
