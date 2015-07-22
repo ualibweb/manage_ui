@@ -12,7 +12,7 @@
                     <th class="text-center" style="width:120px;">Action</th>
                 </tr>
                 </thead>
-                <tr ng-repeat="user in users | orderBy:name" ng-click="expandUser(user)">
+                <tr ng-repeat="user in users | orderBy:'name'" ng-click="expandUser(user)">
                     <th scope="row">
                         {{user.wpLogin}}
                     </th>
