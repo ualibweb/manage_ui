@@ -687,10 +687,12 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "        </td>\n" +
     "        <td class=\"text-center\">\n" +
     "            <div ng-show=\"isExpUser(user.uid)\">\n" +
-    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"updateUser(user)\" ng-disabled=\"isLoading\"\n" +
-    "                        ng-hide=\"expUserIndex == 0\">Save</button>\n" +
-    "                <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteUser(user, $index)\" ng-disabled=\"isLoading\"\n" +
-    "                        ng-hide=\"expUserIndex == 0\">Delete</button><br>\n" +
+    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"updateUser(user)\" ng-disabled=\"isLoading\">\n" +
+    "                    Save\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteUser(user, $index)\" ng-disabled=\"isLoading\">\n" +
+    "                    Delete\n" +
+    "                </button><br>\n" +
     "                {{result}}\n" +
     "            </div>\n" +
     "        </td>\n" +

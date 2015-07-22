@@ -25,10 +25,12 @@
         </td>
         <td class="text-center">
             <div ng-show="isExpUser(user.uid)">
-                <button type="button" class="btn btn-success" ng-click="updateUser(user)" ng-disabled="isLoading"
-                        ng-hide="expUserIndex == 0">Save</button>
-                <button type="button" class="btn btn-danger" ng-click="deleteUser(user, $index)" ng-disabled="isLoading"
-                        ng-hide="expUserIndex == 0">Delete</button><br>
+                <button type="button" class="btn btn-success" ng-click="updateUser(user)" ng-disabled="isLoading">
+                    Save
+                </button>
+                <button type="button" class="btn btn-danger" ng-click="deleteUser(user, $index)" ng-disabled="isLoading">
+                    Delete
+                </button><br>
                 {{result}}
             </div>
         </td>
