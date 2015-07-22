@@ -2468,6 +2468,12 @@ angular.module('manage.manageUserGroups', [])
                 active: false
             }];
 
+        $scope.sortMode = 0;
+        $scope.sortModes = [
+            {by:'login', reverse:false},
+            {by:'name', reverse:false}
+        ];
+
         tokenFactory("CSRF-libAdmin");
 
         $scope.expandUser = function(user){
@@ -2478,6 +2484,12 @@ angular.module('manage.manageUserGroups', [])
             if ($scope.expUser === uID)
                 return true;
             return false;
+        };
+        $scope.sortBy = function(by){
+            if ($scope.sortMode === by)
+                $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
+            else
+                $scope.sortMode = by;
         };
 
         $scope.updateUser = function(user){
