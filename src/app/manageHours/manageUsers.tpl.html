@@ -7,8 +7,8 @@
         <th class="text-center">Action</th>
     </tr>
     </thead>
-    <tr ng-repeat="user in dataUL.users" ng-click="expandUser(user)">
-        <th scope="row">{{user.name}}
+    <tr ng-repeat="user in dataUL.users | orderBy:'name'" ng-click="expandUser(user)">
+        <th scope="row">{{user.fullName}}
         </th>
         <td class="text-center">
             <input type="checkbox" ng-model="user.role">
