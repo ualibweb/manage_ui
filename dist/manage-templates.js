@@ -2104,7 +2104,7 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
     "                    <th class=\"text-center\" style=\"width:120px;\">Action</th>\n" +
     "                </tr>\n" +
     "                </thead>\n" +
-    "                <tr ng-repeat=\"user in users\" ng-click=\"expandUser(user)\">\n" +
+    "                <tr ng-repeat=\"user in users | orderBy:name\" ng-click=\"expandUser(user)\">\n" +
     "                    <th scope=\"row\">\n" +
     "                        {{user.wpLogin}}\n" +
     "                    </th>\n" +
@@ -2145,7 +2145,7 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
     "                </tr>\n" +
     "                <tr>\n" +
     "                    <th scope=\"row\">\n" +
-    "                        <select class=\"form-control\" ng-model=\"newUser\" ng-options=\"user.name for user in wpUsers\">\n" +
+    "                        <select class=\"form-control\" ng-model=\"newUser\" ng-options=\"user.fullName for user in wpUsers | orderBy:'name'\">\n" +
     "                        </select>\n" +
     "                    </th>\n" +
     "                    <td class=\"text-center\">\n" +
