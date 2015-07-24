@@ -1690,7 +1690,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                    </button>\n" +
     "                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSW(sw)\">\n" +
     "                        Delete {{sw.title}} software\n" +
-    "                    </button>\n" +
+    "                    </button><br>\n" +
     "                    {{sw.formResponse}}\n" +
     "                </div>\n" +
     "            </form>\n" +
@@ -1962,7 +1962,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-12 form-group text-center\">\n" +
-    "            <button type=\"submit\" class=\"btn btn-success\">Create Software Record</button>\n" +
+    "            <button type=\"submit\" class=\"btn btn-success\">Create Software Record</button><br>\n" +
     "            {{newSW.formResponse}}\n" +
     "        </div>\n" +
     "    </div>\n" +
