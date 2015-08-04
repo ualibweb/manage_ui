@@ -258,8 +258,14 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                 if ($scope.data.news[$scope.data.news.indexOf(news)].formResponse.length > 0)
                     return false;
                 $scope.uploading = true;
-                news.tsFrom = news.activeFrom.valueOf() / 1000;
-                news.tsUntil = news.activeUntil.valueOf() / 1000;
+                if (news.activeFrom !== null)
+                    news.tsFrom = news.activeFrom.valueOf() / 1000;
+                else
+                    news.tsFrom = null;
+                if (news.activeUntil !== null)
+                    news.tsUntil = news.activeUntil.valueOf() / 1000;
+                else
+                    news.tsUntil = null;
                 if (typeof news.picFile === 'undefined'){
                     newsFactory.postData({action : 21}, news)
                         .success(function(data, status, headers, config) {
@@ -322,8 +328,14 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                 if ($scope.newNews.formResponse.length > 0)
                     return false;
                 $scope.uploading = true;
-                $scope.newNews.tsFrom = $scope.newNews.activeFrom.valueOf() / 1000;
-                $scope.newNews.tsUntil = $scope.newNews.activeUntil.valueOf() / 1000;
+                if ($scope.newNews.activeFrom !== null)
+                    $scope.newNews.tsFrom = $scope.newNews.activeFrom.valueOf() / 1000;
+                else
+                    $scope.newNews.tsFrom = null;
+                if ($scope.newNews.activeUntil !== null)
+                    $scope.newNews.tsUntil = $scope.newNews.activeUntil.valueOf() / 1000;
+                else
+                    $scope.newNews.tsUntil = null;
 
                 if (typeof $scope.newNews.picFile === 'undefined'){
                     newsFactory.postData({action : 31}, $scope.newNews)

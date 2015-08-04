@@ -186,13 +186,13 @@
                             <div class="col-md-2 form-group">
                                 <label for="{{news.nid}}_from">Active From</label>
                                 <input type="text" class="form-control" id="{{news.nid}}_from" datepicker-popup="{{dpFormat}}"
-                                       ng-model="news.activeFrom" is-open="news.dpFrom" ng-required="true" close-text="Close"
+                                       ng-model="news.activeFrom" is-open="news.dpFrom" close-text="Close"
                                        ng-focus="onNewsDPFocusFrom($event, $index)"/>
                             </div>
                             <div class="col-md-2 form-group">
                                 <label for="{{news.nid}}_until">Active Until</label>
                                 <input type="text" class="form-control" id="{{news.nid}}_until" datepicker-popup="{{dpFormat}}"
-                                       ng-model="news.activeUntil" is-open="news.dpUntil" ng-required="true" close-text="Close"
+                                       ng-model="news.activeUntil" is-open="news.dpUntil" close-text="Close"
                                        ng-focus="onNewsDPFocusUntil($event, $index)"/>
                             </div>
                         </div>
