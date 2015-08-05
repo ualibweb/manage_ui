@@ -34,17 +34,17 @@
                             <label for="browse">Select Images</label>
                             <div id="browse">
                                 <button type="file" ngf-select="" ng-model="newNews.picFile" accept="image/*" ngf-multiple="true"
-                                   ngf-change="generateThumb(newNews.picFile, $files)" class="btn btn-success">
+                                   ngf-change="generateThumb(newNews.picFile, 0, $files)" class="btn btn-success">
                                     <span class="fa fa-fw fa-plus"></span>Browse
                                 </button>
                             </div>
                         </div>
                         <div class="col-md-10 form-group">
-                            <label for="uploaded">Uploaded Images</label>
-                            <div id="uploaded">
-                                <div class="col-md-3" ng-repeat="img in newNews.picFile">
+                            <label for="selected">Selected Images</label>
+                            <div id="selected">
+                                <div class="col-md-3" ng-repeat="img in newNews.selectedFiles">
                                     <img ngf-src="img" width="150px" height="100px">
-                                    <button type="button" class="btn btn-danger" ng-click="newNews.picFile.splice($index,1)">
+                                    <button type="button" class="btn btn-danger" ng-click="newNews.selectedFiles.splice($index,1)">
                                         <span class="fa fa-fw fa-close"></span>
                                     </button>
                                 </div>
@@ -201,7 +201,7 @@
                                 <label for="{{news.nid}}_browse">Select Images</label>
                                 <div id="{{news.nid}}_browse">
                                     <button type="file" ngf-select="" ng-model="news.picFile" accept="image/*" ngf-multiple="true"
-                                            ngf-change="generateThumb(news.picFile, $files)" class="btn btn-success">
+                                            ngf-change="generateThumb(news.picFile, news.nid, $files)" class="btn btn-success">
                                         <span class="fa fa-fw fa-plus"></span>Browse
                                     </button>
                                 </div>
@@ -215,9 +215,9 @@
                                             <span class="fa fa-fw fa-close"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-3" ng-repeat="img in news.picFile">
+                                    <div class="col-md-3" ng-repeat="img in news.selectedFiles">
                                         <img ngf-src="img" width="150px" height="100px">
-                                        <button type="button" class="btn btn-danger" ng-click="news.picFile.splice($index,1)">
+                                        <button type="button" class="btn btn-danger" ng-click="news.selectedFiles.splice($index,1)">
                                             <span class="fa fa-fw fa-close"></span>
                                         </button>
                                     </div>

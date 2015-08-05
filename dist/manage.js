@@ -1031,6 +1031,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.dpFormat = 'MM/dd/yyyy';
             $scope.newNews = {};
             $scope.newNews.creator = $window.author;
+            $scope.newNews.selectedFiles = [];
             $scope.isAdmin = false;
             if (typeof $window.admin !== 'undefined')
                 if ($window.admin === "1")
@@ -1060,6 +1061,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                         data.news[i].class = "";
                         data.news[i].dpFrom = false;
                         data.news[i].dpUntil = false;
+                        data.news[i].selectedFiles = [];
                     }
                     $scope.newNews.contactID = data.people[0];
                     $scope.data = data;
@@ -1086,18 +1088,27 @@ angular.module('manage.manageNews', ['ngFileUpload'])
 
                 return "";
             };
-            $scope.generateThumb = function(file) {
-                if (file != null) {
-                    if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
-                        $timeout(function() {
-                            var fileReader = new FileReader();
-                            fileReader.readAsDataURL(file);
-                            fileReader.onload = function(e) {
-                                $timeout(function() {
-                                    file.dataUrl = e.target.result;
-                                });
-                            }
-                        });
+            $scope.generateThumb = function(files, index, fileArray) {
+                if (files != null) {
+                    for (var i = 0; i < files.length; i++){
+                        if (index > 0) {
+                            $scope.data.news[index].selectedFiles.push(files[i]);
+                        } else {
+                            $scope.newNews.selectedFiles.push(files[i]);
+                            fileArray = angular.copy($scope.newNews.selectedFiles);
+                            console.dir(fileArray);
+                        }
+                        if ($scope.fileReaderSupported && files[i].type.indexOf('image') > -1) {
+                            $timeout(function() {
+                                var fileReader = new FileReader();
+                                fileReader.readAsDataURL(files[i]);
+                                fileReader.onload = function(e) {
+                                    $timeout(function() {
+                                        files[i].dataUrl = e.target.result;
+                                    });
+                                }
+                            });
+                        }
                     }
                 }
             };
@@ -1392,6 +1403,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                                 newNews.show = false;
                                 newNews.class = "";
                                 newNews.status = 0;
+                                newNews.selectedFiles = [];
                                 $scope.data.news.push(newNews);
                                 $scope.newNews.formResponse = "News has been added.";
                             } else {
@@ -1447,6 +1459,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
                                 newNews.show = false;
                                 newNews.class = "";
                                 newNews.status = 0;
+                                newNews.selectedFiles = [];
                                 $scope.data.news.push(newNews);
                                 $scope.newNews.formResponse = "News has been added.";
                             } else {

@@ -822,17 +822,17 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                            <label for=\"browse\">Select Images</label>\n" +
     "                            <div id=\"browse\">\n" +
     "                                <button type=\"file\" ngf-select=\"\" ng-model=\"newNews.picFile\" accept=\"image/*\" ngf-multiple=\"true\"\n" +
-    "                                   ngf-change=\"generateThumb(newNews.picFile, $files)\" class=\"btn btn-success\">\n" +
+    "                                   ngf-change=\"generateThumb(newNews.picFile, 0, $files)\" class=\"btn btn-success\">\n" +
     "                                    <span class=\"fa fa-fw fa-plus\"></span>Browse\n" +
     "                                </button>\n" +
     "                            </div>\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-10 form-group\">\n" +
-    "                            <label for=\"uploaded\">Uploaded Images</label>\n" +
-    "                            <div id=\"uploaded\">\n" +
-    "                                <div class=\"col-md-3\" ng-repeat=\"img in newNews.picFile\">\n" +
+    "                            <label for=\"selected\">Selected Images</label>\n" +
+    "                            <div id=\"selected\">\n" +
+    "                                <div class=\"col-md-3\" ng-repeat=\"img in newNews.selectedFiles\">\n" +
     "                                    <img ngf-src=\"img\" width=\"150px\" height=\"100px\">\n" +
-    "                                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"newNews.picFile.splice($index,1)\">\n" +
+    "                                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"newNews.selectedFiles.splice($index,1)\">\n" +
     "                                        <span class=\"fa fa-fw fa-close\"></span>\n" +
     "                                    </button>\n" +
     "                                </div>\n" +
@@ -989,7 +989,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                                <label for=\"{{news.nid}}_browse\">Select Images</label>\n" +
     "                                <div id=\"{{news.nid}}_browse\">\n" +
     "                                    <button type=\"file\" ngf-select=\"\" ng-model=\"news.picFile\" accept=\"image/*\" ngf-multiple=\"true\"\n" +
-    "                                            ngf-change=\"generateThumb(news.picFile, $files)\" class=\"btn btn-success\">\n" +
+    "                                            ngf-change=\"generateThumb(news.picFile, news.nid, $files)\" class=\"btn btn-success\">\n" +
     "                                        <span class=\"fa fa-fw fa-plus\"></span>Browse\n" +
     "                                    </button>\n" +
     "                                </div>\n" +
@@ -1003,9 +1003,9 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                                            <span class=\"fa fa-fw fa-close\"></span>\n" +
     "                                        </button>\n" +
     "                                    </div>\n" +
-    "                                    <div class=\"col-md-3\" ng-repeat=\"img in news.picFile\">\n" +
+    "                                    <div class=\"col-md-3\" ng-repeat=\"img in news.selectedFiles\">\n" +
     "                                        <img ngf-src=\"img\" width=\"150px\" height=\"100px\">\n" +
-    "                                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"news.picFile.splice($index,1)\">\n" +
+    "                                        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"news.selectedFiles.splice($index,1)\">\n" +
     "                                            <span class=\"fa fa-fw fa-close\"></span>\n" +
     "                                        </button>\n" +
     "                                    </div>\n" +
