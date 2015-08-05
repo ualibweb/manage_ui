@@ -62,15 +62,13 @@ angular.module('manage.manageNews', ['ngFileUpload'])
 
                 return "";
             };
-            $scope.generateThumb = function(files, index, fileArray) {
+            $scope.generateThumb = function(files, news) {
                 if (files != null) {
                     for (var i = 0; i < files.length; i++){
-                        if (index > 0) {
-                            $scope.data.news[index].selectedFiles.push(files[i]);
+                        if (news !== null) {
+                            $scope.data.news[$scope.data.news.indexOf(news)].selectedFiles.push(files[i]);
                         } else {
                             $scope.newNews.selectedFiles.push(files[i]);
-                            fileArray = angular.copy($scope.newNews.selectedFiles);
-                            console.dir(fileArray);
                         }
                         if ($scope.fileReaderSupported && files[i].type.indexOf('image') > -1) {
                             $timeout(function() {

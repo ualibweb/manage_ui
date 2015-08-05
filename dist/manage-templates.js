@@ -822,7 +822,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                            <label for=\"browse\">Select Images</label>\n" +
     "                            <div id=\"browse\">\n" +
     "                                <button type=\"file\" ngf-select=\"\" ng-model=\"newNews.picFile\" accept=\"image/*\" ngf-multiple=\"true\"\n" +
-    "                                   ngf-change=\"generateThumb(newNews.picFile, 0, $files)\" class=\"btn btn-success\">\n" +
+    "                                   ngf-change=\"generateThumb(newNews.picFile, null)\" class=\"btn btn-success\">\n" +
     "                                    <span class=\"fa fa-fw fa-plus\"></span>Browse\n" +
     "                                </button>\n" +
     "                            </div>\n" +
@@ -989,7 +989,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                                <label for=\"{{news.nid}}_browse\">Select Images</label>\n" +
     "                                <div id=\"{{news.nid}}_browse\">\n" +
     "                                    <button type=\"file\" ngf-select=\"\" ng-model=\"news.picFile\" accept=\"image/*\" ngf-multiple=\"true\"\n" +
-    "                                            ngf-change=\"generateThumb(news.picFile, news.nid, $files)\" class=\"btn btn-success\">\n" +
+    "                                            ngf-change=\"generateThumb(news.picFile, news)\" class=\"btn btn-success\">\n" +
     "                                        <span class=\"fa fa-fw fa-plus\"></span>Browse\n" +
     "                                    </button>\n" +
     "                                </div>\n" +
