@@ -284,7 +284,7 @@ angular.module('manage.manageDatabases', [])
             };
         }])
 
-    .directive('databasesManageList', function($animate) {
+    .directive('databasesManageList', ['$animate', function($animate) {
         return {
             restrict: 'A',
             scope: {},
@@ -310,12 +310,12 @@ angular.module('manage.manageDatabases', [])
             },
             templateUrl: 'manageDatabases/manageDatabases.tpl.html'
         };
-    })
-    .filter('startFrom', function() {
+    }])
+    .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
             if (typeof input == 'undefined')
                 return input;
             return input.slice(start);
         }
-    })
+    }])

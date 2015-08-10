@@ -132,13 +132,13 @@ angular.module('manage.manageHoursUsers', [])
         };
 
     }])
-    .directive('hoursUserList', function() {
+    .directive('hoursUserList', [function() {
         return {
             restrict: 'AC',
             controller: 'hrsUserListCtrl',
             templateUrl: 'manageHours/manageUsers.tpl.html'
         };
-    })
+    }])
 
     .controller('hrsLocationsCtrl', ['$scope', 'hmFactory', function hrsUserListCtrl($scope, hmFactory) {
         $scope.newLocation = "";
@@ -178,10 +178,10 @@ angular.module('manage.manageHoursUsers', [])
                 });
         };
     }])
-    .directive('hoursLocationList', function() {
+    .directive('hoursLocationList', [function() {
         return {
             restrict: 'AC',
             controller: 'hrsLocationsCtrl',
             templateUrl: 'manageHours/manageLoc.tpl.html'
         };
-    })
+    }])

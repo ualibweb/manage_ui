@@ -92,7 +92,7 @@ angular.module('manage.staffDirectory', [])
                 });
 
         }])
-    .directive('staffDirectoryList', function($animate) {
+    .directive('staffDirectoryList', ['$animate', function($animate) {
         return {
             restrict: 'AC',
             scope: {},
@@ -117,7 +117,7 @@ angular.module('manage.staffDirectory', [])
             },
             templateUrl: 'staffDirectory/staffDirectory.tpl.html'
         };
-    })
+    }])
     .controller('staffDirPeopleCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_URL',
         function staffDirPeopleCtrl($scope, sdFactory, ranks, appUrl){
             $scope.lastNameFilter = '';
@@ -253,7 +253,7 @@ angular.module('manage.staffDirectory', [])
                     alert("First Name is too short!");
             };
         }])
-    .directive('manageSdPeople', function() {
+    .directive('manageSdPeople', [ function() {
         return {
             restrict: 'AC',
             controller: 'staffDirPeopleCtrl',
@@ -261,13 +261,13 @@ angular.module('manage.staffDirectory', [])
             },
             templateUrl: 'staffDirectory/staffDirectoryPeople.tpl.html'
         };
-    })
-    .filter('startFrom', function() {
+    }])
+    .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
             return input.slice(start);
         }
-    })
+    }])
 
     .controller('staffDirSubjectsCtrl', ['$scope', 'sdFactory',
         function staffDirSubjectsCtrl($scope, sdFactory){
@@ -332,7 +332,7 @@ angular.module('manage.staffDirectory', [])
             };
 
         }])
-    .directive('manageSdSubjects', function() {
+    .directive('manageSdSubjects', [ function() {
         return {
             restrict: 'AC',
             controller: 'staffDirSubjectsCtrl',
@@ -340,7 +340,7 @@ angular.module('manage.staffDirectory', [])
             },
             templateUrl: 'staffDirectory/staffDirectorySubjects.tpl.html'
         };
-    })
+    }])
 
     .controller('staffDirDepartmentsCtrl', ['$scope', 'sdFactory',
         function staffDirDepartmentsCtrl($scope, sdFactory){
@@ -513,7 +513,7 @@ angular.module('manage.staffDirectory', [])
             };
 
         }])
-    .directive('manageSdDepartments', function() {
+    .directive('manageSdDepartments', [ function() {
         return {
             restrict: 'AC',
             controller: 'staffDirDepartmentsCtrl',
@@ -521,4 +521,4 @@ angular.module('manage.staffDirectory', [])
             },
             templateUrl: 'staffDirectory/staffDirectoryDepartments.tpl.html'
         };
-    })
+    }])

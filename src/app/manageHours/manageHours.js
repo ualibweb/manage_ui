@@ -87,7 +87,7 @@ angular.module('manage.manageHours', [])
                 }];
     }])
 
-    .directive('manageHours', function($animate) {
+    .directive('manageHours',['$animate', function($animate) {
         return {
             restrict: 'A',
             scope: {},
@@ -113,7 +113,7 @@ angular.module('manage.manageHours', [])
             },
             templateUrl: 'manageHours/manageHours.tpl.html'
         };
-    })
+    }])
 
     .controller('semListCtrl', ['$scope', 'hmFactory', function semListCtrl($scope, hmFactory) {
         $scope.expSem = -1;
@@ -223,14 +223,14 @@ angular.module('manage.manageHours', [])
         };
     }])
 
-    .directive('semesterList', function() {
+    .directive('semesterList', [ function() {
         return {
             require: '^manageHours',
             restrict: 'A',
             controller: 'semListCtrl',
             templateUrl: 'manageHours/manageSem.tpl.html'
         };
-    })
+    }])
 
     .controller('exListCtrl', ['$scope', 'hmFactory', function exListCtrl($scope, hmFactory) {
         $scope.newException = {};
@@ -352,7 +352,7 @@ angular.module('manage.manageHours', [])
                 });
         };
     }])
-    .directive('exceptionList', function($timeout) {
+    .directive('exceptionList',[ function() {
         return {
             require: '^manageHours',
             restrict: 'A',
@@ -362,4 +362,4 @@ angular.module('manage.manageHours', [])
             },
             templateUrl: 'manageHours/manageEx.tpl.html'
         };
-    })
+    }])

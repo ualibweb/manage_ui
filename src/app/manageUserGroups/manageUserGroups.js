@@ -112,24 +112,24 @@ angular.module('manage.manageUserGroups', [])
         };
 
     }])
-    .directive('userGroupsList', function() {
+    .directive('userGroupsList', [ function() {
         return {
             restrict: 'A',
             scope: {},
             controller: 'userGroupsCtrl',
             templateUrl: 'manageUserGroups/manageUG.tpl.html'
         };
-    })
+    }])
     .controller('myWebAppsCtrl', ['$scope', '$window',
         function myWebAppsCtrl($scope, $window){
             $scope.apps = $window.apps;
             $scope.userName = $window.userName;
         }])
-    .directive('viewMyWebApps', function() {
+    .directive('viewMyWebApps', [ function() {
         return {
             restrict: 'A',
             scope: {},
             controller: 'myWebAppsCtrl',
             templateUrl: 'manageUserGroups/viewMyWebApps.tpl.html'
         };
-    })
+    }])

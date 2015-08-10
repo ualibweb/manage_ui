@@ -87,11 +87,11 @@ angular.module('manage.manageOneSearch', [])
                     });
             };
         }])
-    .directive('recommendedLinksList', function() {
+    .directive('recommendedLinksList', [ function() {
         return {
             restrict: 'AC',
             scope: {},
             controller: 'manageOneSearchCtrl',
             templateUrl: 'manageOneSearch/manageOneSearch.tpl.html'
         };
-    })
+    }])

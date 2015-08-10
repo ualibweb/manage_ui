@@ -434,7 +434,7 @@ angular.module('manage.manageDatabases', [])
             };
         }])
 
-    .directive('databasesManageList', function($animate) {
+    .directive('databasesManageList', ['$animate', function($animate) {
         return {
             restrict: 'A',
             scope: {},
@@ -460,15 +460,15 @@ angular.module('manage.manageDatabases', [])
             },
             templateUrl: 'manageDatabases/manageDatabases.tpl.html'
         };
-    })
-    .filter('startFrom', function() {
+    }])
+    .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
             if (typeof input == 'undefined')
                 return input;
             return input.slice(start);
         }
-    })
+    }])
 
 angular.module('manage.manageHours', [])
     .constant('HOURS_FROM', [
@@ -559,7 +559,7 @@ angular.module('manage.manageHours', [])
                 }];
     }])
 
-    .directive('manageHours', function($animate) {
+    .directive('manageHours',['$animate', function($animate) {
         return {
             restrict: 'A',
             scope: {},
@@ -585,7 +585,7 @@ angular.module('manage.manageHours', [])
             },
             templateUrl: 'manageHours/manageHours.tpl.html'
         };
-    })
+    }])
 
     .controller('semListCtrl', ['$scope', 'hmFactory', function semListCtrl($scope, hmFactory) {
         $scope.expSem = -1;
@@ -695,14 +695,14 @@ angular.module('manage.manageHours', [])
         };
     }])
 
-    .directive('semesterList', function() {
+    .directive('semesterList', [ function() {
         return {
             require: '^manageHours',
             restrict: 'A',
             controller: 'semListCtrl',
             templateUrl: 'manageHours/manageSem.tpl.html'
         };
-    })
+    }])
 
     .controller('exListCtrl', ['$scope', 'hmFactory', function exListCtrl($scope, hmFactory) {
         $scope.newException = {};
@@ -824,7 +824,7 @@ angular.module('manage.manageHours', [])
                 });
         };
     }])
-    .directive('exceptionList', function($timeout) {
+    .directive('exceptionList',[ function() {
         return {
             require: '^manageHours',
             restrict: 'A',
@@ -834,7 +834,7 @@ angular.module('manage.manageHours', [])
             },
             templateUrl: 'manageHours/manageEx.tpl.html'
         };
-    })
+    }])
 
 angular.module('manage.manageHoursUsers', [])
     .controller('manageHrsUsersCtrl', ['$scope', '$window', '$animate', 'tokenFactory', 'hmFactory',
@@ -970,13 +970,13 @@ angular.module('manage.manageHoursUsers', [])
         };
 
     }])
-    .directive('hoursUserList', function() {
+    .directive('hoursUserList', [function() {
         return {
             restrict: 'AC',
             controller: 'hrsUserListCtrl',
             templateUrl: 'manageHours/manageUsers.tpl.html'
         };
-    })
+    }])
 
     .controller('hrsLocationsCtrl', ['$scope', 'hmFactory', function hrsUserListCtrl($scope, hmFactory) {
         $scope.newLocation = "";
@@ -1016,13 +1016,13 @@ angular.module('manage.manageHoursUsers', [])
                 });
         };
     }])
-    .directive('hoursLocationList', function() {
+    .directive('hoursLocationList', [function() {
         return {
             restrict: 'AC',
             controller: 'hrsLocationsCtrl',
             templateUrl: 'manageHours/manageLoc.tpl.html'
         };
-    })
+    }])
 
 angular.module('manage.manageNews', ['ngFileUpload'])
     .controller('manageNewsCtrl', ['$scope', '$window', '$timeout', 'tokenFactory', 'newsFactory',
@@ -1112,7 +1112,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             };
         }])
 
-    .directive('newsExhibitionsMain', function($animate) {
+    .directive('newsExhibitionsMain', ['$animate', function($animate) {
         return {
             restrict: 'A',
             scope: {},
@@ -1138,7 +1138,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             },
             templateUrl: 'manageNews/manageNews.tpl.html'
         };
-    })
+    }])
 
     //from http://codepen.io/paulbhartzog/pen/Ekztl?editors=101
     .value('uiTinymceConfig', {plugins: 'link spellchecker', toolbar: 'undo redo | bold italic | link', menubar : false})
@@ -1224,21 +1224,29 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
 
-            $scope.onNewsDPFocusFrom = function($event, index){
+            $scope.onNewsDPFocusFrom = function($event, news){
                 $event.preventDefault();
                 $event.stopPropagation();
-                if (typeof index != 'undefined' && index >= 0)
-                    $scope.data.news[index].dpFrom = true;
-                else
+                if (typeof news != 'undefined') {
+                    if ($scope.data.news[$scope.data.news.indexOf(news)].activeFrom == null) {
+                        $scope.data.news[$scope.data.news.indexOf(news)].activeFrom = new Date();
+                    }
+                    $scope.data.news[$scope.data.news.indexOf(news)].dpFrom = true;
+                } else {
                     $scope.newNews.dpFrom = true;
+                }
             };
-            $scope.onNewsDPFocusUntil = function($event, index){
+            $scope.onNewsDPFocusUntil = function($event, news){
                 $event.preventDefault();
                 $event.stopPropagation();
-                if (typeof index != 'undefined' && index >= 0)
-                    $scope.data.news[index].dpUntil = true;
-                else
+                if (typeof news != 'undefined') {
+                    if ($scope.data.news[$scope.data.news.indexOf(news)].activeUntil == null) {
+                        $scope.data.news[$scope.data.news.indexOf(news)].activeUntil = new Date();
+                    }
+                    $scope.data.news[$scope.data.news.indexOf(news)].dpUntil = true;
+                } else {
                     $scope.newNews.dpUntil = true;
+                }
             };
 
             $scope.toggleNews = function(news){
@@ -1480,7 +1488,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             };
         }])
 
-    .directive('manageNewsList', function() {
+    .directive('manageNewsList', [ function() {
         return {
             restrict: 'A',
             controller: 'manageNewsListCtrl',
@@ -1489,22 +1497,22 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             },
             templateUrl: 'manageNews/manageNewsList.tpl.html'
         };
-    })
-    .filter('startFrom', function() {
+    }])
+    .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
             if (typeof input == 'undefined')
                 return input;
             return input.slice(start);
         }
-    })
+    }])
 
     .controller('manageAdminsListCtrl', ['$scope', 'newsFactory',
         function manageAdminsListCtrl($scope, newsFactory){
 
         }])
 
-    .directive('manageAdminsList', function() {
+    .directive('manageAdminsList', [ function() {
         return {
             restrict: 'A',
             controller: 'manageAdminsListCtrl',
@@ -1513,7 +1521,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             },
             templateUrl: 'manageNews/manageNewsAdmins.tpl.html'
         };
-    })
+    }])
 
 angular.module('manage.manageOneSearch', [])
     .controller('manageOneSearchCtrl', ['$scope', 'tokenFactory', 'osFactory',
@@ -1604,14 +1612,14 @@ angular.module('manage.manageOneSearch', [])
                     });
             };
         }])
-    .directive('recommendedLinksList', function() {
+    .directive('recommendedLinksList', [ function() {
         return {
             restrict: 'AC',
             scope: {},
             controller: 'manageOneSearchCtrl',
             templateUrl: 'manageOneSearch/manageOneSearch.tpl.html'
         };
-    })
+    }])
 angular.module('manage.manageSoftware', ['ngFileUpload'])
     .controller('manageSWCtrl', ['$scope', 'tokenFactory', 'swFactory',
         function manageSWCtrl($scope, tokenFactory, swFactory){
@@ -1679,7 +1687,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             ];
         }])
 
-    .directive('manageSoftwareMain', function($animate) {
+    .directive('manageSoftwareMain', ['$animate', function($animate) {
         return {
             restrict: 'A',
             scope: {},
@@ -1705,7 +1713,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             },
             templateUrl: 'manageSoftware/manageSoftware.tpl.html'
         };
-    })
+    }])
 
     .controller('manageSWListCtrl', ['$scope', '$timeout', 'Upload', 'swFactory', 'SOFTWARE_URL',
         function manageSWListCtrl($scope, $timeout, Upload, swFactory, appURL){
@@ -2182,7 +2190,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
 
     }])
 
-    .directive('softwareManageList', function() {
+    .directive('softwareManageList',[  function() {
         return {
             restrict: 'A',
             controller: 'manageSWListCtrl',
@@ -2191,15 +2199,15 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             },
             templateUrl: 'manageSoftware/manageSoftwareList.tpl.html'
         };
-    })
-    .filter('startFrom', function() {
+    }])
+    .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
             if (typeof input == 'undefined')
                 return input;
             return input.slice(start);
         }
-    })
+    }])
     .controller('manageSWLocCatCtrl', ['$scope', '$timeout', 'swFactory',
         function manageSWLocCatCtrl($scope, $timeout, swFactory){
             $scope.selLocation = -1;
@@ -2332,7 +2340,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     });
             };
         }])
-    .directive('softwareManageLocCat', function() {
+    .directive('softwareManageLocCat', [ function() {
         return {
             restrict: 'A',
             controller: 'manageSWLocCatCtrl',
@@ -2341,7 +2349,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             },
             templateUrl: 'manageSoftware/manageSoftwareLocCat.tpl.html'
         };
-    })
+    }])
 
     .controller('manageSWCompMapsCtrl', ['$scope', '$window', 'swFactory', function manageSWCompMapsCtrl($scope, $window, swFactory){
         $scope.selComp = -1;
@@ -2480,7 +2488,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
 
 
     }])
-    .directive('softwareManageComputerMaps', function() {
+    .directive('softwareManageComputerMaps', [ function() {
         return {
             restrict: 'A',
             controller: 'manageSWCompMapsCtrl',
@@ -2489,7 +2497,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             },
             templateUrl: 'manageSoftware/manageSoftwareComputerMaps.tpl.html'
         };
-    })
+    }])
 
 angular.module('manage.manageUserGroups', [])
     .controller('userGroupsCtrl', ['$scope', '$window', 'tokenFactory', 'ugFactory',
@@ -2605,27 +2613,27 @@ angular.module('manage.manageUserGroups', [])
         };
 
     }])
-    .directive('userGroupsList', function() {
+    .directive('userGroupsList', [ function() {
         return {
             restrict: 'A',
             scope: {},
             controller: 'userGroupsCtrl',
             templateUrl: 'manageUserGroups/manageUG.tpl.html'
         };
-    })
+    }])
     .controller('myWebAppsCtrl', ['$scope', '$window',
         function myWebAppsCtrl($scope, $window){
             $scope.apps = $window.apps;
             $scope.userName = $window.userName;
         }])
-    .directive('viewMyWebApps', function() {
+    .directive('viewMyWebApps', [ function() {
         return {
             restrict: 'A',
             scope: {},
             controller: 'myWebAppsCtrl',
             templateUrl: 'manageUserGroups/viewMyWebApps.tpl.html'
         };
-    })
+    }])
 angular.module('manage.siteFeedback', [])
     .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'sfFactory',
         function siteFeedbackCtrl($scope, tokenFactory, sfFactory){
@@ -2642,14 +2650,14 @@ angular.module('manage.siteFeedback', [])
                     console.log(data);
                 });
         }])
-    .directive('siteFeedbackList', function() {
+    .directive('siteFeedbackList', [ function() {
         return {
             restrict: 'AC',
             scope: {},
             controller: 'siteFeedbackCtrl',
             templateUrl: 'siteFeedback/siteFeedback.tpl.html'
         };
-    })
+    }])
 
 angular.module('manage.staffDirectory', [])
     .constant('STAFF_DIR_RANKS', [
@@ -2745,7 +2753,7 @@ angular.module('manage.staffDirectory', [])
                 });
 
         }])
-    .directive('staffDirectoryList', function($animate) {
+    .directive('staffDirectoryList', ['$animate', function($animate) {
         return {
             restrict: 'AC',
             scope: {},
@@ -2770,7 +2778,7 @@ angular.module('manage.staffDirectory', [])
             },
             templateUrl: 'staffDirectory/staffDirectory.tpl.html'
         };
-    })
+    }])
     .controller('staffDirPeopleCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_URL',
         function staffDirPeopleCtrl($scope, sdFactory, ranks, appUrl){
             $scope.lastNameFilter = '';
@@ -2906,7 +2914,7 @@ angular.module('manage.staffDirectory', [])
                     alert("First Name is too short!");
             };
         }])
-    .directive('manageSdPeople', function() {
+    .directive('manageSdPeople', [ function() {
         return {
             restrict: 'AC',
             controller: 'staffDirPeopleCtrl',
@@ -2914,13 +2922,13 @@ angular.module('manage.staffDirectory', [])
             },
             templateUrl: 'staffDirectory/staffDirectoryPeople.tpl.html'
         };
-    })
-    .filter('startFrom', function() {
+    }])
+    .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
             return input.slice(start);
         }
-    })
+    }])
 
     .controller('staffDirSubjectsCtrl', ['$scope', 'sdFactory',
         function staffDirSubjectsCtrl($scope, sdFactory){
@@ -2985,7 +2993,7 @@ angular.module('manage.staffDirectory', [])
             };
 
         }])
-    .directive('manageSdSubjects', function() {
+    .directive('manageSdSubjects', [ function() {
         return {
             restrict: 'AC',
             controller: 'staffDirSubjectsCtrl',
@@ -2993,7 +3001,7 @@ angular.module('manage.staffDirectory', [])
             },
             templateUrl: 'staffDirectory/staffDirectorySubjects.tpl.html'
         };
-    })
+    }])
 
     .controller('staffDirDepartmentsCtrl', ['$scope', 'sdFactory',
         function staffDirDepartmentsCtrl($scope, sdFactory){
@@ -3166,7 +3174,7 @@ angular.module('manage.staffDirectory', [])
             };
 
         }])
-    .directive('manageSdDepartments', function() {
+    .directive('manageSdDepartments', [ function() {
         return {
             restrict: 'AC',
             controller: 'staffDirDepartmentsCtrl',
@@ -3174,7 +3182,7 @@ angular.module('manage.staffDirectory', [])
             },
             templateUrl: 'staffDirectory/staffDirectoryDepartments.tpl.html'
         };
-    })
+    }])
 
 angular.module('manage.submittedForms', [])
     .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'tokenFactory', 'formFactory',
@@ -3214,7 +3222,7 @@ angular.module('manage.submittedForms', [])
             };
         }])
 
-    .directive('submittedFormsList', function($animate) {
+    .directive('submittedFormsList', ['$animate', function($animate) {
         return {
             restrict: 'AC',
             scope: {},
@@ -3240,15 +3248,15 @@ angular.module('manage.submittedForms', [])
             },
             templateUrl: 'submittedForms/submittedForms.tpl.html'
         };
-    })
-    .filter('startFrom', function() {
+    }])
+    .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
             if (typeof input == 'undefined')
                 return input;
             return input.slice(start);
         }
-    })
+    }])
 
     .controller('customFormCtrl', ['$scope', 'formFactory',
     function customFormCtrl($scope, formFactory){

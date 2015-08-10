@@ -36,7 +36,7 @@ angular.module('manage.submittedForms', [])
             };
         }])
 
-    .directive('submittedFormsList', function($animate) {
+    .directive('submittedFormsList', ['$animate', function($animate) {
         return {
             restrict: 'AC',
             scope: {},
@@ -62,15 +62,15 @@ angular.module('manage.submittedForms', [])
             },
             templateUrl: 'submittedForms/submittedForms.tpl.html'
         };
-    })
-    .filter('startFrom', function() {
+    }])
+    .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
             if (typeof input == 'undefined')
                 return input;
             return input.slice(start);
         }
-    })
+    }])
 
     .controller('customFormCtrl', ['$scope', 'formFactory',
     function customFormCtrl($scope, formFactory){

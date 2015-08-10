@@ -65,7 +65,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             ];
         }])
 
-    .directive('manageSoftwareMain', function($animate) {
+    .directive('manageSoftwareMain', ['$animate', function($animate) {
         return {
             restrict: 'A',
             scope: {},
@@ -91,7 +91,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             },
             templateUrl: 'manageSoftware/manageSoftware.tpl.html'
         };
-    })
+    }])
 
     .controller('manageSWListCtrl', ['$scope', '$timeout', 'Upload', 'swFactory', 'SOFTWARE_URL',
         function manageSWListCtrl($scope, $timeout, Upload, swFactory, appURL){
@@ -568,7 +568,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
 
     }])
 
-    .directive('softwareManageList', function() {
+    .directive('softwareManageList',[  function() {
         return {
             restrict: 'A',
             controller: 'manageSWListCtrl',
@@ -577,15 +577,15 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             },
             templateUrl: 'manageSoftware/manageSoftwareList.tpl.html'
         };
-    })
-    .filter('startFrom', function() {
+    }])
+    .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
             if (typeof input == 'undefined')
                 return input;
             return input.slice(start);
         }
-    })
+    }])
     .controller('manageSWLocCatCtrl', ['$scope', '$timeout', 'swFactory',
         function manageSWLocCatCtrl($scope, $timeout, swFactory){
             $scope.selLocation = -1;
@@ -718,7 +718,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     });
             };
         }])
-    .directive('softwareManageLocCat', function() {
+    .directive('softwareManageLocCat', [ function() {
         return {
             restrict: 'A',
             controller: 'manageSWLocCatCtrl',
@@ -727,7 +727,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             },
             templateUrl: 'manageSoftware/manageSoftwareLocCat.tpl.html'
         };
-    })
+    }])
 
     .controller('manageSWCompMapsCtrl', ['$scope', '$window', 'swFactory', function manageSWCompMapsCtrl($scope, $window, swFactory){
         $scope.selComp = -1;
@@ -866,7 +866,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
 
 
     }])
-    .directive('softwareManageComputerMaps', function() {
+    .directive('softwareManageComputerMaps', [ function() {
         return {
             restrict: 'A',
             controller: 'manageSWCompMapsCtrl',
@@ -875,4 +875,4 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             },
             templateUrl: 'manageSoftware/manageSoftwareComputerMaps.tpl.html'
         };
-    })
+    }])

@@ -86,7 +86,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             };
         }])
 
-    .directive('newsExhibitionsMain', function($animate) {
+    .directive('newsExhibitionsMain', ['$animate', function($animate) {
         return {
             restrict: 'A',
             scope: {},
@@ -112,7 +112,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             },
             templateUrl: 'manageNews/manageNews.tpl.html'
         };
-    })
+    }])
 
     //from http://codepen.io/paulbhartzog/pen/Ekztl?editors=101
     .value('uiTinymceConfig', {plugins: 'link spellchecker', toolbar: 'undo redo | bold italic | link', menubar : false})
@@ -198,21 +198,29 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
 
-            $scope.onNewsDPFocusFrom = function($event, index){
+            $scope.onNewsDPFocusFrom = function($event, news){
                 $event.preventDefault();
                 $event.stopPropagation();
-                if (typeof index != 'undefined' && index >= 0)
-                    $scope.data.news[index].dpFrom = true;
-                else
+                if (typeof news != 'undefined') {
+                    if ($scope.data.news[$scope.data.news.indexOf(news)].activeFrom == null) {
+                        $scope.data.news[$scope.data.news.indexOf(news)].activeFrom = new Date();
+                    }
+                    $scope.data.news[$scope.data.news.indexOf(news)].dpFrom = true;
+                } else {
                     $scope.newNews.dpFrom = true;
+                }
             };
-            $scope.onNewsDPFocusUntil = function($event, index){
+            $scope.onNewsDPFocusUntil = function($event, news){
                 $event.preventDefault();
                 $event.stopPropagation();
-                if (typeof index != 'undefined' && index >= 0)
-                    $scope.data.news[index].dpUntil = true;
-                else
+                if (typeof news != 'undefined') {
+                    if ($scope.data.news[$scope.data.news.indexOf(news)].activeUntil == null) {
+                        $scope.data.news[$scope.data.news.indexOf(news)].activeUntil = new Date();
+                    }
+                    $scope.data.news[$scope.data.news.indexOf(news)].dpUntil = true;
+                } else {
                     $scope.newNews.dpUntil = true;
+                }
             };
 
             $scope.toggleNews = function(news){
@@ -454,7 +462,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             };
         }])
 
-    .directive('manageNewsList', function() {
+    .directive('manageNewsList', [ function() {
         return {
             restrict: 'A',
             controller: 'manageNewsListCtrl',
@@ -463,22 +471,22 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             },
             templateUrl: 'manageNews/manageNewsList.tpl.html'
         };
-    })
-    .filter('startFrom', function() {
+    }])
+    .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
             if (typeof input == 'undefined')
                 return input;
             return input.slice(start);
         }
-    })
+    }])
 
     .controller('manageAdminsListCtrl', ['$scope', 'newsFactory',
         function manageAdminsListCtrl($scope, newsFactory){
 
         }])
 
-    .directive('manageAdminsList', function() {
+    .directive('manageAdminsList', [ function() {
         return {
             restrict: 'A',
             controller: 'manageAdminsListCtrl',
@@ -487,4 +495,4 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             },
             templateUrl: 'manageNews/manageNewsAdmins.tpl.html'
         };
-    })
+    }])
