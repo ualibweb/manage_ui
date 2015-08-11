@@ -48,7 +48,7 @@ angular.module('common.manage', [])
             header["X-" + tokenName] = this.GetCookie(tokenName);
             $http.defaults.headers.get = header;
             $http.defaults.headers.post = header;
-        }
+        };
     }])
 
     .factory('hmFactory', ['$http', 'HOURS_MANAGE_URL', function hmFactory($http, url){
@@ -60,7 +60,7 @@ angular.module('common.manage', [])
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url + "manageHours.php", params: params, data: data})
             }
-        }
+        };
     }])
     .factory('ugFactory', ['$http', 'USER_GROUPS_URL', function ugFactory($http, url){
         return {
@@ -68,7 +68,7 @@ angular.module('common.manage', [])
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url, params: params, data: data})
             }
-        }
+        };
     }])
     .factory('sfFactory', ['$http', 'SITE_FEEDBACK_URL', function sfFactory($http, url){
         return {
@@ -76,7 +76,7 @@ angular.module('common.manage', [])
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'GET', url: url, params: params})
             }
-        }
+        };
     }])
     .factory('osFactory', ['$http', 'ONE_SEARCH_URL', function osFactory($http, url){
         return {
@@ -87,7 +87,7 @@ angular.module('common.manage', [])
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
             }
-        }
+        };
     }])
     .factory('sdFactory', ['$http', 'STAFF_DIR_URL', function sdFactory($http, url){
         return {
@@ -98,7 +98,7 @@ angular.module('common.manage', [])
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
             }
-        }
+        };
     }])
     .factory('mdbFactory', ['$http', 'DATABASES_URL', function mdbFactory($http, url){
         return {
@@ -109,7 +109,7 @@ angular.module('common.manage', [])
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
             }
-        }
+        };
     }])
     .factory('swFactory', ['$http', 'SOFTWARE_URL', function swFactory($http, url){
         return {
@@ -120,7 +120,7 @@ angular.module('common.manage', [])
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
             }
-        }
+        };
     }])
     .factory('newsFactory', ['$http', 'NEWS_URL', function newsFactory($http, url){
         return {
@@ -131,7 +131,7 @@ angular.module('common.manage', [])
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
             }
-        }
+        };
     }])
     .factory('formFactory', ['$http', 'FORMS_URL', function formFactory($http, url){
         return {
@@ -145,7 +145,7 @@ angular.module('common.manage', [])
             submitForm: function(data){
                 return $http({method: 'POST', url: url + "api/process", params: {}, data: data})
             }
-        }
+        };
     }])
 
 angular.module('manage.manageDatabases', [])
