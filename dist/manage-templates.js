@@ -494,8 +494,12 @@ angular.module("manageHours/manageHours.tpl.html", []).run(["$templateCache", fu
     "    </div>\n" +
     "</div>\n" +
     "\n" +
+    "<div class=\"alert alert-warning\" role=\"alert\">\n" +
+    "    <span class=\"fa fa-exclamation-triangle\"></span> Warning: Please use exceptions in order to create periods with the non\n" +
+    "    standard hours (for example, Finals week).\n" +
+    "</div>\n" +
     "<div class=\"alert alert-info\" role=\"alert\">\n" +
-    "    <span class=\"fa fa-exclamation-triangle\"></span> Note: set <strong>From</strong> and <strong>To</strong> hours to\n" +
+    "    <span class=\"fa fa-info-circle\"></span> Note: set <strong>From</strong> and <strong>To</strong> hours to\n" +
     "    <strong>Midnight</strong> in order to indicate <strong>Open 24 hours</strong>.\n" +
     "</div>\n" +
     "\n" +
