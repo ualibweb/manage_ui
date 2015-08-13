@@ -1,0 +1,33 @@
+<h3>OneSearch Statistics</h3>
+
+
+<div class="table-responsive">
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th style="width:80px;">
+                Number
+            </th>
+            <th>
+                Keyword
+            </th>
+            <th style="width:150px;">
+                Count
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="stat in statList)">
+            <td>
+                {{$index}}
+            </td>
+            <td>
+                {{stat.keyword}}
+            </td>
+            <td>
+                {{stat.count}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

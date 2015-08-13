@@ -1,4 +1,47 @@
 angular.module('manage.manageOneSearch', [])
+
+    .controller('mainOneSearchCtrl', ['$scope',
+        function mainOneSearchCtrl($scope){
+            $scope.tabs = [
+                { name: 'Recommended Links',
+                    number: 0,
+                    active: true
+                },
+                { name: 'Search Statistics',
+                    number: 1,
+                    active: false
+                }
+            ];
+        }])
+
+    .directive('manageOneSearchMain', ['$animate', function($animate) {
+        return {
+            restrict: 'A',
+            scope: {},
+            controller: 'mainOneSearchCtrl',
+            link: function(scope, elm, attrs){
+                //Preload the spinner element
+                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
+                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
+                var titleElm = elm.find('h2');
+                //Enter the spinner animation, appending it to the title element
+                $animate.enter(spinner, titleElm[0]);
+
+                var loadingWatcher = scope.$watch(
+                    'recList.RecList',
+                    function(newVal, oldVal){
+                        if (newVal != oldVal){
+                            $animate.leave(spinner);
+                            console.log("Rec list loaded");
+                        }
+                    },
+                    true
+                );
+            },
+            templateUrl: 'manageOneSearch/mainOneSearch.tpl.html'
+        };
+    }])
+
     .controller('manageOneSearchCtrl', ['$scope', 'tokenFactory', 'osFactory',
         function manageOneSearchCtrl($scope, tokenFactory, osFactory){
             $scope.recList = [];
@@ -20,7 +63,7 @@ angular.module('manage.manageOneSearch', [])
 
             tokenFactory("CSRF-libOneSearch");
 
-            osFactory.getData()
+            osFactory.getData('reclist')
                 .success(function(data) {
                     console.dir(data);
                     $scope.recList = data;
@@ -95,3 +138,26 @@ angular.module('manage.manageOneSearch', [])
             templateUrl: 'manageOneSearch/manageOneSearch.tpl.html'
         };
     }])
+
+    .controller('oneSearchStatCtrl', ['$scope', 'osFactory',
+        function oneSearchStatCtrl($scope, osFactory){
+            $scope.statList = [];
+
+            osFactory.getData('statistics')
+                .success(function(data) {
+                    console.dir(data);
+                    $scope.statList = data;
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                });
+
+        }])
+    .directive('searchStatisticsList', [ function() {
+        return {
+            restrict: 'AC',
+            scope: {},
+            controller: 'oneSearchStatCtrl',
+            templateUrl: 'manageOneSearch/oneSearchStat.tpl.html'
+        };
+    }]);
