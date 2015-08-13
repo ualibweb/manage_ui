@@ -28,7 +28,7 @@ angular.module('manage.manageOneSearch', [])
                 $animate.enter(spinner, titleElm[0]);
 
                 var loadingWatcher = scope.$watch(
-                    'recList.RecList',
+                    'recList.length',
                     function(newVal, oldVal){
                         if (newVal != oldVal){
                             $animate.leave(spinner);

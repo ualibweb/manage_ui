@@ -1228,7 +1228,7 @@ angular.module("manageOneSearch/oneSearchStat.tpl.html", []).run(["$templateCach
     "        </tr>\n" +
     "        </thead>\n" +
     "        <tbody>\n" +
-    "        <tr ng-repeat=\"stat in statList)\">\n" +
+    "        <tr ng-repeat=\"stat in statList\">\n" +
     "            <td>\n" +
     "                {{$index}}\n" +
     "            </td>\n" +
