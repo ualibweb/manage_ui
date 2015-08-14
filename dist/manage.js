@@ -3307,6 +3307,7 @@ angular.module('manage.submittedForms', [])
 
     .controller('customFormCtrl', ['$scope', 'formFactory',
     function customFormCtrl($scope, formFactory){
+        $scope.mailToLib = 0;
 
         $scope.submit = function(event){
             var form = {};
