@@ -2,7 +2,7 @@ angular.module('manage.staffDirectory', [])
     .constant('STAFF_DIR_RANKS', [
         "",
         "Prof.",
-        "Asso. Prof.",
+        "Assoc. Prof.",
         "Asst. Prof."
     ])
 
