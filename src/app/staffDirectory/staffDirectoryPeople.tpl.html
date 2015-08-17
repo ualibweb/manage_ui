@@ -47,7 +47,11 @@
                 <input type="text" class="form-control" placeholder="Fax" maxlength="8" ng-model="newPerson.fax" id="fax">
             </div>
             <div class="col-md-12 form-group text-center">
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn btn-success"
+                        ng-disabled="newPerson.first.length < 1 ||
+                                     newPerson.last.length < 1 ||
+                                     newPerson.title.length < 1 ||
+                                     newPerson.email.length < 1">
                     Create New Record
                 </button><br>
                 {{formResponse}}
@@ -144,7 +148,11 @@
                         </select>
                     </div>
                     <div class="text-center" ng-show="person.show">
-                        <button type="button" class="btn btn-success" ng-click="updatePerson(person)">
+                        <button type="button" class="btn btn-success" ng-click="updatePerson(person)"
+                                ng-disabled="person.first.length < 1 ||
+                                             person.last.length < 1 ||
+                                             person.title.length < 1 ||
+                                             person.email.length < 1">
                             Update information
                         </button><br>
                         {{person.subjResponse}}

@@ -473,7 +473,10 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "                <label for=\"isGlobal\">Create For All Libraries</label>\n" +
     "                <input type=\"checkbox\" ng-model=\"newException.isGlobal\" id=\"isGlobal\">\n" +
     "                <br>\n" +
-    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"createExc()\" ng-disabled=\"loading\">Create Exception</button>\n" +
+    "                <button type=\"button\" class=\"btn btn-success\" ng-click=\"createExc()\"\n" +
+    "                        ng-disabled=\"loading || newException.desc.length < 1 || !(newException.days > 0) || newException.datems.length < 1\">\n" +
+    "                    Create Exception\n" +
+    "                </button>\n" +
     "                <br>{{result}}\n" +
     "            </td>\n" +
     "        </tr>\n" +
@@ -644,7 +647,10 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "                               ng-focus=\"onSemFocus($event)\" />\n" +
     "                    </div>\n" +
     "                    <div class=\"form-group\">\n" +
-    "                        <button type=\"button\" class=\"btn btn-success\" ng-click=\"createSem()\" ng-disabled=\"loading\">Create New Semester</button>\n" +
+    "                        <button type=\"button\" class=\"btn btn-success\" ng-click=\"createSem()\"\n" +
+    "                                ng-disabled=\"loading || newSemester.name.length < 1 || newSemester.startdate.length < 1\">\n" +
+    "                            Create New Semester\n" +
+    "                        </button>\n" +
     "                    </div>\n" +
     "                    {{result}}\n" +
     "                </th>\n" +
@@ -2514,7 +2520,11 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Fax\" maxlength=\"8\" ng-model=\"newPerson.fax\" id=\"fax\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 form-group text-center\">\n" +
-    "                <button type=\"submit\" class=\"btn btn-success\">\n" +
+    "                <button type=\"submit\" class=\"btn btn-success\"\n" +
+    "                        ng-disabled=\"newPerson.first.length < 1 ||\n" +
+    "                                     newPerson.last.length < 1 ||\n" +
+    "                                     newPerson.title.length < 1 ||\n" +
+    "                                     newPerson.email.length < 1\">\n" +
     "                    Create New Record\n" +
     "                </button><br>\n" +
     "                {{formResponse}}\n" +
@@ -2611,7 +2621,11 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                        </select>\n" +
     "                    </div>\n" +
     "                    <div class=\"text-center\" ng-show=\"person.show\">\n" +
-    "                        <button type=\"button\" class=\"btn btn-success\" ng-click=\"updatePerson(person)\">\n" +
+    "                        <button type=\"button\" class=\"btn btn-success\" ng-click=\"updatePerson(person)\"\n" +
+    "                                ng-disabled=\"person.first.length < 1 ||\n" +
+    "                                             person.last.length < 1 ||\n" +
+    "                                             person.title.length < 1 ||\n" +
+    "                                             person.email.length < 1\">\n" +
     "                            Update information\n" +
     "                        </button><br>\n" +
     "                        {{person.subjResponse}}\n" +

@@ -90,7 +90,10 @@
                 <label for="isGlobal">Create For All Libraries</label>
                 <input type="checkbox" ng-model="newException.isGlobal" id="isGlobal">
                 <br>
-                <button type="button" class="btn btn-success" ng-click="createExc()" ng-disabled="loading">Create Exception</button>
+                <button type="button" class="btn btn-success" ng-click="createExc()"
+                        ng-disabled="loading || newException.desc.length < 1 || !(newException.days > 0) || newException.datems.length < 1">
+                    Create Exception
+                </button>
                 <br>{{result}}
             </td>
         </tr>

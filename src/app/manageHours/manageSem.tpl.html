@@ -78,7 +78,10 @@
                                ng-focus="onSemFocus($event)" />
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-success" ng-click="createSem()" ng-disabled="loading">Create New Semester</button>
+                        <button type="button" class="btn btn-success" ng-click="createSem()"
+                                ng-disabled="loading || newSemester.name.length < 1 || newSemester.startdate.length < 1">
+                            Create New Semester
+                        </button>
                     </div>
                     {{result}}
                 </th>

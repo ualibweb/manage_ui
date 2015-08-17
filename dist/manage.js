@@ -594,6 +594,8 @@ angular.module('manage.manageHours', [])
         $scope.newSemester = {};
         $scope.newSemester.dp = false;
         $scope.newSemester.dow = [];
+        $scope.newSemester.name = "";
+        $scope.newSemester.startdate = new Date();
 
         for (var day = 0; day < 7; day++) {
             $scope.newSemester.dow[day] = {};
@@ -710,6 +712,9 @@ angular.module('manage.manageHours', [])
         $scope.newException.to = 0;
         $scope.newException.dp = false;
         $scope.newException.isGlobal = false;
+        $scope.newException.desc = "";
+        $scope.newException.days = 1;
+        $scope.newException.datems = new Date();
         $scope.expExc = -1;
 
         $scope.onExcFocus = function($event, index){
