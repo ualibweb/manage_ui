@@ -2598,6 +2598,7 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                            <small>{{person.rank}}</small>\n" +
     "                        </span>\n" +
     "                    </h4>\n" +
+    "                    <img ng-src=\"{{person.photo}}\" width=\"180\" height=\"225\" ng-if=\"person.photo != null\" ng-show=\"person.show\">\n" +
     "                </td>\n" +
     "                <td>\n" +
     "                    <h4 ng-hide=\"person.show\">\n" +

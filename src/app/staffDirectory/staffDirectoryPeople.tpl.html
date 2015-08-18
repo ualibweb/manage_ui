@@ -125,6 +125,7 @@
                             <small>{{person.rank}}</small>
                         </span>
                     </h4>
+                    <img ng-src="{{person.photo}}" width="180" height="225" ng-if="person.photo != null" ng-show="person.show">
                 </td>
                 <td>
                     <h4 ng-hide="person.show">
