@@ -108,7 +108,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                           id=\"{{db.id}}_Location\" maxlength=\"50\">\n" +
     "                </div>\n" +
     "                <div class=\"col-md-1 form-group\">\n" +
-    "                    <label for=\"{{db.id}}_NotInEDS\">Not in EDS</label>\n" +
+    "                    <label for=\"{{db.id}}_NotInEDS\">In EDS</label>\n" +
     "                    <select class=\"form-control\" ng-model=\"db.notInEDS\" ng-options=\"val for val in inEDSValues\"\n" +
     "                            id=\"{{db.id}}_NotInEDS\">\n" +
     "                    </select>\n" +
@@ -269,7 +269,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                       id=\"Location\" maxlength=\"50\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-1 form-group\">\n" +
-    "                <label for=\"NotInEDS\">Not in EDS</label>\n" +
+    "                <label for=\"NotInEDS\">In EDS</label>\n" +
     "                <select class=\"form-control\" ng-model=\"newDB.notInEDS\" ng-options=\"val for val in inEDSValues\"\n" +
     "                        id=\"NotInEDS\">\n" +
     "                </select>\n" +
