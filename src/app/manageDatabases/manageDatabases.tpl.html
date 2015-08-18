@@ -60,7 +60,7 @@
                         <span class="fa fa-fw fa-caret-right" ng-hide="db.show"></span>
                         <span class="fa fa-fw fa-caret-down" ng-show="db.show"></span>
                     </a>
-                    <a href="{{db.url}}" target="_blank">{{db.title}}</a>
+                    <a>{{db.title}}</a>
                     <small>{{db.publisher}} <span ng-show="db.vendor.length > 0">: {{db.vendor}}</span></small>
                 </h4>
             </div>
@@ -98,20 +98,22 @@
                     <input type="text" class="form-control" placeholder="{{db.url}}" ng-model="db.url"
                            id="{{db.id}}_URL" maxlength="2000">
                 </div>
-                <div class="col-md-2 form-group">
+                <div class="col-md-3 form-group">
                     <label for="{{db.id}}_Location">Location</label>
                     <input type="text" class="form-control" placeholder="{{db.location}}" ng-model="db.location"
                            id="{{db.id}}_Location" maxlength="50">
                 </div>
-                <div class="col-md-2 form-group">
+                <div class="col-md-1 form-group">
                     <label for="{{db.id}}_NotInEDS">Not in EDS</label>
-                    <input type="text" class="form-control" placeholder="{{db.notInEDS}}" ng-model="db.notInEDS"
-                           id="{{db.id}}_NotInEDS" maxlength="1">
+                    <select class="form-control" ng-model="db.notInEDS" ng-options="val for val in inEDSValues"
+                            id="{{db.id}}_NotInEDS">
+                    </select>
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Full-text">Fulltext</label>
-                    <input type="text" class="form-control" placeholder="{{db.hasFullText}}" ng-model="db.hasFullText"
-                           id="{{db.id}}_Full-text" maxlength="1">
+                    <select class="form-control" ng-model="db.hasFullText" ng-options="val for val in fullTextValues"
+                            id="{{db.id}}_Full-text">
+                    </select>
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Authenticate">Authenticate</label>
@@ -257,20 +259,22 @@
                 <input type="text" class="form-control" placeholder="http://www.example.com/" ng-model="newDB.url"
                        id="URL" maxlength="2000" required>
             </div>
-            <div class="col-md-2 form-group">
+            <div class="col-md-3 form-group">
                 <label for="Location">Location</label>
                 <input type="text" class="form-control" placeholder="Location" ng-model="newDB.location"
                        id="Location" maxlength="50">
             </div>
-            <div class="col-md-2 form-group">
+            <div class="col-md-1 form-group">
                 <label for="NotInEDS">Not in EDS</label>
-                <input type="text" class="form-control" ng-model="newDB.notInEDS"
-                       id="NotInEDS" maxlength="1">
+                <select class="form-control" ng-model="newDB.notInEDS" ng-options="val for val in inEDSValues"
+                        id="NotInEDS">
+                </select>
             </div>
             <div class="col-md-1 form-group">
                 <label for="Full-text">Fulltext</label>
-                <input type="text" class="form-control" ng-model="newDB.hasFullText"
-                       id="Full-text" maxlength="1">
+                <select class="form-control" ng-model="newDB.hasFullText" ng-options="val for val in fullTextValues"
+                        id="Full-text">
+                </select>
             </div>
             <div class="col-md-1 form-group">
                 <label for="Authenticate">Authenticate</label>

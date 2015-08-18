@@ -31,6 +31,8 @@ angular.module('manage.manageDatabases', [])
 
             //primary, secondary
             $scope.subjectValues = [ 1, 2 ];
+            $scope.fullTextValues = [ "", "A", "N", "P", "S" ];
+            $scope.inEDSValues = [ "", "Y", "P" ];
 
             tokenFactory("CSRF-libDatabases");
 
