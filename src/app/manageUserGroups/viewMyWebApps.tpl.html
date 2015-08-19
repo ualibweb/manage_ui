@@ -3,8 +3,11 @@
 <div class="form-group">
     <label for="webapps">Web Application Back-End access links</label>
     <ul class="list-group" id="webapps">
+        <li class="list-group-item">
+            <a href="/edit-directory-profile/">Edit my Directory Profile</a>
+        </li>
         <li class="list-group-item" ng-repeat="app in apps">
-            <a href="{{app.link}}">{{app.appName}}</a>
+            <a ng-href="{{app.link}}">{{app.appName}}</a>
         </li>
     </ul>
 </div>

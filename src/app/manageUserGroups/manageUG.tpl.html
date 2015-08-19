@@ -77,6 +77,9 @@
         </div>
         <div ng-show="tab.number == 1">
             <h4>Web applications with data manageable by users:</h4>
+            <h4 class="text-center">
+                <a href="/edit-directory-profile/">Edit my Directory Profile</a>
+            </h4>
             <h4 class="text-center" ng-repeat="app in apps" ng-show="$index > 0">
                 <a href="{{app.link}}">{{app.appName}}</a>
             </h4>

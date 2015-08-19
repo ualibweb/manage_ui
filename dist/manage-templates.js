@@ -2243,6 +2243,9 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
     "        </div>\n" +
     "        <div ng-show=\"tab.number == 1\">\n" +
     "            <h4>Web applications with data manageable by users:</h4>\n" +
+    "            <h4 class=\"text-center\">\n" +
+    "                <a href=\"/edit-directory-profile/\">Edit my Directory Profile</a>\n" +
+    "            </h4>\n" +
     "            <h4 class=\"text-center\" ng-repeat=\"app in apps\" ng-show=\"$index > 0\">\n" +
     "                <a href=\"{{app.link}}\">{{app.appName}}</a>\n" +
     "            </h4>\n" +
@@ -2260,8 +2263,11 @@ angular.module("manageUserGroups/viewMyWebApps.tpl.html", []).run(["$templateCac
     "<div class=\"form-group\">\n" +
     "    <label for=\"webapps\">Web Application Back-End access links</label>\n" +
     "    <ul class=\"list-group\" id=\"webapps\">\n" +
+    "        <li class=\"list-group-item\">\n" +
+    "            <a href=\"/edit-directory-profile/\">Edit my Directory Profile</a>\n" +
+    "        </li>\n" +
     "        <li class=\"list-group-item\" ng-repeat=\"app in apps\">\n" +
-    "            <a href=\"{{app.link}}\">{{app.appName}}</a>\n" +
+    "            <a ng-href=\"{{app.link}}\">{{app.appName}}</a>\n" +
     "        </li>\n" +
     "    </ul>\n" +
     "</div>");
