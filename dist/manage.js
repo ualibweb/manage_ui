@@ -3321,7 +3321,6 @@ angular.module('manage.staffDirectory', [])
     .directive('editStaffDirectoryProfile', [ function() {
         return {
             restrict: 'AC',
-            require: 'name',
             scope: {
                 login: '=name'
             },
