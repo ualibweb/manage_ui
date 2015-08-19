@@ -531,7 +531,6 @@ angular.module('manage.staffDirectory', [])
 
         sdFactory.getProfile($scope.login)
             .success(function(data) {
-                console.dir(data);
                 $scope.userProfile = data;
             })
             .error(function(data, status, headers, config) {
@@ -540,6 +539,7 @@ angular.module('manage.staffDirectory', [])
 
         $scope.update = function(){
             $scope.userProfile.person.login = $scope.login;
+            $scope.userProfile.person.formResponse = "";
             sdFactory.postData({action : 18}, $scope.userProfile.person)
                 .success(function(data, status, headers, config) {
                     $scope.userProfile.person.formResponse = data;
