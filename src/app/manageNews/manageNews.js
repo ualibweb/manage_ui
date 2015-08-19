@@ -1,4 +1,4 @@
-angular.module('manage.manageNews', ['ngFileUpload', 'common.manage'])
+angular.module('manage.manageNews', ['ngFileUpload', 'uiTinymce'])
     .controller('manageNewsCtrl', ['$scope', '$window', '$timeout', 'tokenFactory', 'newsFactory',
         function manageNewsCtrl($scope, $window, $timeout, tokenFactory, newsFactory){
             $scope.data = {};

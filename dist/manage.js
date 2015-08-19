@@ -1101,7 +1101,7 @@ angular.module('manage.manageHoursUsers', [])
         };
     }])
 
-angular.module('manage.manageNews', ['ngFileUpload', 'common.manage'])
+angular.module('manage.manageNews', ['ngFileUpload', 'uiTinymce'])
     .controller('manageNewsCtrl', ['$scope', '$window', '$timeout', 'tokenFactory', 'newsFactory',
         function manageNewsCtrl($scope, $window, $timeout, tokenFactory, newsFactory){
             $scope.data = {};
@@ -2720,7 +2720,7 @@ angular.module('manage.siteFeedback', [])
         };
     }])
 
-angular.module('manage.staffDirectory', ['common.manage'])
+angular.module('manage.staffDirectory', ['uiTinymce'])
     .constant('STAFF_DIR_RANKS', [
         "",
         "Prof.",
