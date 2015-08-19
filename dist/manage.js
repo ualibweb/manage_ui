@@ -29,6 +29,8 @@ angular.module('manage.common', [
     'common.manage'
 ])
 
+angular.module('common.manage', [])
+
     //from http://codepen.io/paulbhartzog/pen/Ekztl?editors=101
     .value('uiTinymceConfig', {plugins: 'link spellchecker code', toolbar: 'undo redo | bold italic | link | code', menubar : false})
     .directive('uiTinymce', ['uiTinymceConfig', function(uiTinymceConfig) {
@@ -90,7 +92,7 @@ angular.module('manage.common', [
                 };
             }
         };
-    }])
+    }]);
 
 
 angular.module('common.manage', [])
@@ -214,7 +216,7 @@ angular.module('common.manage', [])
                 return $http({method: 'POST', url: url + "api/process", params: {}, data: data})
             }
         };
-    }])
+    }]);
 
 angular.module('manage.manageDatabases', [])
     .controller('manageDBCtrl', ['$scope', '$window', 'tokenFactory', 'mdbFactory',

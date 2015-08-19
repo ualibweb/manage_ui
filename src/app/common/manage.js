@@ -119,4 +119,4 @@ angular.module('common.manage', [])
                 return $http({method: 'POST', url: url + "api/process", params: {}, data: data})
             }
         };
-    }])
+    }]);
