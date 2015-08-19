@@ -1,4 +1,4 @@
-angular.module('manage.staffDirectory', [])
+angular.module('manage.staffDirectory', ['common.manage'])
     .constant('STAFF_DIR_RANKS', [
         "",
         "Prof.",
