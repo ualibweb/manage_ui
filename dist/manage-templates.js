@@ -2764,8 +2764,11 @@ angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templ
     "\n" +
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-12 form-group\">\n" +
-    "        <label for=\"profile\">Description (allowed tags: <code><h3>, <h4>, <a>, <img>, <p>, <strong>, <em>, <ul>, <li></code>)</label>\n" +
-    "        <textarea data-ui-tinymce-profile id=\"profile\" data-ng-model=\"userProfile.person.profile\" rows=\"10\"\n" +
+    "        <label for=\"profile\">Description (allowed tags:\n" +
+    "            <code>\n" +
+    "                &lt;h3&gt;, &lt;h4&gt;, &lt;a&gt;, &lt;img&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;li&gt;\n" +
+    "            </code>)</label>\n" +
+    "        <textarea data-ui-tinymce id=\"profile\" data-ng-model=\"userProfile.person.profile\" rows=\"10\"\n" +
     "                  maxlength=\"64000\"></textarea>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-12 text-center form-group\">\n" +
