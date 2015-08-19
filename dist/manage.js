@@ -3303,9 +3303,10 @@ angular.module('manage.staffDirectory', [])
         };
     }])
 
-    .controller('staffDirProfileCtrl', ['$scope', 'tokenFactory', 'sdFactory',
-    function staffDirProfileCtrl($scope, tokenFactory, sdFactory){
+    .controller('staffDirProfileCtrl', ['$scope', 'tokenFactory', 'sdFactory', '$window',
+    function staffDirProfileCtrl($scope, tokenFactory, sdFactory, $window){
         $scope.userProfile = {};
+        $scope.login = $window.login;
         tokenFactory("CSRF-" + $scope.login);
 
         sdFactory.getProfile($scope.login)
@@ -3321,9 +3322,7 @@ angular.module('manage.staffDirectory', [])
     .directive('editStaffDirectoryProfile', [ function() {
         return {
             restrict: 'AC',
-            scope: {
-                login: '=name'
-            },
+            scope: {},
             controller: 'staffDirProfileCtrl',
             link: function(scope, elm, attrs){
             },

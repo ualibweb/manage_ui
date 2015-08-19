@@ -1,47 +1,43 @@
 <h2>Profile Management</h2>
 
-<div class="page-slice">
-    <div class="row">
-        <div class="col-md-4">
-            <img class="staff-portrait thumbnail" ng-src="{{userProfile.person.photo}}" ng-if="userProfile.person.photo != null"
-                 width="180" height="225">
-            <img class="staff-portrait thumbnail" ng-src="wp-content/themes/roots-ualib/assets/img/user-profile.png"
-                 ng-if="userProfile.person.photo == null" width="180" height="225">
-        </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-xs-12 col-sm-7 name-plate">
-                    <h3 class="name">
-                        <small ng-if="userProfile.person.rank">{{userProfile.person.rank}}</small>
-                        <span ng-bind-html="userProfile.person.firstname"></span> <span ng-bind-html="userProfile.person.lastname"></span>
-                    </h3>
-                    <h4 class="title"><span ng-bind-html="userProfile.person.title"></span></h4>
-                    <h5 class="hidden-xs"><span ng-bind-html="userProfile.person.department"></span></h5>
-                </div>
-                <div class="col-xs-12 col-sm-5">
-                    <ul class="fa-ul">
-                        <li ng-if="userProfile.person.phone"><span class="fa fa-phone fa-li"></span>{{userProfile.person.phone}}</li>
-                        <li class="hidden-xs" ng-if="userProfile.person.fax"><span class="fa fa-fax fa-li"></span>{{userProfile.person.fax}}</li>
-                        <li ng-if="userProfile.person.email"><span class="fa fa-envelope fa-li"></span>
-                            <a href="mailto:{{userProfile.person.email}}">{{userProfile.person.email}}</a>
-                        </li>
-                    </ul>
-                </div>
+<div class="row">
+    <div class="col-md-4">
+        <img class="staff-portrait thumbnail" ng-src="{{userProfile.person.photo}}" ng-if="userProfile.person.photo != null"
+             width="180" height="225">
+        <img class="staff-portrait thumbnail" ng-src="wp-content/themes/roots-ualib/assets/img/user-profile.png"
+             ng-if="userProfile.person.photo == null" width="180" height="225">
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-xs-12 col-sm-7 name-plate">
+                <h3 class="name">
+                    <small ng-if="userProfile.person.rank">{{userProfile.person.rank}}</small>
+                    <span ng-bind-html="userProfile.person.firstname"></span> <span ng-bind-html="userProfile.person.lastname"></span>
+                </h3>
+                <h4 class="title"><span ng-bind-html="userProfile.person.title"></span></h4>
+                <h5 class="hidden-xs"><span ng-bind-html="userProfile.person.department"></span></h5>
+            </div>
+            <div class="col-xs-12 col-sm-5">
+                <ul class="fa-ul">
+                    <li ng-if="userProfile.person.phone"><span class="fa fa-phone fa-li"></span>{{userProfile.person.phone}}</li>
+                    <li class="hidden-xs" ng-if="userProfile.person.fax"><span class="fa fa-fax fa-li"></span>{{userProfile.person.fax}}</li>
+                    <li ng-if="userProfile.person.email"><span class="fa fa-envelope fa-li"></span>
+                        <a href="mailto:{{userProfile.person.email}}">{{userProfile.person.email}}</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page-slice">
-    <div class="row">
-        <div class="col-md-12 form-group">
-            <label for="profile">Profile Content</label>
-            <textarea data-ui-tinymce id="profile" data-ng-model="userProfile.person.profile" rows="10"
-                      maxlength="64000"></textarea>
-        </div>
-        <div class="col-md-12 text-center form-group">
-            <button type="submit" class="btn btn-success" ng-disabled="uploading">Update Profile</button><br>
-            {{userProfile.person.formResponse}}
-        </div>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label for="profile">Profile Content</label>
+        <textarea data-ui-tinymce id="profile" data-ng-model="userProfile.person.profile" rows="10"
+                  maxlength="64000"></textarea>
+    </div>
+    <div class="col-md-12 text-center form-group">
+        <button type="submit" class="btn btn-success" ng-disabled="uploading">Update Profile</button><br>
+        {{userProfile.person.formResponse}}
     </div>
 </div>
