@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/mainOneSearch.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageOneSearch/oneSearchStat.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareComputerMaps.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
+angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/mainOneSearch.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageOneSearch/oneSearchStat.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareComputerMaps.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectoryProfile.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
 
 angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
@@ -2732,6 +2732,55 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredList.length > perPage\"></pagination>\n" +
     "    </div>\n" +
     "</div>");
+}]);
+
+angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("staffDirectory/staffDirectoryProfile.tpl.html",
+    "<h2>Profile Management</h2>\n" +
+    "\n" +
+    "<div class=\"page-slice\">\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-4\">\n" +
+    "            <img class=\"staff-portrait thumbnail\" ng-src=\"{{person.photo}}\" ng-if=\"person.photo != null\" width=\"180\" height=\"225\">\n" +
+    "            <img class=\"staff-portrait thumbnail\" ng-src=\"wp-content/themes/roots-ualib/assets/img/user-profile.png\"\n" +
+    "                 ng-if=\"person.photo == null\" width=\"180\" height=\"225\">\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-8\">\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"col-xs-12 col-sm-7 name-plate\">\n" +
+    "                    <h3 class=\"name\">\n" +
+    "                        <small ng-if=\"person.rank\">{{person.rank}}</small>\n" +
+    "                        <span ng-bind-html=\"person.firstname\"></span> <span ng-bind-html=\"person.lastname\"></span>\n" +
+    "                    </h3>\n" +
+    "                    <h4 class=\"title\"><span ng-bind-html=\"person.title\"></span></h4>\n" +
+    "                    <h5 class=\"hidden-xs\"><span ng-bind-html=\"person.department\"></span></h5>\n" +
+    "                </div>\n" +
+    "                <div class=\"col-xs-12 col-sm-5\">\n" +
+    "                    <ul class=\"fa-ul\">\n" +
+    "                        <li ng-if=\"person.phone\"><span class=\"fa fa-phone fa-li\"></span>{{person.phone}}</li>\n" +
+    "                        <li class=\"hidden-xs\" ng-if=\"person.fax\"><span class=\"fa fa-fax fa-li\"></span>{{person.fax}}</li>\n" +
+    "                        <li ng-if=\"person.email\"><span class=\"fa fa-envelope fa-li\"></span><a href=\"mailto:{{person.email}}\">{{person.email}}</a></li>\n" +
+    "                    </ul>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"page-slice\">\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-12 form-group\">\n" +
+    "            <label for=\"profile\">Profile Content</label>\n" +
+    "            <textarea data-ui-tinymce id=\"profile\" data-ng-model=\"person.profile\" rows=\"10\"\n" +
+    "                      maxlength=\"64000\"></textarea>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-12 text-center form-group\">\n" +
+    "            <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"uploading\">Update Profile</button><br>\n" +
+    "            {{person.formResponse}}\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("staffDirectory/staffDirectorySubjects.tpl.html", []).run(["$templateCache", function($templateCache) {

@@ -495,4 +495,4 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             },
             templateUrl: 'manageNews/manageNewsAdmins.tpl.html'
         };
-    }])
+    }]);

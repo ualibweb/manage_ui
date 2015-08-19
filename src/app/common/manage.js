@@ -64,6 +64,9 @@ angular.module('common.manage', [])
             getData: function(){
                 return $http({method: 'GET', url: url + "api/people", params: {}})
             },
+            getProfile: function(login){
+                return $http({method: 'GET', url: url + "api/profile/" + login, params: {}})
+            },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url + "processData.php", params: params, data: data})

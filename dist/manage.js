@@ -94,6 +94,9 @@ angular.module('common.manage', [])
             getData: function(){
                 return $http({method: 'GET', url: url + "api/people", params: {}})
             },
+            getProfile: function(login){
+                return $http({method: 'GET', url: url + "api/profile/" + login, params: {}})
+            },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
@@ -1528,7 +1531,7 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             },
             templateUrl: 'manageNews/manageNewsAdmins.tpl.html'
         };
-    }])
+    }]);
 
 angular.module('manage.manageOneSearch', [])
 
@@ -3237,6 +3240,98 @@ angular.module('manage.staffDirectory', [])
             templateUrl: 'staffDirectory/staffDirectoryDepartments.tpl.html'
         };
     }])
+
+    .value('uiTinymceConfig', {plugins: 'link spellchecker code'})
+    .directive('uiTinymce', ['uiTinymceConfig', function(uiTinymceConfig) {
+        uiTinymceConfig = uiTinymceConfig || {};
+        var generatedIds = 0;
+        return {
+            require: 'ngModel',
+            link: function(scope, elm, attrs, ngModel) {
+                var expression, options, tinyInstance;
+                // generate an ID if not present
+                if (!attrs.id) {
+                    attrs.$set('id', 'uiTinymce' + generatedIds++);
+                }
+                options = {
+                    // Update model when calling setContent (such as from the source editor popup)
+                    setup: function(ed) {
+                        ed.on('init', function(args) {
+                            ngModel.$render();
+                        });
+                        // Update model on button click
+                        ed.on('ExecCommand', function(e) {
+                            ed.save();
+                            ngModel.$setViewValue(elm.val());
+                            if (!scope.$$phase) {
+                                scope.$apply();
+                            }
+                        });
+                        // Update model on keypress
+                        ed.on('KeyUp', function(e) {
+                            console.log(ed.isDirty());
+                            ed.save();
+                            ngModel.$setViewValue(elm.val());
+                            if (!scope.$$phase) {
+                                scope.$apply();
+                            }
+                        });
+                    },
+                    mode: 'exact',
+                    elements: attrs.id
+                };
+                if (attrs.uiTinymce) {
+                    expression = scope.$eval(attrs.uiTinymce);
+                } else {
+                    expression = {};
+                }
+                angular.extend(options, uiTinymceConfig, expression);
+                setTimeout(function() {
+                    tinymce.init(options);
+                });
+
+
+                ngModel.$render = function() {
+                    if (!tinyInstance) {
+                        tinyInstance = tinymce.get(attrs.id);
+                    }
+                    if (tinyInstance) {
+                        tinyInstance.setContent(ngModel.$viewValue || '');
+                    }
+                };
+            }
+        };
+    }])
+
+    .controller('staffDirProfileCtrl', ['$scope', 'tokenFactory', 'sdFactory',
+    function staffDirProfileCtrl($scope, tokenFactory, sdFactory){
+        $scope.userProfile = {};
+        tokenFactory("CSRF-" + $scope.login);
+
+        sdFactory.getProfile($scope.login)
+            .success(function(data) {
+                console.dir(data);
+                $scope.userProfile = data;
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
+
+    }])
+    .directive('editStaffDirectoryProfile', [ function() {
+        return {
+            restrict: 'AC',
+            require: 'name',
+            scope: {
+                login: '=name'
+            },
+            controller: 'staffDirProfileCtrl',
+            link: function(scope, elm, attrs){
+            },
+            templateUrl: 'staffDirectory/staffDirectoryProfile.tpl.html'
+        };
+    }]);
+
 
 angular.module('manage.submittedForms', [])
     .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'tokenFactory', 'formFactory',
