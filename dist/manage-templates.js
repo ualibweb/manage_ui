@@ -2762,7 +2762,7 @@ angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templ
     "            <li ng-if=\"userProfile.person.phone\"><span class=\"fa fa-phone fa-li\"></span>{{userProfile.person.phone}}</li>\n" +
     "            <li class=\"hidden-xs\" ng-if=\"userProfile.person.fax\"><span class=\"fa fa-fax fa-li\"></span>{{userProfile.person.fax}}</li>\n" +
     "            <li ng-if=\"userProfile.person.email\"><span class=\"fa fa-envelope fa-li\"></span>\n" +
-    "                <a href=\"mailto:{{userProfile.person.email}}\">{{userProfile.person.email}}</a>\n" +
+    "                <a ng-href=\"mailto:{{userProfile.person.email}}\">{{userProfile.person.email}}</a>\n" +
     "            </li>\n" +
     "        </ul>\n" +
     "    </div>\n" +

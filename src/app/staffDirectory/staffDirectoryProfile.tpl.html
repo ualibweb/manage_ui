@@ -18,7 +18,7 @@
             <li ng-if="userProfile.person.phone"><span class="fa fa-phone fa-li"></span>{{userProfile.person.phone}}</li>
             <li class="hidden-xs" ng-if="userProfile.person.fax"><span class="fa fa-fax fa-li"></span>{{userProfile.person.fax}}</li>
             <li ng-if="userProfile.person.email"><span class="fa fa-envelope fa-li"></span>
-                <a href="mailto:{{userProfile.person.email}}">{{userProfile.person.email}}</a>
+                <a ng-href="mailto:{{userProfile.person.email}}">{{userProfile.person.email}}</a>
             </li>
         </ul>
     </div>

@@ -3252,6 +3252,7 @@ angular.module('manage.staffDirectory', [])
         sdFactory.getProfile($scope.login)
             .success(function(data) {
                 $scope.userProfile = data;
+                console.log(data);
             })
             .error(function(data, status, headers, config) {
                 console.log(data);
