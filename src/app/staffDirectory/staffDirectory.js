@@ -524,7 +524,7 @@ angular.module('manage.staffDirectory', [])
     }])
 
     .value('uiTinymceConfig', {plugins: 'link spellchecker code'})
-    .directive('uiTinymce', ['uiTinymceConfig', function(uiTinymceConfig) {
+    .directive('uiTinymceProfile', ['uiTinymceConfig', function(uiTinymceConfig) {
         uiTinymceConfig = uiTinymceConfig || {};
         var generatedIds = 0;
         return {
@@ -600,6 +600,15 @@ angular.module('manage.staffDirectory', [])
                 console.log(data);
             });
 
+        $scope.update = function(){
+            sdFactory.postData({action : 18}, $scope.userProfile.person)
+                .success(function(data, status, headers, config) {
+                    $scope.userProfile.person.formResponse = data;
+                })
+                .error(function(data, status, headers, config) {
+                    $scope.userProfile.person.formResponse = "Error: Could not update profile! " + data;
+                });
+        };
     }])
     .directive('editStaffDirectoryProfile', [ function() {
         return {
