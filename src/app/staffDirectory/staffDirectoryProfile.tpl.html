@@ -3,25 +3,28 @@
 <div class="page-slice">
     <div class="row">
         <div class="col-md-4">
-            <img class="staff-portrait thumbnail" ng-src="{{person.photo}}" ng-if="person.photo != null" width="180" height="225">
+            <img class="staff-portrait thumbnail" ng-src="{{userProfile.person.photo}}" ng-if="userProfile.person.photo != null"
+                 width="180" height="225">
             <img class="staff-portrait thumbnail" ng-src="wp-content/themes/roots-ualib/assets/img/user-profile.png"
-                 ng-if="person.photo == null" width="180" height="225">
+                 ng-if="userProfile.person.photo == null" width="180" height="225">
         </div>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-xs-12 col-sm-7 name-plate">
                     <h3 class="name">
-                        <small ng-if="person.rank">{{person.rank}}</small>
-                        <span ng-bind-html="person.firstname"></span> <span ng-bind-html="person.lastname"></span>
+                        <small ng-if="userProfile.person.rank">{{userProfile.person.rank}}</small>
+                        <span ng-bind-html="userProfile.person.firstname"></span> <span ng-bind-html="userProfile.person.lastname"></span>
                     </h3>
-                    <h4 class="title"><span ng-bind-html="person.title"></span></h4>
-                    <h5 class="hidden-xs"><span ng-bind-html="person.department"></span></h5>
+                    <h4 class="title"><span ng-bind-html="userProfile.person.title"></span></h4>
+                    <h5 class="hidden-xs"><span ng-bind-html="userProfile.person.department"></span></h5>
                 </div>
                 <div class="col-xs-12 col-sm-5">
                     <ul class="fa-ul">
-                        <li ng-if="person.phone"><span class="fa fa-phone fa-li"></span>{{person.phone}}</li>
-                        <li class="hidden-xs" ng-if="person.fax"><span class="fa fa-fax fa-li"></span>{{person.fax}}</li>
-                        <li ng-if="person.email"><span class="fa fa-envelope fa-li"></span><a href="mailto:{{person.email}}">{{person.email}}</a></li>
+                        <li ng-if="userProfile.person.phone"><span class="fa fa-phone fa-li"></span>{{userProfile.person.phone}}</li>
+                        <li class="hidden-xs" ng-if="userProfile.person.fax"><span class="fa fa-fax fa-li"></span>{{userProfile.person.fax}}</li>
+                        <li ng-if="userProfile.person.email"><span class="fa fa-envelope fa-li"></span>
+                            <a href="mailto:{{userProfile.person.email}}">{{userProfile.person.email}}</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -33,12 +36,12 @@
     <div class="row">
         <div class="col-md-12 form-group">
             <label for="profile">Profile Content</label>
-            <textarea data-ui-tinymce id="profile" data-ng-model="person.profile" rows="10"
+            <textarea data-ui-tinymce id="profile" data-ng-model="userProfile.person.profile" rows="10"
                       maxlength="64000"></textarea>
         </div>
         <div class="col-md-12 text-center form-group">
             <button type="submit" class="btn btn-success" ng-disabled="uploading">Update Profile</button><br>
-            {{person.formResponse}}
+            {{userProfile.person.formResponse}}
         </div>
     </div>
 </div>
