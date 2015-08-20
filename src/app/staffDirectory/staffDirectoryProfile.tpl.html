@@ -31,7 +31,7 @@
                 &lt;h3&gt;, &lt;h4&gt;, &lt;a&gt;, &lt;img&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;li&gt;
             </code>)</label>
             <textarea ui-tinymce="tinymceOptions" ng-model="userProfile.person.profile" rows="10"
-                  maxlength="64000"></textarea>
+                  maxlength="64000" ng-if="userProfile.person.profile"></textarea>
     </div>
     <div class="col-md-12 text-center form-group">
         <button type="submit" class="btn btn-success" ng-disabled="uploading" ng-click="update()">
