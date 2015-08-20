@@ -1,4 +1,4 @@
-angular.module('manage.staffDirectory', [])
+angular.module('manage.staffDirectory', ['ui.tinymce'])
     .constant('STAFF_DIR_RANKS', [
         "",
         "Prof.",
