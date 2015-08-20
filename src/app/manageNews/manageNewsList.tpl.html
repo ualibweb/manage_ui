@@ -54,7 +54,7 @@
                     <div class="col-md-12">
                         <div class="col-md-12 form-group">
                             <label>Detailed Description</label>
-                            <textarea data-ui-tinymce id="description" data-ng-model="newNews.description" rows="5"
+                            <textarea ui-tinymce="tinymceOptions" ng-model="newNews.description" rows="5"
                                       maxlength="64000" required></textarea>
                         </div>
                     </div>
@@ -227,8 +227,8 @@
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label>Detailed Description</label>
-                                <textarea data-ui-tinymce id="{{news.nid}}_descr" data-ng-model="news.description" rows="5"
-                                         maxlength="64000" required></textarea>
+                                <textarea ui-tinymce="tinymceOptions" ng-model="news.description" rows="5"
+                                    maxlength="64000" required></textarea>
                             </div>
                         </div>
                         <h4><small>Select contact person from the list or enter new contact information</small></h4>

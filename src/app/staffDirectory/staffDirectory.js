@@ -527,6 +527,16 @@ angular.module('manage.staffDirectory', [])
     function staffDirProfileCtrl($scope, tokenFactory, sdFactory, $window){
         $scope.userProfile = {};
         $scope.login = $window.login;
+        $scope.tinymceOptions = {
+            onChange: function(e) {
+                // put logic here for keypress and cut/paste changes
+            },
+            inline: false,
+            plugins : 'link image lists spellchecker code print preview',
+            skin: 'lightgray',
+            theme : 'modern'
+        };
+
         tokenFactory("CSRF-" + $scope.login);
 
         sdFactory.getProfile($scope.login)

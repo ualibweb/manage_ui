@@ -135,6 +135,18 @@ angular.module('manage.manageNews', ['ngFileUpload'])
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
 
+            $scope.tinymceOptions = {
+                onChange: function(e) {
+                    // put logic here for keypress and cut/paste changes
+                },
+                inline: false,
+                plugins : 'link spellchecker code',
+                toolbar: 'undo redo | bold italic | link | code',
+                menubar : false,
+                skin: 'lightgray',
+                theme : 'modern'
+            };
+
             $scope.onNewsDPFocusFrom = function($event, news){
                 $event.preventDefault();
                 $event.stopPropagation();

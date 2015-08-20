@@ -1,6 +1,7 @@
 angular.module('manage', [
     'ngAnimate',
     'ui.bootstrap',
+    'ui.tinymce',
     'manage.common',
     'manage.templates',
     'manage.manageHours',

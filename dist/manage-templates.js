@@ -856,7 +856,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                    <div class=\"col-md-12\">\n" +
     "                        <div class=\"col-md-12 form-group\">\n" +
     "                            <label>Detailed Description</label>\n" +
-    "                            <textarea data-ui-tinymce id=\"description\" data-ng-model=\"newNews.description\" rows=\"5\"\n" +
+    "                            <textarea ui-tinymce=\"tinymceOptions\" ng-model=\"newNews.description\" rows=\"5\"\n" +
     "                                      maxlength=\"64000\" required></textarea>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
@@ -1029,8 +1029,8 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                        <div class=\"row\">\n" +
     "                            <div class=\"col-md-12 form-group\">\n" +
     "                                <label>Detailed Description</label>\n" +
-    "                                <textarea data-ui-tinymce id=\"{{news.nid}}_descr\" data-ng-model=\"news.description\" rows=\"5\"\n" +
-    "                                         maxlength=\"64000\" required></textarea>\n" +
+    "                                <textarea ui-tinymce=\"tinymceOptions\" ng-model=\"news.description\" rows=\"5\"\n" +
+    "                                    maxlength=\"64000\" required></textarea>\n" +
     "                            </div>\n" +
     "                        </div>\n" +
     "                        <h4><small>Select contact person from the list or enter new contact information</small></h4>\n" +
@@ -2774,7 +2774,7 @@ angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templ
     "            <code>\n" +
     "                &lt;h3&gt;, &lt;h4&gt;, &lt;a&gt;, &lt;img&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;li&gt;\n" +
     "            </code>)</label>\n" +
-    "        <textarea ui-tinymce ng-model=\"userProfile.person.profile\" rows=\"10\"\n" +
+    "            <textarea ui-tinymce=\"tinymceOptions\" ng-model=\"userProfile.person.profile\" rows=\"10\"\n" +
     "                  maxlength=\"64000\"></textarea>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-12 text-center form-group\">\n" +
