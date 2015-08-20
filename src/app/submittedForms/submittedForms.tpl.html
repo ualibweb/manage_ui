@@ -30,14 +30,14 @@
 
     <div class="text-center">
         <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredNews.length > 0"></pagination>
+                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredForms.length > 0"></pagination>
     </div>
     <div class="row row-clickable"
          ng-repeat="form in filteredForms = (data.forms | filter:{title:titleFilter}
-                                                         | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
+                                                        | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
         | startFrom:(currentPage-1)*perPage | limitTo:perPage"
          ng-class="{sdOpen: form.show}">
-        <div class="col-md-12" ng-click="toggleForms(form)">
+        <div class="col-md-12 clickable" ng-click="toggleForms(form)">
             <div class="col-md-10">
                 <h4>
                     <span class="fa fa-fw fa-caret-right" ng-hide="form.show"></span>
@@ -51,7 +51,8 @@
             </div>
         </div>
         <div class="col-md-12" ng-show="form.show">
-            <div class="col-md-6 panel panel-default" ng-repeat="field in form.fields">
+            <div class="col-md-4 panel panel-default" ng-repeat="field in form.fields"
+                 ng-show="field.name.length > 0 && field.value.length > 0">
                 <div class="panel-heading">
                     <h4 class="panel-title">{{field.name}}</h4>
                 </div>
@@ -64,7 +65,7 @@
 </div>
 <div class="text-center">
     <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredNews.length > 0"></pagination>
+                boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredForms.length > 0"></pagination>
 </div>
 <div class="text-center">
     <h4 ng-show="filteredForms.length == 0">Nothing found</h4>

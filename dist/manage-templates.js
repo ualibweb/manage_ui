@@ -2896,14 +2896,14 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
     "\n" +
     "    <div class=\"text-center\">\n" +
     "        <pagination total-items=\"filteredForms.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
-    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredNews.length > 0\"></pagination>\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredForms.length > 0\"></pagination>\n" +
     "    </div>\n" +
     "    <div class=\"row row-clickable\"\n" +
     "         ng-repeat=\"form in filteredForms = (data.forms | filter:{title:titleFilter}\n" +
-    "                                                         | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
+    "                                                        | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
     "        | startFrom:(currentPage-1)*perPage | limitTo:perPage\"\n" +
     "         ng-class=\"{sdOpen: form.show}\">\n" +
-    "        <div class=\"col-md-12\" ng-click=\"toggleForms(form)\">\n" +
+    "        <div class=\"col-md-12 clickable\" ng-click=\"toggleForms(form)\">\n" +
     "            <div class=\"col-md-10\">\n" +
     "                <h4>\n" +
     "                    <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"form.show\"></span>\n" +
@@ -2917,7 +2917,8 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-12\" ng-show=\"form.show\">\n" +
-    "            <div class=\"col-md-6 panel panel-default\" ng-repeat=\"field in form.fields\">\n" +
+    "            <div class=\"col-md-4 panel panel-default\" ng-repeat=\"field in form.fields\"\n" +
+    "                 ng-show=\"field.name.length > 0 && field.value.length > 0\">\n" +
     "                <div class=\"panel-heading\">\n" +
     "                    <h4 class=\"panel-title\">{{field.name}}</h4>\n" +
     "                </div>\n" +
@@ -2930,7 +2931,7 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
     "</div>\n" +
     "<div class=\"text-center\">\n" +
     "    <pagination total-items=\"filteredForms.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
-    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredNews.length > 0\"></pagination>\n" +
+    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredForms.length > 0\"></pagination>\n" +
     "</div>\n" +
     "<div class=\"text-center\">\n" +
     "    <h4 ng-show=\"filteredForms.length == 0\">Nothing found</h4>\n" +

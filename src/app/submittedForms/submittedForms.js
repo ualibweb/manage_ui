@@ -34,6 +34,12 @@ angular.module('manage.submittedForms', [])
                 $scope.data.forms[$scope.data.forms.indexOf(form)].show =
                     !$scope.data.forms[$scope.data.forms.indexOf(form)].show;
             };
+            $scope.sortBy = function(by){
+                if ($scope.sortMode === by)
+                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
+                else
+                    $scope.sortMode = by;
+            };
         }])
 
     .directive('submittedFormsList', ['$animate', function($animate) {
