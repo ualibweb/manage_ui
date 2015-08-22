@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" placeholder="News/Exhibit Title" ng-model="news.title"
+               id="title" maxlength="100" required>
+    </div>
+    <div class="col-md-1 form-group">
+        <label for="sticky">Sticky</label>
+        <div class="checkbox text-center" id="sticky">
+            <input type="checkbox" ng-model="news.sticky" ng-true-value="1" ng-false-value="0">
+        </div>
+    </div>
+    <div class="col-md-1 form-group">
+        <label for="isExhibit">Exhibit</label>
+        <div class="checkbox text-center" id="isExhibit">
+            <input type="checkbox" ng-model="news.type" ng-true-value="1" ng-false-value="0">
+        </div>
+    </div>
+    <div class="col-md-2 form-group" ng-show="news.type > 0">
+        <label for="from">Active From</label>
+        <input type="text" class="form-control" id="from" datepicker-popup="{{dpFormat}}"
+               ng-model="news.activeFrom" is-open="news.dpFrom" close-text="Close"
+               ng-focus="onNewsDPFocusFrom($event, news)"/>
+    </div>
+    <div class="col-md-2 form-group" ng-show="news.type > 0">
+        <label for="until">Active Until</label>
+        <input type="text" class="form-control" id="until" datepicker-popup="{{dpFormat}}"
+               ng-model="news.activeUntil" is-open="news.dpUntil" close-text="Close"
+               ng-focus="onNewsDPFocusUntil($event, news)"/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 form-group">
+        <label for="browse">Select Images</label>
+        <div id="browse">
+            <button type="file" ngf-select="" ng-model="news.picFile" accept="image/*" ngf-multiple="true"
+                    ngf-change="generateThumb(news.picFile, news)" class="btn btn-success">
+                <span class="fa fa-fw fa-plus"></span>Browse
+            </button>
+        </div>
+    </div>
+    <div class="col-md-10 form-group">
+        <label for="selected">Selected Images</label>
+        <div id="selected">
+            <div class="col-md-3" ng-repeat="img in news.images">
+                <img ng-src="{{img.image}}" width="150px" height="100px">
+                <button type="button" class="btn btn-danger" ng-click="news.images.splice($index,1)">
+                    <span class="fa fa-fw fa-close"></span>
+                </button>
+            </div>
+            <div class="col-md-3" ng-repeat="img in news.selectedFiles">
+                <img ngf-src="img" width="150px" height="100px">
+                <button type="button" class="btn btn-danger" ng-click="news.selectedFiles.splice($index,1)">
+                    <span class="fa fa-fw fa-close"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label>Detailed Description</label>
+        <textarea ui-tinymce="tinymceOptions" ng-model="news.description" rows="5" maxlength="64000" required></textarea>
+    </div>
+</div>
+<div class="row form-group">
+    <h4><small>Select contact person from the list or enter new contact information</small></h4>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label for="contact1">Library Faculty and Staff</label>
+            <select class="form-control" id="contact1" ng-options="people.fullName for people in data.people"
+                    ng-model="news.contactID">
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="contact2">Name</label>
+            <input type="text" class="form-control" placeholder="Contact Name" ng-model="news.contactName"
+                   id="contact2" maxlength="60">
+        </div>
+        <div class="col-md-3">
+            <label for="contact3">Email</label>
+            <input type="text" class="form-control" placeholder="Contact Email" ng-model="news.contactEmail"
+                   id="contact3"  maxlength="1024">
+        </div>
+        <div class="col-md-3">
+            <label for="contact4">Phone</label>
+            <input type="text" class="form-control" placeholder="Contact Phone" ng-model="news.contactPhone"
+                   id="contact4" maxlength="20">
+        </div>
+    </div>
+</div>

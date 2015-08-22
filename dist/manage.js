@@ -1036,10 +1036,9 @@ angular.module('manage.manageHoursUsers', [])
     }])
 
 angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
-    .controller('manageNewsCtrl', ['$scope', '$window', '$timeout', 'tokenFactory', 'newsFactory',
-        function manageNewsCtrl($scope, $window, $timeout, tokenFactory, newsFactory){
+    .controller('manageNewsCtrl', ['$scope', '$window', 'tokenFactory', 'newsFactory',
+        function manageNewsCtrl($scope, $window, tokenFactory, newsFactory){
             $scope.data = {};
-            $scope.dpFormat = 'MM/dd/yyyy';
             $scope.newNews = {};
             $scope.newNews.creator = $window.author;
             $scope.newNews.selectedFiles = [];
@@ -1090,37 +1089,6 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                     number: 1,
                     active: false
                 }];
-            
-            $scope.validateNews = function(news){
-                if (news.title.length < 1)
-                    return "Form error: Please fill out Title!";
-                if (news.description.length < 1)
-                    return "Form error: Please fill out Description!";
-
-                return "";
-            };
-            $scope.generateThumb = function(files, news) {
-                if (files != null) {
-                    for (var i = 0; i < files.length; i++){
-                        if (news !== null) {
-                            $scope.data.news[$scope.data.news.indexOf(news)].selectedFiles.push(files[i]);
-                        } else {
-                            $scope.newNews.selectedFiles.push(files[i]);
-                        }
-                        if ($scope.fileReaderSupported && files[i].type.indexOf('image') > -1) {
-                            $timeout(function() {
-                                var fileReader = new FileReader();
-                                fileReader.readAsDataURL(files[i]);
-                                fileReader.onload = function(e) {
-                                    $timeout(function() {
-                                        files[i].dataUrl = e.target.result;
-                                    });
-                                }
-                            });
-                        }
-                    }
-                }
-            };
         }])
 
     .directive('newsExhibitionsMain', ['$animate', function($animate) {
@@ -1167,47 +1135,11 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
             $scope.newNews.contactEmail = '';
             $scope.newNews.contactPhone = '';
             $scope.newNews.sticky = 0;
+            $scope.newNews.type = 0;
 
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
-
-            $scope.tinymceOptions = {
-                onChange: function(e) {
-                    // put logic here for keypress and cut/paste changes
-                },
-                inline: false,
-                plugins : 'link spellchecker code',
-                toolbar: 'undo redo | bold italic | link | code',
-                menubar : false,
-                skin: 'lightgray',
-                theme : 'modern'
-            };
-
-            $scope.onNewsDPFocusFrom = function($event, news){
-                $event.preventDefault();
-                $event.stopPropagation();
-                if (typeof news != 'undefined') {
-                    if ($scope.data.news[$scope.data.news.indexOf(news)].activeFrom == null) {
-                        $scope.data.news[$scope.data.news.indexOf(news)].activeFrom = new Date();
-                    }
-                    $scope.data.news[$scope.data.news.indexOf(news)].dpFrom = true;
-                } else {
-                    $scope.newNews.dpFrom = true;
-                }
-            };
-            $scope.onNewsDPFocusUntil = function($event, news){
-                $event.preventDefault();
-                $event.stopPropagation();
-                if (typeof news != 'undefined') {
-                    if ($scope.data.news[$scope.data.news.indexOf(news)].activeUntil == null) {
-                        $scope.data.news[$scope.data.news.indexOf(news)].activeUntil = new Date();
-                    }
-                    $scope.data.news[$scope.data.news.indexOf(news)].dpUntil = true;
-                } else {
-                    $scope.newNews.dpUntil = true;
-                }
-            };
 
             $scope.toggleNews = function(news){
                 $scope.data.news[$scope.data.news.indexOf(news)].show =
@@ -1220,6 +1152,14 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                     $scope.sortMode = by;
             };
 
+            $scope.validateNews = function(news){
+                if (news.title.length < 1)
+                    return "Form error: Please fill out Title!";
+                if (news.description.length < 1)
+                    return "Form error: Please fill out Description!";
+
+                return "";
+            };
             $scope.approveNews = function(news){
                 news.admin = $scope.newNews.creator;
                 if (confirm("Are you sure you want to approve " + news.title  + "?") == true){
@@ -1261,6 +1201,10 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                 if ($scope.data.news[$scope.data.news.indexOf(news)].formResponse.length > 0)
                     return false;
                 $scope.uploading = true;
+                if (news.type < 1) {
+                    news.activeFrom = null;
+                    news.activeUntil = null;
+                }
                 if (news.activeFrom !== null)
                     news.tsFrom = news.activeFrom.valueOf() / 1000;
                 else
@@ -1332,6 +1276,10 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                 if ($scope.newNews.formResponse.length > 0)
                     return false;
                 $scope.uploading = true;
+                if ($scope.newNews.type < 1) {
+                    $scope.newNews.activeFrom = null;
+                    $scope.newNews.activeUntil = null;
+                }
                 if ($scope.newNews.activeFrom !== null)
                     $scope.newNews.tsFrom = $scope.newNews.activeFrom.valueOf() / 1000;
                 else
@@ -1370,6 +1318,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                                 newNews.show = false;
                                 newNews.class = "";
                                 newNews.status = 0;
+                                newNews.type = $scope.newNews.type;
                                 newNews.selectedFiles = [];
                                 $scope.data.news.push(newNews);
                                 $scope.newNews.formResponse = "News has been added.";
@@ -1426,6 +1375,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                                 newNews.show = false;
                                 newNews.class = "";
                                 newNews.status = 0;
+                                newNews.type = $scope.newNews.type;
                                 newNews.selectedFiles = [];
                                 $scope.data.news.push(newNews);
                                 $scope.newNews.formResponse = "News has been added.";
@@ -1465,6 +1415,83 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                 return input;
             return input.slice(start);
         }
+    }])
+
+    .controller('NewsItemFieldsCtrl', ['$scope',
+        function NewsItemFieldsCtrl($scope){
+            $scope.dpFormat = 'MM/dd/yyyy';
+            $scope.tinymceOptions = {
+                plugins : 'link spellchecker code',
+                toolbar: 'undo redo | bold italic | link | code',
+                menubar : false
+            };
+
+        }])
+
+    .directive('newsItemFieldsList', ['$timeout', function($timeout) {
+        return {
+            restrict: 'AC',
+            scope: {
+                news: '=newsdata',
+                data: '=list'
+            },
+            controller: 'NewsItemFieldsCtrl',
+            link: function(scope, elm, attrs){
+                scope.onNewsDPFocusFrom = function($event, news){
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    $timeout(function() {
+                        if (typeof news.creator !== 'undefined') {
+                            if (scope.data.news[scope.data.news.indexOf(news)].activeFrom == null) {
+                                scope.data.news[scope.data.news.indexOf(news)].activeFrom = new Date();
+                            }
+                            scope.data.news[scope.data.news.indexOf(news)].dpFrom = true;
+                        } else {
+                            scope.news.dpFrom = true;
+                        }
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.onNewsDPFocusUntil = function($event, news){
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    $timeout(function() {
+                        if (typeof news.creator !== 'undefined') {
+                            if (scope.data.news[scope.data.news.indexOf(news)].activeUntil == null) {
+                                scope.data.news[scope.data.news.indexOf(news)].activeUntil = new Date();
+                            }
+                            scope.data.news[scope.data.news.indexOf(news)].dpUntil = true;
+                        } else {
+                            scope.news.dpUntil = true;
+                        }
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.generateThumb = function(files, news) {
+                    if (files != null) {
+                        for (var i = 0; i < files.length; i++){
+                            if (typeof news.creator !== 'undefined') {
+                                scope.data.news[scope.data.news.indexOf(news)].selectedFiles.push(files[i]);
+                            } else {
+                                scope.news.selectedFiles.push(files[i]);
+                            }
+                            if (scope.fileReaderSupported && files[i].type.indexOf('image') > -1) {
+                                $timeout(function() {
+                                    var fileReader = new FileReader();
+                                    fileReader.readAsDataURL(files[i]);
+                                    fileReader.onload = function(e) {
+                                        $timeout(function() {
+                                            files[i].dataUrl = e.target.result;
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    }
+                };
+            },
+            templateUrl: 'manageNews/manageNewsItemFields.tpl.html'
+        };
     }])
 
     .controller('manageAdminsListCtrl', ['$scope', 'newsFactory',
@@ -3254,9 +3281,9 @@ angular.module('manage.submittedForms', [])
             $scope.sortModes = [
                 {by:'title', reverse:false},
                 {by:'status', reverse:false},
-                {by:'created', reverse:false}
+                {by:'created', reverse:true}
             ];
-            $scope.sortMode = 0;
+            $scope.sortMode = 2;
             $scope.sortButton = $scope.sortMode;
             $scope.mOver = 0;
 

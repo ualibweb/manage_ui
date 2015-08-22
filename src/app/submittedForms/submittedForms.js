@@ -9,9 +9,9 @@ angular.module('manage.submittedForms', [])
             $scope.sortModes = [
                 {by:'title', reverse:false},
                 {by:'status', reverse:false},
-                {by:'created', reverse:false}
+                {by:'created', reverse:true}
             ];
-            $scope.sortMode = 0;
+            $scope.sortMode = 2;
             $scope.sortButton = $scope.sortMode;
             $scope.mOver = 0;
 
