@@ -384,9 +384,12 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
         function NewsItemFieldsCtrl($scope){
             $scope.dpFormat = 'MM/dd/yyyy';
             $scope.tinymceOptions = {
+                inline: false,
                 plugins : 'link spellchecker code',
                 toolbar: 'undo redo | bold italic | link | code',
-                menubar : false
+                menubar : false,
+                skin: 'lightgray',
+                theme : 'modern'
             };
 
         }])
