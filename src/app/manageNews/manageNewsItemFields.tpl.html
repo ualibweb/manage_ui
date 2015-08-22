@@ -34,7 +34,7 @@
         <label for="browse">Select Images</label>
         <div id="browse">
             <button type="file" ngf-select="" ng-model="news.picFile" accept="image/*" ngf-multiple="true"
-                    ngf-change="generateThumb(news.picFile, news)" class="btn btn-success">
+                    ngf-change="generateThumb($files, news)" class="btn btn-success">
                 <span class="fa fa-fw fa-plus"></span>Browse
             </button>
         </div>

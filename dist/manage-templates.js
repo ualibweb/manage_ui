@@ -836,7 +836,7 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "        <label for=\"browse\">Select Images</label>\n" +
     "        <div id=\"browse\">\n" +
     "            <button type=\"file\" ngf-select=\"\" ng-model=\"news.picFile\" accept=\"image/*\" ngf-multiple=\"true\"\n" +
-    "                    ngf-change=\"generateThumb(news.picFile, news)\" class=\"btn btn-success\">\n" +
+    "                    ngf-change=\"generateThumb($files, news)\" class=\"btn btn-success\">\n" +
     "                <span class=\"fa fa-fw fa-plus\"></span>Browse\n" +
     "            </button>\n" +
     "        </div>\n" +
@@ -962,7 +962,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                                </a>\n" +
     "                            </td>\n" +
     "                            <td style=\"width:64px\">\n" +
-    "                                <img ng-show=\"news.tb.length > 0\" src=\"{{news.tb}}\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
+    "                                <img ng-show=\"news.tb.length > 0\" ng-src=\"{{news.tb}}\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
     "                                <img ng-hide=\"news.tb.length > 0\" ngf-src=\"news.selectedFiles[0]\" class=\"thumb\" width=\"64px\" height=\"64px\">\n" +
     "                            </td>\n" +
     "                        </tr>\n" +
