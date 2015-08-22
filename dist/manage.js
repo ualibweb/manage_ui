@@ -1431,7 +1431,8 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
             };
 
             $scope.generateThumb = function(files, news) {
-                if (files.length > 0) {
+                console.dir(files);
+                if (files.length > 0 && files !== null) {
                     for (var i = 0; i < files.length; i++){
                         if (typeof news.creator !== 'undefined') {
                             $scope.data.news[$scope.data.news.indexOf(news)].selectedFiles.push(files[i]);
@@ -1444,7 +1445,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                                 fileReader.readAsDataURL(files[i]);
                                 fileReader.onload = function(e) {
                                     $timeout(function() {
-                                        files.dataUrl = e.target.result;
+                                        files[i].dataUrl = e.target.result;
                                     });
                                 }
                             });
