@@ -9,7 +9,7 @@
             <label for="from">Active From</label>
             <input type="text" class="form-control" id="from" datepicker-popup="{{dpFormat}}"
                    ng-model="news.activeFrom" is-open="news.dpFrom" close-text="Close"
-                   ng-focus="onNewsDPFocusFrom($event, news)"/>
+                   ng-click="onNewsDPFocus($event, news, true)"/>
         </div>
     </div>
     <div class="col-md-2 form-group">
@@ -17,7 +17,7 @@
             <label for="until">Active Until</label>
             <input type="text" class="form-control" id="until" datepicker-popup="{{dpFormat}}"
                    ng-model="news.activeUntil" is-open="news.dpUntil" close-text="Close"
-                   ng-focus="onNewsDPFocusUntil($event, news)"/>
+                   ng-click="onNewsDPFocus($event, news, false)"/>
         </div>
     </div>
     <div class="col-md-1 form-group">

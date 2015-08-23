@@ -811,7 +811,7 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "            <label for=\"from\">Active From</label>\n" +
     "            <input type=\"text\" class=\"form-control\" id=\"from\" datepicker-popup=\"{{dpFormat}}\"\n" +
     "                   ng-model=\"news.activeFrom\" is-open=\"news.dpFrom\" close-text=\"Close\"\n" +
-    "                   ng-focus=\"onNewsDPFocusFrom($event, news)\"/>\n" +
+    "                   ng-click=\"onNewsDPFocus($event, news, true)\"/>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-2 form-group\">\n" +
@@ -819,7 +819,7 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "            <label for=\"until\">Active Until</label>\n" +
     "            <input type=\"text\" class=\"form-control\" id=\"until\" datepicker-popup=\"{{dpFormat}}\"\n" +
     "                   ng-model=\"news.activeUntil\" is-open=\"news.dpUntil\" close-text=\"Close\"\n" +
-    "                   ng-focus=\"onNewsDPFocusUntil($event, news)\"/>\n" +
+    "                   ng-click=\"onNewsDPFocus($event, news, false)\"/>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-1 form-group\">\n" +
