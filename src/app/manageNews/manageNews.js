@@ -415,6 +415,27 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                     }
                 }
             };
+
+            $scope.setDatePickerFrom = function(news) {
+                if (news.nid > 0) {
+                    if ($scope.data.news[$scope.data.news.indexOf(news)].activeFrom == null) {
+                        $scope.data.news[$scope.data.news.indexOf(news)].activeFrom = new Date();
+                    }
+                    $scope.data.news[$scope.data.news.indexOf(news)].dpFrom = true;
+                } else {
+                    $scope.news.dpFrom = true;
+                }
+            };
+            $scope.setDatePickerUntil = function(news) {
+                if (news.nid > 0) {
+                    if ($scope.data.news[$scope.data.news.indexOf(news)].activeUntil == null) {
+                        $scope.data.news[$scope.data.news.indexOf(news)].activeUntil = new Date();
+                    }
+                    $scope.data.news[$scope.data.news.indexOf(news)].dpUntil = true;
+                } else {
+                    $scope.news.dpUntil = true;
+                }
+            };
         }])
 
     .directive('newsItemFieldsList', ['$timeout', function($timeout) {
@@ -430,14 +451,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                     $event.preventDefault();
                     $event.stopPropagation();
                     $timeout(function() {
-                        if (news.nid > 0) {
-                            if (scope.data.news[scope.data.news.indexOf(news)].activeFrom == null) {
-                                scope.data.news[scope.data.news.indexOf(news)].activeFrom = new Date();
-                            }
-                            scope.data.news[scope.data.news.indexOf(news)].dpFrom = true;
-                        } else {
-                            scope.news.dpFrom = true;
-                        }
+                        scope.setDatePickerFrom(news);
                         scope.$apply();
                     }, 0);
                 };
@@ -445,14 +459,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                     $event.preventDefault();
                     $event.stopPropagation();
                     $timeout(function() {
-                        if (news.nid > 0) {
-                            if (scope.data.news[scope.data.news.indexOf(news)].activeUntil == null) {
-                                scope.data.news[scope.data.news.indexOf(news)].activeUntil = new Date();
-                            }
-                            scope.data.news[scope.data.news.indexOf(news)].dpUntil = true;
-                        } else {
-                            scope.news.dpUntil = true;
-                        }
+                        scope.setDatePickerUntil(news);
                         scope.$apply();
                     }, 0);
                 };

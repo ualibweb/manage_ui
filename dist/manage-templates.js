@@ -806,10 +806,20 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "        <input type=\"text\" class=\"form-control\" placeholder=\"News/Exhibit Title\" ng-model=\"news.title\"\n" +
     "               id=\"title\" maxlength=\"100\" required>\n" +
     "    </div>\n" +
-    "    <div class=\"col-md-1 form-group\">\n" +
-    "        <label for=\"sticky\">Sticky</label>\n" +
-    "        <div class=\"checkbox text-center\" id=\"sticky\">\n" +
-    "            <input type=\"checkbox\" ng-model=\"news.sticky\" ng-true-value=\"1\" ng-false-value=\"0\">\n" +
+    "    <div class=\"col-md-2 form-group\">\n" +
+    "        <div ng-show=\"news.type > 0\">\n" +
+    "            <label for=\"from\">Active From</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" id=\"from\" datepicker-popup=\"{{dpFormat}}\"\n" +
+    "                   ng-model=\"news.activeFrom\" is-open=\"news.dpFrom\" close-text=\"Close\"\n" +
+    "                   ng-focus=\"onNewsDPFocusFrom($event, news)\"/>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-2 form-group\">\n" +
+    "        <div ng-show=\"news.type > 0\">\n" +
+    "            <label for=\"until\">Active Until</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" id=\"until\" datepicker-popup=\"{{dpFormat}}\"\n" +
+    "                   ng-model=\"news.activeUntil\" is-open=\"news.dpUntil\" close-text=\"Close\"\n" +
+    "                   ng-focus=\"onNewsDPFocusUntil($event, news)\"/>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-1 form-group\">\n" +
@@ -818,17 +828,11 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "            <input type=\"checkbox\" ng-model=\"news.type\" ng-true-value=\"1\" ng-false-value=\"0\">\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"col-md-2 form-group\" ng-show=\"news.type > 0\">\n" +
-    "        <label for=\"from\">Active From</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" id=\"from\" datepicker-popup=\"{{dpFormat}}\"\n" +
-    "               ng-model=\"news.activeFrom\" is-open=\"news.dpFrom\" close-text=\"Close\"\n" +
-    "               ng-focus=\"onNewsDPFocusFrom($event, news)\"/>\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-2 form-group\" ng-show=\"news.type > 0\">\n" +
-    "        <label for=\"until\">Active Until</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" id=\"until\" datepicker-popup=\"{{dpFormat}}\"\n" +
-    "               ng-model=\"news.activeUntil\" is-open=\"news.dpUntil\" close-text=\"Close\"\n" +
-    "               ng-focus=\"onNewsDPFocusUntil($event, news)\"/>\n" +
+    "    <div class=\"col-md-1 form-group\">\n" +
+    "        <label for=\"sticky\">Sticky</label>\n" +
+    "        <div class=\"checkbox text-center\" id=\"sticky\">\n" +
+    "            <input type=\"checkbox\" ng-model=\"news.sticky\" ng-true-value=\"1\" ng-false-value=\"0\">\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
     "<div class=\"row\">\n" +

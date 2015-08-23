@@ -4,10 +4,20 @@
         <input type="text" class="form-control" placeholder="News/Exhibit Title" ng-model="news.title"
                id="title" maxlength="100" required>
     </div>
-    <div class="col-md-1 form-group">
-        <label for="sticky">Sticky</label>
-        <div class="checkbox text-center" id="sticky">
-            <input type="checkbox" ng-model="news.sticky" ng-true-value="1" ng-false-value="0">
+    <div class="col-md-2 form-group">
+        <div ng-show="news.type > 0">
+            <label for="from">Active From</label>
+            <input type="text" class="form-control" id="from" datepicker-popup="{{dpFormat}}"
+                   ng-model="news.activeFrom" is-open="news.dpFrom" close-text="Close"
+                   ng-focus="onNewsDPFocusFrom($event, news)"/>
+        </div>
+    </div>
+    <div class="col-md-2 form-group">
+        <div ng-show="news.type > 0">
+            <label for="until">Active Until</label>
+            <input type="text" class="form-control" id="until" datepicker-popup="{{dpFormat}}"
+                   ng-model="news.activeUntil" is-open="news.dpUntil" close-text="Close"
+                   ng-focus="onNewsDPFocusUntil($event, news)"/>
         </div>
     </div>
     <div class="col-md-1 form-group">
@@ -16,17 +26,11 @@
             <input type="checkbox" ng-model="news.type" ng-true-value="1" ng-false-value="0">
         </div>
     </div>
-    <div class="col-md-2 form-group" ng-show="news.type > 0">
-        <label for="from">Active From</label>
-        <input type="text" class="form-control" id="from" datepicker-popup="{{dpFormat}}"
-               ng-model="news.activeFrom" is-open="news.dpFrom" close-text="Close"
-               ng-focus="onNewsDPFocusFrom($event, news)"/>
-    </div>
-    <div class="col-md-2 form-group" ng-show="news.type > 0">
-        <label for="until">Active Until</label>
-        <input type="text" class="form-control" id="until" datepicker-popup="{{dpFormat}}"
-               ng-model="news.activeUntil" is-open="news.dpUntil" close-text="Close"
-               ng-focus="onNewsDPFocusUntil($event, news)"/>
+    <div class="col-md-1 form-group">
+        <label for="sticky">Sticky</label>
+        <div class="checkbox text-center" id="sticky">
+            <input type="checkbox" ng-model="news.sticky" ng-true-value="1" ng-false-value="0">
+        </div>
     </div>
 </div>
 <div class="row">
