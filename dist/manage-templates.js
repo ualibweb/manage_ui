@@ -2701,6 +2701,12 @@ angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templ
     "        </div>\n" +
     "    </div>\n" +
     "\n" +
+    "    <div class=\"alert alert-info\" role=\"alert\">\n" +
+    "        <span class=\"fa fa-info-circle\"></span> Note: you can edit an optional part of your <a href=\"/#/staffdir\">Library Directory</a>\n" +
+    "        profile here. It is an appropriate place to post the information about your research, interests, publications,\n" +
+    "        photos, personal website, etc.\n" +
+    "    </div>\n" +
+    "\n" +
     "    <div class=\"row\">\n" +
     "        <div class=\"col-md-12 form-group\">\n" +
     "            <label>Description (allowed tags:\n" +
