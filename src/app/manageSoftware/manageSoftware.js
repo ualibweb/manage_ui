@@ -383,6 +383,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         $scope.sw.picFile = [];
                         $scope.sw.picFile.push(files[0]);
                     }
+                    console.dir(sw);
                     $timeout(function() {
                         var fileReader = new FileReader();
                         fileReader.readAsDataURL(files[0]);

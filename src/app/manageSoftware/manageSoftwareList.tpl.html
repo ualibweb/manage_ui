@@ -46,8 +46,8 @@
                         </a>
                     </td>
                     <td style="width:64px;">
-                        <img ng-hide="sw.picFile[0] != null" src="{{sw.icon}}" class="thumb" width="64px" height="64px">
-                        <img ng-show="sw.picFile[0] != null" ngf-src="sw.picFile[0]" class="thumb" width="64px" height="64px">
+                        <img ng-hide="sw.picFile.length > 0" src="{{sw.icon}}" class="thumb" width="64px" height="64px">
+                        <img ng-show="sw.picFile.length > 0" ngf-src="sw.picFile[0]" class="thumb" width="64px" height="64px">
                     </td>
                     <td>
                         <h4>

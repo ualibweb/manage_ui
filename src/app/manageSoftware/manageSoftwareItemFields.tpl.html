@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-6 form-group">
         <label for="up">Upload Icon</label>
-        <input type="file" ngf-select="" accept="image/png"
+        <input type="file" ngf-select="" accept="image/png" ng-model="sw.picFile"
                ngf-change="generateThumb(sw, $files)" id="up">
         <span class="progress" ng-show="sw.picFile[0].progress >= 0">
             <div class="ng-binding" style="width:{{sw.picFile[0].progress}}%" ng-bind="sw.picFile[0].progress + '%'"></div>
