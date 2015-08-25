@@ -4,8 +4,22 @@ module.exports = function(grunt){
     // Show elapsed time
     require('time-grunt')(grunt);
 
+    var jsFileList = [
+        'dist/manage.js',
+        'dist/manage-templates.js'
+    ];
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        jshint: {
+            options: {
+                jshintrc: '.jshintrc'
+            },
+            all: [
+                'Gruntfile.js',
+                'src/*.js',
+                '!dist/*.js'
+            ]
+        },
         html2js: {
             app: {
                 options:{
@@ -51,6 +65,16 @@ module.exports = function(grunt){
                 prereleaseName: false,
                 regExp: false
             }
+        },
+        uglify: {
+            options: {
+                mangle: false
+            },
+            dist: {
+                files: {
+                    'dist/manage.min.js': [jsFileList]
+                }
+            }
         }
     });
 
@@ -61,14 +85,8 @@ module.exports = function(grunt){
     grunt.registerTask('live-build', [
         'html2js',
         'jshint',
-        'copy',
-        'less:build',
-        'autoprefixer:build',
         'concat',
-        'ngAnnotate',
-        'uglify',
-        'modernizr',
-        'version'
+        'uglify'
     ]);
 
 };

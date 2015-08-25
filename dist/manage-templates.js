@@ -870,7 +870,9 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "    </div>\n" +
     "</div>\n" +
     "<div class=\"row form-group\">\n" +
-    "    <h4><small>Select contact person from the list or enter new contact information</small></h4>\n" +
+    "    <div class=\"col-md-12\">\n" +
+    "        <h4><small>Select contact person from the list or enter new contact information</small></h4>\n" +
+    "    </div>\n" +
     "    <div class=\"form-group\">\n" +
     "        <div class=\"col-md-3\">\n" +
     "            <label for=\"contact1\">Library Faculty and Staff</label>\n" +
@@ -2458,7 +2460,7 @@ angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templ
     "    <div class=\"alert alert-info\" role=\"alert\">\n" +
     "        <span class=\"fa fa-info-circle\"></span> Note: you can edit an optional part of your <a href=\"/#/staffdir\">Library Directory</a>\n" +
     "        profile here. It is an appropriate place to post the information about your research, interests, publications,\n" +
-    "        photos, personal website, etc.\n" +
+    "        photos, personal website, etc. Please try to keep your profile professional oriented.\n" +
     "    </div>\n" +
     "\n" +
     "    <div class=\"row\">\n" +
