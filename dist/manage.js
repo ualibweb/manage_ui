@@ -1659,16 +1659,16 @@ angular.module('manage.manageOneSearch', [])
         };
     }]);
 angular.module('manage.manageSoftware', ['ngFileUpload'])
-    .controller('manageSWCtrl', ['$scope', 'tokenFactory', 'swFactory',
-        function manageSWCtrl($scope, tokenFactory, swFactory){
+    .constant('OS', [
+        {name:'MS Windows', value:1},
+        {name:'Apple Mac', value:2}
+    ])
+
+    .controller('manageSWCtrl', ['$scope', 'tokenFactory', 'swFactory', 'OS',
+        function manageSWCtrl($scope, tokenFactory, swFactory, OS){
             $scope.SWList = {};
             $scope.newSW = {};
             $scope.newComp = {};
-
-            $scope.os = [
-                {name:'MS Windows', value:1},
-                {name:'Apple Mac', value:2}
-            ];
 
             tokenFactory("CSRF-libSoftware");
 
@@ -1681,7 +1681,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                         data.software[i].selCat = data.categories[0];
                         data.software[i].newVer = {};
                         data.software[i].newVer.version = "";
-                        data.software[i].newVer.selOS = $scope.os[0];
+                        data.software[i].newVer.selOS = OS[0];
                         for (var j = 0; j < data.software[i].versions.length; j++){
                             data.software[i].versions[j].newLoc = {};
                             data.software[i].versions[j].newLoc.selLoc = data.locations[0];
@@ -1753,8 +1753,8 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         };
     }])
 
-    .controller('manageSWListCtrl', ['$scope', '$timeout', 'Upload', 'swFactory', 'SOFTWARE_URL',
-        function manageSWListCtrl($scope, $timeout, Upload, swFactory, appURL){
+    .controller('manageSWListCtrl', ['$scope', '$timeout', 'Upload', 'swFactory', 'SOFTWARE_URL', 'OS',
+        function manageSWListCtrl($scope, $timeout, Upload, swFactory, appURL, OS){
             $scope.titleFilter = '';
             $scope.descrFilter = '';
             $scope.sortMode = 0;
@@ -1769,7 +1769,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.newSW.links = [];
             $scope.newSW.categories = [];
             $scope.newSW.newVer = {};
-            $scope.newSW.newVer.selOS = $scope.os[0];
+            $scope.newSW.newVer.selOS = OS[0];
             $scope.newSW.newVer.version = "";
             $scope.newSW.newLink = {};
             $scope.newSW.newLink.description = "";
@@ -1959,7 +1959,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             }
                             newSW.selCat = response.data.categories[0];
                             newSW.newVer = {};
-                            newSW.newVer.selOS = $scope.os[0];
+                            newSW.newVer.selOS = OS[0];
                             newSW.newVer.version = "";
                             newSW.newLink = {};
                             newSW.newLink.description = "";
@@ -2009,223 +2009,6 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
 
                 return "";
             };
-            $scope.checkDevices = function(device, number){
-                device = parseInt(device);
-                number = parseInt(number);
-                if ((device & number) === number)
-                    return true;
-                return false;
-            };
-
-            $scope.addVersion = function(sw){
-                if (sw.newVer.version.length > 0){
-                    var newVer = {};
-                    newVer.vid = -1;
-                    newVer.sid = sw.sid;
-                    newVer.version = sw.newVer.version;
-                    newVer.os = sw.newVer.selOS.value;
-                    newVer.locations = [];
-                    newVer.newLoc = {};
-                    newVer.newLoc.selLoc = $scope.SWList.locations[0];
-                    newVer.newLoc.devices = [];
-                    for (var j = 0; j < $scope.SWList.devices.length; j++)
-                        newVer.newLoc.devices[j] = false;
-                    var isPresent = false;
-                    for (var i = 0; i < sw.versions.length; i++)
-                        if (sw.versions[i].version === newVer.version &&
-                            sw.versions[i].os === newVer.os){
-                            isPresent = true;
-                            break;
-                        }
-                    if (!isPresent)
-                        $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.push(newVer);
-                }
-            };
-            $scope.deleteVersion = function(sw, version){
-                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.splice(
-                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version),1
-                );
-            };
-            $scope.addLocation = function(sw,version){
-                var newLoc = {};
-                newLoc.id = -1;
-                newLoc.sid = sw.sid;
-                newLoc.vid = version.vid;
-                newLoc.lid = version.newLoc.selLoc.lid;
-                newLoc.name = version.newLoc.selLoc.name;
-                newLoc.parent = version.newLoc.selLoc.parent;
-                newLoc.devices = 0;
-                var isPresent = false;
-                for (var i = 0; i < version.locations.length; i++)
-                    if (version.locations[i].lid == newLoc.lid){
-                        isPresent = true;
-                        break;
-                    }
-                if (!isPresent){
-                    for (var i = 0; i < $scope.SWList.devices.length; i++)
-                        if (version.newLoc.devices[i])
-                            newLoc.devices += parseInt($scope.SWList.devices[i].did);
-                    if (newLoc.devices > 0)
-                        $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions[$scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version)].locations.push(newLoc);
-                    else
-                        alert("Please select at least one device type!");
-                }
-            };
-            $scope.deleteLocation = function(sw, version, location){
-                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions[$scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version)].locations.splice(
-                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions[$scope.SWList.software[$scope.SWList.software.indexOf(sw)].versions.indexOf(version)].locations.indexOf(location),1
-                );
-            };
-            $scope.addCategory = function(sw){
-                var newCat = {};
-                newCat.id = -1;
-                newCat.cid = sw.selCat.cid;
-                newCat.name = sw.selCat.name;
-                var isPresent = false;
-                for (var i = 0; i < sw.categories.length; i++)
-                    if (sw.categories[i].cid == newCat.cid){
-                        isPresent = true;
-                        break;
-                    }
-                if (!isPresent)
-                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].categories.push(newCat);
-            };
-            $scope.deleteCategory = function(sw, category){
-                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].categories.splice(
-                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].categories.indexOf(category),1
-                );
-            };
-            $scope.addLink = function(sw){
-                if (sw.newLink.title.length > 0 && sw.newLink.url.length > 1){
-                    var newLink = {};
-                    newLink.linkid = -1;
-                    newLink.sid = sw.sid;
-                    newLink.description = sw.newLink.description;
-                    newLink.title = sw.newLink.title;
-                    newLink.url = sw.newLink.url;
-                    var isPresent = false;
-                    for (var i = 0; i < sw.links.length; i++)
-                        if (sw.links[i].title === newLink.title &&
-                            sw.links[i].url === newLink.url){
-                            isPresent = true;
-                            break;
-                        }
-                    if (!isPresent)
-                        $scope.SWList.software[$scope.SWList.software.indexOf(sw)].links.push(newLink);
-                }
-            };
-            $scope.deleteLink = function(sw, link){
-                $scope.SWList.software[$scope.SWList.software.indexOf(sw)].links.splice(
-                    $scope.SWList.software[$scope.SWList.software.indexOf(sw)].links.indexOf(link),1
-                );
-            };
-
-            $scope.delNewSWVer = function(version){
-                $scope.newSW.versions.splice($scope.newSW.versions.indexOf(version), 1);
-            };
-            $scope.delNewSWLoc = function(version,location){
-                $scope.newSW.versions[$scope.newSW.versions.indexOf(version)].locations.splice(
-                    $scope.newSW.versions[$scope.newSW.versions.indexOf(version)].locations.indexOf(location),
-                    1
-                );
-            };
-            $scope.delNewSWCat = function(category){
-                $scope.newSW.categories.splice($scope.newSW.categories.indexOf(category), 1);
-            };
-            $scope.delNewSWLink = function(link){
-                $scope.newSW.links.splice($scope.newSW.links.indexOf(link), 1);
-            };
-            $scope.addNewSWVer = function(){
-                if ($scope.newSW.newVer.version.length > 0){
-                    var newVersion = {};
-                    newVersion.version = $scope.newSW.newVer.version;
-                    newVersion.os = $scope.newSW.newVer.selOS.value;
-                    newVersion.locations = [];
-                    newVersion.newLoc = {};
-                    newVersion.newLoc.selLoc = $scope.SWList.locations[0];
-                    newVersion.newLoc.devices = [];
-                    for (var j = 0; j < $scope.SWList.devices.length; j++)
-                        newVersion.newLoc.devices[j] = false;
-                    var isPresent = false;
-                    for (var i = 0; i < $scope.newSW.versions.length; i++)
-                        if ($scope.newSW.versions[i].version == newVersion.version &&
-                            $scope.newSW.versions[i].os == newVersion.os){
-                            isPresent = true;
-                            break;
-                        }
-                    if (!isPresent)
-                        $scope.newSW.versions.push(newVersion);
-                }
-            };
-            $scope.addNewSWLoc = function(version){
-                var newLoc = {};
-                newLoc.lid = version.newLoc.selLoc.lid;
-                newLoc.name = version.newLoc.selLoc.name;
-                newLoc.parent = version.newLoc.selLoc.parent;
-                newLoc.devices = 0;
-                var isPresent = false;
-                for (var i = 0; i < version.locations.length; i++)
-                    if (version.locations[i].lid == newLoc.lid){
-                        isPresent = true;
-                        break;
-                    }
-                if (!isPresent){
-                    for (var i = 0; i < $scope.SWList.devices.length; i++)
-                        if (version.newLoc.devices[i])
-                            newLoc.devices += parseInt($scope.SWList.devices[i].did);
-                    if (newLoc.devices > 0)
-                        $scope.newSW.versions[$scope.newSW.versions.indexOf(version)].locations.push(newLoc);
-                    else
-                        alert("Please select at least one device type!");
-                }
-            };
-            $scope.addNewSWCat = function(){
-                var newCategory = {};
-                newCategory.cid = $scope.newSW.selCat.cid;
-                newCategory.name = $scope.newSW.selCat.name;
-                var isPresent = false;
-                for (var i = 0; i < $scope.newSW.categories.length; i++)
-                    if ($scope.newSW.categories[i].cid == newCategory.cid){
-                        isPresent = true;
-                        break;
-                    }
-                if (!isPresent)
-                    $scope.newSW.categories.push(newCategory);
-            };
-            $scope.addNewSWLink = function(){
-                if ($scope.newSW.newLink.title.length > 0 && $scope.newSW.newLink.url.length > 11){
-                    var newLink = {};
-                    newLink.description = $scope.newSW.newLink.description;
-                    newLink.title = $scope.newSW.newLink.title;
-                    newLink.url = $scope.newSW.newLink.url;
-                    var isPresent = false;
-                    for (var i = 0; i < $scope.newSW.links.length; i++)
-                        if ($scope.newSW.links[i].title == newLink.title &&
-                            $scope.newSW.links[i].url == newLink.url){
-                            isPresent = true;
-                            break;
-                        }
-                    if (!isPresent)
-                        $scope.newSW.links.push(newLink);
-                }
-            };
-
-            $scope.generateThumb = function(file) {
-                if (file != null) {
-                    if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
-                        $timeout(function() {
-                            var fileReader = new FileReader();
-                            fileReader.readAsDataURL(file);
-                            fileReader.onload = function(e) {
-                                $timeout(function() {
-                                    file.dataUrl = e.target.result;
-                                });
-                            }
-                        });
-                    }
-                }
-            };
-
     }])
 
     .directive('softwareManageList',[  function() {
@@ -2246,8 +2029,243 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             return input.slice(start);
         }
     }])
-    .controller('manageSWLocCatCtrl', ['$scope', '$timeout', 'swFactory',
-        function manageSWLocCatCtrl($scope, $timeout, swFactory){
+
+    .controller('SWItemFieldsCtrl', ['$scope', '$timeout', 'Upload',
+        function SWItemFieldsCtrl($scope, $timeout, Upload){
+            $scope.generateThumb = function(sw, files) {
+                if (files.length > 0 && files !== null) {
+                    if ($scope.fileReaderSupported && files[0].type.indexOf('image') > -1) {
+                        $timeout(function() {
+                            var fileReader = new FileReader();
+                            fileReader.readAsDataURL(files[0]);
+                            fileReader.onload = function(e) {
+                                $timeout(function() {
+                                    files[0].dataUrl = e.target.result;
+                                });
+                            }
+                        });
+                    }
+                }
+            };
+
+            $scope.checkDevices = function(device, number){
+                device = parseInt(device);
+                number = parseInt(number);
+                if ((device & number) === number)
+                    return true;
+                return false;
+            };
+
+            $scope.addVersionBoth = function(sw){
+                if (sw.newVer.version.length > 0){
+                    var isPresent = false;
+                    for (var i = 0; i < sw.versions.length; i++)
+                        if (sw.versions[i].version === sw.newVer.version && sw.versions[i].os === sw.newVer.os){
+                            isPresent = true;
+                            break;
+                        }
+                    if (!isPresent) {
+                        var newVer = {};
+                        newVer.version = sw.newVer.version;
+                        newVer.os = sw.newVer.selOS.value;
+                        newVer.locations = [];
+                        newVer.newLoc = {};
+                        newVer.newLoc.selLoc = $scope.data.locations[0];
+                        newVer.newLoc.devices = [];
+                        for (var j = 0; j < $scope.data.devices.length; j++)
+                            newVer.newLoc.devices[j] = false;
+
+                        if (sw.sid > 0) {
+                            newVer.vid = -1;
+                            newVer.sid = sw.sid;
+                            $scope.data.software[$scope.data.software.indexOf(sw)].versions.push(newVer);
+                        } else {
+                            $scope.sw.versions.push(newVer);
+                        }
+                    }
+                }
+            };
+            $scope.deleteVersionBoth = function(sw, version){
+                if (sw.sid > 0) {
+                    $scope.data.software[$scope.data.software.indexOf(sw)].versions.splice(
+                        $scope.data.software[$scope.data.software.indexOf(sw)].versions.indexOf(version), 1
+                    );
+                } else {
+                    $scope.sw.versions.splice($scope.sw.versions.indexOf(version), 1);
+                }
+            };
+            $scope.addLocationBoth = function(sw,version){
+                var isPresent = false;
+                for (var i = 0; i < version.locations.length; i++)
+                    if (version.locations[i].lid === version.newLoc.selLoc.lid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent){
+                    var newLoc = {};
+                    newLoc.lid = version.newLoc.selLoc.lid;
+                    newLoc.name = version.newLoc.selLoc.name;
+                    newLoc.parent = version.newLoc.selLoc.parent;
+                    newLoc.devices = 0;
+                    for (var i = 0; i < $scope.data.devices.length; i++)
+                        if (version.newLoc.devices[i])
+                            newLoc.devices += parseInt($scope.data.devices[i].did);
+                    if (newLoc.devices > 0) {
+                        if (sw.sid > 0) {
+                            newLoc.id = -1;
+                            newLoc.sid = sw.sid;
+                            newLoc.vid = version.vid;
+                            $scope.data.software[$scope.data.software.indexOf(sw)].versions[$scope.data.software[$scope.data.software.indexOf(sw)].versions.indexOf(version)].locations.push(newLoc);
+                        } else {
+                            $scope.sw.versions[$scope.sw.versions.indexOf(version)].locations.push(newLoc);
+                        }
+                    } else {
+                        alert("Please select at least one device type!");
+                    }
+                }
+            };
+            $scope.deleteLocationBoth = function(sw, version, location){
+                if (sw.sid > 0) {
+                    $scope.data.software[$scope.data.software.indexOf(sw)].versions[$scope.data.software[$scope.data.software.indexOf(sw)].versions.indexOf(version)].locations
+                        .splice(
+                            $scope.data.software[$scope.data.software.indexOf(sw)].versions[$scope.data.software[$scope.data.software.indexOf(sw)].versions.indexOf(version)].locations.indexOf(location),
+                            1
+                        );
+                } else {
+                    $scope.sw.versions[$scope.sw.versions.indexOf(version)].locations
+                        .splice(
+                            $scope.sw.versions[$scope.sw.versions.indexOf(version)].locations.indexOf(location),
+                            1
+                        );
+                }
+            };
+            $scope.addCategoryBoth = function(sw){
+                var isPresent = false;
+                for (var i = 0; i < sw.categories.length; i++)
+                    if (sw.categories[i].cid === sw.selCat.cid){
+                        isPresent = true;
+                        break;
+                    }
+                if (!isPresent) {
+                    var newCat = {};
+                    newCat.cid = sw.selCat.cid;
+                    newCat.name = sw.selCat.name;
+
+                    if (sw.sid > 0) {
+                        newCat.id = -1;
+                        $scope.data.software[$scope.data.software.indexOf(sw)].categories.push(newCat);
+                    } else {
+                        $scope.sw.categories.push(newCat);
+                    }
+                }
+            };
+            $scope.deleteCategoryBoth = function(sw, category){
+                if (sw.sid > 0) {
+                    $scope.data.software[$scope.data.software.indexOf(sw)].categories.splice(
+                        $scope.data.software[$scope.data.software.indexOf(sw)].categories.indexOf(category), 1
+                    );
+                } else {
+                    $scope.sw.categories.splice($scope.sw.categories.indexOf(category), 1);
+                }
+            };
+            $scope.addLinkBoth = function(sw){
+                if (sw.newLink.title.length > 0 && sw.newLink.url.length > 1){
+                    var isPresent = false;
+                    for (var i = 0; i < sw.links.length; i++)
+                        if (sw.links[i].title === sw.newLink.title && sw.links[i].url === sw.newLink.url){
+                            isPresent = true;
+                            break;
+                        }
+                    if (!isPresent) {
+                        var newLink = {};
+                        newLink.description = sw.newLink.description;
+                        newLink.title = sw.newLink.title;
+                        newLink.url = sw.newLink.url;
+
+                        if (sw.sid > 0) {
+                            newLink.linkid = -1;
+                            newLink.sid = sw.sid;
+                            $scope.data.software[$scope.data.software.indexOf(sw)].links.push(newLink);
+                        } else {
+                            $scope.sw.links.push(newLink);
+                        }
+                    }
+                }
+            };
+            $scope.deleteLinkBoth = function(sw, link){
+                if (sw.sid > 0) {
+                    $scope.data.software[$scope.data.software.indexOf(sw)].links
+                        .splice($scope.data.software[$scope.data.software.indexOf(sw)].links.indexOf(link), 1);
+                } else {
+                    $scope.sw.links.splice($scope.sw.links.indexOf(link), 1);
+                }
+            };
+        }])
+
+    .directive('softwareItemFieldsList', ['$timeout', 'Upload', function($timeout, Upload) {
+        return {
+            restrict: 'AC',
+            scope: {
+                sw: '=swdata',
+                data: '=list'
+            },
+            controller: 'SWItemFieldsCtrl',
+            link: function(scope, elm, attrs){
+                scope.addVersion = function(sw){
+                    $timeout(function() {
+                        scope.addVersionBoth(sw);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.deleteVersion = function(sw, version){
+                    $timeout(function() {
+                        scope.deleteVersionBoth(sw, version);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.addLocation = function(sw, version){
+                    $timeout(function() {
+                        scope.addLocationBoth(sw, version);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.deleteLocation = function(sw, version, location){
+                    $timeout(function() {
+                        scope.deleteLocationBoth(sw, version, location);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.addCategory = function(sw){
+                    $timeout(function() {
+                        scope.addCategoryBoth(sw);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.deleteCategory = function(sw, category){
+                    $timeout(function() {
+                        scope.deleteCategoryBoth(sw, category);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.addLink = function(sw){
+                    $timeout(function() {
+                        scope.addLinkBoth(sw);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.deleteLink = function(sw, link){
+                    $timeout(function() {
+                        scope.deleteLinkBoth(sw, link);
+                        scope.$apply();
+                    }, 0);
+                };
+            },
+            templateUrl: 'manageSoftware/manageSoftwareItemFields.tpl.html'
+        };
+    }])
+
+    .controller('manageSWLocCatCtrl', ['$scope', '$timeout', 'swFactory', 'OS',
+        function manageSWLocCatCtrl($scope, $timeout, swFactory, OS){
             $scope.selLocation = -1;
             $scope.selCategory = -1;
             $scope.newLocation = {};
@@ -2256,6 +2274,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.newCategory = '';
             $scope.locResponse = '';
             $scope.catResponse = '';
+            $scope.os = OS;
 
 
             $scope.selectLocation = function(location){
@@ -2389,7 +2408,8 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         };
     }])
 
-    .controller('manageSWCompMapsCtrl', ['$scope', '$window', 'swFactory', function manageSWCompMapsCtrl($scope, $window, swFactory){
+    .controller('manageSWCompMapsCtrl', ['$scope', '$window', 'swFactory', 'OS',
+    function manageSWCompMapsCtrl($scope, $window, swFactory, OS){
         $scope.selComp = -1;
         $scope.selCompX = 0;
         $scope.selCompY = 0;
@@ -2397,7 +2417,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         $scope.selCompLoc = {};
         $scope.high = -1;
         $scope.newComp.name = "";
-        $scope.newComp.selType = $scope.os[0];
+        $scope.newComp.selType = OS[0];
         $scope.showCreate = false;
         $scope.compStatus = [
             {name: 'Off', value: 0},
@@ -2414,10 +2434,10 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 var comp = $scope.selMap.computers[index];
                 $scope.selCompX = parseInt(comp.mapX) + 15;
                 $scope.selCompY = parseInt(comp.mapY) + 15;
-                if (comp.type == $scope.os[0].value)
-                    $scope.selCompOS = $scope.os[0];
+                if (comp.type == OS[0].value)
+                    $scope.selCompOS = OS[0];
                 else
-                    $scope.selCompOS = $scope.os[1];
+                    $scope.selCompOS = OS[1];
                 if (comp.status == 1)
                     $scope.selCompStatus = $scope.compStatus[1];
                 else

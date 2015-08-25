@@ -1,0 +1,255 @@
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label for="up">Upload Icon</label>
+        <input type="file" ngf-select="" ng-model="sw.picFile" accept="image/png"
+               ngf-change="generateThumb(sw, $files)" id="up">
+        <span class="progress" ng-show="sw.picFile[0].progress >= 0">
+            <div class="ng-binding" style="width:{{sw.picFile[0].progress}}%" ng-bind="sw.picFile[0].progress + '%'"></div>
+        </span>
+    </div>
+    <div class="col-md-6 form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" placeholder="Software Title" ng-model="sw.title"
+               id="title" maxlength="50" required>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label for="descr">Description</label>
+                        <textarea class="form-control" rows="3" id="descr" ng-model="sw.description"
+                                  maxlength="4096" required></textarea>
+    </div>
+    <div class="col-md-6 form-group">
+        <label for="mod">List of Installed Modules</label>
+                        <textarea class="form-control" rows="3" id="mod" ng-model="sw.modules"
+                                  maxlength="4096"></textarea>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label for="links">Links</label>
+        <ul class="list-group" id="links">
+            <li class="list-group-item" ng-repeat="link in sw.links">
+                <button type="button" class="btn btn-danger" ng-click="deleteLink(sw,link)">
+                    <span class="fa fa-fw fa-close"></span>
+                </button>
+                {{link.description}} <a ng-href="{{link.url}}">{{link.title}}</a>
+            </li>
+            <li class="list-group-item col-md-12">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Link Description"
+                           ng-model="sw.newLink.description" maxlength="200">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Link Title"
+                           ng-model="sw.newLink.title" maxlength="100">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="http://www.example.com/"
+                           ng-model="sw.newLink.url" maxlength="1024">
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-success" ng-click="addLink(sw)"
+                            ng-disabled="sw.newLink.title.length == 0 || sw.newLink.url.length < 2">
+                        <span class="fa fa-fw fa-plus"></span>
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label for="ver">Versions</label>
+        <ul class="list-group" id="ver">
+            <li class="list-group-item col-md-12" ng-repeat="version in sw.versions">
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger" ng-click="deleteVersion(sw,version)">
+                        <span class="fa fa-fw fa-close"></span>
+                    </button>
+                    <span class="fa fa-fw fa-windows" ng-show="version.os == 1"></span>
+                    <span class="fa fa-fw fa-apple" ng-show="version.os == 2"></span>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Version" ng-model="version.version"
+                           maxlength="50">
+                </div>
+                <div class="col-md-8 form-group">
+                    <label for="loc">Locations</label>
+                    <ul class="list-group" id="loc">
+                        <li class="list-group-item col-md-12" ng-repeat="loc in version.locations">
+                            <div class="col-md-8">
+                                <button type="button" class="btn btn-danger" ng-click="deleteLocation(sw,version,loc)">
+                                    <span class="fa fa-fw fa-close"></span>
+                                </button>
+                                {{loc.name}}
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 1)">
+                                    <span class="fa fa-fw fa-windows"></span>
+                                    <span class="fa fa-fw fa-desktop"></span>
+                                </div>
+                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 2)">
+                                    <span class="fa fa-fw fa-apple"></span>
+                                    <span class="fa fa-fw fa-desktop"></span>
+                                </div>
+                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 4)">
+                                    <span class="fa fa-fw fa-windows"></span>
+                                    <span class="fa fa-fw fa-laptop"></span>
+                                </div>
+                                <div class="col-md-6" ng-show="checkDevices(loc.devices, 8)">
+                                    <span class="fa fa-fw fa-apple"></span>
+                                    <span class="fa fa-fw fa-laptop"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item col-md-12">
+                            <div class="col-md-8">
+                                <select class="form-control" ng-model="version.newLoc.selLoc"
+                                        ng-options="loc.fullName for loc in data.locations | orderBy:'fullName'">
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="col-md-6" ng-repeat="device in version.newLoc.devices track by $index"
+                                     ng-show="(($index == 0 || $index == 2) && version.os == 1) ||
+                                                              (($index == 1 || $index == 3) && version.os == 2)">
+                                    <input type="checkbox" ng-model="version.newLoc.devices[$index]">
+                                                    <span ng-show="$index <= 1">
+                                                        <span class="fa fa-fw fa-desktop"></span>
+                                                    </span>
+                                                    <span ng-show="$index > 1">
+                                                        <span class="fa fa-fw fa-laptop"></span>
+                                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-success" ng-click="addLocation(sw,version)">
+                                    <span class="fa fa-fw fa-plus"></span>
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="list-group-item col-md-6">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Version" ng-model="sw.newVer.version"
+                           maxlength="50">
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control" ng-model="sw.newVer.selOS" ng-options="opSys.name for opSys in os">
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-success" ng-click="addVersion(sw)"
+                            ng-disabled="sw.newVer.version.length == 0">
+                        <span class="fa fa-fw fa-plus"></span>
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label for="cat">Categories</label>
+        <ul class="list-group" id="cat">
+            <li class="list-group-item col-md-12">
+                <div class="col-md-4" ng-repeat="category in sw.categories">
+                    <button type="button" class="btn btn-danger" ng-click="deleteCategory(sw,category)">
+                        <span class="fa fa-fw fa-close"></span>
+                    </button>
+                    {{category.name}}
+                </div>
+            </li>
+            <li class="list-group-item col-md-12">
+                <div class="col-md-10">
+                    <select class="form-control" ng-model="sw.selCat" ng-options="cat.name for cat in data.categories">
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-success" ng-click="addCategory(sw)">
+                        <span class="fa fa-fw fa-plus"></span>
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="effectDate">Maintenance Effective Date</label>
+        <input type="text" class="form-control" placeholder="YYYY-MM-DD" ng-model="sw.main_effect"
+               maxlength="10" id="effectDate">
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="expDate">Maintenance Expiration Date</label>
+        <input type="text" class="form-control" placeholder="YYYY-MM-DD" ng-model="sw.main_exp"
+               maxlength="10" id="expDate">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 form-group">
+        <label for="trf">TRF</label>
+        <input type="text" class="form-control" placeholder="TRF number" ng-model="sw.trf"
+               maxlength="100" id="trf">
+    </div>
+    <div class="col-md-2 form-group">
+        <label for="po">PO</label>
+        <input type="text" class="form-control" placeholder="PO number" ng-model="sw.po"
+               maxlength="100" id="po">
+    </div>
+    <div class="col-md-2 form-group">
+        <label for="numL">Number of Licenses</label>
+        <input type="text" class="form-control" placeholder="Number of Licenses" ng-model="sw.num_licenses"
+               maxlength="100" id="numL">
+    </div>
+    <div class="col-md-2 form-group">
+        <label for="trfNotes">TRF Notes</label>
+        <input type="text" class="form-control" placeholder="TRF notes" ng-model="sw.trf_notes"
+               maxlength="100" id="trfNotes">
+    </div>
+    <div class="col-md-2 form-group">
+        <label for="lMode">License Mode</label>
+        <select class="form-control" ng-model="sw.selMode" ng-options="mode.name for mode in data.licenseModes"
+                id="lMode">
+        </select>
+    </div>
+    <div class="col-md-2 form-group">
+        <label for="purDate">Purchase Date</label>
+        <input type="text" class="form-control" placeholder="YYYY-MM-DD" ng-model="sw.purch_date"
+               maxlength="10" id="purDate">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3 form-group">
+        <label for="vendorName">Vendor Company Name</label>
+        <input type="text" class="form-control" placeholder="Company Name" ng-model="sw.vendor_name"
+               maxlength="60" id="vendorName">
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="vendorContact">Vendor Contact Name</label>
+        <input type="text" class="form-control" placeholder="Contact Name" ng-model="sw.vendor_contact"
+               maxlength="60" id="vendorContact">
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="vendorPhone">Vendor Phone</label>
+        <input type="text" class="form-control" placeholder="Contact Phone" ng-model="sw.vendor_phone"
+               maxlength="20" id="vendorPhone">
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="vendorEmail">Vendor Email</label>
+        <input type="text" class="form-control" placeholder="Contact Email" ng-model="sw.vendor_email"
+               maxlength="255" id="vendorEmail">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label for="prodKey">Product Key</label>
+        <input type="text" class="form-control" placeholder="Product Key" ng-model="sw.pkey"
+               maxlength="100" id="prodKey">
+    </div>
+    <div class="col-md-6 form-group">
+        <label for="apDev">Approved for Devices</label>
+        <input type="text" class="form-control" placeholder="List of Devices" ng-model="sw.devices"
+               maxlength="100" id="apDev">
+    </div>
+</div>

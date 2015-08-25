@@ -54,5 +54,21 @@ module.exports = function(grunt){
         }
     });
 
-    grunt.registerTask('default', ['html2js', 'concat']);
+    grunt.registerTask('default', [
+        'html2js',
+        'concat'
+    ]);
+    grunt.registerTask('live-build', [
+        'html2js',
+        'jshint',
+        'copy',
+        'less:build',
+        'autoprefixer:build',
+        'concat',
+        'ngAnnotate',
+        'uglify',
+        'modernizr',
+        'version'
+    ]);
+
 };
