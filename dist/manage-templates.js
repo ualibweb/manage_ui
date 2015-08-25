@@ -1364,7 +1364,7 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-6 form-group\">\n" +
     "        <label for=\"up\">Upload Icon</label>\n" +
-    "        <input type=\"file\" ngf-select=\"\" ng-model=\"sw.picFile\" accept=\"image/png\"\n" +
+    "        <input type=\"file\" ngf-select=\"\" accept=\"image/png\"\n" +
     "               ngf-change=\"generateThumb(sw, $files)\" id=\"up\">\n" +
     "        <span class=\"progress\" ng-show=\"sw.picFile[0].progress >= 0\">\n" +
     "            <div class=\"ng-binding\" style=\"width:{{sw.picFile[0].progress}}%\" ng-bind=\"sw.picFile[0].progress + '%'\"></div>\n" +
