@@ -2034,6 +2034,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
     function SWItemFieldsCtrl($scope, $timeout, Upload, OS){
         $scope.os = OS;
         $scope.generateThumb = function(sw, files) {
+            console.log(files);
             if (files.length > 0 && files !== null) {
                 if ($scope.fileReaderSupported && files[0].type.indexOf('image') > -1) {
                     if (sw.sid > 0) {

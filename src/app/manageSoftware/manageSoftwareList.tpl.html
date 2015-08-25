@@ -64,7 +64,7 @@
         </div>
         <div ng-if="sw.show">
             <form name="editSW{{sw.sid}}" ng-submit="updateSW(sw)">
-                <div software-item-fields-list swdata="sw" list="SWList">
+                <div software-item-fields-list swdata="sw" list="SWList"></div>
                 <div class="row form-group text-center">
                     <button type="submit" class="btn btn-success">Update information</button>
                     <button type="button" class="btn btn-success" ng-click="unpublishSW(sw)" ng-hide="sw.status == 0">
@@ -93,7 +93,7 @@
 <h3>Add New Software</h3>
 <form name="addNewSW" ng-submit="createSW()">
     <div class="sdOpen">
-        <div software-item-fields-list swdata="newSW" list="SWList">
+        <div software-item-fields-list swdata="newSW" list="SWList"></div>
         <div class="row form-group text-center">
             <button type="submit" class="btn btn-success">Create Software Record</button><br>
             {{newSW.formResponse}}
