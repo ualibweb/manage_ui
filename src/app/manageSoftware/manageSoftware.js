@@ -788,6 +788,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             {name: 'On', value: 1}
         ];
         $scope.selCompStatus = $scope.compStatus[0];
+        $scope.os = OS;
 
         $scope.highlight = function(comp){
             $scope.high = comp.compid;
@@ -919,4 +920,4 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             },
             templateUrl: 'manageSoftware/manageSoftwareComputerMaps.tpl.html'
         };
-    }])
+    }]);
