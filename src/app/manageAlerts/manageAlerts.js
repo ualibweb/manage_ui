@@ -46,7 +46,8 @@ angular.module('manage.manageAlerts', [])
                     data.alerts[i].show = false;
                     data.alerts[i].dpStart = false;
                     data.alerts[i].dpEnd = false;
-                    for (var j = 0; j < TYPES.length; j++)
+                    data.alerts[i].selType = TYPES[0];
+                    for (var j = 1; j < TYPES.length; j++)
                         if (TYPES[j].value == data.alerts[i].type){
                             data.alerts[i].selType = TYPES[j];
                             break;
@@ -119,7 +120,8 @@ angular.module('manage.manageAlerts', [])
                         newAlert = angular.copy(alert);
                         newAlert.aid = data.id;
                         newAlert.show = false;
-                        for (var j = 0; j < TYPES.length; j++)
+                        newAlert.selType = TYPES[0];
+                        for (var j = 1; j < TYPES.length; j++)
                             if (TYPES[j].value == alert.type){
                                 newAlert.selType = TYPES[j];
                                 break;

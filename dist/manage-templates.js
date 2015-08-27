@@ -101,9 +101,9 @@ angular.module("manageAlerts/manageAlerts.tpl.html", []).run(["$templateCache", 
     "                </td>\n" +
     "                <td ng-click=\"toggleAlerts(alert)\" style=\"cursor: pointer;\">\n" +
     "                    <h4>\n" +
-    "                        <small ng-if=\"alert.type == 0\"><span class=\"label label-success\">success</span></small>\n" +
-    "                        <small ng-if=\"alert.type == 1\"><span class=\"label label-warning\">warning</span></small>\n" +
-    "                        <small ng-if=\"alert.type == 2\"><span class=\"label label-danger\">danger</span></small>\n" +
+    "                        <small ng-if=\"alert.selType.value == 0\"><span class=\"label label-success\">success</span></small>\n" +
+    "                        <small ng-if=\"alert.selType.value == 1\"><span class=\"label label-warning\">warning</span></small>\n" +
+    "                        <small ng-if=\"alert.selType.value == 2\"><span class=\"label label-danger\">danger</span></small>\n" +
     "                    </h4>\n" +
     "                </td>\n" +
     "                <td ng-click=\"toggleAlerts(alert)\" style=\"cursor: pointer;\">\n" +

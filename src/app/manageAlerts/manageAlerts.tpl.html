@@ -97,9 +97,9 @@
                 </td>
                 <td ng-click="toggleAlerts(alert)" style="cursor: pointer;">
                     <h4>
-                        <small ng-if="alert.type == 0"><span class="label label-success">success</span></small>
-                        <small ng-if="alert.type == 1"><span class="label label-warning">warning</span></small>
-                        <small ng-if="alert.type == 2"><span class="label label-danger">danger</span></small>
+                        <small ng-if="alert.selType.value == 0"><span class="label label-success">success</span></small>
+                        <small ng-if="alert.selType.value == 1"><span class="label label-warning">warning</span></small>
+                        <small ng-if="alert.selType.value == 2"><span class="label label-danger">danger</span></small>
                     </h4>
                 </td>
                 <td ng-click="toggleAlerts(alert)" style="cursor: pointer;">
