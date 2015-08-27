@@ -127,12 +127,6 @@ angular.module("manageAlerts/manageAlerts.tpl.html", []).run(["$templateCache", 
 angular.module("manageAlerts/manageAlertsItemFields.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageAlerts/manageAlertsItemFields.tpl.html",
     "<div class=\"row\">\n" +
-    "    <div class=\"col-md-12 form-group\">\n" +
-    "        <label for=\"message\">Message</label>\n" +
-    "        <textarea class=\"form-control\" ng-model=\"alert.message\" rows=\"3\" maxlength=\"200\" id=\"message\" required></textarea>\n" +
-    "    </div>\n" +
-    "</div>\n" +
-    "<div class=\"row\">\n" +
     "    <div class=\"col-md-2 form-group\">\n" +
     "        <label for=\"type\">Type</label>\n" +
     "        <select class=\"form-control\" ng-model=\"alert.selType\" id=\"type\"\n" +
@@ -155,6 +149,12 @@ angular.module("manageAlerts/manageAlertsItemFields.tpl.html", []).run(["$templa
     "        <label for=\"url\">URL (optional)</label>\n" +
     "        <input type=\"text\" class=\"form-control\" placeholder=\"http://lib.ua.edu/more-details/\" ng-model=\"alert.url\"\n" +
     "               id=\"url\" maxlength=\"1024\">\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-12 form-group\">\n" +
+    "        <label for=\"message\">Message</label>\n" +
+    "        <textarea class=\"form-control\" ng-model=\"alert.message\" rows=\"3\" maxlength=\"200\" id=\"message\" required></textarea>\n" +
     "    </div>\n" +
     "</div>\n" +
     "");

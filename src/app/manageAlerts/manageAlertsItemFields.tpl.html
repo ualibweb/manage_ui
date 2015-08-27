@@ -1,10 +1,4 @@
 <div class="row">
-    <div class="col-md-12 form-group">
-        <label for="message">Message</label>
-        <textarea class="form-control" ng-model="alert.message" rows="3" maxlength="200" id="message" required></textarea>
-    </div>
-</div>
-<div class="row">
     <div class="col-md-2 form-group">
         <label for="type">Type</label>
         <select class="form-control" ng-model="alert.selType" id="type"
@@ -27,5 +21,11 @@
         <label for="url">URL (optional)</label>
         <input type="text" class="form-control" placeholder="http://lib.ua.edu/more-details/" ng-model="alert.url"
                id="url" maxlength="1024">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label for="message">Message</label>
+        <textarea class="form-control" ng-model="alert.message" rows="3" maxlength="200" id="message" required></textarea>
     </div>
 </div>
