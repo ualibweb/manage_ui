@@ -25,6 +25,7 @@ angular.module('manage.manageDatabases', [])
             $scope.newDB.updatedBy = $window.userName;
             $scope.newDB.subjects = [];
             $scope.newDB.types = [];
+
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
@@ -100,10 +101,6 @@ angular.module('manage.manageDatabases', [])
                 }
                 if (db.url.length < 11){
                     alert("Form error: Please fill out URL field!");
-                    return false;
-                }
-                if (db.coverage.length < 1){
-                    alert("Form error: Please fill out Coverage field!");
                     return false;
                 }
                 if (db.description.length < 1){

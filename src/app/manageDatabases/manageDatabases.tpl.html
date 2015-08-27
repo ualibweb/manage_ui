@@ -76,7 +76,7 @@
                 <div class="col-md-6 form-group">
                     <label for="{{db.id}}_title">Title</label>
                     <input type="text" class="form-control" placeholder="{{db.title}}" ng-model="db.title"
-                           id="{{db.id}}_title" maxlength="200">
+                           id="{{db.id}}_title" maxlength="200" required>
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_Publisher">Publisher</label>
@@ -96,7 +96,7 @@
                 <div class="col-md-6 form-group">
                     <label for="{{db.id}}_URL">URL</label>
                     <input type="text" class="form-control" placeholder="{{db.url}}" ng-model="db.url"
-                           id="{{db.id}}_URL" maxlength="2000">
+                           id="{{db.id}}_URL" maxlength="2000" required>
                 </div>
                 <div class="col-md-3 form-group">
                     <label for="{{db.id}}_Location">Location</label>
@@ -137,7 +137,7 @@
                 </div>
                 <div class="col-md-12 form-group">
                     <label for="{{db.id}}_descr">Database Description</label>
-                    <textarea class="form-control" rows="3" id="{{db.id}}_descr" ng-model="db.description" maxlength="4096"></textarea>
+                    <textarea class="form-control" rows="3" id="{{db.id}}_descr" ng-model="db.description" maxlength="4096" required></textarea>
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_presented">PresentedBy</label>
@@ -284,7 +284,7 @@
             <div class="col-md-6 form-group">
                 <label for="Coverage">Coverage</label>
                 <input type="text" class="form-control" placeholder="Database Coverage" ng-model="newDB.coverage"
-                       id="Coverage" maxlength="256" required>
+                       id="Coverage" maxlength="256">
             </div>
             <div class="col-md-3 form-group">
                 <label for="dAuthor">Description Author</label>

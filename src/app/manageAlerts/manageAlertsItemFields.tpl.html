@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label for="message">Message</label>
+        <textarea class="form-control" ng-model="alert.message" rows="3" maxlength="200" id="message" required></textarea>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 form-group">
+        <label for="type">Type</label>
+        <select class="form-control" ng-model="alert.selType" id="type"
+                ng-options="type.name for type in types">
+        </select>
+    </div>
+    <div class="col-md-2 form-group">
+        <label for="from">Active From</label>
+        <input type="text" class="form-control" id="from" datepicker-popup="{{dpFormat}}"
+               ng-model="alert.dateStart" is-open="alert.dpStart" close-text="Close"
+               ng-click="onAlertDPFocus(alert, true)"/>
+    </div>
+    <div class="col-md-2 form-group">
+        <label for="until">Active Until</label>
+        <input type="text" class="form-control" id="until" datepicker-popup="{{dpFormat}}"
+               ng-model="alert.dateEnd" is-open="alert.dpEnd" close-text="Close"
+               ng-click="onAlertDPFocus(alert, false)"/>
+    </div>
+    <div class="col-md-6 form-group">
+        <label for="url">URL (optional)</label>
+        <input type="text" class="form-control" placeholder="http://lib.ua.edu/more-details/" ng-model="alert.url"
+               id="url" maxlength="1024">
+    </div>
+</div>

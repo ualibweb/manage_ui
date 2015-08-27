@@ -1,4 +1,164 @@
-angular.module('manage.templates', ['manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsItemFields.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/mainOneSearch.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageOneSearch/oneSearchStat.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareComputerMaps.tpl.html', 'manageSoftware/manageSoftwareItemFields.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectoryProfile.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
+angular.module('manage.templates', ['manageAlerts/manageAlerts.tpl.html', 'manageAlerts/manageAlertsItemFields.tpl.html', 'manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsItemFields.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/mainOneSearch.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageOneSearch/oneSearchStat.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareComputerMaps.tpl.html', 'manageSoftware/manageSoftwareItemFields.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectoryProfile.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
+
+angular.module("manageAlerts/manageAlerts.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageAlerts/manageAlerts.tpl.html",
+    "<h2>Manage Website Alerts</h2>\n" +
+    "\n" +
+    "<div>\n" +
+    "    <h3>Add New Alert</h3>\n" +
+    "    <form ng-submit=\"createAlert(newAlert)\">\n" +
+    "        <div class=\"sdOpen\">\n" +
+    "            <div alerts-item-fields alertdata=\"newAlert\" list=\"data\"></div>\n" +
+    "            <div class=\"row form-group text-center\">\n" +
+    "                <button type=\"submit\" class=\"btn btn-success\"\n" +
+    "                        ng-disabled=\"uploading ||\n" +
+    "                                     newAlert.message.length < 1 ||\n" +
+    "                                     newAlert.dateStart.length < 1 ||\n" +
+    "                                     newAlert.dateEnd.length < 1\">\n" +
+    "                    Create New Alert\n" +
+    "                </button><br>\n" +
+    "                {{newAlert.formResponse}}\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </form>\n" +
+    "\n" +
+    "    <h3>Alerts</h3>\n" +
+    "    <div class=\"row form-inline\">\n" +
+    "        <div class=\"form-group col-md-12\">\n" +
+    "            <label for=\"filterBy\">Filter <small>{{filteredList.length}}</small> results by</label>\n" +
+    "            <div id=\"filterBy\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Message contains\" ng-model=\"alertFilter\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"text-center\">\n" +
+    "        <pagination total-items=\"filteredList.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredList.length > perPage\"></pagination>\n" +
+    "    </div>\n" +
+    "    <div class=\"table-responsive\">\n" +
+    "        <table class=\"table table-condensed table-hover\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <th class=\"hidden-xs\">\n" +
+    "                    <a ng-click=\"sortBy(0)\"\n" +
+    "                       ng-class=\"{'sortable': !sortModes[0].reverse && sortMode == 0, 'sortable-reverse': sortModes[0].reverse && sortMode == 0}\">\n" +
+    "                        Message\n" +
+    "                    </a>\n" +
+    "                </th>\n" +
+    "                <th class=\"hidden-xs\">\n" +
+    "                    <a ng-click=\"sortBy(1)\"\n" +
+    "                       ng-class=\"{'sortable': !sortModes[1].reverse && sortMode == 1, 'sortable-reverse': sortModes[1].reverse && sortMode == 1}\">\n" +
+    "                        Type\n" +
+    "                    </a>\n" +
+    "                </th>\n" +
+    "                <th class=\"hidden-xs\">\n" +
+    "                    <a ng-click=\"sortBy(2)\"\n" +
+    "                       ng-class=\"{'sortable': !sortModes[2].reverse && sortMode == 2, 'sortable-reverse': sortModes[2].reverse && sortMode == 2}\">\n" +
+    "                        Start Date\n" +
+    "                    </a>\n" +
+    "                </th>\n" +
+    "                <th class=\"hidden-xs\">\n" +
+    "                    <a ng-click=\"sortBy(3)\"\n" +
+    "                       ng-class=\"{'sortable': !sortModes[3].reverse && sortMode == 3, 'sortable-reverse': sortModes[3].reverse && sortMode == 3}\">\n" +
+    "                        End Date\n" +
+    "                    </a>\n" +
+    "                </th>\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr ng-repeat=\"alert in filteredList = (data.alerts | filter:{message:alertFilter}\n" +
+    "                                                                | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)\n" +
+    "                                                                | startFrom:(currentPage-1)*perPage\n" +
+    "                                                                | limitTo:perPage\">\n" +
+    "                <td>\n" +
+    "                    <h4 ng-click=\"toggleAlerts(alert)\" style=\"cursor: pointer;\">\n" +
+    "                        <a>\n" +
+    "                            <span class=\"fa fa-fw fa-caret-right\" ng-hide=\"alert.show\"></span>\n" +
+    "                            <span class=\"fa fa-fw fa-caret-down\" ng-show=\"alert.show\"></span>\n" +
+    "                            {{alert.message}}\n" +
+    "                        </a>\n" +
+    "                    </h4>\n" +
+    "                    <div ng-show=\"alert.show\">\n" +
+    "                        <form ng-submit=\"updateAlert(alert)\">\n" +
+    "                            <div alerts-item-fields alertdata=\"alert\" list=\"data\"></div>\n" +
+    "                            <div class=\"row form-group text-center\">\n" +
+    "                                <button type=\"submit\" class=\"btn btn-success\"\n" +
+    "                                        ng-disabled=\"uploading ||\n" +
+    "                                         alert.message.length < 1 ||\n" +
+    "                                         alert.dateStart.length < 1 ||\n" +
+    "                                         alert.dateEnd.length < 1\">\n" +
+    "                                    Update Alert\n" +
+    "                                </button>\n" +
+    "                                <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteAlert(alert)\"\n" +
+    "                                        ng-disabled=\"uploading\">\n" +
+    "                                    Delete Alert\n" +
+    "                                </button>\n" +
+    "                                <br>\n" +
+    "                                {{alert.formResponse}}\n" +
+    "                            </div>\n" +
+    "                        </form>\n" +
+    "                    </div>\n" +
+    "                </td>\n" +
+    "                <td ng-click=\"toggleAlerts(alert)\" style=\"cursor: pointer;\">\n" +
+    "                    <h4>\n" +
+    "                        <small ng-if=\"alert.type == 0\"><span class=\"label label-success\">success</span></small>\n" +
+    "                        <small ng-if=\"alert.type == 1\"><span class=\"label label-warning\">warning</span></small>\n" +
+    "                        <small ng-if=\"alert.type == 2\"><span class=\"label label-danger\">danger</span></small>\n" +
+    "                    </h4>\n" +
+    "                </td>\n" +
+    "                <td ng-click=\"toggleAlerts(alert)\" style=\"cursor: pointer;\">\n" +
+    "                    {{alert.dateStart | date : 'MMM d, y'}}\n" +
+    "                </td>\n" +
+    "                <td ng-click=\"toggleAlerts(alert)\" style=\"cursor: pointer;\">\n" +
+    "                    {{alert.dateEnd | date : 'MMM d, y'}}\n" +
+    "                </td>\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"text-center\">\n" +
+    "        <pagination total-items=\"filteredList.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredList.length > perPage\"></pagination>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("manageAlerts/manageAlertsItemFields.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageAlerts/manageAlertsItemFields.tpl.html",
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-12 form-group\">\n" +
+    "        <label for=\"message\">Message</label>\n" +
+    "        <textarea class=\"form-control\" ng-model=\"alert.message\" rows=\"3\" maxlength=\"200\" id=\"message\" required></textarea>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-2 form-group\">\n" +
+    "        <label for=\"type\">Type</label>\n" +
+    "        <select class=\"form-control\" ng-model=\"alert.selType\" id=\"type\"\n" +
+    "                ng-options=\"type.name for type in types\">\n" +
+    "        </select>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-2 form-group\">\n" +
+    "        <label for=\"from\">Active From</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" id=\"from\" datepicker-popup=\"{{dpFormat}}\"\n" +
+    "               ng-model=\"alert.dateStart\" is-open=\"alert.dpStart\" close-text=\"Close\"\n" +
+    "               ng-click=\"onAlertDPFocus(alert, true)\"/>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-2 form-group\">\n" +
+    "        <label for=\"until\">Active Until</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" id=\"until\" datepicker-popup=\"{{dpFormat}}\"\n" +
+    "               ng-model=\"alert.dateEnd\" is-open=\"alert.dpEnd\" close-text=\"Close\"\n" +
+    "               ng-click=\"onAlertDPFocus(alert, false)\"/>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-6 form-group\">\n" +
+    "        <label for=\"url\">URL (optional)</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"http://lib.ua.edu/more-details/\" ng-model=\"alert.url\"\n" +
+    "               id=\"url\" maxlength=\"1024\">\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
+}]);
 
 angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
@@ -80,7 +240,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{db.id}}_title\">Title</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.title}}\" ng-model=\"db.title\"\n" +
-    "                           id=\"{{db.id}}_title\" maxlength=\"200\">\n" +
+    "                           id=\"{{db.id}}_title\" maxlength=\"200\" required>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-2 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Publisher\">Publisher</label>\n" +
@@ -100,7 +260,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                <div class=\"col-md-6 form-group\">\n" +
     "                    <label for=\"{{db.id}}_URL\">URL</label>\n" +
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"{{db.url}}\" ng-model=\"db.url\"\n" +
-    "                           id=\"{{db.id}}_URL\" maxlength=\"2000\">\n" +
+    "                           id=\"{{db.id}}_URL\" maxlength=\"2000\" required>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-3 form-group\">\n" +
     "                    <label for=\"{{db.id}}_Location\">Location</label>\n" +
@@ -141,7 +301,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                </div>\n" +
     "                <div class=\"col-md-12 form-group\">\n" +
     "                    <label for=\"{{db.id}}_descr\">Database Description</label>\n" +
-    "                    <textarea class=\"form-control\" rows=\"3\" id=\"{{db.id}}_descr\" ng-model=\"db.description\" maxlength=\"4096\"></textarea>\n" +
+    "                    <textarea class=\"form-control\" rows=\"3\" id=\"{{db.id}}_descr\" ng-model=\"db.description\" maxlength=\"4096\" required></textarea>\n" +
     "                </div>\n" +
     "                <div class=\"col-md-1 form-group\">\n" +
     "                    <label for=\"{{db.id}}_presented\">PresentedBy</label>\n" +
@@ -288,7 +448,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "            <div class=\"col-md-6 form-group\">\n" +
     "                <label for=\"Coverage\">Coverage</label>\n" +
     "                <input type=\"text\" class=\"form-control\" placeholder=\"Database Coverage\" ng-model=\"newDB.coverage\"\n" +
-    "                       id=\"Coverage\" maxlength=\"256\" required>\n" +
+    "                       id=\"Coverage\" maxlength=\"256\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-3 form-group\">\n" +
     "                <label for=\"dAuthor\">Description Author</label>\n" +
