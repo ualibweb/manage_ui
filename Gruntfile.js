@@ -5,8 +5,8 @@ module.exports = function(grunt){
     require('time-grunt')(grunt);
 
     var jsFileList = [
-        'dist/manage.js',
-        'dist/manage-templates.js'
+        'dist/manage-templates.js',
+        'dist/manage.js'
     ];
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -75,6 +75,17 @@ module.exports = function(grunt){
                     'dist/manage.min.js': [jsFileList]
                 }
             }
+        },
+        cssmin: {
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: 'dist',
+                    src: ['*.css', '!*.min.css'],
+                    dest: 'dist',
+                    ext: '.min.css'
+                }]
+            }
         }
     });
 
@@ -86,7 +97,8 @@ module.exports = function(grunt){
         'html2js',
         'jshint',
         'concat',
-        'uglify'
+        'uglify',
+        'cssmin'
     ]);
 
 };
