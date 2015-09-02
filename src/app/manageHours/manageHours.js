@@ -69,7 +69,6 @@ angular.module('manage.manageHours', [])
 
             hmFactory.getData("semesters")
                 .success(function(data) {
-                    console.dir(data);
                     $scope.selLib = data.libraries[0];
                     for (var lib = 0; lib < data.libraries.length; lib++){
                         for (var ex = 0; ex < data.exc[lib].length; ex++){
@@ -78,6 +77,7 @@ angular.module('manage.manageHours', [])
                         }
                         data.sem[lib] = $scope.initSemesters(data.sem[lib]);
                     }
+                    console.dir(data);
                     $scope.allowedLibraries = data;
                 })
                 .error(function(data, status, headers, config) {
@@ -132,6 +132,7 @@ angular.module('manage.manageHours', [])
         $scope.newSemester.dow = [];
         $scope.newSemester.name = "";
         $scope.newSemester.startdate = new Date();
+        $scope.newSemester.startdate.setHours(0,0,0,0);
 
         for (var day = 0; day < 7; day++) {
             $scope.newSemester.dow[day] = {};
@@ -251,6 +252,7 @@ angular.module('manage.manageHours', [])
         $scope.newException.desc = "";
         $scope.newException.days = 1;
         $scope.newException.datems = new Date();
+        $scope.newException.datems.setHours(0,0,0,0);
         $scope.expExc = -1;
 
         $scope.onExcFocus = function($event, index){

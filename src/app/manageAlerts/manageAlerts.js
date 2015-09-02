@@ -12,7 +12,9 @@ angular.module('manage.manageAlerts', [])
         $scope.newAlert.message = "";
         $scope.newAlert.selType = TYPES[0];
         $scope.newAlert.dateStartDP = new Date();
+        $scope.newAlert.dateStartDP.setHours(0,0,0,0);
         $scope.newAlert.dateEndDP = new Date();
+        $scope.newAlert.dateEndDP.setHours(0,0,0,0);
         $scope.newAlert.url = "";
         $scope.newAlert.dpStart = false;
         $scope.newAlert.dpEnd = false;

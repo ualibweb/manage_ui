@@ -92,7 +92,9 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
             $scope.uploading = false;
 
             $scope.newNews.activeFrom = new Date();
+            $scope.newNews.activeFrom.setHours(0,0,0,0);
             $scope.newNews.activeUntil = new Date();
+            $scope.newNews.activeUntil.setHours(0,0,0,0);
             $scope.newNews.dpFrom = false;
             $scope.newNews.dpUntil = false;
             $scope.newNews.contactName = '';
@@ -421,11 +423,13 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                     if (isFrom === true) {
                         if ($scope.data.news[$scope.data.news.indexOf(news)].activeFrom == null) {
                             $scope.data.news[$scope.data.news.indexOf(news)].activeFrom = new Date();
+                            $scope.data.news[$scope.data.news.indexOf(news)].activeFrom.setHours(0,0,0,0);
                         }
                         $scope.data.news[$scope.data.news.indexOf(news)].dpFrom = true;
                     } else {
                         if ($scope.data.news[$scope.data.news.indexOf(news)].activeUntil == null) {
                             $scope.data.news[$scope.data.news.indexOf(news)].activeUntil = new Date();
+                            $scope.data.news[$scope.data.news.indexOf(news)].activeUntil.setHours(0,0,0,0);
                         }
                         $scope.data.news[$scope.data.news.indexOf(news)].dpUntil = true;
                     }
