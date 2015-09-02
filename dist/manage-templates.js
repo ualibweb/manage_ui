@@ -2624,6 +2624,35 @@ angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templ
     "    </div>\n" +
     "\n" +
     "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-6 form-group\">\n" +
+    "            <label for=\"website\">Personal Website</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://john-doe.com/\" maxlength=\"100\"\n" +
+    "                   ng-model=\"userProfile.person.website\" id=\"website\">\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-6 form-group\">\n" +
+    "            <label for=\"resume\">External Resume / CV link</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://example.com/my_resume.pdf\" maxlength=\"255\"\n" +
+    "                   ng-model=\"userProfile.person.resume\" id=\"resume\">\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-4 form-group\">\n" +
+    "            <label for=\"sn1\">Social Network 1</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://facebook.com/johndoe\" maxlength=\"100\"\n" +
+    "                   ng-model=\"userProfile.person.social1\" id=\"sn1\">\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-4 form-group\">\n" +
+    "            <label for=\"sn2\">Social Network 2</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://twitter.com/johndoe\" maxlength=\"100\"\n" +
+    "                   ng-model=\"userProfile.person.social2\" id=\"sn2\">\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-4 form-group\">\n" +
+    "            <label for=\"sn3\">Social Network 3</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://linkedin.com/johndoe\" maxlength=\"100\"\n" +
+    "                   ng-model=\"userProfile.person.social3\" id=\"sn3\">\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\">\n" +
     "        <div class=\"col-md-12 form-group\">\n" +
     "            <label>Description (allowed tags:\n" +
     "                <code>\n" +
