@@ -243,6 +243,10 @@ angular.module('manage.manageHours', [])
         $scope.newException.desc = "";
         $scope.newException.days = 1;
         $scope.newException.datems = new Date();
+        $scope.newException.datems.setTime(
+            $scope.newException.datems.getTime() +
+            $scope.newException.datems.getTimezoneOffset()*60*1000
+        );
         $scope.expExc = -1;
 
         $scope.onExcFocus = function($event, index){
