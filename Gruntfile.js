@@ -5,7 +5,6 @@ module.exports = function(grunt){
     require('time-grunt')(grunt);
 
     var jsFileList = [
-        'dist/manage-templates.js',
         'dist/manage.js'
     ];
     grunt.initConfig({
@@ -27,13 +26,13 @@ module.exports = function(grunt){
                     process: true
                 },
                 src: 'src/app/**/*.tpl.html',
-                dest: 'dist/manage-templates.js',
+                dest: 'tmp/templates.js',
                 module: 'manage.templates'
             }
         },
         concat: {
             dist: {
-                src: ['src/app/**/*.js'],
+                src: ['tmp/templates.js', 'src/app/**/*.js'],
                 dest: 'dist/manage.js'
             },
             index: {
@@ -47,6 +46,9 @@ module.exports = function(grunt){
                 src: ['src/**/*.css'],
                 dest: 'dist/manage.css'
             }
+        },
+        clean: {
+            app: ['tmp/']
         },
         bump: {
             options: {
@@ -91,14 +93,16 @@ module.exports = function(grunt){
 
     grunt.registerTask('default', [
         'html2js',
-        'concat'
+        'concat',
+        'clean'
     ]);
     grunt.registerTask('live-build', [
         'html2js',
         'jshint',
         'concat',
         'uglify',
-        'cssmin'
+        'cssmin',
+        'clean'
     ]);
 
 };

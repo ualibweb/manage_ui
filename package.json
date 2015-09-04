@@ -1,6 +1,6 @@
 {
   "name": "manage-ui",
-  "version": "4.1.14",
+  "version": "4.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/ualibweb/manage_ui.git"
@@ -31,6 +31,7 @@
     "grunt-text-replace": "~0.4.0",
     "grunt-wp-assets": "~0.2.6",
     "load-grunt-tasks": "~1.0.0",
-    "time-grunt": "~1.0.0"
+    "time-grunt": "~1.0.0",
+    "grunt-contrib-clean": "~0.6.0"
   }
 }

@@ -134,7 +134,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                             if (data == 1){
                                 $scope.data.news[$scope.data.news.indexOf(news)].status = 1;
                             } else {
-                                alert("Error: Can not approve news item! " + data);
+                                alert("Error: Cannot approve news item! " + data);
                             }
                             console.log(data);
                         })
@@ -152,7 +152,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                                 $scope.data.news.splice($scope.data.news.indexOf(news), 1);
                                 $scope.formResponse = "News item has been deleted.";
                             } else {
-                                $scope.formResponse = "Error: Can not delete news item! " + data;
+                                $scope.formResponse = "Error: Cannot delete news item! " + data;
                             }
                             console.log(data);
                         })
@@ -289,7 +289,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                                 $scope.data.news.push(newNews);
                                 $scope.newNews.formResponse = "News has been added.";
                             } else {
-                                $scope.newNews.formResponse = "Error: Can not add news 2! " + data;
+                                $scope.newNews.formResponse = "Error: Cannot add news 2! " + data;
                             }
                             console.dir(data);
                             $scope.uploading = false;
