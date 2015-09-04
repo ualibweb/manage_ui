@@ -51,12 +51,12 @@ angular.module('manage.manageUserGroups', [])
                     if (data == 1){
                         $scope.result = "Saved";
                     } else
-                        $scope.result = "Error! Could not save data!";
+                        $scope.result = "Error! Could not save data! " + data;
                     $scope.isLoading = false;
                     console.dir(data);
                 })
                 .error(function(data, status, headers, config) {
-                    $scope.result = "Error! Could not save data!";
+                    $scope.result = "Error! Could not save data! " + data;
                     $scope.isLoading = false;
                     console.dir(data);
                 });
@@ -83,12 +83,12 @@ angular.module('manage.manageUserGroups', [])
                         $scope.users.push(createdUser);
                         $scope.expandUser(createdUser);
                     }else
-                        $scope.result2 = "Error! Could not grant access!";
+                        $scope.result2 = "Error! Could not grant access! " + data;
                     $scope.isLoading = false;
                 })
                 .error(function(data, status, headers, config) {
                     $scope.isLoading = false;
-                    $scope.result2 = "Error! Could not grant access!";
+                    $scope.result2 = "Error! Could not grant access! " + data;
                 });
         };
 
@@ -101,11 +101,11 @@ angular.module('manage.manageUserGroups', [])
                             $scope.result = "User access deleted!";
                             $scope.users.splice(index, 1);
                         } else
-                            $scope.result = "Error! Could not delete user access!";
+                            $scope.result = "Error! Could not delete user access! " + data;
                         $scope.isLoading = false;
                     })
                     .error(function(data, status, headers, config) {
-                        $scope.result = "Error! Could not delete user access!";
+                        $scope.result = "Error! Could not delete user access! " + data;
                         $scope.isLoading = false;
                     });
             }

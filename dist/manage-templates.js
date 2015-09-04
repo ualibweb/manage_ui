@@ -2027,10 +2027,10 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
     "                </tr>\n" +
     "                </thead>\n" +
     "                <tr ng-repeat=\"user in users | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse\" ng-click=\"expandUser(user)\">\n" +
-    "                    <th scope=\"row\">\n" +
+    "                    <th scope=\"row\" class=\"clickable\">\n" +
     "                        {{user.wpLogin}}\n" +
     "                    </th>\n" +
-    "                    <td class=\"text-center\">\n" +
+    "                    <td class=\"text-center clickable\">\n" +
     "                        {{user.name}}\n" +
     "                    </td>\n" +
     "                    <td>\n" +

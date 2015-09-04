@@ -13,10 +13,10 @@
                 </tr>
                 </thead>
                 <tr ng-repeat="user in users | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse" ng-click="expandUser(user)">
-                    <th scope="row">
+                    <th scope="row" class="clickable">
                         {{user.wpLogin}}
                     </th>
-                    <td class="text-center">
+                    <td class="text-center clickable">
                         {{user.name}}
                     </td>
                     <td>
