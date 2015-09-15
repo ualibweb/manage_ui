@@ -1778,6 +1778,82 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "               maxlength=\"100\" id=\"apDev\">\n" +
     "    </div>\n" +
     "</div>\n" +
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-3 form-group\">\n" +
+    "        <label for=\"ownerDept\">Owner Department</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Owner Department\" ng-model=\"sw.owner.department\"\n" +
+    "               maxlength=\"100\" id=\"ownerDept\" required>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-3 form-group\">\n" +
+    "        <label for=\"ownerName\">Owner Name</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Owner Name\" ng-model=\"sw.owner.name\"\n" +
+    "               maxlength=\"60\" id=\"ownerName\" required>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-3 form-group\">\n" +
+    "        <label for=\"ownerEmail\">Owner Email</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Owner Email\" ng-model=\"sw.owner.email\"\n" +
+    "               maxlength=\"128\" id=\"ownerEmail\" required>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-3 form-group\">\n" +
+    "        <label for=\"ownerPhone\">Owner Phone</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Owner Phone\" ng-model=\"sw.owner.phone\"\n" +
+    "               maxlength=\"13\" id=\"ownerPhone\" required>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"row\" ng-repeat=\"partner in sw.partners\">\n" +
+    "    <div class=\"col-md-1\">\n" +
+    "        <button type=\"button\" class=\"btn btn-success\" ng-click=\"addPartner(sw)\" ng-if=\"$index == 0\">\n" +
+    "            <span class=\"fa fa-fw fa-plus\"></span>\n" +
+    "        </button>\n" +
+    "        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deletePartner(sw, partner)\" ng-if=\"$index !== 0\">\n" +
+    "            <span class=\"fa fa-fw fa-close\"></span>\n" +
+    "        </button>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-11\">\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"partnerDept\">Partner Department</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Department\" ng-model=\"partner.department\"\n" +
+    "                   maxlength=\"100\" id=\"partnerDept\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"partnerName\">Partner Name</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Name\" ng-model=\"partner.name\"\n" +
+    "                   maxlength=\"60\" id=\"partnerName\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"partnerEmail\">Partner Email</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Email\" ng-model=\"partner.email\"\n" +
+    "                   maxlength=\"128\" id=\"partnerEmail\" required>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"partnerPhone\">Partner Phone</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Phone\" ng-model=\"partner.phone\"\n" +
+    "                   maxlength=\"13\" id=\"partnerPhone\" required>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-3 form-group\">\n" +
+    "        <label for=\"requesterDept\">Requester Department</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"requester Department\" ng-model=\"sw.requester.department\"\n" +
+    "               maxlength=\"100\" id=\"requesterDept\" required>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-3 form-group\">\n" +
+    "        <label for=\"requesterName\">Requester Name</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Requester Name\" ng-model=\"sw.requester.name\"\n" +
+    "               maxlength=\"60\" id=\"requesterName\">\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-3 form-group\">\n" +
+    "        <label for=\"requesterEmail\">Requester Email</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Requester Email\" ng-model=\"sw.requester.email\"\n" +
+    "               maxlength=\"128\" id=\"requesterEmail\" required>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-3 form-group\">\n" +
+    "        <label for=\"requesterPhone\">Requester Phone</label>\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Requester Phone\" ng-model=\"sw.requester.phone\"\n" +
+    "               maxlength=\"13\" id=\"requesterPhone\" required>\n" +
+    "    </div>\n" +
+    "</div>\n" +
     "");
 }]);
 
@@ -4880,6 +4956,22 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.newSW.main_exp = "2015-1-1";
             $scope.newSW.pkey = "";
             $scope.newSW.devices = "";
+            $scope.newSW.owner = {};
+            $scope.newSW.owner.department = "";
+            $scope.newSW.owner.name = "";
+            $scope.newSW.owner.email = "";
+            $scope.newSW.owner.phone = "";
+            $scope.newSW.partners = [];
+            $scope.newSW.partners[0] = {};
+            $scope.newSW.partners[0].department = "";
+            $scope.newSW.partners[0].name = "";
+            $scope.newSW.partners[0].email = "";
+            $scope.newSW.partners[0].phone = "";
+            $scope.newSW.requester = {};
+            $scope.newSW.requester.department = "";
+            $scope.newSW.requester.name = "";
+            $scope.newSW.requester.email = "";
+            $scope.newSW.requester.phone = "";
 
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
@@ -5315,6 +5407,27 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 $scope.sw.links.splice($scope.sw.links.indexOf(link), 1);
             }
         };
+        $scope.addPartnerBoth = function(sw){
+            var partner = {};
+            partner.department = "";
+            partner.name = "";
+            partner.email = "";
+            partner.phone = "";
+
+            if (sw.sid > 0) {
+                $scope.data.software[$scope.data.software.indexOf(sw)].partners.push(partner);
+            } else {
+                $scope.sw.partners.push(partner);
+            }
+        };
+        $scope.deletePartnerBoth = function(sw, partner){
+            if (sw.sid > 0) {
+                $scope.data.software[$scope.data.software.indexOf(sw)].partners
+                    .splice($scope.data.software[$scope.data.software.indexOf(sw)].partners.indexOf(partner), 1);
+            } else {
+                $scope.sw.partners.splice($scope.sw.partners.indexOf(partner), 1);
+            }
+        };
     }])
 
     .directive('softwareItemFieldsList', ['$timeout', 'Upload', function($timeout, Upload) {
@@ -5371,6 +5484,18 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 scope.deleteLink = function(sw, link){
                     $timeout(function() {
                         scope.deleteLinkBoth(sw, link);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.addPartner = function(sw){
+                    $timeout(function() {
+                        scope.addPartnerBoth(sw);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.deletePartner = function(sw, partner){
+                    $timeout(function() {
+                        scope.deletePartnerBoth(sw, partner);
                         scope.$apply();
                     }, 0);
                 };
