@@ -253,3 +253,79 @@
                maxlength="100" id="apDev">
     </div>
 </div>
+<div class="row">
+    <div class="col-md-3 form-group">
+        <label for="ownerDept">Owner Department</label>
+        <input type="text" class="form-control" placeholder="Owner Department" ng-model="sw.owner.department"
+               maxlength="100" id="ownerDept" required>
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="ownerName">Owner Name</label>
+        <input type="text" class="form-control" placeholder="Owner Name" ng-model="sw.owner.name"
+               maxlength="60" id="ownerName" required>
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="ownerEmail">Owner Email</label>
+        <input type="text" class="form-control" placeholder="Owner Email" ng-model="sw.owner.email"
+               maxlength="128" id="ownerEmail" required>
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="ownerPhone">Owner Phone</label>
+        <input type="text" class="form-control" placeholder="Owner Phone" ng-model="sw.owner.phone"
+               maxlength="13" id="ownerPhone" required>
+    </div>
+</div>
+<div class="row" ng-repeat="partner in sw.partners">
+    <div class="col-md-1">
+        <button type="button" class="btn btn-success" ng-click="addPartner(sw)" ng-if="$index == 0">
+            <span class="fa fa-fw fa-plus"></span>
+        </button>
+        <button type="button" class="btn btn-danger" ng-click="deletePartner(sw, partner)" ng-if="$index !== 0">
+            <span class="fa fa-fw fa-close"></span>
+        </button>
+    </div>
+    <div class="col-md-11">
+        <div class="col-md-3 form-group">
+            <label for="partnerDept">Partner Department</label>
+            <input type="text" class="form-control" placeholder="Partner Department" ng-model="partner.department"
+                   maxlength="100" id="partnerDept" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="partnerName">Partner Name</label>
+            <input type="text" class="form-control" placeholder="Partner Name" ng-model="partner.name"
+                   maxlength="60" id="partnerName" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="partnerEmail">Partner Email</label>
+            <input type="text" class="form-control" placeholder="Partner Email" ng-model="partner.email"
+                   maxlength="128" id="partnerEmail" required>
+        </div>
+        <div class="col-md-3 form-group">
+            <label for="partnerPhone">Partner Phone</label>
+            <input type="text" class="form-control" placeholder="Partner Phone" ng-model="partner.phone"
+                   maxlength="13" id="partnerPhone" required>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3 form-group">
+        <label for="requesterDept">Requester Department</label>
+        <input type="text" class="form-control" placeholder="requester Department" ng-model="sw.requester.department"
+               maxlength="100" id="requesterDept" required>
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="requesterName">Requester Name</label>
+        <input type="text" class="form-control" placeholder="Requester Name" ng-model="sw.requester.name"
+               maxlength="60" id="requesterName">
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="requesterEmail">Requester Email</label>
+        <input type="text" class="form-control" placeholder="Requester Email" ng-model="sw.requester.email"
+               maxlength="128" id="requesterEmail" required>
+    </div>
+    <div class="col-md-3 form-group">
+        <label for="requesterPhone">Requester Phone</label>
+        <input type="text" class="form-control" placeholder="Requester Phone" ng-model="sw.requester.phone"
+               maxlength="13" id="requesterPhone" required>
+    </div>
+</div>

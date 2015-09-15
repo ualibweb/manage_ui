@@ -129,6 +129,22 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.newSW.main_exp = "2015-1-1";
             $scope.newSW.pkey = "";
             $scope.newSW.devices = "";
+            $scope.newSW.owner = {};
+            $scope.newSW.owner.department = "";
+            $scope.newSW.owner.name = "";
+            $scope.newSW.owner.email = "";
+            $scope.newSW.owner.phone = "";
+            $scope.newSW.partners = [];
+            $scope.newSW.partners[0] = {};
+            $scope.newSW.partners[0].department = "";
+            $scope.newSW.partners[0].name = "";
+            $scope.newSW.partners[0].email = "";
+            $scope.newSW.partners[0].phone = "";
+            $scope.newSW.requester = {};
+            $scope.newSW.requester.department = "";
+            $scope.newSW.requester.name = "";
+            $scope.newSW.requester.email = "";
+            $scope.newSW.requester.phone = "";
 
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
@@ -564,6 +580,27 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 $scope.sw.links.splice($scope.sw.links.indexOf(link), 1);
             }
         };
+        $scope.addPartnerBoth = function(sw){
+            var partner = {};
+            partner.department = "";
+            partner.name = "";
+            partner.email = "";
+            partner.phone = "";
+
+            if (sw.sid > 0) {
+                $scope.data.software[$scope.data.software.indexOf(sw)].partners.push(partner);
+            } else {
+                $scope.sw.partners.push(partner);
+            }
+        };
+        $scope.deletePartnerBoth = function(sw, partner){
+            if (sw.sid > 0) {
+                $scope.data.software[$scope.data.software.indexOf(sw)].partners
+                    .splice($scope.data.software[$scope.data.software.indexOf(sw)].partners.indexOf(partner), 1);
+            } else {
+                $scope.sw.partners.splice($scope.sw.partners.indexOf(partner), 1);
+            }
+        };
     }])
 
     .directive('softwareItemFieldsList', ['$timeout', 'Upload', function($timeout, Upload) {
@@ -620,6 +657,18 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 scope.deleteLink = function(sw, link){
                     $timeout(function() {
                         scope.deleteLinkBoth(sw, link);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.addPartner = function(sw){
+                    $timeout(function() {
+                        scope.addPartnerBoth(sw);
+                        scope.$apply();
+                    }, 0);
+                };
+                scope.deletePartner = function(sw, partner){
+                    $timeout(function() {
+                        scope.deletePartnerBoth(sw, partner);
                         scope.$apply();
                     }, 0);
                 };
