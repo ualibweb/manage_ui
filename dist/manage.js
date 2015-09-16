@@ -1745,28 +1745,6 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "    </div>\n" +
     "</div>\n" +
     "<div class=\"row\">\n" +
-    "    <div class=\"col-md-3 form-group\">\n" +
-    "        <label for=\"vendorName\">Vendor Company Name</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Company Name\" ng-model=\"sw.vendor_name\"\n" +
-    "               maxlength=\"60\" id=\"vendorName\">\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-3 form-group\">\n" +
-    "        <label for=\"vendorContact\">Vendor Contact Name</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Contact Name\" ng-model=\"sw.vendor_contact\"\n" +
-    "               maxlength=\"60\" id=\"vendorContact\">\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-3 form-group\">\n" +
-    "        <label for=\"vendorPhone\">Vendor Phone</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Contact Phone\" ng-model=\"sw.vendor_phone\"\n" +
-    "               maxlength=\"20\" id=\"vendorPhone\">\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-3 form-group\">\n" +
-    "        <label for=\"vendorEmail\">Vendor Email</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Contact Email\" ng-model=\"sw.vendor_email\"\n" +
-    "               maxlength=\"255\" id=\"vendorEmail\">\n" +
-    "    </div>\n" +
-    "</div>\n" +
-    "<div class=\"row\">\n" +
     "    <div class=\"col-md-6 form-group\">\n" +
     "        <label for=\"prodKey\">Product Key</label>\n" +
     "        <input type=\"text\" class=\"form-control\" placeholder=\"Product Key\" ng-model=\"sw.pkey\"\n" +
@@ -1780,27 +1758,54 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "</div>\n" +
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-1\">\n" +
+    "        <label>Vendor</label>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-11\">\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"vendorName\">Company</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Company Name\" ng-model=\"sw.vendor_name\"\n" +
+    "                   maxlength=\"60\" id=\"vendorName\">\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"vendorContact\">Contact</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Name\" ng-model=\"sw.vendor_contact\"\n" +
+    "                   maxlength=\"60\" id=\"vendorContact\">\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"vendorEmail\">Email</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Email\" ng-model=\"sw.vendor_email\"\n" +
+    "                   maxlength=\"255\" id=\"vendorEmail\">\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-3 form-group\">\n" +
+    "            <label for=\"vendorPhone\">Phone</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Phone\" ng-model=\"sw.vendor_phone\"\n" +
+    "                   maxlength=\"20\" id=\"vendorPhone\">\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"row\">\n" +
+    "    <div class=\"col-md-1\">\n" +
     "        <label>Owner</label>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-11\">\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
     "            <label for=\"ownerDept\">Department</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Owner Department\" ng-model=\"sw.owner.department\"\n" +
-    "                   maxlength=\"100\" id=\"ownerDept\" required>\n" +
+    "                   maxlength=\"100\" id=\"ownerDept\">\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"ownerName\">Name</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Owner Name\" ng-model=\"sw.owner.name\"\n" +
+    "            <label for=\"ownerName\">Contact</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Owner Contact Name\" ng-model=\"sw.owner.name\"\n" +
     "                   maxlength=\"60\" id=\"ownerName\" required>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
     "            <label for=\"ownerEmail\">Email</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Owner Email\" ng-model=\"sw.owner.email\"\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Owner Contact Email\" ng-model=\"sw.owner.email\"\n" +
     "                   maxlength=\"128\" id=\"ownerEmail\" required>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
     "            <label for=\"ownerPhone\">Phone</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Owner Phone\" ng-model=\"sw.owner.phone\"\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Owner Contact Phone\" ng-model=\"sw.owner.phone\"\n" +
     "                   maxlength=\"13\" id=\"ownerPhone\" required>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -1819,21 +1824,21 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "        <div class=\"col-md-3 form-group\">\n" +
     "            <label for=\"partnerDept\">Department</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Department\" ng-model=\"partner.department\"\n" +
-    "                   maxlength=\"100\" id=\"partnerDept\" required>\n" +
+    "                   maxlength=\"100\" id=\"partnerDept\">\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"partnerName\">Name</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Name\" ng-model=\"partner.name\"\n" +
+    "            <label for=\"partnerName\">Contact</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Contact Name\" ng-model=\"partner.name\"\n" +
     "                   maxlength=\"60\" id=\"partnerName\" required>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
     "            <label for=\"partnerEmail\">Email</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Email\" ng-model=\"partner.email\"\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Contact Email\" ng-model=\"partner.email\"\n" +
     "                   maxlength=\"128\" id=\"partnerEmail\" required>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
     "            <label for=\"partnerPhone\">Phone</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Phone\" ng-model=\"partner.phone\"\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Contact Phone\" ng-model=\"partner.phone\"\n" +
     "                   maxlength=\"13\" id=\"partnerPhone\" required>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -1849,19 +1854,19 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "                   maxlength=\"100\" id=\"requesterDept\">\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
-    "            <label for=\"requesterName\">Name</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Requester Name\" ng-model=\"sw.requester.name\"\n" +
-    "                   maxlength=\"60\" id=\"requesterName\" required>\n" +
+    "            <label for=\"requesterName\">Contact</label>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Requester Contact Name\" ng-model=\"sw.requester.name\"\n" +
+    "                   maxlength=\"60\" id=\"requesterName\">\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
     "            <label for=\"requesterEmail\">Email</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Requester Email\" ng-model=\"sw.requester.email\"\n" +
-    "                   maxlength=\"128\" id=\"requesterEmail\" required>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Requester Contact Email\" ng-model=\"sw.requester.email\"\n" +
+    "                   maxlength=\"128\" id=\"requesterEmail\">\n" +
     "        </div>\n" +
     "        <div class=\"col-md-3 form-group\">\n" +
     "            <label for=\"requesterPhone\">Phone</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"Requester Phone\" ng-model=\"sw.requester.phone\"\n" +
-    "                   maxlength=\"13\" id=\"requesterPhone\" required>\n" +
+    "            <input type=\"text\" class=\"form-control\" placeholder=\"Requester Contact Phone\" ng-model=\"sw.requester.phone\"\n" +
+    "                   maxlength=\"13\" id=\"requesterPhone\">\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
