@@ -1761,7 +1761,7 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "        <label>Vendor</label>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-11\">\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
+    "        <div class=\"col-md-4 form-group\">\n" +
     "            <label for=\"vendorName\">Company</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Company Name\" ng-model=\"sw.vendor_name\"\n" +
     "                   maxlength=\"60\" id=\"vendorName\">\n" +
@@ -1776,7 +1776,7 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Email\" ng-model=\"sw.vendor_email\"\n" +
     "                   maxlength=\"255\" id=\"vendorEmail\">\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
     "            <label for=\"vendorPhone\">Phone</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Contact Phone\" ng-model=\"sw.vendor_phone\"\n" +
     "                   maxlength=\"20\" id=\"vendorPhone\">\n" +
@@ -1788,7 +1788,7 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "        <label>Owner</label>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-11\">\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
+    "        <div class=\"col-md-4 form-group\">\n" +
     "            <label for=\"ownerDept\">Department</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Owner Department\" ng-model=\"sw.owner.department\"\n" +
     "                   maxlength=\"100\" id=\"ownerDept\">\n" +
@@ -1803,7 +1803,7 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Owner Contact Email\" ng-model=\"sw.owner.email\"\n" +
     "                   maxlength=\"128\" id=\"ownerEmail\" required>\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
     "            <label for=\"ownerPhone\">Phone</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Owner Contact Phone\" ng-model=\"sw.owner.phone\"\n" +
     "                   maxlength=\"13\" id=\"ownerPhone\" required>\n" +
@@ -1821,7 +1821,7 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "        </button>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-11\">\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
+    "        <div class=\"col-md-4 form-group\">\n" +
     "            <label for=\"partnerDept\">Department</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Department\" ng-model=\"partner.department\"\n" +
     "                   maxlength=\"100\" id=\"partnerDept\">\n" +
@@ -1836,7 +1836,7 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Contact Email\" ng-model=\"partner.email\"\n" +
     "                   maxlength=\"128\" id=\"partnerEmail\" required>\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
     "            <label for=\"partnerPhone\">Phone</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Partner Contact Phone\" ng-model=\"partner.phone\"\n" +
     "                   maxlength=\"13\" id=\"partnerPhone\" required>\n" +
@@ -1848,7 +1848,7 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "        <label>Requester</label>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-11\">\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
+    "        <div class=\"col-md-4 form-group\">\n" +
     "            <label for=\"requesterDept\">Department</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"requester Department\" ng-model=\"sw.requester.department\"\n" +
     "                   maxlength=\"100\" id=\"requesterDept\">\n" +
@@ -1863,7 +1863,7 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Requester Contact Email\" ng-model=\"sw.requester.email\"\n" +
     "                   maxlength=\"128\" id=\"requesterEmail\">\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-3 form-group\">\n" +
+    "        <div class=\"col-md-2 form-group\">\n" +
     "            <label for=\"requesterPhone\">Phone</label>\n" +
     "            <input type=\"text\" class=\"form-control\" placeholder=\"Requester Contact Phone\" ng-model=\"sw.requester.phone\"\n" +
     "                   maxlength=\"13\" id=\"requesterPhone\">\n" +
