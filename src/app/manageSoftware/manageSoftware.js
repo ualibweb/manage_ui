@@ -153,6 +153,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.export = function() {
                 swFactory.getData("export")
                     .success(function(data) {
+                        console.dir(data);
                         var exportData = data;
                         var blob = new Blob([exportData], { type:"application/json;charset=utf-8;" });
                         var downloadLink = angular.element('<a></a>');

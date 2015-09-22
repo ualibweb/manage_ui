@@ -100,7 +100,7 @@ angular.module('common.manage', [])
     .factory('newsFactory', ['$http', 'NEWS_URL', function newsFactory($http, url){
         return {
             getData: function(pPoint){
-                return $http({method: 'GET', url: url + "api/" + pPoint, params: {}})
+                return $http({method: 'GET', url: url + "api/" + pPoint, params: {}, responseType:'arraybuffer'})
             },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
