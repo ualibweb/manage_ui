@@ -8,7 +8,7 @@
                     <input type="text" class="form-control" placeholder="Description contains" ng-model="descrFilter">
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="sortBy">Sort by</label>
                 <div id="sortBy">
                     <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
@@ -22,6 +22,12 @@
                         <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[1].reverse"></span>
                     </button>
                 </div>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-default" ng-click="export()">
+                    <span class="fa fa-fw fa-download"></span> Export
+                </button>
+                <a download="software.json" ng-href="{{exportUrl}}" ng-show="exportUrl">Download Data</a>
             </div>
         </div>
     </div>

@@ -1885,7 +1885,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                    <input type=\"text\" class=\"form-control\" placeholder=\"Description contains\" ng-model=\"descrFilter\">\n" +
     "                </div>\n" +
     "            </div>\n" +
-    "            <div class=\"col-md-6\">\n" +
+    "            <div class=\"col-md-3\">\n" +
     "                <label for=\"sortBy\">Sort by</label>\n" +
     "                <div id=\"sortBy\">\n" +
     "                    <button type=\"button\" class=\"btn btn-default\" ng-model=\"sortButton\" btn-radio=\"0\" ng-click=\"sortBy(0)\">\n" +
@@ -1899,6 +1899,12 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                        <span class=\"fa fa-fw fa-long-arrow-up\" ng-show=\"sortModes[1].reverse\"></span>\n" +
     "                    </button>\n" +
     "                </div>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-3\">\n" +
+    "                <button type=\"button\" class=\"btn btn-default\" ng-click=\"export()\">\n" +
+    "                    <span class=\"fa fa-fw fa-download\"></span> Export\n" +
+    "                </button>\n" +
+    "                <a download=\"software.json\" ng-href=\"{{exportUrl}}\" ng-show=\"exportUrl\">Download Data</a>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -2956,7 +2962,10 @@ angular.module('manage.common', [
 ])
 
 angular.module('common.manage', [])
-
+    .config(['$compileProvider', function($compileProvider) {
+            $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|mailto|tel|file|blob):/);
+        }
+    ])
     .factory('tokenFactory', ['$http', function tokenFactory($http){
         return function(tokenName){
             var cookies;
@@ -3042,8 +3051,8 @@ angular.module('common.manage', [])
     }])
     .factory('swFactory', ['$http', 'SOFTWARE_URL', function swFactory($http, url){
         return {
-            getData: function(){
-                return $http({method: 'GET', url: url + "api/all/backend", params: {}})
+            getData: function(pPoint){
+                return $http({method: 'GET', url: url + "api/" + pPoint, params: {}})
             },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
@@ -4855,7 +4864,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
 
             tokenFactory("CSRF-libSoftware");
 
-            swFactory.getData()
+            swFactory.getData("all/backend")
                 .success(function(data) {
                     console.dir(data);
                     for (var i = 0; i < data.software.length; i++){
@@ -4992,6 +5001,17 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
+
+            $scope.export = function() {
+                swFactory.getData("export")
+                    .success(function(data) {
+                        var blob = new Blob([ data ], { type : 'text/plain' });
+                        $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL( blob );
+                    })
+                    .error(function(data, status, headers, config) {
+                        console.log(data);
+                    });
+            };
 
             $scope.startTitle = function(actual, expected){
                 if (!expected)

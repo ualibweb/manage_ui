@@ -12,7 +12,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
 
             tokenFactory("CSRF-libSoftware");
 
-            swFactory.getData()
+            swFactory.getData("all/backend")
                 .success(function(data) {
                     console.dir(data);
                     for (var i = 0; i < data.software.length; i++){
@@ -149,6 +149,17 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
             $scope.perPage = 20;
+
+            $scope.export = function() {
+                swFactory.getData("export")
+                    .success(function(data) {
+                        var blob = new Blob([ data ], { type : 'text/plain' });
+                        $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL( blob );
+                    })
+                    .error(function(data, status, headers, config) {
+                        console.log(data);
+                    });
+            };
 
             $scope.startTitle = function(actual, expected){
                 if (!expected)
