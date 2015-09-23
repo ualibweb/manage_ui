@@ -153,13 +153,13 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             $scope.export = function() {
                 swFactory.getData("export")
                     .success(function(data) {
-                        var blob = new Blob([ data ], { type : 'application/json' });
-                        var swUrl = (window.URL || window.webkitURL).createObjectURL( blob );
+                        var blob = new Blob([ data ], { type : 'text/plain' });
+                        $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL( blob );
 
                         var downloadLink = angular.element('<a></a>');
 //                        downloadLink.attr('href', 'data:attachment/json;base64,' + data);
-                        downloadLink.attr('href', swUrl);
-                        downloadLink.attr('target', '_blank');
+                        downloadLink.attr('href', $scope.exportUrl);
+                        downloadLink.attr('target', '_self');
                         downloadLink.attr('download', 'softwareData.json');
                         downloadLink[0].click();
                         console.dir(downloadLink);

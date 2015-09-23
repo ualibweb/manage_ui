@@ -29,6 +29,7 @@
                     <button type="button" class="btn btn-default" ng-click="export()">
                         <span class="fa fa-fw fa-download"></span> Download JSON
                     </button>
+                    <a target="_self" ng-href="{{exportUrl}}" download="softwareData.json" ng-if="exportUrl">Download JSON</a>
                 </div>
             </div>
         </div>
