@@ -155,9 +155,10 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                     .success(function(data) {
                         var downloadLink = angular.element('<a></a>');
                         downloadLink.attr('href', 'data:attachment/json;base64,' + data);
-                        downloadLink.attr('target', '_self');
+                        downloadLink.attr('target', '_blank');
                         downloadLink.attr('download', 'softwareData.json');
                         downloadLink[0].click();
+                        console.dir(downloadLink);
                     })
                     .error(function(data, status, headers, config) {
                         console.log(data);

@@ -1,8 +1,4 @@
 angular.module('common.manage', [])
-    .config(['$compileProvider', function($compileProvider) {
-            $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|mailto|tel|file|blob):/);
-        }
-    ])
     .factory('tokenFactory', ['$http', function tokenFactory($http){
         return function(tokenName){
             var cookies;
