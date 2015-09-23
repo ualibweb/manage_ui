@@ -1901,7 +1901,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-3\">\n" +
-    "                <label>Export</label>\n" +
+    "                <label>Export (Chrome only)</label>\n" +
     "                <div>\n" +
     "                    <button type=\"button\" class=\"btn btn-default\" ng-click=\"export()\">\n" +
     "                        <span class=\"fa fa-fw fa-download\"></span> Download JSON\n" +
