@@ -2471,12 +2471,12 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"phone\">Phone</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Phone\" maxlength=\"8\"\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Phone\" maxlength=\"15\"\n" +
     "                       ng-model=\"newPerson.phone\" id=\"phone\" required>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-2 form-group\">\n" +
     "                <label for=\"fax\">Fax</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" placeholder=\"Fax\" maxlength=\"8\" ng-model=\"newPerson.fax\" id=\"fax\">\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"Fax\" maxlength=\"15\" ng-model=\"newPerson.fax\" id=\"fax\">\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 form-group text-center\">\n" +
     "                <button type=\"submit\" class=\"btn btn-success\"\n" +
@@ -5260,7 +5260,6 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                             });
                     }, 0);
                 };
-
             },
             templateUrl: 'manageSoftware/manageSoftwareList.tpl.html'
         };
