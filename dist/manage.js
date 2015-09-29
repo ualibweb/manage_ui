@@ -2647,12 +2647,12 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                    </div>\n" +
     "                    <div class=\"form-group\" ng-show=\"person.show\">\n" +
     "                        <label for=\"{{person.id}}_phone\">Phone</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" placeholder=\"{{person.phone}}\" maxlength=\"8\" ng-model=\"person.phone\" required\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"{{person.phone}}\" maxlength=\"15\" ng-model=\"person.phone\" required\n" +
     "                               id=\"{{person.id}}_phone\">\n" +
     "                    </div>\n" +
     "                    <div class=\"form-group\" ng-show=\"person.show\">\n" +
     "                        <label for=\"{{person.id}}_fax\">Fax</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" placeholder=\"{{person.fax}}\" maxlength=\"8\" ng-model=\"person.fax\"\n" +
+    "                        <input type=\"text\" class=\"form-control\" placeholder=\"{{person.fax}}\" maxlength=\"15\" ng-model=\"person.fax\"\n" +
     "                               id=\"{{person.id}}_fax\">\n" +
     "                    </div>\n" +
     "                </td>\n" +
