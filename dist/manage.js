@@ -229,10 +229,10 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "                </h4>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-1 text-right\">\n" +
-    "                <h4 ng-show=\"db.tmpDisabled == 1\"><small>TMP</small></h4>\n" +
+    "                <h4 ng-show=\"db.tmpDisabled == 1\"><small><span class=\"label label-warning\">Tmp</span></small></h4>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-1\">\n" +
-    "                <h4 ng-show=\"db.disabled == 1 || db.tmpDisabled == 1\"><small>DISABLED</small></h4>\n" +
+    "                <h4 ng-show=\"db.disabled == 1 || db.tmpDisabled == 1\"><small><span class=\"label label-danger\">Disabled</span></small></h4>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"col-md-12\" ng-show=\"db.show\">\n" +
