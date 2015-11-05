@@ -7,6 +7,8 @@ angular.module('manage.manageDatabases', [])
             $scope.descrFilter = '';
             $scope.subjectFilter = '';
             $scope.typeFilter = '';
+            $scope.publisherFilter = '';
+            $scope.vendorFilter = '';
             $scope.disValues = [
                 {name:'Show all', value:''},
                 {name:'Enabled only', value:'0'},

@@ -10,6 +10,8 @@
                 <input type="text" class="form-control" placeholder="Description contains" ng-model="descrFilter">
                 <input type="text" class="form-control" placeholder="Subjects contain" ng-model="subjectFilter">
                 <input type="text" class="form-control" placeholder="Media Types contain" ng-model="typeFilter">
+                <input type="text" class="form-control" placeholder="Publisher contains" ng-model="publisherFilter">
+                <input type="text" class="form-control" placeholder="Vendor contains" ng-model="vendorFilter">
                 <select class="form-control" ng-model="disFilter" ng-options="val.name for val in disValues">
                 </select>
             </div>
@@ -49,6 +51,8 @@
                                                          | filter:{description:descrFilter}
                                                          | filter:{subjects:subjectFilter}
                                                          | filter:{types:typeFilter}
+                                                         | filter:{publisher:publisherFilter}
+                                                         | filter:{vendor:vendorFilter}
                                                          | filter:{disabled:disFilter.value}
                                                          | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
         | startFrom:(currentPage-1)*perPage | limitTo:perPage"
