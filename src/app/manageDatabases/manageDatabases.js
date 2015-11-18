@@ -44,6 +44,7 @@ angular.module('manage.manageDatabases', [])
                     console.dir(data);
                     for (var i = 0; i < data.databases.length; i++){
                         data.databases[i].show = false;
+                        data.databases[i].changed = false;
                         data.databases[i].class = "";
                         data.databases[i].selSubj = data.subjects[0];
                         data.databases[i].subjType = 1;
@@ -74,6 +75,9 @@ angular.module('manage.manageDatabases', [])
                     $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
                 else
                     $scope.sortMode = by;
+            };
+            $scope.changed = function(db){
+                $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].changed = true;
             };
 
             $scope.deleteDB = function(db){
@@ -117,6 +121,7 @@ angular.module('manage.manageDatabases', [])
                         } else {
                             $scope.formResponse = "Error: Can not update database! " + data;
                         }
+                        $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].changed = false;
                         alert($scope.formResponse);
                         console.log(data);
                     })
@@ -137,6 +142,7 @@ angular.module('manage.manageDatabases', [])
                             newDB.subjects = angular.copy(data.subjects);
                             newDB.types = angular.copy(data.types);
                             newDB.show = false;
+                            newDB.changed = false;
                             newDB.class = "";
                             newDB.selSubj = data.subjects[0];
                             newDB.subjType = 1;

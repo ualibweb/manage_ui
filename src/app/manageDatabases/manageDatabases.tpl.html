@@ -69,7 +69,10 @@
                 </h4>
             </div>
             <div class="col-md-1 text-right">
-                <h4 ng-show="db.tmpDisabled == 1"><small><span class="label label-warning">Tmp</span></small></h4>
+                <h4>
+                    <small ng-if="db.tmpDisabled == 1"><span class="label label-warning">Tmp</span></small>
+                    <small ng-if="db.changed"><span class="label label-danger">Unsaved</span></small>
+                </h4>
             </div>
             <div class="col-md-1">
                 <h4 ng-show="db.disabled == 1 || db.tmpDisabled == 1"><small><span class="label label-danger">Disabled</span></small></h4>
@@ -80,83 +83,84 @@
                 <div class="col-md-6 form-group">
                     <label for="{{db.id}}_title">Title</label>
                     <input type="text" class="form-control" placeholder="{{db.title}}" ng-model="db.title"
-                           id="{{db.id}}_title" maxlength="200" required>
+                           id="{{db.id}}_title" maxlength="200" required ng-change="changed(db)">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_Publisher">Publisher</label>
                     <input type="text" class="form-control" placeholder="{{db.publisher}}" ng-model="db.publisher"
-                           id="{{db.id}}_Publisher" maxlength="100">
+                           id="{{db.id}}_Publisher" maxlength="100" ng-change="changed(db)">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_Vendor">Vendor</label>
                     <input type="text" class="form-control" placeholder="{{db.vendor}}" ng-model="db.vendor"
-                           id="{{db.id}}_Vendor" maxlength="100">
+                           id="{{db.id}}_Vendor" maxlength="100" ng-change="changed(db)">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_Format">Format</label>
                     <input type="text" class="form-control" placeholder="{{db.format}}" ng-model="db.format"
-                           id="{{db.id}}_Format" maxlength="50">
+                           id="{{db.id}}_Format" maxlength="50" ng-change="changed(db)">
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="{{db.id}}_URL">URL</label>
                     <input type="text" class="form-control" placeholder="{{db.url}}" ng-model="db.url"
-                           id="{{db.id}}_URL" maxlength="2000" required>
+                           id="{{db.id}}_URL" maxlength="2000" required ng-change="changed(db)">
                 </div>
                 <div class="col-md-3 form-group">
                     <label for="{{db.id}}_Location">Location</label>
                     <input type="text" class="form-control" placeholder="{{db.location}}" ng-model="db.location"
-                           id="{{db.id}}_Location" maxlength="50">
+                           id="{{db.id}}_Location" maxlength="50" ng-change="changed(db)">
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_NotInEDS">In EDS</label>
                     <select class="form-control" ng-model="db.notInEDS" ng-options="val for val in inEDSValues"
-                            id="{{db.id}}_NotInEDS">
+                            id="{{db.id}}_NotInEDS" ng-change="changed(db)">
                     </select>
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Full-text">Fulltext</label>
                     <select class="form-control" ng-model="db.hasFullText" ng-options="val for val in fullTextValues"
-                            id="{{db.id}}_Full-text">
+                            id="{{db.id}}_Full-text" ng-change="changed(db)">
                     </select>
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Authenticate">Authenticate</label>
                     <input type="checkbox" class="form-control" ng-model="db.auth" ng-true-value="1" ng-false-value="0"
-                           id="{{db.id}}_Authenticate">
+                           id="{{db.id}}_Authenticate" ng-change="changed(db)">
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="{{db.id}}_Coverage">Coverage</label>
                     <input type="text" class="form-control" placeholder="{{db.coverage}}" ng-model="db.coverage"
-                           id="{{db.id}}_Coverage" maxlength="256">
+                           id="{{db.id}}_Coverage" maxlength="256" ng-change="changed(db)">
                 </div>
                 <div class="col-md-3 form-group">
                     <label for="{{db.id}}_Notes">Notes</label>
                     <input type="text" class="form-control" placeholder="{{db.notes}}" ng-model="db.notes"
-                           id="{{db.id}}_Notes" maxlength="100">
+                           id="{{db.id}}_Notes" maxlength="100" ng-change="changed(db)">
                 </div>
                 <div class="col-md-3 form-group">
                     <label for="{{db.id}}_Status">Status</label>
                     <input type="text" class="form-control" placeholder="{{db.status}}" ng-model="db.status"
-                           id="{{db.id}}_Status" maxlength="100">
+                           id="{{db.id}}_Status" maxlength="100" ng-change="changed(db)">
                 </div>
                 <div class="col-md-12 form-group">
                     <label for="{{db.id}}_descr">Database Description</label>
-                    <textarea class="form-control" rows="3" id="{{db.id}}_descr" ng-model="db.description" maxlength="4096" required></textarea>
+                    <textarea class="form-control" rows="3" id="{{db.id}}_descr" ng-model="db.description" maxlength="4096"
+                              required ng-change="changed(db)"></textarea>
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_presented">PresentedBy</label>
                     <input type="text" class="form-control" placeholder="{{db.presentedBy}}" ng-model="db.presentedBy"
-                           id="{{db.id}}_presented" maxlength="50">
+                           id="{{db.id}}_presented" maxlength="50" ng-change="changed(db)">
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Audience1">Audience1</label>
                     <input type="text" class="form-control" placeholder="{{db.audience1}}" ng-model="db.audience1"
-                           id="{{db.id}}_Audience1" maxlength="30">
+                           id="{{db.id}}_Audience1" maxlength="30" ng-change="changed(db)">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_Audience2">Audience2</label>
                     <input type="text" class="form-control" placeholder="{{db.audience2}}" ng-model="db.audience2"
-                           id="{{db.id}}_Audience2" maxlength="30">
+                           id="{{db.id}}_Audience2" maxlength="30" ng-change="changed(db)">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_updatedBy">Updated by</label>
@@ -165,7 +169,7 @@
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_dAuthor">Description Author</label>
                     <input type="text" class="form-control" placeholder="{{db.descrAuthor}}" ng-model="db.descrAuthor"
-                           id="{{db.id}}_dAuthor" maxlength="50" required>
+                           id="{{db.id}}_dAuthor" maxlength="50" required ng-change="changed(db)">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="{{db.id}}_date1">Created/Modified</label>
@@ -174,12 +178,12 @@
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_Disable">Disabled</label>
                     <input type="checkbox" class="form-control" ng-model="db.disabled" ng-true-value="1" ng-false-value="0"
-                           id="{{db.id}}_Disable">
+                           id="{{db.id}}_Disable" ng-change="changed(db)">
                 </div>
                 <div class="col-md-1 form-group">
                     <label for="{{db.id}}_tmpDisable">TmpDisable</label>
                     <input type="checkbox" class="form-control" ng-model="db.tmpDisabled" ng-true-value="1" ng-false-value="0"
-                           id="{{db.id}}_tmpDisable">
+                           id="{{db.id}}_tmpDisable" ng-change="changed(db)">
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-6 form-group">
