@@ -6696,6 +6696,7 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
                         form[i].value = "";
             }
             if ($scope.form.attachment.length < 1) {
+                console.log("No attachment.");
                 formFactory.submitForm(form)
                     .success(function (data) {
                         $scope.formResponse = data;
@@ -6706,6 +6707,7 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
                         console.log(data);
                     });
             } else {
+                console.log("File attached.");
                 $scope.uploading = true;
                 var names = [];
                 for (var i = 0; i < $scope.form.attachment.length; i++)
