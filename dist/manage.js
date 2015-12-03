@@ -6674,8 +6674,8 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
         }
     }])
 
-    .controller('customFormCtrl', ['$scope', 'formFactory', 'Upload', 'FORMS_URL',
-    function customFormCtrl($scope, formFactory, Upload, API){
+    .controller('customFormCtrl', ['$scope', '$timeout', 'formFactory', 'Upload', 'FORMS_URL',
+    function customFormCtrl($scope, $timeout, formFactory, Upload, API){
         $scope.mailToLib = 0;
         $scope.form = {};
         $scope.form.attachment = [];
@@ -6738,4 +6738,4 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
                 });
             }
         };
-    }])
+    }]);
