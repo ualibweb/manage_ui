@@ -2234,7 +2234,9 @@ angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", 
   $templateCache.put("siteFeedback/siteFeedback.tpl.html",
     "<h3>Received Feedback <small>Test</small></h3>\n" +
     "\n" +
-    "");
+    "<div class=\"say-hello\">\n" +
+    "    <p ng-if=\"userInfo.currentUser.id\">Hello! {{userInfo.currentUser.name}}!</p>\n" +
+    "</div>");
 }]);
 
 angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -2949,6 +2951,20 @@ angular.module('manage.common', [
 ])
 
 angular.module('common.manage', [])
+    .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+
+        $httpProvider.interceptors.push([function() {
+            return {
+                'request': function(config) {
+                    config.headers = config.headers || {};
+                    //add nonce to avoid CSRF issues
+                    config.headers['X-WP-Nonce'] = myLocalized.nonce;
+
+                    return config;
+                }
+            };
+        }]);
+    }])
     .factory('tokenFactory', ['$http', function tokenFactory($http){
         return function(tokenName){
             var cookies;

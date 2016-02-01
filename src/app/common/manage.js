@@ -1,4 +1,18 @@
 angular.module('common.manage', [])
+    .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+
+        $httpProvider.interceptors.push([function() {
+            return {
+                'request': function(config) {
+                    config.headers = config.headers || {};
+                    //add nonce to avoid CSRF issues
+                    config.headers['X-WP-Nonce'] = myLocalized.nonce;
+
+                    return config;
+                }
+            };
+        }]);
+    }])
     .factory('tokenFactory', ['$http', function tokenFactory($http){
         return function(tokenName){
             var cookies;
