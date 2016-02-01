@@ -128,4 +128,12 @@ angular.module('common.manage', [])
                 return $http({method: 'POST', url: url + "processData.php", params: params, data: data})
             }
         };
+    }])
+    .factory('wpTestFactory', ['$http', function wpTestFactory($http){
+        return {
+            getCurrentUser : function(){
+                return $http.get('wp-json/wp/v2/users/me');
+            }
+        };
     }]);
+

@@ -1,7 +1,8 @@
 angular.module('manage.siteFeedback', [])
-    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'sfFactory',
-        function siteFeedbackCtrl($scope, tokenFactory, sfFactory){
+    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'sfFactory', 'wpTestFactory',
+        function siteFeedbackCtrl($scope, tokenFactory, sfFactory, wpTestFactory){
             $scope.responses = [];
+            $scope.userInfo = {};
 
             tokenFactory("CSRF-libSiteFeedback");
 
@@ -13,6 +14,16 @@ angular.module('manage.siteFeedback', [])
                 .error(function(data, status, headers, config) {
                     console.log(data);
                 });
+
+            wpTestFactory.getCurrentUser()
+                .success(function(data) {
+                    console.dir(data);
+                    $scope.userInfo = data;
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                });
+
         }])
     .directive('siteFeedbackList', [ function() {
         return {
@@ -21,4 +32,4 @@ angular.module('manage.siteFeedback', [])
             controller: 'siteFeedbackCtrl',
             templateUrl: 'siteFeedback/siteFeedback.tpl.html'
         };
-    }])
+    }]);
