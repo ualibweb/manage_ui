@@ -2232,32 +2232,8 @@ angular.module("manageUserGroups/viewMyWebApps.tpl.html", []).run(["$templateCac
 
 angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("siteFeedback/siteFeedback.tpl.html",
-    "<h3>Received Feedback</h3>\n" +
-    "<div class=\"row\" ng-repeat=\"record in responses\">\n" +
-    "    <h4><a href=\"{{record.pageurl}}\">{{record.pageurl}}</a></h4>\n" +
-    "    <div class=\"col-md-6\">\n" +
-    "        <div class=\"col-md-2\">\n" +
-    "            <button type=\"button\" class=\"btn btn-danger\" ng-click=\"delete(record)\"\n" +
-    "                    ng-show=\"false\">\n" +
-    "                Delete\n" +
-    "            </button>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-2\">\n" +
-    "            <span class=\"fa fa-fw fa-thumbs-o-down\" ng-show=\"record.score < 0\"></span>\n" +
-    "            <span class=\"fa fa-fw fa-meh-o\" ng-show=\"record.score == 0\"></span>\n" +
-    "            <span class=\"fa fa-fw fa-thumbs-o-up\" ng-show=\"record.score > 0\"></span>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-4\">\n" +
-    "            {{record.when}}\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-4\">\n" +
-    "            {{record.ip}}\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-6\">\n" +
-    "        {{record.comments}}\n" +
-    "    </div>\n" +
-    "</div>\n" +
+    "<h3>Received Feedback <small>Test</small></h3>\n" +
+    "\n" +
     "");
 }]);
 
@@ -3009,14 +2985,6 @@ angular.module('common.manage', [])
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url, params: params, data: data})
-            }
-        };
-    }])
-    .factory('sfFactory', ['$http', 'SITE_FEEDBACK_URL', function sfFactory($http, url){
-        return {
-            getData: function(params){
-                params = angular.isDefined(params) ? params : {};
-                return $http({method: 'GET', url: url, params: params})
             }
         };
     }])
@@ -6005,22 +5973,13 @@ angular.module('manage.manageUserGroups', [])
         };
     }])
 angular.module('manage.siteFeedback', [])
-    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'sfFactory', 'wpTestFactory',
-        function siteFeedbackCtrl($scope, tokenFactory, sfFactory, wpTestFactory){
+    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'wpTestFactory',
+        function siteFeedbackCtrl($scope, tokenFactory, wpTestFactory){
             $scope.responses = [];
             $scope.userInfo = {};
 
             tokenFactory("CSRF-libSiteFeedback");
-/*
-            sfFactory.getData({json : 1})
-                .success(function(data) {
-                    console.dir(data);
-                    $scope.responses = data;
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
-*/
+
             wpTestFactory.getCurrentUser()
                 .success(function(data) {
                     console.dir(data);

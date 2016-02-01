@@ -1,20 +1,11 @@
 angular.module('manage.siteFeedback', [])
-    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'sfFactory', 'wpTestFactory',
-        function siteFeedbackCtrl($scope, tokenFactory, sfFactory, wpTestFactory){
+    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'wpTestFactory',
+        function siteFeedbackCtrl($scope, tokenFactory, wpTestFactory){
             $scope.responses = [];
             $scope.userInfo = {};
 
             tokenFactory("CSRF-libSiteFeedback");
-/*
-            sfFactory.getData({json : 1})
-                .success(function(data) {
-                    console.dir(data);
-                    $scope.responses = data;
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
-*/
+
             wpTestFactory.getCurrentUser()
                 .success(function(data) {
                     console.dir(data);

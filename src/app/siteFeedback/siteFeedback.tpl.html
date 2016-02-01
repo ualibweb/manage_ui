@@ -1,26 +1,2 @@
-<h3>Received Feedback</h3>
-<div class="row" ng-repeat="record in responses">
-    <h4><a href="{{record.pageurl}}">{{record.pageurl}}</a></h4>
-    <div class="col-md-6">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-danger" ng-click="delete(record)"
-                    ng-show="false">
-                Delete
-            </button>
-        </div>
-        <div class="col-md-2">
-            <span class="fa fa-fw fa-thumbs-o-down" ng-show="record.score < 0"></span>
-            <span class="fa fa-fw fa-meh-o" ng-show="record.score == 0"></span>
-            <span class="fa fa-fw fa-thumbs-o-up" ng-show="record.score > 0"></span>
-        </div>
-        <div class="col-md-4">
-            {{record.when}}
-        </div>
-        <div class="col-md-4">
-            {{record.ip}}
-        </div>
-    </div>
-    <div class="col-md-6">
-        {{record.comments}}
-    </div>
-</div>
+<h3>Received Feedback <small>Test</small></h3>
+
