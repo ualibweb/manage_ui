@@ -4,8 +4,6 @@ angular.module('manage.siteFeedback', [])
             $scope.responses = [];
             $scope.userInfo = {};
 
-            tokenFactory("CSRF-libSiteFeedback");
-
             wpTestFactory.getCurrentUser()
                 .success(function(data) {
                     console.dir(data);

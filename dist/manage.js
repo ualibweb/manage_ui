@@ -2234,8 +2234,8 @@ angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", 
   $templateCache.put("siteFeedback/siteFeedback.tpl.html",
     "<h3>Received Feedback <small>Test</small></h3>\n" +
     "\n" +
-    "<div class=\"say-hello\">\n" +
-    "    <p ng-if=\"userInfo.currentUser.id\">Hello! {{userInfo.currentUser.name}}!</p>\n" +
+    "<div>\n" +
+    "    <p ng-if=\"userInfo.id\">Hello! {{userInfo.name}}!</p>\n" +
     "</div>");
 }]);
 
@@ -3094,6 +3094,9 @@ angular.module('common.manage', [])
         return {
             getCurrentUser : function(){
                 return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/me');
+            },
+            getUserDetails : function(id){
+                return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/'+ id +'?context=edit');
             }
         };
     }]);
@@ -5996,8 +5999,6 @@ angular.module('manage.siteFeedback', [])
         function siteFeedbackCtrl($scope, tokenFactory, wpTestFactory){
             $scope.responses = [];
             $scope.userInfo = {};
-
-            tokenFactory("CSRF-libSiteFeedback");
 
             wpTestFactory.getCurrentUser()
                 .success(function(data) {
