@@ -10,7 +10,7 @@ angular.module('manage.siteFeedback', [])
                     console.dir(data);
                     $scope.userInfo = data;
                     console.log("retrieving current user details...");
-                    wpTestFactory.getUserDetails($scope.userInfo.id, 64)
+                    wpTestFactory.getUserDetails($scope.userInfo.id, "64")
                         .success(function(data) {
                             console.dir(data);
                         })
