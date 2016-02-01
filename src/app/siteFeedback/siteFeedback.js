@@ -9,14 +9,16 @@ angular.module('manage.siteFeedback', [])
                 .success(function(data) {
                     console.dir(data);
                     $scope.userInfo = data;
-                    console.log("retrieving current user details...");
-                    wpTestFactory.getUserDetails($scope.userInfo.id, "64")
-                        .success(function(data) {
-                            console.dir(data);
-                        })
-                        .error(function(data, status, headers, config) {
-                            console.log(data);
-                        });
+                    if (angular.isDefined($scope.userInfo.id)) {
+                        console.log("retrieving current user details...");
+                        wpTestFactory.getUserDetails($scope.userInfo.id, "64")
+                            .success(function (data) {
+                                console.dir(data);
+                            })
+                            .error(function (data, status, headers, config) {
+                                console.log(data);
+                            });
+                    }
                 })
                 .error(function(data, status, headers, config) {
                     console.log(data);
