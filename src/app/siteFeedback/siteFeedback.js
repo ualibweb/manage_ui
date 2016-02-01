@@ -5,7 +5,7 @@ angular.module('manage.siteFeedback', [])
             $scope.userInfo = {};
 
             tokenFactory("CSRF-libSiteFeedback");
-
+/*
             sfFactory.getData({json : 1})
                 .success(function(data) {
                     console.dir(data);
@@ -14,7 +14,7 @@ angular.module('manage.siteFeedback', [])
                 .error(function(data, status, headers, config) {
                     console.log(data);
                 });
-
+*/
             wpTestFactory.getCurrentUser()
                 .success(function(data) {
                     console.dir(data);
