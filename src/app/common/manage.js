@@ -124,7 +124,7 @@ angular.module('common.manage', [])
     .factory('wpTestFactory', ['$http', function wpTestFactory($http){
         return {
             getCurrentUser : function(){
-                return $http.get('wp-json/wp/v2/users/me');
+                return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/me');
             }
         };
     }]);
