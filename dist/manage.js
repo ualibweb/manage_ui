@@ -2236,6 +2236,7 @@ angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", 
     "\n" +
     "<div>\n" +
     "    <p ng-if=\"userInfo.id\">Hello! {{userInfo.name}}!</p>\n" +
+    "    <p ng-if=\"userInfo.webapps\">Access to group {{userInfo.webapps}} granted!</p>\n" +
     "</div>");
 }]);
 
@@ -3095,8 +3096,8 @@ angular.module('common.manage', [])
             getCurrentUser : function(){
                 return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/me');
             },
-            getUserDetails : function(id){
-                return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/'+ id +'?context=edit');
+            getUserDetails : function(id, group){
+                return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/'+ id +'/'+ group +'?context=edit');
             }
         };
     }]);
@@ -6006,7 +6007,7 @@ angular.module('manage.siteFeedback', [])
                     console.dir(data);
                     $scope.userInfo = data;
                     console.log("retrieving current user details...");
-                    wpTestFactory.getUserDetails($scope.userInfo.id)
+                    wpTestFactory.getUserDetails($scope.userInfo.id, 64)
                         .success(function(data) {
                             console.dir(data);
                         })

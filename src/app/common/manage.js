@@ -143,8 +143,8 @@ angular.module('common.manage', [])
             getCurrentUser : function(){
                 return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/me');
             },
-            getUserDetails : function(id){
-                return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/'+ id +'?context=edit');
+            getUserDetails : function(id, group){
+                return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/'+ id +'/'+ group +'?context=edit');
             }
         };
     }]);
