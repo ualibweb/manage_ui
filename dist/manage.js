@@ -2958,7 +2958,7 @@ angular.module('common.manage', [])
                 'request': function(config) {
                     config.headers = config.headers || {};
                     //add nonce to avoid CSRF issues
-                    if (angular.isDefined(myLocalized)) {
+                    if (typeof myLocalized !== 'undefined') {
                         config.headers['X-WP-Nonce'] = myLocalized.nonce;
                     } else {
                         console.log("myLocalized is not defined.");
