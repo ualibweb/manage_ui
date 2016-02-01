@@ -2958,8 +2958,11 @@ angular.module('common.manage', [])
                 'request': function(config) {
                     config.headers = config.headers || {};
                     //add nonce to avoid CSRF issues
-                    config.headers['X-WP-Nonce'] = myLocalized.nonce;
-
+                    if (angular.isDefined(myLocalized)) {
+                        config.headers['X-WP-Nonce'] = myLocalized.nonce;
+                    } else {
+                        console.log("myLocalized is not defined.");
+                    }
                     return config;
                 }
             };
