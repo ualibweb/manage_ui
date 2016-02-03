@@ -1,6 +1,6 @@
 angular.module('common.manage', [])
+/*
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
-
         $httpProvider.interceptors.push([function() {
             return {
                 'request': function(config) {
@@ -16,6 +16,7 @@ angular.module('common.manage', [])
             };
         }]);
     }])
+*/
     .factory('tokenFactory', ['$http', function tokenFactory($http){
         return function(tokenName){
             var cookies;
@@ -143,7 +144,7 @@ angular.module('common.manage', [])
             getCurrentUser : function(){
                 return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/me');
             },
-            getUserDetails : function(id, group){
+            getUserDetails : function(id){
                 return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/'+ id , {context: 'edit'});
             }
         };
