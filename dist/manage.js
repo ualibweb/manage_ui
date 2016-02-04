@@ -6009,7 +6009,7 @@ angular.module('manage.siteFeedback', [])
                     $scope.userInfo = data;
                     if (angular.isDefined($scope.userInfo.id)) {
                         console.log("retrieving current user details...");
-                        wpTestFactory.getUserDetails($scope.userInfo.id, "64")
+                        wpTestFactory.getUserDetails($scope.userInfo.id)
                             .success(function (data) {
                                 console.dir(data);
                             })
@@ -6029,9 +6029,9 @@ angular.module('manage.siteFeedback', [])
             restrict: 'AC',
             scope: {},
             controller: 'siteFeedbackCtrl',
-            templateUrl: 'siteFeedback/siteFeedback.tpl.;html'
+            templateUrl: 'siteFeedback/siteFeedback.tpl.html'
         };
-    }])
+    }]);
 
 angular.module('manage.staffDirectory', ['ui.tinymce'])
     .constant('STAFF_DIR_RANKS', [
