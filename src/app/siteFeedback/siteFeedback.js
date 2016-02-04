@@ -24,12 +24,13 @@ angular.module('manage.siteFeedback', [])
                     console.log(data);
                 });
 
+
         }])
     .directive('siteFeedbackList', [ function() {
         return {
             restrict: 'AC',
             scope: {},
             controller: 'siteFeedbackCtrl',
-            templateUrl: 'siteFeedback/siteFeedback.tpl.html'
+            templateUrl: 'siteFeedback/siteFeedback.tpl.;html'
         };
-    }]);
+    }])

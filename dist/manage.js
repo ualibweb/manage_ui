@@ -2952,7 +2952,7 @@ angular.module('manage.common', [
 ])
 
 angular.module('common.manage', [])
-/*
+
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
         $httpProvider.interceptors.push([function() {
             return {
@@ -2969,7 +2969,7 @@ angular.module('common.manage', [])
             };
         }]);
     }])
-*/
+
     .factory('tokenFactory', ['$http', function tokenFactory($http){
         return function(tokenName){
             var cookies;
@@ -3097,7 +3097,7 @@ angular.module('common.manage', [])
             getCurrentUser : function(){
                 return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/me');
             },
-            getUserDetails : function(id){
+            getUserDetails : function(id, group){
                 return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/'+ id , {context: 'edit'});
             }
         };
@@ -6022,15 +6022,16 @@ angular.module('manage.siteFeedback', [])
                     console.log(data);
                 });
 
+
         }])
     .directive('siteFeedbackList', [ function() {
         return {
             restrict: 'AC',
             scope: {},
             controller: 'siteFeedbackCtrl',
-            templateUrl: 'siteFeedback/siteFeedback.tpl.html'
+            templateUrl: 'siteFeedback/siteFeedback.tpl.;html'
         };
-    }]);
+    }])
 
 angular.module('manage.staffDirectory', ['ui.tinymce'])
     .constant('STAFF_DIR_RANKS', [
