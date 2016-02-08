@@ -2234,10 +2234,11 @@ angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", 
   $templateCache.put("siteFeedback/siteFeedback.tpl.html",
     "<h3>Received Feedback <small>Test</small></h3>\n" +
     "\n" +
-    "<div>\n" +
-    "    <p ng-if=\"userInfo.id\">Hello! {{userInfo.name}}!</p>\n" +
-    "    <p ng-if=\"userInfo.webapps\">Access to group {{userInfo.webapps}} granted!</p>\n" +
-    "</div>");
+    "<div ng-if=\"userInfo\">\n" +
+    "    <p>Hello! {{userInfo.name}}!</p>\n" +
+    "    <p>Access to groups {{userInfo.group}}</p>\n" +
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -2968,6 +2969,61 @@ angular.module('common.manage', [])
                 }
             };
         }]);
+        $httpProvider.interceptors.push('AuthInterceptor');
+    }])
+
+    .factory('AuthInterceptor', ['AuthService', 'API', function (AuthService, API) {
+        return {
+            // automatically attach Authorization header
+            request: function(config) {
+                var token = AuthService.getToken();
+                if(config.url.indexOf(API) === 0 && token) {
+                    config.headers.Authorization = "Bearer " + token;
+                }
+                return config;
+            },
+
+            // If a token was sent back, save it
+            response: function(res) {
+                if(res.config.url.indexOf(API) === 0 && res.data.token) {
+                    AuthService.saveToken(res.data.token);
+                }
+                return res;
+            }
+        };
+    }])
+
+    .service('AuthService', ['$window', function($window){
+        var self = this;
+
+        self.parseJWT = function(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse($window.atob(base64));
+        };
+        self.saveToken = function(token) {
+            $window.localStorage['ualibweb.Token'] = token;
+            console.log('Token saved');
+        };
+        self.getToken = function() {
+            return $window.localStorage['ualibweb.Token'];
+        };
+        self.isAuthorized = function() {
+            var token = self.getToken();
+            if (token) {
+                var params = self.parseJWT(token);
+                if (Math.round(new Date().getTime() / 1000) <= params.exp) {
+                    console.log('Authenticated.');
+                    return params.user;
+                }
+            }
+            console.log('Authentication failed.');
+            return false;
+        };
+        self.logout = function() {
+            $window.localStorage.removeItem('ualibweb.Token');
+            console.log('Token deleted');
+        };
     }])
 
     .factory('tokenFactory', ['$http', function tokenFactory($http){
@@ -5997,21 +6053,19 @@ angular.module('manage.manageUserGroups', [])
         };
     }])
 angular.module('manage.siteFeedback', [])
-    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'wpTestFactory',
-        function siteFeedbackCtrl($scope, tokenFactory, wpTestFactory){
+    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'wpTestFactory', 'AuthService',
+        function siteFeedbackCtrl($scope, tokenFactory, wpTestFactory, AuthService){
             $scope.responses = [];
             $scope.userInfo = {};
 
             console.log("checking current user...");
             wpTestFactory.getCurrentUser()
                 .success(function(data) {
-                    console.dir(data);
-                    $scope.userInfo = data;
                     if (angular.isDefined($scope.userInfo.id)) {
                         console.log("retrieving current user details...");
                         wpTestFactory.getUserDetails($scope.userInfo.id)
                             .success(function (data) {
-                                console.dir(data);
+                                $scope.userInfo = AuthService.isAuthorized();
                             })
                             .error(function (data, status, headers, config) {
                                 console.log(data);

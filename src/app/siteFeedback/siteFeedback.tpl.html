@@ -1,6 +1,6 @@
 <h3>Received Feedback <small>Test</small></h3>
 
-<div>
-    <p ng-if="userInfo.id">Hello! {{userInfo.name}}!</p>
-    <p ng-if="userInfo.webapps">Access to group {{userInfo.webapps}} granted!</p>
+<div ng-if="userInfo">
+    <p>Hello! {{userInfo.name}}!</p>
+    <p>Access to groups {{userInfo.group}}</p>
 </div>

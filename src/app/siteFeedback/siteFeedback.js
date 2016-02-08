@@ -1,19 +1,17 @@
 angular.module('manage.siteFeedback', [])
-    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'wpTestFactory',
-        function siteFeedbackCtrl($scope, tokenFactory, wpTestFactory){
+    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'wpTestFactory', 'AuthService',
+        function siteFeedbackCtrl($scope, tokenFactory, wpTestFactory, AuthService){
             $scope.responses = [];
             $scope.userInfo = {};
 
             console.log("checking current user...");
             wpTestFactory.getCurrentUser()
                 .success(function(data) {
-                    console.dir(data);
-                    $scope.userInfo = data;
                     if (angular.isDefined($scope.userInfo.id)) {
                         console.log("retrieving current user details...");
                         wpTestFactory.getUserDetails($scope.userInfo.id)
                             .success(function (data) {
-                                console.dir(data);
+                                $scope.userInfo = AuthService.isAuthorized();
                             })
                             .error(function (data, status, headers, config) {
                                 console.log(data);
