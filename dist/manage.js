@@ -2234,7 +2234,7 @@ angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", 
   $templateCache.put("siteFeedback/siteFeedback.tpl.html",
     "<h3>Received Feedback <small>Test</small></h3>\n" +
     "\n" +
-    "<div ng-if=\"userInfo\">\n" +
+    "<div ng-if=\"userInfo.login\">\n" +
     "    <p>Hello! {{userInfo.name}}!</p>\n" +
     "    <p>Access to groups {{userInfo.group}}</p>\n" +
     "</div>\n" +
@@ -6062,10 +6062,11 @@ angular.module('manage.siteFeedback', [])
             console.log("checking current user...");
             wpTestFactory.getCurrentUser()
                 .success(function(data) {
-                    if (angular.isDefined($scope.userInfo.id)) {
+                    if (angular.isDefined(data.id)) {
                         console.log("retrieving current user details...");
-                        wpTestFactory.getUserDetails($scope.userInfo.id)
-                            .success(function (data) {
+                        wpTestFactory.getUserDetails(data.id)
+                            .success(function (data2) {
+                                console.dir(data2);
                                 $scope.userInfo = AuthService.isAuthorized();
                             })
                             .error(function (data, status, headers, config) {
