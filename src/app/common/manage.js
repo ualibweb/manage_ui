@@ -1,4 +1,5 @@
 angular.module('common.manage', [])
+    .constant('API', 'https://wwwdev2.lib.ua.edu/wp-json/wp/v2/')
 
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
         $httpProvider.interceptors.push([function() {
@@ -194,13 +195,13 @@ angular.module('common.manage', [])
             }
         };
     }])
-    .factory('wpTestFactory', ['$http', function wpTestFactory($http){
+    .factory('wpTestFactory', ['$http', 'API', function wpTestFactory($http, API){
         return {
             getCurrentUser : function(){
-                return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/me');
+                return $http.get(API + 'users/me');
             },
             getUserDetails : function(id, group){
-                return $http.get('https://wwwdev2.lib.ua.edu/wp-json/wp/v2/users/'+ id , {context: 'edit'});
+                return $http.get(API + 'users/'+ id , {context: 'edit'});
             }
         };
     }]);
