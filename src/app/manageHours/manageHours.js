@@ -88,6 +88,7 @@ angular.module('manage.manageHours', [])
 
             hmFactory.getData("semesters")
                 .success(function(data) {
+                    console.dir(data);
                     $scope.selLib = data.libraries[0];
                     for (var lib = 0; lib < data.libraries.length; lib++){
                         for (var ex = 0; ex < data.exc[lib].length; ex++){
@@ -96,7 +97,6 @@ angular.module('manage.manageHours', [])
                         }
                         data.sem[lib] = $scope.initSemesters(data.sem[lib]);
                     }
-                    console.dir(data);
                     $scope.allowedLibraries = data;
                 })
                 .error(function(data, status, headers, config) {
