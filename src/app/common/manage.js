@@ -5,24 +5,21 @@ angular.module('common.manage', [])
         $httpProvider.interceptors.push('AuthInterceptor');
     }])
 
-    .factory('AuthInterceptor', ['AuthService', 'API', function (AuthService, API) {
+    .factory('AuthInterceptor', ['AuthService', function (AuthService) {
         return {
             // automatically attach Authorization header
             request: function(config) {
                 config.headers = config.headers || {};
 
-                console.log("Interceptor...");
                 //interceptor for UALib JWT tokens
                 var token = AuthService.getToken();
-                if(config.url.indexOf(API) === 0 && token) {
+                if(config.url.indexOf("https://wwwdev2.lib.ua.edu/") === 0 && token) {
                     config.headers.Authorization = "Bearer " + token;
-                    console.log("UALib JWT header set");
                 }
 
                 //interceptor for WordPress nonce headers
                 if (typeof myLocalized !== 'undefined') {
                     config.headers['X-WP-Nonce'] = myLocalized.nonce;
-                    console.log("WP nonce header set");
                 } else {
                     console.log("myLocalized is not defined.");
                 }
@@ -31,7 +28,7 @@ angular.module('common.manage', [])
 
             // If a token was sent back, save it
             response: function(res) {
-                if(res.config.url.indexOf(API) === 0 && res.data.token) {
+                if(res.config.url.indexOf("https://wwwdev2.lib.ua.edu/") === 0 && res.data.token) {
                     AuthService.saveToken(res.data.token);
                 }
                 return res;
