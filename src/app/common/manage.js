@@ -1,7 +1,7 @@
 angular.module('common.manage', [])
     .constant('API', 'https://wwwdev2.lib.ua.edu/wp-json/wp/v2/')
 
-    .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+    .config(['$httpProvider', function($httpProvider) {
         $httpProvider.interceptors.push('AuthInterceptor');
     }])
 
@@ -11,15 +11,18 @@ angular.module('common.manage', [])
             request: function(config) {
                 config.headers = config.headers || {};
 
+                console.log("Interceptor...");
                 //interceptor for UALib JWT tokens
                 var token = AuthService.getToken();
                 if(config.url.indexOf(API) === 0 && token) {
                     config.headers.Authorization = "Bearer " + token;
+                    console.log("UALib JWT header set");
                 }
 
                 //interceptor for WordPress nonce headers
                 if (typeof myLocalized !== 'undefined') {
                     config.headers['X-WP-Nonce'] = myLocalized.nonce;
+                    console.log("WP nonce header set");
                 } else {
                     console.log("myLocalized is not defined.");
                 }
