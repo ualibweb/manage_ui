@@ -64,6 +64,7 @@ angular.module('common.manage', [])
                 var params = self.parseJWT(token);
                 if (Math.round(new Date().getTime() / 1000) <= params.exp) {
                     console.log('Authenticated.');
+                    console.dir(params.user);
                     return params.user;
                 }
             }
@@ -214,5 +215,4 @@ angular.module('common.manage', [])
     function($rootScope, tokenReceiver, $location, AuthService) {
         $rootScope.userInfo = {};
         $rootScope.userInfo = AuthService.isAuthorized();
-
     }]);

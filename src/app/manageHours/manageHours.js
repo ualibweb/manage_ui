@@ -46,7 +46,7 @@ angular.module('manage.manageHours', [])
     .config(['$routeProvider', function($routeProvider){
         $routeProvider.when('/manage-hours', {
             controller: 'manageHrsCtrl',
-            templateUrl: 'manageSoftware/manageHours.tpl.html',
+            templateUrl: 'manageHours/manageHours.tpl.html',
             resolve: {
                 userData: function(tokenReceiver){
                     return tokenReceiver.getPromise();
