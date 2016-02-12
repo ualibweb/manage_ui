@@ -1,14 +1,12 @@
 angular.module('manage.manageHoursUsers', [])
-    .controller('manageHrsUsersCtrl', ['$scope', '$window', '$animate', 'tokenFactory', 'hmFactory',
-        function manageHrsUsersCtrl($scope, $window, $animate, tokenFactory, hmFactory){
+    .controller('manageHrsUsersCtrl', ['$scope', '$window', '$animate', 'hmFactory',
+        function manageHrsUsersCtrl($scope, $window, $animate, hmFactory){
             $scope.isLoading = true;
             $scope.dataUL = {};
             $scope.dataUL.users = [];
             $scope.dataUL.locations = [];
             $scope.user = {};
             $scope.user.name = $window.userName;
-
-            tokenFactory("CSRF-libHours");
 
             hmFactory.getData("users")
                 .success(function(data){

@@ -4,9 +4,22 @@ angular.module('manage.manageAlerts', [])
         {name:'Warning', value:1},
         {name:'Danger', value:2}
     ])
+    .constant('ALERTS_GROUP', 512)
 
-    .controller('manageAlertsCtrl', ['$scope', 'tokenFactory', 'alertFactory', 'TYPES',
-    function manageAlertsCtrl($scope, tokenFactory, alertFactory, TYPES){
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-alerts', {
+            controller: 'manageAlertsCtrl',
+            templateUrl: 'manageAlerts/manageAlerts.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('manageAlertsCtrl', ['$scope', 'alertFactory', 'TYPES', 'userData', 'ALERTS_GROUP',
+    function manageAlertsCtrl($scope, alertFactory, TYPES, userData, ALERTS_GROUP){
         $scope.data = {};
         $scope.newAlert = {};
         $scope.newAlert.message = "";
@@ -39,8 +52,12 @@ angular.module('manage.manageAlerts', [])
         $scope.maxPageSize = 10;
         $scope.perPage = 20;
 
-        tokenFactory("CSRF-libAlerts");
-
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & ALERTS_GROUP === ALERTS_GROUP) {
+                $scope.hasAccess = true;
+            }
+        }
         alertFactory.getData("all")
             .success(function(data) {
                 console.dir(data);
@@ -152,33 +169,6 @@ angular.module('manage.manageAlerts', [])
         };
     }])
 
-    .directive('manageAlertsMain', ['$animate', function($animate) {
-        return {
-            restrict: 'AC',
-            scope: {},
-            controller: 'manageAlertsCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'data.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("Alerts data loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'manageAlerts/manageAlerts.tpl.html'
-        };
-    }])
     .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int

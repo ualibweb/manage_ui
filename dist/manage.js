@@ -1,10 +1,10 @@
-angular.module('manage.templates', ['manageAlerts/manageAlerts.tpl.html', 'manageAlerts/manageAlertsItemFields.tpl.html', 'manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsItemFields.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/mainOneSearch.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageOneSearch/oneSearchStat.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareComputerMaps.tpl.html', 'manageSoftware/manageSoftwareItemFields.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'siteFeedback/siteFeedback.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectoryProfile.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
+angular.module('manage.templates', ['manageAlerts/manageAlerts.tpl.html', 'manageAlerts/manageAlertsItemFields.tpl.html', 'manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsItemFields.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/mainOneSearch.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageOneSearch/oneSearchStat.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareComputerMaps.tpl.html', 'manageSoftware/manageSoftwareItemFields.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectoryProfile.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
 
 angular.module("manageAlerts/manageAlerts.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageAlerts/manageAlerts.tpl.html",
     "<h2>Manage Website Alerts</h2>\n" +
     "\n" +
-    "<div>\n" +
+    "<div ng-if=\"hasAccess\">\n" +
     "    <h3>Add New Alert</h3>\n" +
     "    <form ng-submit=\"createAlert(newAlert)\">\n" +
     "        <div class=\"sdOpen\">\n" +
@@ -121,6 +121,9 @@ angular.module("manageAlerts/manageAlerts.tpl.html", []).run(["$templateCache", 
     "        <pagination total-items=\"filteredList.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
     "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredList.length > perPage\"></pagination>\n" +
     "    </div>\n" +
+    "</div>\n" +
+    "<div ng-if=\"!hasAccess\">\n" +
+    "    <h3>Sorry, you don't have permissions to edit alerts</h3>\n" +
     "</div>");
 }]);
 
@@ -164,7 +167,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
     "<h2>Manage Databases</h2>\n" +
     "\n" +
-    "<div>\n" +
+    "<div ng-if=\"hasAccess\">\n" +
     "    <div class=\"row form-inline\">\n" +
     "        <div class=\"form-group col-md-12\">\n" +
     "            <label for=\"filterBy\">Filter <small>{{filteredDB.length}}</small> results by</label>\n" +
@@ -547,7 +550,9 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "        </div>\n" +
     "    </div>\n" +
     "</form>\n" +
-    "\n" +
+    "<div ng-if=\"!hasAccess\">\n" +
+    "    <h3>Sorry, you don't have permissions to edit databases</h3>\n" +
+    "</div>\n" +
     "");
 }]);
 
@@ -662,35 +667,37 @@ angular.module("manageHours/manageHours.tpl.html", []).run(["$templateCache", fu
     "    Manage Hours <small>{{selLib.name}}</small>\n" +
     "</h2>\n" +
     "\n" +
-    "<div class=\"row\">\n" +
-    "    <div class=\"col-md-4 form-group\">\n" +
-    "        <select class=\"form-control\" ng-model=\"selLib\" ng-options=\"lib.name for lib in allowedLibraries.libraries\">\n" +
-    "        </select>\n" +
+    "<div ng-if=\"hasAccess\">\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-4 form-group\">\n" +
+    "            <select class=\"form-control\" ng-model=\"selLib\" ng-options=\"lib.name for lib in allowedLibraries.libraries\">\n" +
+    "            </select>\n" +
+    "        </div>\n" +
     "    </div>\n" +
-    "</div>\n" +
-    "\n" +
-    "<div class=\"alert alert-warning\" role=\"alert\">\n" +
-    "    <span class=\"fa fa-exclamation-triangle\"></span> Warning: Please use exceptions in order to create periods with the non\n" +
-    "    standard hours (for example, Finals week).\n" +
-    "</div>\n" +
-    "<div class=\"alert alert-info\" role=\"alert\">\n" +
-    "    <span class=\"fa fa-info-circle\"></span> Note: set <strong>From</strong> and <strong>To</strong> hours to\n" +
-    "    <strong>Midnight</strong> in order to indicate <strong>Open 24 hours</strong>.\n" +
-    "</div>\n" +
-    "\n" +
-    "<tabset justified=\"true\">\n" +
-    "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
-    "        <div ng-if=\"tab.number == 0\">\n" +
-    "            <div semester-list>\n" +
+    "    <div class=\"alert alert-warning\" role=\"alert\">\n" +
+    "        <span class=\"fa fa-exclamation-triangle\"></span> Warning: Please use exceptions in order to create periods with the non\n" +
+    "        standard hours (for example, Finals week).\n" +
+    "    </div>\n" +
+    "    <div class=\"alert alert-info\" role=\"alert\">\n" +
+    "        <span class=\"fa fa-info-circle\"></span> Note: set <strong>From</strong> and <strong>To</strong> hours to\n" +
+    "        <strong>Midnight</strong> in order to indicate <strong>Open 24 hours</strong>.\n" +
+    "    </div>\n" +
+    "    <tabset justified=\"true\">\n" +
+    "        <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
+    "            <div ng-if=\"tab.number == 0\">\n" +
+    "                <div semester-list semesters=\"allowedLibraries.sem\">\n" +
+    "                </div>\n" +
     "            </div>\n" +
-    "        </div>\n" +
-    "        <div ng-if=\"tab.number == 1\" >\n" +
-    "            <div exception-list>\n" +
+    "            <div ng-if=\"tab.number == 1\" >\n" +
+    "                <div exception-list exceptions=\"allowedLibraries.exc\">\n" +
+    "                </div>\n" +
     "            </div>\n" +
-    "        </div>\n" +
-    "    </tab>\n" +
-    "</tabset>\n" +
-    "");
+    "        </tab>\n" +
+    "    </tabset>\n" +
+    "</div>\n" +
+    "<div ng-if=\"!hasAccess\">\n" +
+    "    <h3>Sorry, you don't have permissions to manage hours</h3>\n" +
+    "</div>");
 }]);
 
 angular.module("manageHours/manageLoc.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -914,7 +921,7 @@ angular.module("manageNews/manageNews.tpl.html", []).run(["$templateCache", func
   $templateCache.put("manageNews/manageNews.tpl.html",
     "<h2>Manage News and Exhibitions</h2>\n" +
     "\n" +
-    "<tabset justified=\"true\">\n" +
+    "<tabset justified=\"true\" ng-if=\"hasAccess\">\n" +
     "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
     "        <div ng-show=\"tab.number == 0\">\n" +
     "            <div manage-news-list>\n" +
@@ -926,12 +933,14 @@ angular.module("manageNews/manageNews.tpl.html", []).run(["$templateCache", func
     "        </div>\n" +
     "    </tab>\n" +
     "</tabset>\n" +
-    "");
+    "<div ng-if=\"!hasAccess\">\n" +
+    "    <h3>Sorry, you don't have permissions to edit news</h3>\n" +
+    "</div>");
 }]);
 
 angular.module("manageNews/manageNewsAdmins.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageNews/manageNewsAdmins.tpl.html",
-    "<div class=\"row\" ng-if=\"isAdmin\">\n" +
+    "<div class=\"row\" ng-if=\"userInfo.news.admin\">\n" +
     "    <div class=\"col-md-12\">\n" +
     "        <div class=\"panel panel-default\">\n" +
     "            <div class=\"panel-heading\">\n" +
@@ -948,7 +957,7 @@ angular.module("manageNews/manageNewsAdmins.tpl.html", []).run(["$templateCache"
     "    </div>\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"row\" ng-if=\"!isAdmin\">\n" +
+    "<div class=\"row\" ng-if=\"!userInfo.news.admin\">\n" +
     "    <div class=\"col-md-12\">\n" +
     "        <div class=\"panel panel-default\">\n" +
     "            <div class=\"panel-heading\">\n" +
@@ -1152,10 +1161,10 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                        </div>\n" +
     "                        <div class=\"col-md-2 text-right\">\n" +
     "                            <button type=\"button\" class=\"btn btn-danger\" ng-click=\"approveNews(news)\"\n" +
-    "                                    ng-if=\"news.status == 0 && isAdmin\">\n" +
+    "                                    ng-if=\"news.status == 0 && userInfo.news.admin\">\n" +
     "                                Approve\n" +
     "                            </button>\n" +
-    "                            <span ng-if=\"news.status == 0 && !isAdmin\">Approval Pending</span>\n" +
+    "                            <span ng-if=\"news.status == 0 && !userInfo.news.admin\">Approval Pending</span>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                    <form name=\"editNewsExh{{news.nid}}\" ng-submit=\"updateNews(news)\" ng-if=\"news.show\">\n" +
@@ -1192,7 +1201,7 @@ angular.module("manageOneSearch/mainOneSearch.tpl.html", []).run(["$templateCach
   $templateCache.put("manageOneSearch/mainOneSearch.tpl.html",
     "<h2>Manage OneSearch</h2>\n" +
     "\n" +
-    "<tabset justified=\"true\">\n" +
+    "<tabset justified=\"true\" ng-if=\"hasAccess\">\n" +
     "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
     "        <div ng-if=\"tab.number == 0\">\n" +
     "            <div recommended-links-list>\n" +
@@ -1203,7 +1212,10 @@ angular.module("manageOneSearch/mainOneSearch.tpl.html", []).run(["$templateCach
     "            </div>\n" +
     "        </div>\n" +
     "    </tab>\n" +
-    "</tabset>");
+    "</tabset>\n" +
+    "<div ng-if=\"!hasAccess\">\n" +
+    "    <h3>Sorry, you don't have permissions to manage oneSearch</h3>\n" +
+    "</div>");
 }]);
 
 angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -1361,7 +1373,7 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
   $templateCache.put("manageSoftware/manageSoftware.tpl.html",
     "<h2>Manage Software</h2>\n" +
     "\n" +
-    "<tabset justified=\"true\">\n" +
+    "<tabset justified=\"true\" ng-if=\"hasAccess\">\n" +
     "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
     "        <div ng-if=\"tab.number == 0\">\n" +
     "            <div software-manage-list>\n" +
@@ -1377,7 +1389,9 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "        </div>\n" +
     "    </tab>\n" +
     "</tabset>\n" +
-    "");
+    "<div ng-if=\"!hasAccess\">\n" +
+    "    <h3>Sorry, you don't have permissions to edit software</h3>\n" +
+    "</div>");
 }]);
 
 angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -2123,7 +2137,7 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
   $templateCache.put("manageUserGroups/manageUG.tpl.html",
     "<h2>Web Applications Admin Interface</h2>\n" +
     "\n" +
-    "<tabset justified=\"true\">\n" +
+    "<tabset justified=\"true\" ng-if=\"hasAccess\">\n" +
     "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
     "        <div ng-show=\"tab.number == 0\">\n" +
     "            <table class=\"table table-hover table-condensed\">\n" +
@@ -2174,7 +2188,7 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
     "                </tr>\n" +
     "                <tr>\n" +
     "                    <td colspan=\"2\">\n" +
-    "                        <select class=\"form-control\" ng-model=\"newUser\" ng-options=\"user.fullName for user in wpUsers | orderBy:'name'\">\n" +
+    "                        <select class=\"form-control\" ng-model=\"newUser\" ng-options=\"wpUser.fullName for wpUser in wpUsers | orderBy:'last_name'\">\n" +
     "                        </select>\n" +
     "                    </td>\n" +
     "                    <td>\n" +
@@ -2210,42 +2224,37 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
     "        </div>\n" +
     "    </tab>\n" +
     "</tabset>\n" +
-    "");
+    "<div ng-if=\"!hasAccess\">\n" +
+    "    <div view-my-web-apps>\n" +
+    "    </div>\n" +
+    "</div>");
 }]);
 
 angular.module("manageUserGroups/viewMyWebApps.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageUserGroups/viewMyWebApps.tpl.html",
-    "<h2>My Web Applications</h2>\n" +
+    "<h3>My Web Applications</h3>\n" +
     "\n" +
-    "<div class=\"form-group\">\n" +
+    "<div class=\"form-group\" ng-if=\"appsAccess\">\n" +
     "    <label for=\"webapps\">Web Application Back-End access links</label>\n" +
     "    <ul class=\"list-group\" id=\"webapps\">\n" +
     "        <li class=\"list-group-item\">\n" +
     "            <a href=\"/edit-directory-profile/\">Edit my Directory Profile</a>\n" +
     "        </li>\n" +
-    "        <li class=\"list-group-item\" ng-repeat=\"app in apps\">\n" +
+    "        <li class=\"list-group-item\" ng-repeat=\"app in userInfo.myApps\">\n" +
     "            <a ng-href=\"{{app.link}}\">{{app.appName}}</a>\n" +
     "        </li>\n" +
     "    </ul>\n" +
-    "</div>");
-}]);
-
-angular.module("siteFeedback/siteFeedback.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("siteFeedback/siteFeedback.tpl.html",
-    "<h3>Received Feedback <small>Test</small></h3>\n" +
-    "\n" +
-    "<div ng-if=\"userInfo.login\">\n" +
-    "    <p>Hello! {{userInfo.name}}!</p>\n" +
-    "    <p>Access to groups {{userInfo.group}}</p>\n" +
     "</div>\n" +
-    "");
+    "<div ng-if=\"!appsAccess\">\n" +
+    "    <h4>Sorry, you have to be logged in to manage applications</h4>\n" +
+    "</div>");
 }]);
 
 angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("staffDirectory/staffDirectory.tpl.html",
     "<h2>Library Staff Directory Management</h2>\n" +
     "\n" +
-    "<tabset justified=\"true\">\n" +
+    "<tabset justified=\"true\" ng-if=\"hasAccess\">\n" +
     "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
     "        <div ng-if=\"tab.number == 0\">\n" +
     "            <div manage-sd-people>\n" +
@@ -2261,7 +2270,9 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "        </div>\n" +
     "    </tab>\n" +
     "</tabset>\n" +
-    "\n" +
+    "<div ng-if=\"!hasAccess\">\n" +
+    "    <h3>Sorry, you don't have permissions to manage staff directory</h3>\n" +
+    "</div>\n" +
     "");
 }]);
 
@@ -2838,7 +2849,7 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
   $templateCache.put("submittedForms/submittedForms.tpl.html",
     "<h2>Manage Submitted Forms</h2>\n" +
     "\n" +
-    "<div>\n" +
+    "<div ng-if=\"hasAccess\">\n" +
     "    <div class=\"row form-inline\">\n" +
     "        <div class=\"form-group col-md-12\">\n" +
     "            <label for=\"filterBy\">Filter <small>{{filteredForms.length}}</small> results by</label>\n" +
@@ -2908,15 +2919,17 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
+    "    <div class=\"text-center\">\n" +
+    "        <pagination total-items=\"filteredForms.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredForms.length > 0\"></pagination>\n" +
+    "    </div>\n" +
+    "    <div class=\"text-center\">\n" +
+    "        <h4 ng-show=\"filteredForms.length == 0\">Nothing found</h4>\n" +
+    "    </div>\n" +
     "</div>\n" +
-    "<div class=\"text-center\">\n" +
-    "    <pagination total-items=\"filteredForms.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
-    "                boundary-links=\"true\" rotate=\"false\" items-per-page=\"perPage\" ng-show=\"filteredForms.length > 0\"></pagination>\n" +
-    "</div>\n" +
-    "<div class=\"text-center\">\n" +
-    "    <h4 ng-show=\"filteredForms.length == 0\">Nothing found</h4>\n" +
-    "</div>\n" +
-    "");
+    "<div ng-if=\"!hasAccess\">\n" +
+    "    <h3>Sorry, you don't have permissions to manage submitted forms</h3>\n" +
+    "</div>");
 }]);
 
 angular.module('manage', [
@@ -2956,6 +2969,7 @@ angular.module('common.manage', [])
     .constant('API', 'https://wwwdev2.lib.ua.edu/wp-json/wp/v2/')
 
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+        //interceptor for WordPress nonce headers
         $httpProvider.interceptors.push([function() {
             return {
                 'request': function(config) {
@@ -2970,6 +2984,8 @@ angular.module('common.manage', [])
                 }
             };
         }]);
+
+        //interceptor for UALib JWT tokens
         $httpProvider.interceptors.push('AuthInterceptor');
     }])
 
@@ -3027,26 +3043,6 @@ angular.module('common.manage', [])
         };
     }])
 
-    .factory('tokenFactory', ['$http', function tokenFactory($http){
-        return function(tokenName){
-            var cookies;
-            this.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
-                c = document.cookie.split('; ');
-                cookies = {};
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-                return cookies[name];
-            };
-            var header = {};
-            header["X-" + tokenName] = this.GetCookie(tokenName);
-            $http.defaults.headers.get = header;
-            $http.defaults.headers.post = header;
-        };
-    }])
-
     .factory('hmFactory', ['$http', 'HOURS_MANAGE_URL', function hmFactory($http, url){
         return {
             getData: function(pPoint){
@@ -3060,6 +3056,9 @@ angular.module('common.manage', [])
     }])
     .factory('ugFactory', ['$http', 'USER_GROUPS_URL', function ugFactory($http, url){
         return {
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/users", params: {}})
+            },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url, params: params, data: data})
@@ -3149,17 +3148,41 @@ angular.module('common.manage', [])
             }
         };
     }])
-    .factory('wpTestFactory', ['$http', 'API', function wpTestFactory($http, API){
+    .factory('wpUsersFactory', ['$http', 'API', function wpUsersFactory($http, API){
         return {
-            getCurrentUser : function(){
-                return $http.get(API + 'users/me');
-            },
-            getUserDetails : function(id, group){
-                return $http.get(API + 'users/'+ id , {context: 'edit'});
+            getAllUsersWP : function(){
+                return $http.get(API + 'users');
             }
         };
-    }]);
+    }])
 
+    .service('tokenReceiver', ['$http', 'API', function($http, API){
+        this.promise = null;
+        function makeRequest() {
+            return $http.get(API + 'users/me')
+                .then(function(r1){
+                    if (angular.isDefined(r1.data.id)) {
+                        $http.get(API + 'users/' + r1.data.id, {context: 'edit'})
+                            .then(function (r2) {
+                                return r2.data;
+                            });
+                    }
+                });
+        }
+        this.getPromise = function(update){
+            if (update || !this.promise) {
+                this.promise = makeRequest();
+            }
+            return this.promise;
+        };
+    }])
+
+    .run(['$rootScope', 'tokenReceiver', '$location', 'AuthService',
+    function($rootScope, tokenReceiver, $location, AuthService) {
+        $rootScope.userInfo = {};
+        $rootScope.userInfo = AuthService.isAuthorized();
+
+    }]);
 
 angular.module('manage.manageAlerts', [])
     .constant('TYPES', [
@@ -3167,9 +3190,22 @@ angular.module('manage.manageAlerts', [])
         {name:'Warning', value:1},
         {name:'Danger', value:2}
     ])
+    .constant('ALERTS_GROUP', 512)
 
-    .controller('manageAlertsCtrl', ['$scope', 'tokenFactory', 'alertFactory', 'TYPES',
-    function manageAlertsCtrl($scope, tokenFactory, alertFactory, TYPES){
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-alerts', {
+            controller: 'manageAlertsCtrl',
+            templateUrl: 'manageAlerts/manageAlerts.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('manageAlertsCtrl', ['$scope', 'alertFactory', 'TYPES', 'userData', 'ALERTS_GROUP',
+    function manageAlertsCtrl($scope, alertFactory, TYPES, userData, ALERTS_GROUP){
         $scope.data = {};
         $scope.newAlert = {};
         $scope.newAlert.message = "";
@@ -3202,8 +3238,12 @@ angular.module('manage.manageAlerts', [])
         $scope.maxPageSize = 10;
         $scope.perPage = 20;
 
-        tokenFactory("CSRF-libAlerts");
-
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & ALERTS_GROUP === ALERTS_GROUP) {
+                $scope.hasAccess = true;
+            }
+        }
         alertFactory.getData("all")
             .success(function(data) {
                 console.dir(data);
@@ -3315,33 +3355,6 @@ angular.module('manage.manageAlerts', [])
         };
     }])
 
-    .directive('manageAlertsMain', ['$animate', function($animate) {
-        return {
-            restrict: 'AC',
-            scope: {},
-            controller: 'manageAlertsCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'data.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("Alerts data loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'manageAlerts/manageAlerts.tpl.html'
-        };
-    }])
     .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
@@ -3396,8 +3409,21 @@ angular.module('manage.manageAlerts', [])
 
 
 angular.module('manage.manageDatabases', [])
-    .controller('manageDBCtrl', ['$scope', '$window', 'tokenFactory', 'mdbFactory',
-        function manageDBCtrl($scope, $window, tokenFactory, mdbFactory){
+    .constant('DATABASES_GROUP', 32)
+
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-databases', {
+            controller: 'manageDBCtrl',
+            templateUrl: 'manageDatabases/manageDatabases.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+    .controller('manageDBCtrl', ['$scope', 'mdbFactory', 'userData', 'DATABASES_GROUP',
+        function manageDBCtrl($scope, mdbFactory, userData, DATABASES_GROUP){
             $scope.DBList = {};
             $scope.titleFilter = '';
             $scope.titleStartFilter = '';
@@ -3421,7 +3447,6 @@ angular.module('manage.manageDatabases', [])
                 ];
             $scope.sortButton = $scope.sortMode;
             $scope.newDB = {};
-            $scope.newDB.updatedBy = $window.userName;
             $scope.newDB.subjects = [];
             $scope.newDB.types = [];
 
@@ -3434,7 +3459,13 @@ angular.module('manage.manageDatabases', [])
             $scope.fullTextValues = [ "", "A", "N", "P", "S" ];
             $scope.inEDSValues = [ "", "Y", "P" ];
 
-            tokenFactory("CSRF-libDatabases");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & DATABASES_GROUP === DATABASES_GROUP) {
+                    $scope.hasAccess = true;
+                    $scope.newDB.updatedBy = $scope.userInfo.login;
+                }
+            }
 
             mdbFactory.getData()
                 .success(function(data) {
@@ -3688,33 +3719,6 @@ angular.module('manage.manageDatabases', [])
             };
         }])
 
-    .directive('databasesManageList', ['$animate', function($animate) {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'manageDBCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'DBList.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("Databases loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'manageDatabases/manageDatabases.tpl.html'
-        };
-    }])
     .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int
@@ -3767,16 +3771,33 @@ angular.module('manage.manageHours', [])
         {name:'Midnight', value:'2400'}
     ])
     .constant('DP_FORMAT', 'MM/dd/yyyy')
+    .constant('HOURS_GROUP', 2)
 
-    .controller('manageHrsCtrl', ['$scope', '$animate', 'tokenFactory', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT',
-        function manageHrsCtrl($scope, $animate, tokenFactory, hmFactory, hoursFrom, hoursTo, dpFormat){
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-hours', {
+            controller: 'manageHrsCtrl',
+            templateUrl: 'manageSoftware/manageHours.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('manageHrsCtrl', ['$scope', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT', 'userData', 'HOURS_GROUP',
+        function manageHrsCtrl($scope, $animate, hmFactory, hoursFrom, hoursTo, dpFormat, userData, HOURS_GROUP){
             $scope.allowedLibraries = [];
             $scope.format = dpFormat;
             $scope.hrsFrom = hoursFrom;
             $scope.hrsTo = hoursTo;
             $scope.selLib = {};
-
-            tokenFactory("CSRF-libHours");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & HOURS_GROUP === HOURS_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
             $scope.initSemesters = function(semesters){
                 for (var sem = 0; sem < semesters.length; sem++){
@@ -3821,34 +3842,6 @@ angular.module('manage.manageHours', [])
                     number: 1,
                     active: false
                 }];
-    }])
-
-    .directive('manageHours',['$animate', function($animate) {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'manageHrsCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'allowedLibraries',
-                    function(newVal, oldVal){
-                        if (scope.allowedLibraries.totalTime > 0){
-                            $animate.leave(spinner);
-                            console.log("Hours loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'manageHours/manageHours.tpl.html'
-        };
     }])
 
     .controller('semListCtrl', ['$scope', 'hmFactory', function semListCtrl($scope, hmFactory) {
@@ -3964,7 +3957,6 @@ angular.module('manage.manageHours', [])
 
     .directive('semesterList', [ function() {
         return {
-            require: '^manageHours',
             restrict: 'A',
             controller: 'semListCtrl',
             templateUrl: 'manageHours/manageSem.tpl.html'
@@ -4099,7 +4091,6 @@ angular.module('manage.manageHours', [])
     }])
     .directive('exceptionList',[ function() {
         return {
-            require: '^manageHours',
             restrict: 'A',
             controller: 'exListCtrl',
             link: function(scope, elem, attrs) {
@@ -4110,16 +4101,14 @@ angular.module('manage.manageHours', [])
     }])
 
 angular.module('manage.manageHoursUsers', [])
-    .controller('manageHrsUsersCtrl', ['$scope', '$window', '$animate', 'tokenFactory', 'hmFactory',
-        function manageHrsUsersCtrl($scope, $window, $animate, tokenFactory, hmFactory){
+    .controller('manageHrsUsersCtrl', ['$scope', '$window', '$animate', 'hmFactory',
+        function manageHrsUsersCtrl($scope, $window, $animate, hmFactory){
             $scope.isLoading = true;
             $scope.dataUL = {};
             $scope.dataUL.users = [];
             $scope.dataUL.locations = [];
             $scope.user = {};
             $scope.user.name = $window.userName;
-
-            tokenFactory("CSRF-libHours");
 
             hmFactory.getData("users")
                 .success(function(data){
@@ -4298,23 +4287,38 @@ angular.module('manage.manageHoursUsers', [])
     }])
 
 angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
-    .controller('manageNewsCtrl', ['$scope', '$window', 'tokenFactory', 'newsFactory',
-        function manageNewsCtrl($scope, $window, tokenFactory, newsFactory){
+    .constant('NEWS_GROUP', 256)
+
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-news', {
+            controller: 'manageNewsCtrl',
+            templateUrl: 'manageNews/manageNews.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('manageNewsCtrl', ['$scope', '$window', 'newsFactory', 'userData', 'NEWS_GROUP',
+        function manageNewsCtrl($scope, $window, newsFactory, userData, NEWS_GROUP){
             $scope.data = {};
             $scope.newNews = {};
             $scope.newNews.creator = $window.author;
             $scope.newNews.selectedFiles = [];
             $scope.newNews.picFile = [];
-            $scope.isAdmin = false;
-            if (typeof $window.admin !== 'undefined')
-                if ($window.admin === "1")
-                    $scope.isAdmin = true;
             $scope.sortModes = [
                 {by:'title', reverse:false},
                 {by:'created', reverse:true}
             ];
 
-            tokenFactory("CSRF-libNews");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & NEWS_GROUP === NEWS_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
             newsFactory.getData("all")
                 .success(function(data) {
@@ -4353,34 +4357,6 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                     active: false
                 }];
         }])
-
-    .directive('newsExhibitionsMain', ['$animate', function($animate) {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'manageNewsCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'data.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("News data loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'manageNews/manageNews.tpl.html'
-        };
-    }])
 
     .controller('manageNewsListCtrl', ['$scope', '$timeout', 'Upload', 'newsFactory', 'NEWS_URL',
         function manageNewsListCtrl($scope, $timeout, Upload, newsFactory, appURL){
@@ -4781,9 +4757,28 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
 
 
 angular.module('manage.manageOneSearch', [])
+    .constant('ONESEARCH_GROUP', 4)
 
-    .controller('mainOneSearchCtrl', ['$scope',
-        function mainOneSearchCtrl($scope){
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-onesearch', {
+            controller: 'mainOneSearchCtrl',
+            templateUrl: 'manageOneSearch/mainOneSearch.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('mainOneSearchCtrl', ['$scope', 'userData', 'ONESEARCH_GROUP',
+        function mainOneSearchCtrl($scope, userData, ONESEARCH_GROUP){
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & ONESEARCH_GROUP === ONESEARCH_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
             $scope.tabs = [
                 { name: 'Recommended Links',
                     number: 0,
@@ -4796,19 +4791,8 @@ angular.module('manage.manageOneSearch', [])
             ];
         }])
 
-    .directive('manageOneSearchMain', ['$animate', function($animate) {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'mainOneSearchCtrl',
-            link: function(scope, elm, attrs){
-            },
-            templateUrl: 'manageOneSearch/mainOneSearch.tpl.html'
-        };
-    }])
-
-    .controller('manageOneSearchCtrl', ['$scope', 'tokenFactory', 'osFactory',
-        function manageOneSearchCtrl($scope, tokenFactory, osFactory){
+    .controller('manageOneSearchCtrl', ['$scope', 'osFactory',
+        function manageOneSearchCtrl($scope, osFactory){
             $scope.recList = [];
             $scope.addRec = {};
             $scope.addRec.keyword = "";
@@ -4825,8 +4809,6 @@ angular.module('manage.manageOneSearch', [])
                 {by:'description', reverse:false},
                 {by:'link', reverse:false}
             ];
-
-            tokenFactory("CSRF-libOneSearch");
 
             osFactory.getData('reclist')
                 .success(function(data) {
@@ -4897,7 +4879,6 @@ angular.module('manage.manageOneSearch', [])
     .directive('recommendedLinksList', [ function() {
         return {
             restrict: 'AC',
-            scope: {},
             controller: 'manageOneSearchCtrl',
             templateUrl: 'manageOneSearch/manageOneSearch.tpl.html'
         };
@@ -4919,7 +4900,6 @@ angular.module('manage.manageOneSearch', [])
     .directive('searchStatisticsList', [ function() {
         return {
             restrict: 'AC',
-            scope: {},
             controller: 'oneSearchStatCtrl',
             templateUrl: 'manageOneSearch/oneSearchStat.tpl.html'
         };
@@ -4929,14 +4909,31 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         {name:'MS Windows', value:1},
         {name:'Apple Mac', value:2}
     ])
+    .constant('SOFTWARE_GROUP', 64)
 
-    .controller('manageSWCtrl', ['$scope', 'tokenFactory', 'swFactory', 'OS',
-        function manageSWCtrl($scope, tokenFactory, swFactory, OS){
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-software', {
+            controller: 'manageSWCtrl',
+            templateUrl: 'manageSoftware/manageSoftware.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('manageSWCtrl', ['$scope', 'swFactory', 'OS', 'userData', 'SOFTWARE_GROUP',
+        function manageSWCtrl($scope, swFactory, OS, userData, SOFTWARE_GROUP){
             $scope.SWList = {};
             $scope.newSW = {};
             $scope.newComp = {};
-
-            tokenFactory("CSRF-libSoftware");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & SOFTWARE_GROUP === SOFTWARE_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
             swFactory.getData("all/backend")
                 .success(function(data) {
@@ -4990,34 +4987,6 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 }
             ];
         }])
-
-    .directive('manageSoftwareMain', ['$animate', function($animate) {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'manageSWCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'SWList.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("Software loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'manageSoftware/manageSoftware.tpl.html'
-        };
-    }])
 
     .controller('manageSWListCtrl', ['$scope', '$timeout', 'Upload', 'swFactory', 'SOFTWARE_URL', 'OS',
         function manageSWListCtrl($scope, $timeout, Upload, swFactory, appURL, OS){
@@ -5919,16 +5888,61 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
     }]);
 
 angular.module('manage.manageUserGroups', [])
-    .controller('userGroupsCtrl', ['$scope', '$window', 'tokenFactory', 'ugFactory',
-        function userGroupsCtrl($scope, $window, tokenFactory, ugFactory){
+    .constant('USERS_GROUP', 1)
+
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-user-groups', {
+            controller: 'userGroupsCtrl',
+            templateUrl: 'manageUserGroups/manageUG.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('userGroupsCtrl', ['$scope', 'wpUsersFactory', 'ugFactory', 'userData', 'USERS_GROUP',
+    function userGroupsCtrl($scope, wpUsersFactory, ugFactory, userData, USERS_GROUP){
+        $scope.isLoading = true;
         $scope.expUser = -1;
-        $scope.users = $window.users;
-        $scope.apps = $window.apps;
-        $scope.wpUsers = $window.wpUsers;
-        $scope.newUser = $scope.wpUsers[0];
+        $scope.wpUsers = [];
+        $scope.users = [];
+        $scope.apps = [];
         $scope.newUserAccess = [];
-        for (var i = 0; i < $scope.apps.length; i++)
-            $scope.newUserAccess[i] = false;
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & USERS_GROUP === USERS_GROUP) {
+                $scope.hasAccess = true;
+            }
+        }
+        wpUsersFactory.getAllUsersWP()
+            .success(function(data) {
+                for (var i = 0; i < data.length; i++) {
+                    data[i].fullName = data[i].last_name + ", " + data[i].first_name + " (" + data[i].nickname + ")";
+                }
+                $scope.wpUsers = data;
+                $scope.newUser = $scope.wpUsers[0];
+                console.dir(data);
+                ugFactory.getData()
+                    .success(function(data2) {
+                        $scope.users = data2.users;
+                        $scope.apps = data2.apps;
+                        for (i = 0; i < $scope.apps.length; i++)
+                            $scope.newUserAccess[i] = false;
+                        $scope.isLoading = false;
+                        console.dir(data2);
+                    })
+                    .error(function(data2, status, headers, config) {
+                        $scope.result = "Error! Could not retrieve user data! " + data2;
+                        $scope.isLoading = false;
+                        console.dir(data2);
+                    });
+            })
+            .error(function(data, status, headers, config) {
+                $scope.isLoading = false;
+                console.dir(data);
+            });
 
         $scope.tabs = [
             { name: 'Users',
@@ -5945,8 +5959,6 @@ angular.module('manage.manageUserGroups', [])
             {by:'wpLogin', reverse:false},
             {by:'name', reverse:false}
         ];
-
-        tokenFactory("CSRF-libAdmin");
 
         $scope.expandUser = function(user){
             $scope.result = "";
@@ -6032,63 +6044,21 @@ angular.module('manage.manageUserGroups', [])
         };
 
     }])
-    .directive('userGroupsList', [ function() {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'userGroupsCtrl',
-            templateUrl: 'manageUserGroups/manageUG.tpl.html'
-        };
-    }])
-    .controller('myWebAppsCtrl', ['$scope', '$window',
-        function myWebAppsCtrl($scope, $window){
-            $scope.apps = $window.apps;
-            $scope.userName = $window.userName;
+
+    .controller('myWebAppsCtrl', ['$scope',
+        function myWebAppsCtrl($scope){
+            $scope.appsAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                $scope.appsAccess = true;
+            }
         }])
     .directive('viewMyWebApps', [ function() {
         return {
             restrict: 'A',
-            scope: {},
             controller: 'myWebAppsCtrl',
             templateUrl: 'manageUserGroups/viewMyWebApps.tpl.html'
         };
     }])
-angular.module('manage.siteFeedback', [])
-    .controller('siteFeedbackCtrl', ['$scope', 'tokenFactory', 'wpTestFactory', 'AuthService',
-        function siteFeedbackCtrl($scope, tokenFactory, wpTestFactory, AuthService){
-            $scope.responses = [];
-            $scope.userInfo = {};
-
-            console.log("checking current user...");
-            wpTestFactory.getCurrentUser()
-                .success(function(data) {
-                    if (angular.isDefined(data.id)) {
-                        console.log("retrieving current user details...");
-                        wpTestFactory.getUserDetails(data.id)
-                            .success(function (data2) {
-                                console.dir(data2);
-                                $scope.userInfo = AuthService.isAuthorized();
-                            })
-                            .error(function (data, status, headers, config) {
-                                console.log(data);
-                            });
-                    }
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
-
-
-        }])
-    .directive('siteFeedbackList', [ function() {
-        return {
-            restrict: 'AC',
-            scope: {},
-            controller: 'siteFeedbackCtrl',
-            templateUrl: 'siteFeedback/siteFeedback.tpl.html'
-        };
-    }]);
-
 angular.module('manage.staffDirectory', ['ui.tinymce'])
     .constant('STAFF_DIR_RANKS', [
         "",
@@ -6096,9 +6066,22 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
         "Assoc. Prof.",
         "Asst. Prof."
     ])
+    .constant('STAFFDIR_GROUP', 8)
 
-    .controller('staffDirCtrl', ['$scope', 'tokenFactory', 'sdFactory', 'STAFF_DIR_URL',
-        function staffDirCtrl($scope, tokenFactory, sdFactory, appUrl){
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-staff-directory', {
+            controller: 'staffDirCtrl',
+            templateUrl: 'staffDirectory/staffDirectory.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('staffDirCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_URL', 'userData', 'STAFFDIR_GROUP',
+        function staffDirCtrl($scope, sdFactory, appUrl, userData, STAFFDIR_GROUP){
             $scope.Directory = {};
             $scope.newPerson = {};
             $scope.newDept = {};
@@ -6135,7 +6118,12 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
                     $scope.sortMode = by;
             };
 
-            tokenFactory("CSRF-libStaffDir");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & STAFFDIR_GROUP === STAFFDIR_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
             sdFactory.getData()
                 .success(function(data) {
@@ -6183,32 +6171,7 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
                 });
 
         }])
-    .directive('staffDirectoryList', ['$animate', function($animate) {
-        return {
-            restrict: 'AC',
-            scope: {},
-            controller: 'staffDirCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
 
-                var loadingWatcher = scope.$watch(
-                    'Directory',
-                    function(newVal, oldVal){
-                        if (scope.Directory.totalTime > 0){
-                            $animate.leave(spinner);
-                            console.log("Staff Directory loaded");
-                        }
-                    }
-                );
-            },
-            templateUrl: 'staffDirectory/staffDirectory.tpl.html'
-        };
-    }])
     .controller('staffDirPeopleCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_URL',
         function staffDirPeopleCtrl($scope, sdFactory, ranks, appUrl){
             $scope.lastNameFilter = '';
@@ -6614,10 +6577,9 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
         };
     }])
 
-    .controller('staffDirProfileCtrl', ['$scope', 'tokenFactory', 'sdFactory', '$window',
-    function staffDirProfileCtrl($scope, tokenFactory, sdFactory, $window){
+    .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData',
+    function staffDirProfileCtrl($scope, sdFactory, userData){
         $scope.userProfile = {};
-        $scope.login = $window.login;
         $scope.tinymceOptions = {
             onChange: function(e) {
                 // put logic here for keypress and cut/paste changes
@@ -6628,9 +6590,7 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
             theme : 'modern'
         };
 
-        tokenFactory("CSRF-" + $scope.login);
-
-        sdFactory.getProfile($scope.login)
+        sdFactory.getProfile($scope.userInfo.login)
             .success(function(data) {
                 $scope.userProfile = data;
                 console.dir(data);
@@ -6640,7 +6600,7 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
             });
 
         $scope.update = function(){
-            $scope.userProfile.person.login = $scope.login;
+            $scope.userProfile.person.login = $scope.userInfo.login;
             $scope.userProfile.person.formResponse = "";
             sdFactory.postData({action : 18}, $scope.userProfile.person)
                 .success(function(data, status, headers, config) {
@@ -6654,7 +6614,6 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
     .directive('editStaffDirectoryProfile', [ function() {
         return {
             restrict: 'AC',
-            scope: {},
             controller: 'staffDirProfileCtrl',
             link: function(scope, elm, attrs){
             },
@@ -6665,8 +6624,21 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
 
 
 angular.module('manage.submittedForms', ['ngFileUpload'])
-    .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'tokenFactory', 'formFactory',
-        function manageSubFormsCtrl($scope, $timeout, tokenFactory, formFactory){
+    .constant('FORMS_GROUP', 128)
+
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-forms', {
+            controller: 'manageSubFormsCtrl',
+            templateUrl: 'submittedForms/submittedForms.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+    .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'formFactory', 'userData', 'FORMS_GROUP',
+        function manageSubFormsCtrl($scope, $timeout, formFactory, userData, FORMS_GROUP){
             $scope.data = {};
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
@@ -6681,7 +6653,12 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
             $scope.sortButton = $scope.sortMode;
             $scope.mOver = 0;
 
-            tokenFactory("CSRF-libForms");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & FORMS_GROUP === FORMS_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
             formFactory.getData()
                 .success(function(data) {
@@ -6708,33 +6685,6 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
             };
         }])
 
-    .directive('submittedFormsList', ['$animate', function($animate) {
-        return {
-            restrict: 'AC',
-            scope: {},
-            controller: 'manageSubFormsCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'data.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("Forms data loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'submittedForms/submittedForms.tpl.html'
-        };
-    }])
     .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int

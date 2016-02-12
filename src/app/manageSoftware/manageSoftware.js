@@ -3,14 +3,31 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         {name:'MS Windows', value:1},
         {name:'Apple Mac', value:2}
     ])
+    .constant('SOFTWARE_GROUP', 64)
 
-    .controller('manageSWCtrl', ['$scope', 'tokenFactory', 'swFactory', 'OS',
-        function manageSWCtrl($scope, tokenFactory, swFactory, OS){
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-software', {
+            controller: 'manageSWCtrl',
+            templateUrl: 'manageSoftware/manageSoftware.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('manageSWCtrl', ['$scope', 'swFactory', 'OS', 'userData', 'SOFTWARE_GROUP',
+        function manageSWCtrl($scope, swFactory, OS, userData, SOFTWARE_GROUP){
             $scope.SWList = {};
             $scope.newSW = {};
             $scope.newComp = {};
-
-            tokenFactory("CSRF-libSoftware");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & SOFTWARE_GROUP === SOFTWARE_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
             swFactory.getData("all/backend")
                 .success(function(data) {
@@ -64,34 +81,6 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
                 }
             ];
         }])
-
-    .directive('manageSoftwareMain', ['$animate', function($animate) {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'manageSWCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'SWList.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("Software loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'manageSoftware/manageSoftware.tpl.html'
-        };
-    }])
 
     .controller('manageSWListCtrl', ['$scope', '$timeout', 'Upload', 'swFactory', 'SOFTWARE_URL', 'OS',
         function manageSWListCtrl($scope, $timeout, Upload, swFactory, appURL, OS){

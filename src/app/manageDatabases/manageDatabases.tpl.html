@@ -1,6 +1,6 @@
 <h2>Manage Databases</h2>
 
-<div>
+<div ng-if="hasAccess">
     <div class="row form-inline">
         <div class="form-group col-md-12">
             <label for="filterBy">Filter <small>{{filteredDB.length}}</small> results by</label>
@@ -383,4 +383,6 @@
         </div>
     </div>
 </form>
-
+<div ng-if="!hasAccess">
+    <h3>Sorry, you don't have permissions to edit databases</h3>
+</div>

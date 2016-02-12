@@ -1,6 +1,19 @@
 angular.module('manage.manageDatabases', [])
-    .controller('manageDBCtrl', ['$scope', '$window', 'tokenFactory', 'mdbFactory',
-        function manageDBCtrl($scope, $window, tokenFactory, mdbFactory){
+    .constant('DATABASES_GROUP', 32)
+
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-databases', {
+            controller: 'manageDBCtrl',
+            templateUrl: 'manageDatabases/manageDatabases.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+    .controller('manageDBCtrl', ['$scope', 'mdbFactory', 'userData', 'DATABASES_GROUP',
+        function manageDBCtrl($scope, mdbFactory, userData, DATABASES_GROUP){
             $scope.DBList = {};
             $scope.titleFilter = '';
             $scope.titleStartFilter = '';
@@ -24,7 +37,6 @@ angular.module('manage.manageDatabases', [])
                 ];
             $scope.sortButton = $scope.sortMode;
             $scope.newDB = {};
-            $scope.newDB.updatedBy = $window.userName;
             $scope.newDB.subjects = [];
             $scope.newDB.types = [];
 
@@ -37,7 +49,13 @@ angular.module('manage.manageDatabases', [])
             $scope.fullTextValues = [ "", "A", "N", "P", "S" ];
             $scope.inEDSValues = [ "", "Y", "P" ];
 
-            tokenFactory("CSRF-libDatabases");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & DATABASES_GROUP === DATABASES_GROUP) {
+                    $scope.hasAccess = true;
+                    $scope.newDB.updatedBy = $scope.userInfo.login;
+                }
+            }
 
             mdbFactory.getData()
                 .success(function(data) {
@@ -291,33 +309,6 @@ angular.module('manage.manageDatabases', [])
             };
         }])
 
-    .directive('databasesManageList', ['$animate', function($animate) {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'manageDBCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'DBList.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("Databases loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'manageDatabases/manageDatabases.tpl.html'
-        };
-    }])
     .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int

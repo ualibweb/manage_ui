@@ -1,6 +1,6 @@
 <h2>Manage Submitted Forms</h2>
 
-<div>
+<div ng-if="hasAccess">
     <div class="row form-inline">
         <div class="form-group col-md-12">
             <label for="filterBy">Filter <small>{{filteredForms.length}}</small> results by</label>
@@ -70,11 +70,14 @@
             </div>
         </div>
     </div>
+    <div class="text-center">
+        <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredForms.length > 0"></pagination>
+    </div>
+    <div class="text-center">
+        <h4 ng-show="filteredForms.length == 0">Nothing found</h4>
+    </div>
 </div>
-<div class="text-center">
-    <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredForms.length > 0"></pagination>
-</div>
-<div class="text-center">
-    <h4 ng-show="filteredForms.length == 0">Nothing found</h4>
+<div ng-if="!hasAccess">
+    <h3>Sorry, you don't have permissions to manage submitted forms</h3>
 </div>

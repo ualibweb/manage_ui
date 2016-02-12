@@ -1,13 +1,16 @@
-<h2>My Web Applications</h2>
+<h3>My Web Applications</h3>
 
-<div class="form-group">
+<div class="form-group" ng-if="appsAccess">
     <label for="webapps">Web Application Back-End access links</label>
     <ul class="list-group" id="webapps">
         <li class="list-group-item">
             <a href="/edit-directory-profile/">Edit my Directory Profile</a>
         </li>
-        <li class="list-group-item" ng-repeat="app in apps">
+        <li class="list-group-item" ng-repeat="app in userInfo.myApps">
             <a ng-href="{{app.link}}">{{app.appName}}</a>
         </li>
     </ul>
+</div>
+<div ng-if="!appsAccess">
+    <h4>Sorry, you have to be logged in to manage applications</h4>
 </div>

@@ -1,6 +1,6 @@
 <h2>Manage Website Alerts</h2>
 
-<div>
+<div ng-if="hasAccess">
     <h3>Add New Alert</h3>
     <form ng-submit="createAlert(newAlert)">
         <div class="sdOpen">
@@ -117,4 +117,7 @@
         <pagination total-items="filteredList.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
                     boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredList.length > perPage"></pagination>
     </div>
+</div>
+<div ng-if="!hasAccess">
+    <h3>Sorry, you don't have permissions to edit alerts</h3>
 </div>

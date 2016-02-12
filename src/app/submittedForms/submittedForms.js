@@ -1,6 +1,19 @@
 angular.module('manage.submittedForms', ['ngFileUpload'])
-    .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'tokenFactory', 'formFactory',
-        function manageSubFormsCtrl($scope, $timeout, tokenFactory, formFactory){
+    .constant('FORMS_GROUP', 128)
+
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-forms', {
+            controller: 'manageSubFormsCtrl',
+            templateUrl: 'submittedForms/submittedForms.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+    .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'formFactory', 'userData', 'FORMS_GROUP',
+        function manageSubFormsCtrl($scope, $timeout, formFactory, userData, FORMS_GROUP){
             $scope.data = {};
             $scope.currentPage = 1;
             $scope.maxPageSize = 10;
@@ -15,7 +28,12 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
             $scope.sortButton = $scope.sortMode;
             $scope.mOver = 0;
 
-            tokenFactory("CSRF-libForms");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & FORMS_GROUP === FORMS_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
             formFactory.getData()
                 .success(function(data) {
@@ -42,33 +60,6 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
             };
         }])
 
-    .directive('submittedFormsList', ['$animate', function($animate) {
-        return {
-            restrict: 'AC',
-            scope: {},
-            controller: 'manageSubFormsCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'data.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("Forms data loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'submittedForms/submittedForms.tpl.html'
-        };
-    }])
     .filter('startFrom', [ function() {
         return function(input, start) {
             start = +start; //parse to int

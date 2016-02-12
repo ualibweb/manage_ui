@@ -1,6 +1,6 @@
 <h2>Manage OneSearch</h2>
 
-<tabset justified="true">
+<tabset justified="true" ng-if="hasAccess">
     <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
         <div ng-if="tab.number == 0">
             <div recommended-links-list>
@@ -12,3 +12,6 @@
         </div>
     </tab>
 </tabset>
+<div ng-if="!hasAccess">
+    <h3>Sorry, you don't have permissions to manage oneSearch</h3>
+</div>

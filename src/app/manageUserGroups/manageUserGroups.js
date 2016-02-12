@@ -1,14 +1,59 @@
 angular.module('manage.manageUserGroups', [])
-    .controller('userGroupsCtrl', ['$scope', '$window', 'tokenFactory', 'ugFactory',
-        function userGroupsCtrl($scope, $window, tokenFactory, ugFactory){
+    .constant('USERS_GROUP', 1)
+
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-user-groups', {
+            controller: 'userGroupsCtrl',
+            templateUrl: 'manageUserGroups/manageUG.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('userGroupsCtrl', ['$scope', 'wpUsersFactory', 'ugFactory', 'userData', 'USERS_GROUP',
+    function userGroupsCtrl($scope, wpUsersFactory, ugFactory, userData, USERS_GROUP){
+        $scope.isLoading = true;
         $scope.expUser = -1;
-        $scope.users = $window.users;
-        $scope.apps = $window.apps;
-        $scope.wpUsers = $window.wpUsers;
-        $scope.newUser = $scope.wpUsers[0];
+        $scope.wpUsers = [];
+        $scope.users = [];
+        $scope.apps = [];
         $scope.newUserAccess = [];
-        for (var i = 0; i < $scope.apps.length; i++)
-            $scope.newUserAccess[i] = false;
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & USERS_GROUP === USERS_GROUP) {
+                $scope.hasAccess = true;
+            }
+        }
+        wpUsersFactory.getAllUsersWP()
+            .success(function(data) {
+                for (var i = 0; i < data.length; i++) {
+                    data[i].fullName = data[i].last_name + ", " + data[i].first_name + " (" + data[i].nickname + ")";
+                }
+                $scope.wpUsers = data;
+                $scope.newUser = $scope.wpUsers[0];
+                console.dir(data);
+                ugFactory.getData()
+                    .success(function(data2) {
+                        $scope.users = data2.users;
+                        $scope.apps = data2.apps;
+                        for (i = 0; i < $scope.apps.length; i++)
+                            $scope.newUserAccess[i] = false;
+                        $scope.isLoading = false;
+                        console.dir(data2);
+                    })
+                    .error(function(data2, status, headers, config) {
+                        $scope.result = "Error! Could not retrieve user data! " + data2;
+                        $scope.isLoading = false;
+                        console.dir(data2);
+                    });
+            })
+            .error(function(data, status, headers, config) {
+                $scope.isLoading = false;
+                console.dir(data);
+            });
 
         $scope.tabs = [
             { name: 'Users',
@@ -25,8 +70,6 @@ angular.module('manage.manageUserGroups', [])
             {by:'wpLogin', reverse:false},
             {by:'name', reverse:false}
         ];
-
-        tokenFactory("CSRF-libAdmin");
 
         $scope.expandUser = function(user){
             $scope.result = "";
@@ -112,23 +155,17 @@ angular.module('manage.manageUserGroups', [])
         };
 
     }])
-    .directive('userGroupsList', [ function() {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'userGroupsCtrl',
-            templateUrl: 'manageUserGroups/manageUG.tpl.html'
-        };
-    }])
-    .controller('myWebAppsCtrl', ['$scope', '$window',
-        function myWebAppsCtrl($scope, $window){
-            $scope.apps = $window.apps;
-            $scope.userName = $window.userName;
+
+    .controller('myWebAppsCtrl', ['$scope',
+        function myWebAppsCtrl($scope){
+            $scope.appsAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                $scope.appsAccess = true;
+            }
         }])
     .directive('viewMyWebApps', [ function() {
         return {
             restrict: 'A',
-            scope: {},
             controller: 'myWebAppsCtrl',
             templateUrl: 'manageUserGroups/viewMyWebApps.tpl.html'
         };

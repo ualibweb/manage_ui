@@ -5,9 +5,22 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
         "Assoc. Prof.",
         "Asst. Prof."
     ])
+    .constant('STAFFDIR_GROUP', 8)
 
-    .controller('staffDirCtrl', ['$scope', 'tokenFactory', 'sdFactory', 'STAFF_DIR_URL',
-        function staffDirCtrl($scope, tokenFactory, sdFactory, appUrl){
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-staff-directory', {
+            controller: 'staffDirCtrl',
+            templateUrl: 'staffDirectory/staffDirectory.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('staffDirCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_URL', 'userData', 'STAFFDIR_GROUP',
+        function staffDirCtrl($scope, sdFactory, appUrl, userData, STAFFDIR_GROUP){
             $scope.Directory = {};
             $scope.newPerson = {};
             $scope.newDept = {};
@@ -44,7 +57,12 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
                     $scope.sortMode = by;
             };
 
-            tokenFactory("CSRF-libStaffDir");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & STAFFDIR_GROUP === STAFFDIR_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
             sdFactory.getData()
                 .success(function(data) {
@@ -92,32 +110,7 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
                 });
 
         }])
-    .directive('staffDirectoryList', ['$animate', function($animate) {
-        return {
-            restrict: 'AC',
-            scope: {},
-            controller: 'staffDirCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
 
-                var loadingWatcher = scope.$watch(
-                    'Directory',
-                    function(newVal, oldVal){
-                        if (scope.Directory.totalTime > 0){
-                            $animate.leave(spinner);
-                            console.log("Staff Directory loaded");
-                        }
-                    }
-                );
-            },
-            templateUrl: 'staffDirectory/staffDirectory.tpl.html'
-        };
-    }])
     .controller('staffDirPeopleCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_URL',
         function staffDirPeopleCtrl($scope, sdFactory, ranks, appUrl){
             $scope.lastNameFilter = '';
@@ -523,10 +516,9 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
         };
     }])
 
-    .controller('staffDirProfileCtrl', ['$scope', 'tokenFactory', 'sdFactory', '$window',
-    function staffDirProfileCtrl($scope, tokenFactory, sdFactory, $window){
+    .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData',
+    function staffDirProfileCtrl($scope, sdFactory, userData){
         $scope.userProfile = {};
-        $scope.login = $window.login;
         $scope.tinymceOptions = {
             onChange: function(e) {
                 // put logic here for keypress and cut/paste changes
@@ -537,9 +529,7 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
             theme : 'modern'
         };
 
-        tokenFactory("CSRF-" + $scope.login);
-
-        sdFactory.getProfile($scope.login)
+        sdFactory.getProfile($scope.userInfo.login)
             .success(function(data) {
                 $scope.userProfile = data;
                 console.dir(data);
@@ -549,7 +539,7 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
             });
 
         $scope.update = function(){
-            $scope.userProfile.person.login = $scope.login;
+            $scope.userProfile.person.login = $scope.userInfo.login;
             $scope.userProfile.person.formResponse = "";
             sdFactory.postData({action : 18}, $scope.userProfile.person)
                 .success(function(data, status, headers, config) {
@@ -563,7 +553,6 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
     .directive('editStaffDirectoryProfile', [ function() {
         return {
             restrict: 'AC',
-            scope: {},
             controller: 'staffDirProfileCtrl',
             link: function(scope, elm, attrs){
             },

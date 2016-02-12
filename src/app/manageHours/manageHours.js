@@ -41,16 +41,33 @@ angular.module('manage.manageHours', [])
         {name:'Midnight', value:'2400'}
     ])
     .constant('DP_FORMAT', 'MM/dd/yyyy')
+    .constant('HOURS_GROUP', 2)
 
-    .controller('manageHrsCtrl', ['$scope', '$animate', 'tokenFactory', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT',
-        function manageHrsCtrl($scope, $animate, tokenFactory, hmFactory, hoursFrom, hoursTo, dpFormat){
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-hours', {
+            controller: 'manageHrsCtrl',
+            templateUrl: 'manageSoftware/manageHours.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('manageHrsCtrl', ['$scope', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT', 'userData', 'HOURS_GROUP',
+        function manageHrsCtrl($scope, $animate, hmFactory, hoursFrom, hoursTo, dpFormat, userData, HOURS_GROUP){
             $scope.allowedLibraries = [];
             $scope.format = dpFormat;
             $scope.hrsFrom = hoursFrom;
             $scope.hrsTo = hoursTo;
             $scope.selLib = {};
-
-            tokenFactory("CSRF-libHours");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & HOURS_GROUP === HOURS_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
             $scope.initSemesters = function(semesters){
                 for (var sem = 0; sem < semesters.length; sem++){
@@ -95,34 +112,6 @@ angular.module('manage.manageHours', [])
                     number: 1,
                     active: false
                 }];
-    }])
-
-    .directive('manageHours',['$animate', function($animate) {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'manageHrsCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'allowedLibraries',
-                    function(newVal, oldVal){
-                        if (scope.allowedLibraries.totalTime > 0){
-                            $animate.leave(spinner);
-                            console.log("Hours loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'manageHours/manageHours.tpl.html'
-        };
     }])
 
     .controller('semListCtrl', ['$scope', 'hmFactory', function semListCtrl($scope, hmFactory) {
@@ -238,7 +227,6 @@ angular.module('manage.manageHours', [])
 
     .directive('semesterList', [ function() {
         return {
-            require: '^manageHours',
             restrict: 'A',
             controller: 'semListCtrl',
             templateUrl: 'manageHours/manageSem.tpl.html'
@@ -373,7 +361,6 @@ angular.module('manage.manageHours', [])
     }])
     .directive('exceptionList',[ function() {
         return {
-            require: '^manageHours',
             restrict: 'A',
             controller: 'exListCtrl',
             link: function(scope, elem, attrs) {

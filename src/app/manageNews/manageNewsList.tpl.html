@@ -80,10 +80,10 @@
                         </div>
                         <div class="col-md-2 text-right">
                             <button type="button" class="btn btn-danger" ng-click="approveNews(news)"
-                                    ng-if="news.status == 0 && isAdmin">
+                                    ng-if="news.status == 0 && userInfo.news.admin">
                                 Approve
                             </button>
-                            <span ng-if="news.status == 0 && !isAdmin">Approval Pending</span>
+                            <span ng-if="news.status == 0 && !userInfo.news.admin">Approval Pending</span>
                         </div>
                     </div>
                     <form name="editNewsExh{{news.nid}}" ng-submit="updateNews(news)" ng-if="news.show">

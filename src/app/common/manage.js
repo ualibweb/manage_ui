@@ -2,6 +2,7 @@ angular.module('common.manage', [])
     .constant('API', 'https://wwwdev2.lib.ua.edu/wp-json/wp/v2/')
 
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+        //interceptor for WordPress nonce headers
         $httpProvider.interceptors.push([function() {
             return {
                 'request': function(config) {
@@ -16,6 +17,8 @@ angular.module('common.manage', [])
                 }
             };
         }]);
+
+        //interceptor for UALib JWT tokens
         $httpProvider.interceptors.push('AuthInterceptor');
     }])
 
@@ -73,26 +76,6 @@ angular.module('common.manage', [])
         };
     }])
 
-    .factory('tokenFactory', ['$http', function tokenFactory($http){
-        return function(tokenName){
-            var cookies;
-            this.GetCookie = function (name,c,C,i){
-                if(cookies){ return cookies[name]; }
-                c = document.cookie.split('; ');
-                cookies = {};
-                for(i=c.length-1; i>=0; i--){
-                    C = c[i].split('=');
-                    cookies[C[0]] = C[1];
-                }
-                return cookies[name];
-            };
-            var header = {};
-            header["X-" + tokenName] = this.GetCookie(tokenName);
-            $http.defaults.headers.get = header;
-            $http.defaults.headers.post = header;
-        };
-    }])
-
     .factory('hmFactory', ['$http', 'HOURS_MANAGE_URL', function hmFactory($http, url){
         return {
             getData: function(pPoint){
@@ -106,6 +89,9 @@ angular.module('common.manage', [])
     }])
     .factory('ugFactory', ['$http', 'USER_GROUPS_URL', function ugFactory($http, url){
         return {
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/users", params: {}})
+            },
             postData: function(params, data){
                 params = angular.isDefined(params) ? params : {};
                 return $http({method: 'POST', url: url, params: params, data: data})
@@ -195,14 +181,38 @@ angular.module('common.manage', [])
             }
         };
     }])
-    .factory('wpTestFactory', ['$http', 'API', function wpTestFactory($http, API){
+    .factory('wpUsersFactory', ['$http', 'API', function wpUsersFactory($http, API){
         return {
-            getCurrentUser : function(){
-                return $http.get(API + 'users/me');
-            },
-            getUserDetails : function(id, group){
-                return $http.get(API + 'users/'+ id , {context: 'edit'});
+            getAllUsersWP : function(){
+                return $http.get(API + 'users');
             }
         };
-    }]);
+    }])
 
+    .service('tokenReceiver', ['$http', 'API', function($http, API){
+        this.promise = null;
+        function makeRequest() {
+            return $http.get(API + 'users/me')
+                .then(function(r1){
+                    if (angular.isDefined(r1.data.id)) {
+                        $http.get(API + 'users/' + r1.data.id, {context: 'edit'})
+                            .then(function (r2) {
+                                return r2.data;
+                            });
+                    }
+                });
+        }
+        this.getPromise = function(update){
+            if (update || !this.promise) {
+                this.promise = makeRequest();
+            }
+            return this.promise;
+        };
+    }])
+
+    .run(['$rootScope', 'tokenReceiver', '$location', 'AuthService',
+    function($rootScope, tokenReceiver, $location, AuthService) {
+        $rootScope.userInfo = {};
+        $rootScope.userInfo = AuthService.isAuthorized();
+
+    }]);

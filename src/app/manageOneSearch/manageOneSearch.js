@@ -1,7 +1,26 @@
 angular.module('manage.manageOneSearch', [])
+    .constant('ONESEARCH_GROUP', 4)
 
-    .controller('mainOneSearchCtrl', ['$scope',
-        function mainOneSearchCtrl($scope){
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-onesearch', {
+            controller: 'mainOneSearchCtrl',
+            templateUrl: 'manageOneSearch/mainOneSearch.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('mainOneSearchCtrl', ['$scope', 'userData', 'ONESEARCH_GROUP',
+        function mainOneSearchCtrl($scope, userData, ONESEARCH_GROUP){
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & ONESEARCH_GROUP === ONESEARCH_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
             $scope.tabs = [
                 { name: 'Recommended Links',
                     number: 0,
@@ -14,19 +33,8 @@ angular.module('manage.manageOneSearch', [])
             ];
         }])
 
-    .directive('manageOneSearchMain', ['$animate', function($animate) {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'mainOneSearchCtrl',
-            link: function(scope, elm, attrs){
-            },
-            templateUrl: 'manageOneSearch/mainOneSearch.tpl.html'
-        };
-    }])
-
-    .controller('manageOneSearchCtrl', ['$scope', 'tokenFactory', 'osFactory',
-        function manageOneSearchCtrl($scope, tokenFactory, osFactory){
+    .controller('manageOneSearchCtrl', ['$scope', 'osFactory',
+        function manageOneSearchCtrl($scope, osFactory){
             $scope.recList = [];
             $scope.addRec = {};
             $scope.addRec.keyword = "";
@@ -43,8 +51,6 @@ angular.module('manage.manageOneSearch', [])
                 {by:'description', reverse:false},
                 {by:'link', reverse:false}
             ];
-
-            tokenFactory("CSRF-libOneSearch");
 
             osFactory.getData('reclist')
                 .success(function(data) {
@@ -115,7 +121,6 @@ angular.module('manage.manageOneSearch', [])
     .directive('recommendedLinksList', [ function() {
         return {
             restrict: 'AC',
-            scope: {},
             controller: 'manageOneSearchCtrl',
             templateUrl: 'manageOneSearch/manageOneSearch.tpl.html'
         };
@@ -137,7 +142,6 @@ angular.module('manage.manageOneSearch', [])
     .directive('searchStatisticsList', [ function() {
         return {
             restrict: 'AC',
-            scope: {},
             controller: 'oneSearchStatCtrl',
             templateUrl: 'manageOneSearch/oneSearchStat.tpl.html'
         };

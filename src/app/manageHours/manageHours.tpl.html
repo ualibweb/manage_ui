@@ -2,31 +2,34 @@
     Manage Hours <small>{{selLib.name}}</small>
 </h2>
 
-<div class="row">
-    <div class="col-md-4 form-group">
-        <select class="form-control" ng-model="selLib" ng-options="lib.name for lib in allowedLibraries.libraries">
-        </select>
+<div ng-if="hasAccess">
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <select class="form-control" ng-model="selLib" ng-options="lib.name for lib in allowedLibraries.libraries">
+            </select>
+        </div>
     </div>
-</div>
-
-<div class="alert alert-warning" role="alert">
-    <span class="fa fa-exclamation-triangle"></span> Warning: Please use exceptions in order to create periods with the non
-    standard hours (for example, Finals week).
-</div>
-<div class="alert alert-info" role="alert">
-    <span class="fa fa-info-circle"></span> Note: set <strong>From</strong> and <strong>To</strong> hours to
-    <strong>Midnight</strong> in order to indicate <strong>Open 24 hours</strong>.
-</div>
-
-<tabset justified="true">
-    <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
-        <div ng-if="tab.number == 0">
-            <div semester-list>
+    <div class="alert alert-warning" role="alert">
+        <span class="fa fa-exclamation-triangle"></span> Warning: Please use exceptions in order to create periods with the non
+        standard hours (for example, Finals week).
+    </div>
+    <div class="alert alert-info" role="alert">
+        <span class="fa fa-info-circle"></span> Note: set <strong>From</strong> and <strong>To</strong> hours to
+        <strong>Midnight</strong> in order to indicate <strong>Open 24 hours</strong>.
+    </div>
+    <tabset justified="true">
+        <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
+            <div ng-if="tab.number == 0">
+                <div semester-list semesters="allowedLibraries.sem">
+                </div>
             </div>
-        </div>
-        <div ng-if="tab.number == 1" >
-            <div exception-list>
+            <div ng-if="tab.number == 1" >
+                <div exception-list exceptions="allowedLibraries.exc">
+                </div>
             </div>
-        </div>
-    </tab>
-</tabset>
+        </tab>
+    </tabset>
+</div>
+<div ng-if="!hasAccess">
+    <h3>Sorry, you don't have permissions to manage hours</h3>
+</div>

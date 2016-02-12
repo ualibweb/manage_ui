@@ -1,21 +1,36 @@
 angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
-    .controller('manageNewsCtrl', ['$scope', '$window', 'tokenFactory', 'newsFactory',
-        function manageNewsCtrl($scope, $window, tokenFactory, newsFactory){
+    .constant('NEWS_GROUP', 256)
+
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-news', {
+            controller: 'manageNewsCtrl',
+            templateUrl: 'manageNews/manageNews.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('manageNewsCtrl', ['$scope', '$window', 'newsFactory', 'userData', 'NEWS_GROUP',
+        function manageNewsCtrl($scope, $window, newsFactory, userData, NEWS_GROUP){
             $scope.data = {};
             $scope.newNews = {};
             $scope.newNews.creator = $window.author;
             $scope.newNews.selectedFiles = [];
             $scope.newNews.picFile = [];
-            $scope.isAdmin = false;
-            if (typeof $window.admin !== 'undefined')
-                if ($window.admin === "1")
-                    $scope.isAdmin = true;
             $scope.sortModes = [
                 {by:'title', reverse:false},
                 {by:'created', reverse:true}
             ];
 
-            tokenFactory("CSRF-libNews");
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & NEWS_GROUP === NEWS_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
             newsFactory.getData("all")
                 .success(function(data) {
@@ -54,34 +69,6 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
                     active: false
                 }];
         }])
-
-    .directive('newsExhibitionsMain', ['$animate', function($animate) {
-        return {
-            restrict: 'A',
-            scope: {},
-            controller: 'manageNewsCtrl',
-            link: function(scope, elm, attrs){
-                //Preload the spinner element
-                var spinner = angular.element('<div id="loading-bar-spinner"><div class="spinner-icon"></div></div>');
-                //Preload the location of the boxe's title element (needs to be more dynamic in the future)
-                var titleElm = elm.find('h2');
-                //Enter the spinner animation, appending it to the title element
-                $animate.enter(spinner, titleElm[0]);
-
-                var loadingWatcher = scope.$watch(
-                    'data.totalTime',
-                    function(newVal, oldVal){
-                        if (newVal != oldVal){
-                            $animate.leave(spinner);
-                            console.log("News data loaded");
-                        }
-                    },
-                    true
-                );
-            },
-            templateUrl: 'manageNews/manageNews.tpl.html'
-        };
-    }])
 
     .controller('manageNewsListCtrl', ['$scope', '$timeout', 'Upload', 'newsFactory', 'NEWS_URL',
         function manageNewsListCtrl($scope, $timeout, Upload, newsFactory, appURL){
