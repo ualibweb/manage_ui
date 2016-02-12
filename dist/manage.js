@@ -2968,23 +2968,6 @@ angular.module('common.manage', [])
     .constant('API', 'https://wwwdev2.lib.ua.edu/wp-json/wp/v2/')
 
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
-        //interceptor for WordPress nonce headers
-        $httpProvider.interceptors.push([function() {
-            return {
-                'request': function(config) {
-                    config.headers = config.headers || {};
-                    //add nonce to avoid CSRF issues
-                    if (typeof myLocalized !== 'undefined') {
-                        config.headers['X-WP-Nonce'] = myLocalized.nonce;
-                    } else {
-                        console.log("myLocalized is not defined.");
-                    }
-                    return config;
-                }
-            };
-        }]);
-
-        //interceptor for UALib JWT tokens
         $httpProvider.interceptors.push('AuthInterceptor');
     }])
 
@@ -2992,9 +2975,19 @@ angular.module('common.manage', [])
         return {
             // automatically attach Authorization header
             request: function(config) {
+                config.headers = config.headers || {};
+
+                //interceptor for UALib JWT tokens
                 var token = AuthService.getToken();
                 if(config.url.indexOf(API) === 0 && token) {
                     config.headers.Authorization = "Bearer " + token;
+                }
+
+                //interceptor for WordPress nonce headers
+                if (typeof myLocalized !== 'undefined') {
+                    config.headers['X-WP-Nonce'] = myLocalized.nonce;
+                } else {
+                    console.log("myLocalized is not defined.");
                 }
                 return config;
             },
