@@ -2940,7 +2940,6 @@ angular.module('manage', [
     'manage.manageHours',
     'manage.manageHoursUsers',
     'manage.manageUserGroups',
-    'manage.siteFeedback',
     'manage.manageOneSearch',
     'manage.staffDirectory',
     'manage.manageDatabases',
