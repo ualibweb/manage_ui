@@ -38,7 +38,7 @@ angular.module('manage.manageHoursUsers', [])
                         .success(function(data2){
                             for (var i = 0; i < data2.users.length; i++)
                                 for (var j = 0; j < $scope.wpUsers.length; j++)
-                                    if (data2.users[i].name === $scope.wpUsers[j].login) {
+                                    if (data2.users[i].name === $scope.wpUsers[j].nickname) {
                                         data2.users[i].fullName = $scope.wpUsers[j].fullName;
                                         break;
                                     }
