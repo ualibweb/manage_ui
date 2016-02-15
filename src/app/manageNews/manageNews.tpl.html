@@ -1,17 +1,19 @@
-<h2>Manage News and Exhibitions</h2>
+<div class="container">
+    <h2>Manage News and Exhibitions</h2>
 
-<tabset justified="true" ng-if="hasAccess">
-    <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
-        <div ng-show="tab.number == 0">
-            <div manage-news-list>
+    <tabset justified="true" ng-if="hasAccess">
+        <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
+            <div ng-show="tab.number == 0">
+                <div manage-news-list>
+                </div>
             </div>
-        </div>
-        <div ng-show="tab.number == 1" >
-            <div manage-admins-list>
+            <div ng-show="tab.number == 1" >
+                <div manage-admins-list>
+                </div>
             </div>
-        </div>
-    </tab>
-</tabset>
-<div ng-if="!hasAccess">
-    <h3>Sorry, you don't have permissions to edit news</h3>
+        </tab>
+    </tabset>
+    <div ng-if="!hasAccess">
+        <h3>Sorry, you don't have permissions to edit news</h3>
+    </div>
 </div>

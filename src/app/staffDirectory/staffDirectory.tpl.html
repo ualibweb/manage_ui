@@ -1,21 +1,23 @@
-<h2>Library Staff Directory Management</h2>
+<div class="container">
+    <h2>Library Staff Directory Management</h2>
 
-<tabset justified="true" ng-if="hasAccess">
-    <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
-        <div ng-if="tab.number == 0">
-            <div manage-sd-people>
+    <tabset justified="true" ng-if="hasAccess">
+        <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
+            <div ng-if="tab.number == 0">
+                <div manage-sd-people>
+                </div>
             </div>
-        </div>
-        <div ng-if="tab.number == 1" >
-            <div manage-sd-subjects>
+            <div ng-if="tab.number == 1" >
+                <div manage-sd-subjects>
+                </div>
             </div>
-        </div>
-        <div ng-if="tab.number == 2">
-            <div manage-sd-departments>
+            <div ng-if="tab.number == 2">
+                <div manage-sd-departments>
+                </div>
             </div>
-        </div>
-    </tab>
-</tabset>
-<div ng-if="!hasAccess">
-    <h3>Sorry, you don't have permissions to manage staff directory</h3>
+        </tab>
+    </tabset>
+    <div ng-if="!hasAccess">
+        <h3>Sorry, you don't have permissions to manage staff directory</h3>
+    </div>
 </div>

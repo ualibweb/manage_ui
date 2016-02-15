@@ -1,93 +1,95 @@
-<h2>Web Applications Admin Interface</h2>
+<div class="container">
+    <h2>Web Applications Admin Interface</h2>
 
-<tabset justified="true" ng-if="hasAccess">
-    <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
-        <div ng-show="tab.number == 0">
-            <table class="table table-hover table-condensed">
-                <thead>
-                <tr>
-                    <th style="width:15%;"><a ng-click="sortBy(0)" style="cursor: pointer;">Login</a></th>
-                    <th style="width:15%;" class="text-center"><a ng-click="sortBy(1)" style="cursor: pointer;">Name</a></th>
-                    <th class="text-center">Access Rights to Web Applications</th>
-                    <th class="text-center" style="width:120px;">Action</th>
-                </tr>
-                </thead>
-                <tr ng-repeat="user in users | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse" ng-click="expandUser(user)">
-                    <th scope="row" class="clickable">
-                        {{user.wpLogin}}
-                    </th>
-                    <td class="text-center clickable">
-                        {{user.name}}
-                    </td>
-                    <td>
-                        <div ng-show="isExpUser(user.id)">
+    <tabset justified="true" ng-if="hasAccess">
+        <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
+            <div ng-show="tab.number == 0">
+                <table class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th style="width:15%;"><a ng-click="sortBy(0)" style="cursor: pointer;">Login</a></th>
+                        <th style="width:15%;" class="text-center"><a ng-click="sortBy(1)" style="cursor: pointer;">Name</a></th>
+                        <th class="text-center">Access Rights to Web Applications</th>
+                        <th class="text-center" style="width:120px;">Action</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="user in users | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse" ng-click="expandUser(user)">
+                        <th scope="row" class="clickable">
+                            {{user.wpLogin}}
+                        </th>
+                        <td class="text-center clickable">
+                            {{user.name}}
+                        </td>
+                        <td>
+                            <div ng-show="isExpUser(user.id)">
+                                <div class="row" ng-repeat="app in apps">
+                                    <div class="col-md-2 text-right">
+                                        <input type="checkbox" ng-model="user.access[$index]">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <a href="{{app.link}}">{{app.appName}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-hide="isExpUser(user.id)" class="row text-center">
+                                <div class="col-md-3" ng-repeat="app in apps" ng-show="user.access[$index]">
+                                    <a href="{{app.link}}">{{app.appName}}</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div ng-show="isExpUser(user.id)" class="form-group">
+                                <button type="button" class="btn btn-success" ng-click="updateUser(user)" ng-disabled="isLoading">
+                                    <span class="fa fa-fw fa-edit"></span>
+                                </button>
+                                <button type="button" class="btn btn-danger" ng-click="deleteUser(user, $index)" ng-disabled="isLoading">
+                                    <span class="fa fa-fw fa-close"></span>
+                                </button>
+                                <br>
+                                {{result}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <select class="form-control" ng-model="newUser" ng-options="wpUser.fullName for wpUser in wpUsers | orderBy:'last_name'">
+                            </select>
+                        </td>
+                        <td>
                             <div class="row" ng-repeat="app in apps">
                                 <div class="col-md-2 text-right">
-                                    <input type="checkbox" ng-model="user.access[$index]">
+                                    <input type="checkbox" ng-model="newUserAccess[$index]">
                                 </div>
                                 <div class="col-md-10">
                                     <a href="{{app.link}}">{{app.appName}}</a>
                                 </div>
                             </div>
-                        </div>
-                        <div ng-hide="isExpUser(user.id)" class="row text-center">
-                            <div class="col-md-3" ng-repeat="app in apps" ng-show="user.access[$index]">
-                                <a href="{{app.link}}">{{app.appName}}</a>
+                        </td>
+                        <td class="text-center">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-success" ng-click="createUser(newUser)" ng-disabled="isLoading || newUser.login.length <= 1">
+                                    <span class="fa fa-fw fa-plus"></span> Grant Access
+                                </button><br>
+                                {{result2}}
                             </div>
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div ng-show="isExpUser(user.id)" class="form-group">
-                            <button type="button" class="btn btn-success" ng-click="updateUser(user)" ng-disabled="isLoading">
-                                <span class="fa fa-fw fa-edit"></span>
-                            </button>
-                            <button type="button" class="btn btn-danger" ng-click="deleteUser(user, $index)" ng-disabled="isLoading">
-                                <span class="fa fa-fw fa-close"></span>
-                            </button>
-                            <br>
-                            {{result}}
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <select class="form-control" ng-model="newUser" ng-options="wpUser.fullName for wpUser in wpUsers | orderBy:'last_name'">
-                        </select>
-                    </td>
-                    <td>
-                        <div class="row" ng-repeat="app in apps">
-                            <div class="col-md-2 text-right">
-                                <input type="checkbox" ng-model="newUserAccess[$index]">
-                            </div>
-                            <div class="col-md-10">
-                                <a href="{{app.link}}">{{app.appName}}</a>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-success" ng-click="createUser(newUser)" ng-disabled="isLoading || newUser.login.length <= 1">
-                                <span class="fa fa-fw fa-plus"></span> Grant Access
-                            </button><br>
-                            {{result2}}
-                        </div>
-                    </td>
-                </tr>
-            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div ng-show="tab.number == 1">
+                <h4>Web applications with data manageable by users:</h4>
+                <h4 class="text-center">
+                    <a href="/edit-directory-profile/">Edit my Directory Profile</a>
+                </h4>
+                <h4 class="text-center" ng-repeat="app in apps" ng-show="$index > 0">
+                    <a href="{{app.link}}">{{app.appName}}</a>
+                </h4>
+                <p>When we create new web application it has to be added to the database manually.</p>
+            </div>
+        </tab>
+    </tabset>
+    <div ng-if="!hasAccess">
+        <div view-my-web-apps>
         </div>
-        <div ng-show="tab.number == 1">
-            <h4>Web applications with data manageable by users:</h4>
-            <h4 class="text-center">
-                <a href="/edit-directory-profile/">Edit my Directory Profile</a>
-            </h4>
-            <h4 class="text-center" ng-repeat="app in apps" ng-show="$index > 0">
-                <a href="{{app.link}}">{{app.appName}}</a>
-            </h4>
-            <p>When we create new web application it has to be added to the database manually.</p>
-        </div>
-    </tab>
-</tabset>
-<div ng-if="!hasAccess">
-    <div view-my-web-apps>
     </div>
 </div>

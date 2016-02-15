@@ -1,83 +1,85 @@
-<h2>Manage Submitted Forms</h2>
+<div class="container">
+    <h2>Manage Submitted Forms</h2>
 
-<div ng-if="hasAccess">
-    <div class="row form-inline">
-        <div class="form-group col-md-12">
-            <label for="filterBy">Filter <small>{{filteredForms.length}}</small> results by</label>
-            <div id="filterBy">
-                <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
-            </div>
-            <label for="sortBy">Sort by</label>
-            <div id="sortBy">
-                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
-                    Title
-                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[0].reverse"></span>
-                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[0].reverse"></span>
-                </button>
-                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
-                    Status
-                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[1].reverse"></span>
-                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[1].reverse"></span>
-                </button>
-                <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="2" ng-click="sortBy(2)">
-                    Date Submitted
-                    <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[2].reverse"></span>
-                    <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[2].reverse"></span>
-                </button>
+    <div ng-if="hasAccess">
+        <div class="row form-inline">
+            <div class="form-group col-md-12">
+                <label for="filterBy">Filter <small>{{filteredForms.length}}</small> results by</label>
+                <div id="filterBy">
+                    <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
+                </div>
+                <label for="sortBy">Sort by</label>
+                <div id="sortBy">
+                    <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
+                        Title
+                        <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[0].reverse"></span>
+                        <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[0].reverse"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
+                        Status
+                        <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[1].reverse"></span>
+                        <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[1].reverse"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="2" ng-click="sortBy(2)">
+                        Date Submitted
+                        <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[2].reverse"></span>
+                        <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[2].reverse"></span>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="text-center">
-        <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredForms.length > 0"></pagination>
-    </div>
-    <div class="row row-clickable"
-         ng-repeat="form in filteredForms = (data.forms | filter:{title:titleFilter}
-                                                        | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
-        | startFrom:(currentPage-1)*perPage | limitTo:perPage"
-         ng-class="{sdOpen: form.show}">
-        <div class="col-md-12 clickable" ng-click="toggleForms(form)">
-            <div class="col-md-10">
-                <h4>
-                    <span class="fa fa-fw fa-caret-right" ng-hide="form.show"></span>
-                    <span class="fa fa-fw fa-caret-down" ng-show="form.show"></span>
-                    {{form.title}}
-                    <small>{{form.fields[0].value}}</small>
-                </h4>
+        <div class="text-center">
+            <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                        boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredForms.length > 0"></pagination>
+        </div>
+        <div class="row row-clickable"
+             ng-repeat="form in filteredForms = (data.forms | filter:{title:titleFilter}
+                                                            | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
+            | startFrom:(currentPage-1)*perPage | limitTo:perPage"
+             ng-class="{sdOpen: form.show}">
+            <div class="col-md-12 clickable" ng-click="toggleForms(form)">
+                <div class="col-md-10">
+                    <h4>
+                        <span class="fa fa-fw fa-caret-right" ng-hide="form.show"></span>
+                        <span class="fa fa-fw fa-caret-down" ng-show="form.show"></span>
+                        {{form.title}}
+                        <small>{{form.fields[0].value}}</small>
+                    </h4>
+                </div>
+                <div class="col-md-2">
+                    <h5>{{form.created}}</h5>
+                </div>
             </div>
-            <div class="col-md-2">
-                <h5>{{form.created}}</h5>
+            <div class="col-md-12" ng-show="form.show">
+                <div class="col-md-12 panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Form was sent to</h4>
+                    </div>
+                    <div class="panel-body">
+                        {{form.addresseeEmails}}
+                    </div>
+                </div>
+                <div class="col-md-4 panel panel-default" ng-repeat="field in form.fields"
+                     ng-show="field.name.length > 0 && field.value.length > 0">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">{{field.name}}</h4>
+                    </div>
+                    <div class="panel-body">
+                        {{field.value}}
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-12" ng-show="form.show">
-            <div class="col-md-12 panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Form was sent to</h4>
-                </div>
-                <div class="panel-body">
-                    {{form.addresseeEmails}}
-                </div>
-            </div>
-            <div class="col-md-4 panel panel-default" ng-repeat="field in form.fields"
-                 ng-show="field.name.length > 0 && field.value.length > 0">
-                <div class="panel-heading">
-                    <h4 class="panel-title">{{field.name}}</h4>
-                </div>
-                <div class="panel-body">
-                    {{field.value}}
-                </div>
-            </div>
+        <div class="text-center">
+            <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
+                        boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredForms.length > 0"></pagination>
+        </div>
+        <div class="text-center">
+            <h4 ng-show="filteredForms.length == 0">Nothing found</h4>
         </div>
     </div>
-    <div class="text-center">
-        <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"
-                    boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredForms.length > 0"></pagination>
+    <div ng-if="!hasAccess">
+        <h3>Sorry, you don't have permissions to manage submitted forms</h3>
     </div>
-    <div class="text-center">
-        <h4 ng-show="filteredForms.length == 0">Nothing found</h4>
-    </div>
-</div>
-<div ng-if="!hasAccess">
-    <h3>Sorry, you don't have permissions to manage submitted forms</h3>
 </div>
