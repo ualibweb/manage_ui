@@ -8,15 +8,25 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
     .constant('STAFFDIR_GROUP', 8)
 
     .config(['$routeProvider', function($routeProvider){
-        $routeProvider.when('/manage-staff-directory', {
-            controller: 'staffDirCtrl',
-            templateUrl: 'staffDirectory/staffDirectory.tpl.html',
-            resolve: {
-                userData: function(tokenReceiver){
-                    return tokenReceiver.getPromise();
+        $routeProvider
+            .when('/manage-staff-directory', {
+                controller: 'staffDirCtrl',
+                templateUrl: 'staffDirectory/staffDirectory.tpl.html',
+                resolve: {
+                    userData: function(tokenReceiver){
+                        return tokenReceiver.getPromise();
+                    }
                 }
-            }
-        });
+            })
+            .when('/manage-my-profile', {
+                controller: 'staffDirProfileCtrl',
+                templateUrl: 'staffDirectory/staffDirectoryProfile.tpl.html',
+                resolve: {
+                    userData: function(tokenReceiver){
+                        return tokenReceiver.getPromise();
+                    }
+                }
+            });
     }])
 
     .controller('staffDirCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_URL', 'userData', 'STAFFDIR_GROUP',
@@ -549,15 +559,4 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
                     $scope.userProfile.person.formResponse = "Error: Could not update profile! " + data;
                 });
         };
-    }])
-    .directive('editStaffDirectoryProfile', [ function() {
-        return {
-            restrict: 'AC',
-            controller: 'staffDirProfileCtrl',
-            link: function(scope, elm, attrs){
-            },
-            templateUrl: 'staffDirectory/staffDirectoryProfile.tpl.html'
-        };
     }]);
-
-

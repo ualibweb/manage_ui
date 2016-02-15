@@ -2730,94 +2730,95 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
 
 angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("staffDirectory/staffDirectoryProfile.tpl.html",
-    "<h2>Profile Management</h2>\n" +
+    "<div class=\"container\">\n" +
+    "    <h2>Profile Management</h2>\n" +
     "\n" +
-    "<div ng-if=\"userProfile.person.uid > 0\">\n" +
-    "    <div class=\"row\">\n" +
-    "        <div class=\"col-md-3\">\n" +
-    "            <img class=\"staff-portrait thumbnail\" ng-src=\"{{userProfile.person.photo}}\" ng-if=\"userProfile.person.photo != null\"\n" +
-    "                 width=\"180\" height=\"225\">\n" +
-    "            <img class=\"staff-portrait thumbnail\" ng-src=\"wp-content/themes/roots-ualib/assets/img/user-profile.png\"\n" +
-    "                 ng-if=\"userProfile.person.photo == null\" width=\"180\" height=\"225\">\n" +
+    "    <div ng-if=\"userProfile.person.uid > 0\">\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-3\">\n" +
+    "                <img class=\"staff-portrait thumbnail\" ng-src=\"{{userProfile.person.photo}}\" ng-if=\"userProfile.person.photo != null\"\n" +
+    "                     width=\"180\" height=\"225\">\n" +
+    "                <img class=\"staff-portrait thumbnail\" ng-src=\"wp-content/themes/roots-ualib/assets/img/user-profile.png\"\n" +
+    "                     ng-if=\"userProfile.person.photo == null\" width=\"180\" height=\"225\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-9\">\n" +
+    "                <h3 class=\"name\">\n" +
+    "                    <small ng-if=\"userProfile.person.rank\">{{userProfile.person.rank}}</small>\n" +
+    "                    <span ng-bind-html=\"userProfile.person.firstname\"></span> <span ng-bind-html=\"userProfile.person.lastname\"></span>\n" +
+    "                </h3>\n" +
+    "                <h4 class=\"title\"><span ng-bind-html=\"userProfile.person.title\"></span></h4>\n" +
+    "                <h5 class=\"hidden-xs\"><span ng-bind-html=\"userProfile.person.department\"></span></h5>\n" +
+    "                <ul class=\"fa-ul\">\n" +
+    "                    <li ng-if=\"userProfile.person.phone\"><span class=\"fa fa-phone fa-li\"></span>{{userProfile.person.phone}}</li>\n" +
+    "                    <li class=\"hidden-xs\" ng-if=\"userProfile.person.fax\"><span class=\"fa fa-fax fa-li\"></span>{{userProfile.person.fax}}</li>\n" +
+    "                    <li ng-if=\"userProfile.person.email\"><span class=\"fa fa-envelope fa-li\"></span>\n" +
+    "                        <a ng-href=\"mailto:{{userProfile.person.email}}\">{{userProfile.person.email}}</a>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "            </div>\n" +
     "        </div>\n" +
-    "        <div class=\"col-md-9\">\n" +
-    "            <h3 class=\"name\">\n" +
-    "                <small ng-if=\"userProfile.person.rank\">{{userProfile.person.rank}}</small>\n" +
-    "                <span ng-bind-html=\"userProfile.person.firstname\"></span> <span ng-bind-html=\"userProfile.person.lastname\"></span>\n" +
-    "            </h3>\n" +
-    "            <h4 class=\"title\"><span ng-bind-html=\"userProfile.person.title\"></span></h4>\n" +
-    "            <h5 class=\"hidden-xs\"><span ng-bind-html=\"userProfile.person.department\"></span></h5>\n" +
-    "            <ul class=\"fa-ul\">\n" +
-    "                <li ng-if=\"userProfile.person.phone\"><span class=\"fa fa-phone fa-li\"></span>{{userProfile.person.phone}}</li>\n" +
-    "                <li class=\"hidden-xs\" ng-if=\"userProfile.person.fax\"><span class=\"fa fa-fax fa-li\"></span>{{userProfile.person.fax}}</li>\n" +
-    "                <li ng-if=\"userProfile.person.email\"><span class=\"fa fa-envelope fa-li\"></span>\n" +
-    "                    <a ng-href=\"mailto:{{userProfile.person.email}}\">{{userProfile.person.email}}</a>\n" +
-    "                </li>\n" +
-    "            </ul>\n" +
+    "\n" +
+    "        <div class=\"alert alert-info\" role=\"alert\">\n" +
+    "            <span class=\"fa fa-info-circle\"></span> Note: you can edit an optional part of your <a href=\"/#/staffdir\">Library Directory</a>\n" +
+    "            profile here. It is an appropriate place to post the information about your research, interests, publications,\n" +
+    "            photos, personal website, etc. Please try to keep your profile professional oriented.\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"website\">Personal Website</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"http://john-doe.com/\" maxlength=\"100\"\n" +
+    "                       ng-model=\"userProfile.person.website\" id=\"website\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-6 form-group\">\n" +
+    "                <label for=\"resume\">External Resume / CV link</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"http://example.com/my_resume.pdf\" maxlength=\"255\"\n" +
+    "                       ng-model=\"userProfile.person.resume\" id=\"resume\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-4 form-group\">\n" +
+    "                <label for=\"sn1\">Social Network 1</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"http://facebook.com/johndoe\" maxlength=\"100\"\n" +
+    "                       ng-model=\"userProfile.person.social1\" id=\"sn1\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-4 form-group\">\n" +
+    "                <label for=\"sn2\">Social Network 2</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"http://twitter.com/johndoe\" maxlength=\"100\"\n" +
+    "                       ng-model=\"userProfile.person.social2\" id=\"sn2\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-4 form-group\">\n" +
+    "                <label for=\"sn3\">Social Network 3</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" placeholder=\"http://linkedin.com/johndoe\" maxlength=\"100\"\n" +
+    "                       ng-model=\"userProfile.person.social3\" id=\"sn3\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-12 form-group\">\n" +
+    "                <label>Description (allowed tags:\n" +
+    "                    <code>\n" +
+    "                        &lt;h3&gt;, &lt;h4&gt;, &lt;a&gt;, &lt;img&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;\n" +
+    "                    </code>)</label>\n" +
+    "                    <textarea ui-tinymce=\"tinymceOptions\" ng-model=\"userProfile.person.profile\" rows=\"10\"\n" +
+    "                          maxlength=\"64000\"></textarea>\n" +
+    "            </div>\n" +
+    "            <div class=\"col-md-12 text-center form-group\">\n" +
+    "                <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"uploading\" ng-click=\"update()\">\n" +
+    "                    Update Profile\n" +
+    "                </button><br>\n" +
+    "                {{userProfile.person.formResponse}}\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-12\">\n" +
+    "                <span ng-bind-html=\"userProfile.person.profile\"></span>\n" +
+    "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "\n" +
-    "    <div class=\"alert alert-info\" role=\"alert\">\n" +
-    "        <span class=\"fa fa-info-circle\"></span> Note: you can edit an optional part of your <a href=\"/#/staffdir\">Library Directory</a>\n" +
-    "        profile here. It is an appropriate place to post the information about your research, interests, publications,\n" +
-    "        photos, personal website, etc. Please try to keep your profile professional oriented.\n" +
-    "    </div>\n" +
-    "\n" +
-    "    <div class=\"row\">\n" +
-    "        <div class=\"col-md-6 form-group\">\n" +
-    "            <label for=\"website\">Personal Website</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://john-doe.com/\" maxlength=\"100\"\n" +
-    "                   ng-model=\"userProfile.person.website\" id=\"website\">\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-6 form-group\">\n" +
-    "            <label for=\"resume\">External Resume / CV link</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://example.com/my_resume.pdf\" maxlength=\"255\"\n" +
-    "                   ng-model=\"userProfile.person.resume\" id=\"resume\">\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "    <div class=\"row\">\n" +
-    "        <div class=\"col-md-4 form-group\">\n" +
-    "            <label for=\"sn1\">Social Network 1</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://facebook.com/johndoe\" maxlength=\"100\"\n" +
-    "                   ng-model=\"userProfile.person.social1\" id=\"sn1\">\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-4 form-group\">\n" +
-    "            <label for=\"sn2\">Social Network 2</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://twitter.com/johndoe\" maxlength=\"100\"\n" +
-    "                   ng-model=\"userProfile.person.social2\" id=\"sn2\">\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-4 form-group\">\n" +
-    "            <label for=\"sn3\">Social Network 3</label>\n" +
-    "            <input type=\"text\" class=\"form-control\" placeholder=\"http://linkedin.com/johndoe\" maxlength=\"100\"\n" +
-    "                   ng-model=\"userProfile.person.social3\" id=\"sn3\">\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "    <div class=\"row\">\n" +
-    "        <div class=\"col-md-12 form-group\">\n" +
-    "            <label>Description (allowed tags:\n" +
-    "                <code>\n" +
-    "                    &lt;h3&gt;, &lt;h4&gt;, &lt;a&gt;, &lt;img&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;\n" +
-    "                </code>)</label>\n" +
-    "                <textarea ui-tinymce=\"tinymceOptions\" ng-model=\"userProfile.person.profile\" rows=\"10\"\n" +
-    "                      maxlength=\"64000\"></textarea>\n" +
-    "        </div>\n" +
-    "        <div class=\"col-md-12 text-center form-group\">\n" +
-    "            <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"uploading\" ng-click=\"update()\">\n" +
-    "                Update Profile\n" +
-    "            </button><br>\n" +
-    "            {{userProfile.person.formResponse}}\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "\n" +
-    "    <div class=\"row\">\n" +
-    "        <div class=\"col-md-12\">\n" +
-    "            <span ng-bind-html=\"userProfile.person.profile\"></span>\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "</div>\n" +
-    "\n" +
-    "<h4 ng-hide=\"userProfile.person.uid > 0\">Can not find your profile!</h4>\n" +
-    "");
+    "    <h4 ng-hide=\"userProfile.person.uid > 0\">Can not find your profile!</h4>\n" +
+    "</div>");
 }]);
 
 angular.module("staffDirectory/staffDirectorySubjects.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -4252,6 +4253,7 @@ angular.module('manage.manageHoursUsers', [])
 
         $scope.createUser = function(user){
             $scope.isLoading = true;
+            $scope.result2 = "";
             user.admin = $scope.newUserAdmin;
             user.access = $scope.newUserAccess;
             user.locations = $scope.dataUL.locations;
@@ -4272,6 +4274,7 @@ angular.module('manage.manageHoursUsers', [])
                                 createdUser.access[i] = false;
                         $scope.dataUL.users.push(createdUser);
                         $scope.expandUser(createdUser);
+                        $scope.result2 = "User has been added!";
                     }else
                         $scope.result2 = "Error! Could not grant access!";
                     $scope.isLoading = false;
@@ -6146,15 +6149,25 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
     .constant('STAFFDIR_GROUP', 8)
 
     .config(['$routeProvider', function($routeProvider){
-        $routeProvider.when('/manage-staff-directory', {
-            controller: 'staffDirCtrl',
-            templateUrl: 'staffDirectory/staffDirectory.tpl.html',
-            resolve: {
-                userData: function(tokenReceiver){
-                    return tokenReceiver.getPromise();
+        $routeProvider
+            .when('/manage-staff-directory', {
+                controller: 'staffDirCtrl',
+                templateUrl: 'staffDirectory/staffDirectory.tpl.html',
+                resolve: {
+                    userData: function(tokenReceiver){
+                        return tokenReceiver.getPromise();
+                    }
                 }
-            }
-        });
+            })
+            .when('/manage-my-profile', {
+                controller: 'staffDirProfileCtrl',
+                templateUrl: 'staffDirectory/staffDirectoryProfile.tpl.html',
+                resolve: {
+                    userData: function(tokenReceiver){
+                        return tokenReceiver.getPromise();
+                    }
+                }
+            });
     }])
 
     .controller('staffDirCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_URL', 'userData', 'STAFFDIR_GROUP',
@@ -6687,18 +6700,7 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
                     $scope.userProfile.person.formResponse = "Error: Could not update profile! " + data;
                 });
         };
-    }])
-    .directive('editStaffDirectoryProfile', [ function() {
-        return {
-            restrict: 'AC',
-            controller: 'staffDirProfileCtrl',
-            link: function(scope, elm, attrs){
-            },
-            templateUrl: 'staffDirectory/staffDirectoryProfile.tpl.html'
-        };
     }]);
-
-
 
 angular.module('manage.submittedForms', ['ngFileUpload'])
     .constant('FORMS_GROUP', 128)

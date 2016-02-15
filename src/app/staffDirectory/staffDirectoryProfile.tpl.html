@@ -1,87 +1,89 @@
-<h2>Profile Management</h2>
+<div class="container">
+    <h2>Profile Management</h2>
 
-<div ng-if="userProfile.person.uid > 0">
-    <div class="row">
-        <div class="col-md-3">
-            <img class="staff-portrait thumbnail" ng-src="{{userProfile.person.photo}}" ng-if="userProfile.person.photo != null"
-                 width="180" height="225">
-            <img class="staff-portrait thumbnail" ng-src="wp-content/themes/roots-ualib/assets/img/user-profile.png"
-                 ng-if="userProfile.person.photo == null" width="180" height="225">
+    <div ng-if="userProfile.person.uid > 0">
+        <div class="row">
+            <div class="col-md-3">
+                <img class="staff-portrait thumbnail" ng-src="{{userProfile.person.photo}}" ng-if="userProfile.person.photo != null"
+                     width="180" height="225">
+                <img class="staff-portrait thumbnail" ng-src="wp-content/themes/roots-ualib/assets/img/user-profile.png"
+                     ng-if="userProfile.person.photo == null" width="180" height="225">
+            </div>
+            <div class="col-md-9">
+                <h3 class="name">
+                    <small ng-if="userProfile.person.rank">{{userProfile.person.rank}}</small>
+                    <span ng-bind-html="userProfile.person.firstname"></span> <span ng-bind-html="userProfile.person.lastname"></span>
+                </h3>
+                <h4 class="title"><span ng-bind-html="userProfile.person.title"></span></h4>
+                <h5 class="hidden-xs"><span ng-bind-html="userProfile.person.department"></span></h5>
+                <ul class="fa-ul">
+                    <li ng-if="userProfile.person.phone"><span class="fa fa-phone fa-li"></span>{{userProfile.person.phone}}</li>
+                    <li class="hidden-xs" ng-if="userProfile.person.fax"><span class="fa fa-fax fa-li"></span>{{userProfile.person.fax}}</li>
+                    <li ng-if="userProfile.person.email"><span class="fa fa-envelope fa-li"></span>
+                        <a ng-href="mailto:{{userProfile.person.email}}">{{userProfile.person.email}}</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-md-9">
-            <h3 class="name">
-                <small ng-if="userProfile.person.rank">{{userProfile.person.rank}}</small>
-                <span ng-bind-html="userProfile.person.firstname"></span> <span ng-bind-html="userProfile.person.lastname"></span>
-            </h3>
-            <h4 class="title"><span ng-bind-html="userProfile.person.title"></span></h4>
-            <h5 class="hidden-xs"><span ng-bind-html="userProfile.person.department"></span></h5>
-            <ul class="fa-ul">
-                <li ng-if="userProfile.person.phone"><span class="fa fa-phone fa-li"></span>{{userProfile.person.phone}}</li>
-                <li class="hidden-xs" ng-if="userProfile.person.fax"><span class="fa fa-fax fa-li"></span>{{userProfile.person.fax}}</li>
-                <li ng-if="userProfile.person.email"><span class="fa fa-envelope fa-li"></span>
-                    <a ng-href="mailto:{{userProfile.person.email}}">{{userProfile.person.email}}</a>
-                </li>
-            </ul>
+
+        <div class="alert alert-info" role="alert">
+            <span class="fa fa-info-circle"></span> Note: you can edit an optional part of your <a href="/#/staffdir">Library Directory</a>
+            profile here. It is an appropriate place to post the information about your research, interests, publications,
+            photos, personal website, etc. Please try to keep your profile professional oriented.
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <label for="website">Personal Website</label>
+                <input type="text" class="form-control" placeholder="http://john-doe.com/" maxlength="100"
+                       ng-model="userProfile.person.website" id="website">
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="resume">External Resume / CV link</label>
+                <input type="text" class="form-control" placeholder="http://example.com/my_resume.pdf" maxlength="255"
+                       ng-model="userProfile.person.resume" id="resume">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label for="sn1">Social Network 1</label>
+                <input type="text" class="form-control" placeholder="http://facebook.com/johndoe" maxlength="100"
+                       ng-model="userProfile.person.social1" id="sn1">
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="sn2">Social Network 2</label>
+                <input type="text" class="form-control" placeholder="http://twitter.com/johndoe" maxlength="100"
+                       ng-model="userProfile.person.social2" id="sn2">
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="sn3">Social Network 3</label>
+                <input type="text" class="form-control" placeholder="http://linkedin.com/johndoe" maxlength="100"
+                       ng-model="userProfile.person.social3" id="sn3">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label>Description (allowed tags:
+                    <code>
+                        &lt;h3&gt;, &lt;h4&gt;, &lt;a&gt;, &lt;img&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;
+                    </code>)</label>
+                    <textarea ui-tinymce="tinymceOptions" ng-model="userProfile.person.profile" rows="10"
+                          maxlength="64000"></textarea>
+            </div>
+            <div class="col-md-12 text-center form-group">
+                <button type="submit" class="btn btn-success" ng-disabled="uploading" ng-click="update()">
+                    Update Profile
+                </button><br>
+                {{userProfile.person.formResponse}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <span ng-bind-html="userProfile.person.profile"></span>
+            </div>
         </div>
     </div>
 
-    <div class="alert alert-info" role="alert">
-        <span class="fa fa-info-circle"></span> Note: you can edit an optional part of your <a href="/#/staffdir">Library Directory</a>
-        profile here. It is an appropriate place to post the information about your research, interests, publications,
-        photos, personal website, etc. Please try to keep your profile professional oriented.
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 form-group">
-            <label for="website">Personal Website</label>
-            <input type="text" class="form-control" placeholder="http://john-doe.com/" maxlength="100"
-                   ng-model="userProfile.person.website" id="website">
-        </div>
-        <div class="col-md-6 form-group">
-            <label for="resume">External Resume / CV link</label>
-            <input type="text" class="form-control" placeholder="http://example.com/my_resume.pdf" maxlength="255"
-                   ng-model="userProfile.person.resume" id="resume">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 form-group">
-            <label for="sn1">Social Network 1</label>
-            <input type="text" class="form-control" placeholder="http://facebook.com/johndoe" maxlength="100"
-                   ng-model="userProfile.person.social1" id="sn1">
-        </div>
-        <div class="col-md-4 form-group">
-            <label for="sn2">Social Network 2</label>
-            <input type="text" class="form-control" placeholder="http://twitter.com/johndoe" maxlength="100"
-                   ng-model="userProfile.person.social2" id="sn2">
-        </div>
-        <div class="col-md-4 form-group">
-            <label for="sn3">Social Network 3</label>
-            <input type="text" class="form-control" placeholder="http://linkedin.com/johndoe" maxlength="100"
-                   ng-model="userProfile.person.social3" id="sn3">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 form-group">
-            <label>Description (allowed tags:
-                <code>
-                    &lt;h3&gt;, &lt;h4&gt;, &lt;a&gt;, &lt;img&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;
-                </code>)</label>
-                <textarea ui-tinymce="tinymceOptions" ng-model="userProfile.person.profile" rows="10"
-                      maxlength="64000"></textarea>
-        </div>
-        <div class="col-md-12 text-center form-group">
-            <button type="submit" class="btn btn-success" ng-disabled="uploading" ng-click="update()">
-                Update Profile
-            </button><br>
-            {{userProfile.person.formResponse}}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <span ng-bind-html="userProfile.person.profile"></span>
-        </div>
-    </div>
+    <h4 ng-hide="userProfile.person.uid > 0">Can not find your profile!</h4>
 </div>
-
-<h4 ng-hide="userProfile.person.uid > 0">Can not find your profile!</h4>

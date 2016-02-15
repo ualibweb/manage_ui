@@ -116,6 +116,7 @@ angular.module('manage.manageHoursUsers', [])
 
         $scope.createUser = function(user){
             $scope.isLoading = true;
+            $scope.result2 = "";
             user.admin = $scope.newUserAdmin;
             user.access = $scope.newUserAccess;
             user.locations = $scope.dataUL.locations;
@@ -136,6 +137,7 @@ angular.module('manage.manageHoursUsers', [])
                                 createdUser.access[i] = false;
                         $scope.dataUL.users.push(createdUser);
                         $scope.expandUser(createdUser);
+                        $scope.result2 = "User has been added!";
                     }else
                         $scope.result2 = "Error! Could not grant access!";
                     $scope.isLoading = false;
