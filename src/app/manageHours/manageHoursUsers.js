@@ -35,16 +35,16 @@ angular.module('manage.manageHoursUsers', [])
                     $scope.wpUsers = data;
                     console.dir(data);
                     hmFactory.getData("users")
-                        .success(function(data){
-                            for (var i = 0; i < data.users.length; i++)
+                        .success(function(data2){
+                            for (var i = 0; i < data2.users.length; i++)
                                 for (var j = 0; j < $scope.wpUsers.length; j++)
-                                    if (data.users[i].name === $scope.wpUsers[j].login) {
-                                        data.users[i].fullName = $scope.wpUsers[j].fullName;
+                                    if (data2.users[i].name === $scope.wpUsers[j].login) {
+                                        data2.users[i].fullName = $scope.wpUsers[j].fullName;
                                         break;
                                     }
-                            $scope.dataUL = data;
+                            $scope.dataUL = data2;
                             $scope.isLoading = false;
-                            console.dir(data);
+                            console.dir(data2);
                         })
                         .error(function(data, status, headers, config) {
                             $scope.isLoading = false;
