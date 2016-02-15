@@ -176,9 +176,24 @@ angular.module('common.manage', [])
         };
     }])
     .factory('wpUsersFactory', ['$http', 'API', function wpUsersFactory($http, API){
+        function appendTransform(defaults, transform) {
+
+            // We can't guarantee that the default transformation is an array
+            defaults = angular.isArray(defaults) ? defaults : [defaults];
+            //console.log(defaults.concat(transform));
+            // Append the new transformation to the defaults
+            return defaults.concat(transform);
+        }
         return {
             getAllUsersWP : function(){
-                return $http.get(API + 'users');
+                return $http.get(API + 'users',
+                    method: 'GET',
+                    transformResponse: appendTransform($http.defaults.transformResponse, function(data) {
+                        var stripHTML = data.replace(/<\/?[^>]+(>|$)/g, "");
+                        console.log(stripHTML);
+                        return stripHTML;
+                    })
+                )
             }
         };
     }])

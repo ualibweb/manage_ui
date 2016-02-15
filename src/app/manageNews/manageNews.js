@@ -375,7 +375,6 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
 
     .controller('NewsItemFieldsCtrl', ['$scope', '$timeout', 'Upload',
         function NewsItemFieldsCtrl($scope, $timeout, Upload){
-            $scope.$broadcast('$tinymce:refresh');
             $scope.dpFormat = 'MM/dd/yyyy';
             $scope.tinymceOptions = {
                 inline: false,
