@@ -4359,7 +4359,7 @@ angular.module('manage.manageHoursUsers', [])
         };
     }])
 
-angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce', 'oc.lazyLoad'])
+angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'])
     .constant('NEWS_GROUP', 256)
 
     .config(['$routeProvider', function($routeProvider){
@@ -4374,8 +4374,9 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce', 'oc.lazyLoad'
         });
     }])
 
-    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP',
-        function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP){
+    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', '$ocLazyLoad',
+        function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, $ocLazyLoad){
+            $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
             $scope.data = {};
             $scope.newNews = {};
             $scope.newNews.creator = $scope.userInfo.login;
@@ -4731,9 +4732,8 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce', 'oc.lazyLoad'
         }
     }])
 
-    .controller('NewsItemFieldsCtrl', ['$scope', '$timeout', 'Upload', '$ocLazyLoad',
-        function NewsItemFieldsCtrl($scope, $timeout, Upload, $ocLazyLoad){
-            $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
+    .controller('NewsItemFieldsCtrl', ['$scope', '$timeout', 'Upload',
+        function NewsItemFieldsCtrl($scope, $timeout, Upload){
             $scope.dpFormat = 'MM/dd/yyyy';
             $scope.tinymceOptions = {
                 inline: false,
@@ -6140,7 +6140,7 @@ angular.module('manage.manageUserGroups', [])
             templateUrl: 'manageUserGroups/viewMyWebApps.tpl.html'
         };
     }])
-angular.module('manage.staffDirectory', ['ui.tinymce', 'oc.lazyLoad'])
+angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
     .constant('STAFF_DIR_RANKS', [
         "",
         "Prof.",
@@ -6166,6 +6166,9 @@ angular.module('manage.staffDirectory', ['ui.tinymce', 'oc.lazyLoad'])
                 resolve: {
                     userData: function(tokenReceiver){
                         return tokenReceiver.getPromise();
+                    },
+                    lazyLoad: function($ocLazyLoad) {
+                        return $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
                     }
                 }
             });
@@ -6668,9 +6671,8 @@ angular.module('manage.staffDirectory', ['ui.tinymce', 'oc.lazyLoad'])
         };
     }])
 
-    .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', '$ocLazyLoad',
-    function staffDirProfileCtrl($scope, sdFactory, userData, $ocLazyLoad){
-        $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
+    .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', 'lazyLoad',
+    function staffDirProfileCtrl($scope, sdFactory, userData, lazyLoad){
         $scope.userProfile = {};
         $scope.tinymceOptions = {
             onChange: function(e) {
