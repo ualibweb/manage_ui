@@ -5926,7 +5926,14 @@ angular.module('manage.manageUserGroups', [])
         }
         wpUsersFactory.getAllUsersWP()
             .success(function(data) {
+                //remove admin accounts
                 for (var i = 0; i < data.length; i++) {
+                    if (data[i].last_name.length < 1) {
+                        data.splice(i, 1);
+                    }
+                }
+
+                for (i = 0; i < data.length; i++) {
                     data[i].fullName = data[i].last_name + ", " + data[i].first_name + " (" + data[i].nickname + ")";
                 }
                 $scope.wpUsers = data;
