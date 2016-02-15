@@ -3195,14 +3195,15 @@ angular.module('common.manage', [])
         }
         return {
             getAllUsersWP : function(){
-                return $http.get(API + 'users',
+                return $http({
+                    url: API + 'users',
                     method: 'GET',
-                    transformResponse: appendTransform($http.defaults.transformResponse, function(data) {
+                    transformResponse: appendTransform($http.defaults.transformResponse, function (data) {
                         var stripHTML = data.replace(/<\/?[^>]+(>|$)/g, "");
                         console.log(stripHTML);
                         return stripHTML;
                     })
-                )
+                })
             }
         };
     }])
