@@ -1200,7 +1200,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                            <span ng-if=\"news.status == 0 && !userInfo.news.admin\">Approval Pending</span>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
-    "                    <form name=\"editNewsExh{{news.nid}}\" ng-submit=\"updateNews(news)\" ng-show=\"news.show\">\n" +
+    "                    <form name=\"editNewsExh{{news.nid}}\" ng-submit=\"updateNews(news)\" ng-if=\"news.show\">\n" +
     "                        <div news-item-fields-list newsdata=\"news\" list=\"data\"></div>\n" +
     "                        <div class=\"row text-center\">\n" +
     "                            <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"uploading\">Update information</button>\n" +
@@ -4734,9 +4734,8 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
         }
     }])
 
-    .controller('NewsItemFieldsCtrl', ['$scope', '$timeout', 'Upload',
-        function NewsItemFieldsCtrl($scope, $timeout, Upload){
-            $scope.$broadcast('$tinymce:refresh');
+    .controller('NewsItemFieldsCtrl', ['$scope', '$timeout', 'Upload', 'lazyLoad',
+        function NewsItemFieldsCtrl($scope, $timeout, Upload, lazyLoad){
             $scope.dpFormat = 'MM/dd/yyyy';
             $scope.tinymceOptions = {
                 inline: false,
