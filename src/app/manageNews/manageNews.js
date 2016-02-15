@@ -8,14 +8,16 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
             resolve: {
                 userData: function(tokenReceiver){
                     return tokenReceiver.getPromise();
-                }
+                },
+                lazyLoad: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
+                }]
             }
         });
     }])
 
-    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', '$ocLazyLoad',
-        function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, $ocLazyLoad){
-            $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
+    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', 'lazyLoad',
+        function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, lazyLoad){
             $scope.data = {};
             $scope.newNews = {};
             $scope.newNews.creator = $scope.userInfo.login;

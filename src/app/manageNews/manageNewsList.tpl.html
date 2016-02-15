@@ -86,7 +86,7 @@
                             <span ng-if="news.status == 0 && !userInfo.news.admin">Approval Pending</span>
                         </div>
                     </div>
-                    <form name="editNewsExh{{news.nid}}" ng-submit="updateNews(news)" ng-if="news.show">
+                    <form name="editNewsExh{{news.nid}}" ng-submit="updateNews(news)" ng-show="news.show">
                         <div news-item-fields-list newsdata="news" list="data"></div>
                         <div class="row text-center">
                             <button type="submit" class="btn btn-success" ng-disabled="uploading">Update information</button>
