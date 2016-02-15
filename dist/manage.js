@@ -1200,7 +1200,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "                            <span ng-if=\"news.status == 0 && !userInfo.news.admin\">Approval Pending</span>\n" +
     "                        </div>\n" +
     "                    </div>\n" +
-    "                    <form name=\"editNewsExh{{news.nid}}\" ng-submit=\"updateNews(news)\" ng-if=\"news.show\">\n" +
+    "                    <form name=\"editNewsExh{{news.nid}}\" ng-submit=\"updateNews(news)\" ng-show=\"news.show\">\n" +
     "                        <div news-item-fields-list newsdata=\"news\" list=\"data\"></div>\n" +
     "                        <div class=\"row text-center\">\n" +
     "                            <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"uploading\">Update information</button>\n" +
@@ -6676,7 +6676,7 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
 
     .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', 'lazyLoad',
     function staffDirProfileCtrl($scope, sdFactory, userData, lazyLoad){
-        $scope.$emit('$tinymce:refresh');
+        $scope.$broadcast('$tinymce:refresh');
         $scope.userProfile = {};
         $scope.tinymceOptions = {
             onChange: function(e) {
