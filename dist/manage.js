@@ -2795,12 +2795,12 @@ angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templ
     "        </div>\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-md-12 form-group\">\n" +
-    "                <label for=\"descr\">Description (allowed tags:\n" +
+    "                <label>Description (allowed tags:\n" +
     "                    <code>\n" +
     "                        &lt;h3&gt;, &lt;h4&gt;, &lt;a&gt;, &lt;img&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;\n" +
     "                    </code>)</label>\n" +
     "                <textarea ui-tinymce=\"tinymceOptions\" ng-model=\"userProfile.person.profile\" rows=\"10\"\n" +
-    "                          maxlength=\"64000\" id=\"descr\"></textarea>\n" +
+    "                          maxlength=\"64000\"></textarea>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 text-center form-group\">\n" +
     "                <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"uploading\" ng-click=\"update()\">\n" +
@@ -4376,7 +4376,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce', 'oc.lazyLoad'
 
     .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', '$ocLazyLoad',
         function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, $ocLazyLoad){
-            $ocLazyLoad.load('https://tinymce.cachefly.net/4.0/tinymce.min.js');
+            $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
             $scope.data = {};
             $scope.newNews = {};
             $scope.newNews.creator = $scope.userInfo.login;
@@ -6670,7 +6670,7 @@ angular.module('manage.staffDirectory', ['ui.tinymce', 'oc.lazyLoad'])
 
     .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', '$ocLazyLoad',
     function staffDirProfileCtrl($scope, sdFactory, userData, $ocLazyLoad){
-        $ocLazyLoad.load('https://tinymce.cachefly.net/4.0/tinymce.min.js');
+        $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
         $scope.userProfile = {};
         $scope.tinymceOptions = {
             onChange: function(e) {

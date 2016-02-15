@@ -15,7 +15,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce', 'oc.lazyLoad'
 
     .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', '$ocLazyLoad',
         function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, $ocLazyLoad){
-            $ocLazyLoad.load('https://tinymce.cachefly.net/4.0/tinymce.min.js');
+            $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
             $scope.data = {};
             $scope.newNews = {};
             $scope.newNews.creator = $scope.userInfo.login;

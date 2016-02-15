@@ -528,7 +528,7 @@ angular.module('manage.staffDirectory', ['ui.tinymce', 'oc.lazyLoad'])
 
     .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', '$ocLazyLoad',
     function staffDirProfileCtrl($scope, sdFactory, userData, $ocLazyLoad){
-        $ocLazyLoad.load('https://tinymce.cachefly.net/4.0/tinymce.min.js');
+        $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
         $scope.userProfile = {};
         $scope.tinymceOptions = {
             onChange: function(e) {
