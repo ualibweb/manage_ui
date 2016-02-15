@@ -4734,6 +4734,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
 
     .controller('NewsItemFieldsCtrl', ['$scope', '$timeout', 'Upload',
         function NewsItemFieldsCtrl($scope, $timeout, Upload){
+            $scope.$broadcast('$tinymce:refresh');
             $scope.dpFormat = 'MM/dd/yyyy';
             $scope.tinymceOptions = {
                 inline: false,
@@ -6673,7 +6674,7 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
 
     .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', 'lazyLoad',
     function staffDirProfileCtrl($scope, sdFactory, userData, lazyLoad){
-        $scope.$broadcast('$tinymce:refresh', {});
+        $scope.$broadcast('$tinymce:refresh');
         $scope.userProfile = {};
         $scope.tinymceOptions = {
             onChange: function(e) {
