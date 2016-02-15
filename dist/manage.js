@@ -4260,7 +4260,7 @@ angular.module('manage.manageHoursUsers', [])
                     if ((typeof data === 'object') && (data !== null)){
                         $scope.result2 = "Access granted!";
                         var createdUser = {};
-                        createdUser.name = user.login;
+                        createdUser.name = user.nickname;
                         createdUser.fullName = user.fullName;
                         createdUser.uid = data.uid;
                         createdUser.role = user.admin;
