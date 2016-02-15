@@ -4374,9 +4374,8 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce', 'oc.lazyLoad'
         });
     }])
 
-    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', '$ocLazyLoad',
-        function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, $ocLazyLoad){
-            $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
+    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP',
+        function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP){
             $scope.data = {};
             $scope.newNews = {};
             $scope.newNews.creator = $scope.userInfo.login;
@@ -4732,8 +4731,9 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce', 'oc.lazyLoad'
         }
     }])
 
-    .controller('NewsItemFieldsCtrl', ['$scope', '$timeout', 'Upload',
-        function NewsItemFieldsCtrl($scope, $timeout, Upload){
+    .controller('NewsItemFieldsCtrl', ['$scope', '$timeout', 'Upload', '$ocLazyLoad',
+        function NewsItemFieldsCtrl($scope, $timeout, Upload, $ocLazyLoad){
+            $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
             $scope.dpFormat = 'MM/dd/yyyy';
             $scope.tinymceOptions = {
                 inline: false,
