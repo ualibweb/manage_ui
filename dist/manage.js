@@ -1,4 +1,4 @@
-angular.module('manage.templates', ['manageAlerts/manageAlerts.tpl.html', 'manageAlerts/manageAlertsItemFields.tpl.html', 'manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsItemFields.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/mainOneSearch.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageOneSearch/oneSearchStat.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareComputerMaps.tpl.html', 'manageSoftware/manageSoftwareItemFields.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectoryProfile.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
+angular.module('manage.templates', ['manageAlerts/manageAlerts.tpl.html', 'manageAlerts/manageAlertsItemFields.tpl.html', 'manageDatabases/manageDatabases.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageHoursUsers.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsItemFields.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/mainOneSearch.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageOneSearch/oneSearchStat.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareComputerMaps.tpl.html', 'manageSoftware/manageSoftwareItemFields.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectoryProfile.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
 
 angular.module("manageAlerts/manageAlerts.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageAlerts/manageAlerts.tpl.html",
@@ -699,8 +699,34 @@ angular.module("manageHours/manageHours.tpl.html", []).run(["$templateCache", fu
     "            </tab>\n" +
     "        </tabset>\n" +
     "    </div>\n" +
+    "    <div ng-if=\"userInfo.hours.admin\">\n" +
+    "        <h3><a href=\"/#/manage-hours-users\">Manage Users</a></h3>\n" +
+    "    </div>\n" +
     "    <div ng-if=\"!hasAccess\">\n" +
     "        <h3>Sorry, you don't have permissions to manage hours</h3>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("manageHours/manageHoursUsers.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("manageHours/manageHoursUsers.tpl.html",
+    "<div class=\"container\">\n" +
+    "    <h2>Manage Hours Users</h2>\n" +
+    "\n" +
+    "    <tabset justified=\"true\" ng-if=\"hasAccess\">\n" +
+    "        <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
+    "            <div ng-show=\"tab.number == 0\">\n" +
+    "                <div hours-user-list>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "            <div ng-show=\"tab.number == 1\">\n" +
+    "                <div hours-location-list>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </tab>\n" +
+    "    </tabset>\n" +
+    "    <div ng-if=\"!hasAccess\">\n" +
+    "        <h3>Sorry, you don't have permissions to manage hours users</h3>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -893,7 +919,7 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "    </tr>\n" +
     "    <tr>\n" +
     "        <th scope=\"row\">\n" +
-    "            <select class=\"form-control\" ng-model=\"newUser\" ng-options=\"user.fullName for user in users | orderBy:'fullName'\">\n" +
+    "            <select class=\"form-control\" ng-model=\"newUser\" ng-options=\"user.fullName for user in wpUsers | orderBy:'fullName'\">\n" +
     "            </select>\n" +
     "        </th>\n" +
     "        <td class=\"text-center\">\n" +
@@ -4109,29 +4135,60 @@ angular.module('manage.manageHours', [])
     }])
 
 angular.module('manage.manageHoursUsers', [])
-    .controller('manageHrsUsersCtrl', ['$scope', '$window', '$animate', 'hmFactory',
-        function manageHrsUsersCtrl($scope, $window, $animate, hmFactory){
+    .constant('HOURS_GROUP', 2)
+
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-hours-users', {
+            controller: 'manageHrsUsersCtrl',
+            templateUrl: 'manageHours/manageHoursUsers.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('manageHrsUsersCtrl', ['$scope', '$animate', 'wpUsersFactory', 'hmFactory', 'userData', 'HOURS_GROUP',
+        function manageHrsUsersCtrl($scope, $animate, wpUsersFactory, hmFactory, userData, HOURS_GROUP){
             $scope.isLoading = true;
             $scope.dataUL = {};
             $scope.dataUL.users = [];
             $scope.dataUL.locations = [];
-            $scope.user = {};
-            $scope.user.name = $window.userName;
+            $scope.wpUsers = [];
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & HOURS_GROUP === HOURS_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
-            hmFactory.getData("users")
-                .success(function(data){
-                    for (var i = 0; i < data.users.length; i++)
-                        for (var j = 0; j < $window.users.length; j++)
-                            if (data.users[i].name === $window.users[j].login) {
-                                data.users[i].fullName = $window.users[j].fullName;
-                                break;
-                            }
-                    $scope.dataUL = data;
-                    $scope.isLoading = false;
+            wpUsersFactory.getAllUsersWP()
+                .success(function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].fullName = data[i].last_name + ", " + data[i].first_name + " (" + data[i].nickname + ")";
+                    }
+                    $scope.wpUsers = data;
                     console.dir(data);
+                    hmFactory.getData("users")
+                        .success(function(data){
+                            for (var i = 0; i < data.users.length; i++)
+                                for (var j = 0; j < $scope.wpUsers.length; j++)
+                                    if (data.users[i].name === $scope.wpUsers[j].login) {
+                                        data.users[i].fullName = $scope.wpUsers[j].fullName;
+                                        break;
+                                    }
+                            $scope.dataUL = data;
+                            $scope.isLoading = false;
+                            console.dir(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.isLoading = false;
+                        });
                 })
                 .error(function(data, status, headers, config) {
                     $scope.isLoading = false;
+                    console.dir(data);
                 });
 
             $scope.tabs = [
@@ -4145,11 +4202,10 @@ angular.module('manage.manageHoursUsers', [])
                 }];
     }])
 
-    .controller('hrsUserListCtrl', ['$scope', '$window', 'hmFactory', function hrsUserListCtrl($scope, $window, hmFactory) {
+    .controller('hrsUserListCtrl', ['$scope', 'hmFactory', function hrsUserListCtrl($scope, hmFactory) {
         $scope.expUser = -1;
         $scope.expUserIndex = -1;
-        $scope.users = $window.users;
-        $scope.newUser = $scope.users[0];
+        $scope.newUser = $scope.wpUsers[0];
         $scope.newUserAdmin = false;
         $scope.newUserAccess = [false, false, false, false, false, false, false, false, false, false, false, false];
 

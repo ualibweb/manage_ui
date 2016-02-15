@@ -1,0 +1,19 @@
+<div class="container">
+    <h2>Manage Hours Users</h2>
+
+    <tabset justified="true" ng-if="hasAccess">
+        <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
+            <div ng-show="tab.number == 0">
+                <div hours-user-list>
+                </div>
+            </div>
+            <div ng-show="tab.number == 1">
+                <div hours-location-list>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+    <div ng-if="!hasAccess">
+        <h3>Sorry, you don't have permissions to manage hours users</h3>
+    </div>
+</div>

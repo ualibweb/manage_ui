@@ -1,27 +1,58 @@
 angular.module('manage.manageHoursUsers', [])
-    .controller('manageHrsUsersCtrl', ['$scope', '$window', '$animate', 'hmFactory',
-        function manageHrsUsersCtrl($scope, $window, $animate, hmFactory){
+    .constant('HOURS_GROUP', 2)
+
+    .config(['$routeProvider', function($routeProvider){
+        $routeProvider.when('/manage-hours-users', {
+            controller: 'manageHrsUsersCtrl',
+            templateUrl: 'manageHours/manageHoursUsers.tpl.html',
+            resolve: {
+                userData: function(tokenReceiver){
+                    return tokenReceiver.getPromise();
+                }
+            }
+        });
+    }])
+
+    .controller('manageHrsUsersCtrl', ['$scope', '$animate', 'wpUsersFactory', 'hmFactory', 'userData', 'HOURS_GROUP',
+        function manageHrsUsersCtrl($scope, $animate, wpUsersFactory, hmFactory, userData, HOURS_GROUP){
             $scope.isLoading = true;
             $scope.dataUL = {};
             $scope.dataUL.users = [];
             $scope.dataUL.locations = [];
-            $scope.user = {};
-            $scope.user.name = $window.userName;
+            $scope.wpUsers = [];
+            $scope.hasAccess = false;
+            if (angular.isDefined($scope.userInfo.group)) {
+                if ($scope.userInfo.group & HOURS_GROUP === HOURS_GROUP) {
+                    $scope.hasAccess = true;
+                }
+            }
 
-            hmFactory.getData("users")
-                .success(function(data){
-                    for (var i = 0; i < data.users.length; i++)
-                        for (var j = 0; j < $window.users.length; j++)
-                            if (data.users[i].name === $window.users[j].login) {
-                                data.users[i].fullName = $window.users[j].fullName;
-                                break;
-                            }
-                    $scope.dataUL = data;
-                    $scope.isLoading = false;
+            wpUsersFactory.getAllUsersWP()
+                .success(function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].fullName = data[i].last_name + ", " + data[i].first_name + " (" + data[i].nickname + ")";
+                    }
+                    $scope.wpUsers = data;
                     console.dir(data);
+                    hmFactory.getData("users")
+                        .success(function(data){
+                            for (var i = 0; i < data.users.length; i++)
+                                for (var j = 0; j < $scope.wpUsers.length; j++)
+                                    if (data.users[i].name === $scope.wpUsers[j].login) {
+                                        data.users[i].fullName = $scope.wpUsers[j].fullName;
+                                        break;
+                                    }
+                            $scope.dataUL = data;
+                            $scope.isLoading = false;
+                            console.dir(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            $scope.isLoading = false;
+                        });
                 })
                 .error(function(data, status, headers, config) {
                     $scope.isLoading = false;
+                    console.dir(data);
                 });
 
             $scope.tabs = [
@@ -35,11 +66,10 @@ angular.module('manage.manageHoursUsers', [])
                 }];
     }])
 
-    .controller('hrsUserListCtrl', ['$scope', '$window', 'hmFactory', function hrsUserListCtrl($scope, $window, hmFactory) {
+    .controller('hrsUserListCtrl', ['$scope', 'hmFactory', function hrsUserListCtrl($scope, hmFactory) {
         $scope.expUser = -1;
         $scope.expUserIndex = -1;
-        $scope.users = $window.users;
-        $scope.newUser = $scope.users[0];
+        $scope.newUser = $scope.wpUsers[0];
         $scope.newUserAdmin = false;
         $scope.newUserAccess = [false, false, false, false, false, false, false, false, false, false, false, false];
 

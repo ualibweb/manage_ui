@@ -31,6 +31,9 @@
             </tab>
         </tabset>
     </div>
+    <div ng-if="userInfo.hours.admin">
+        <h3><a href="/#/manage-hours-users">Manage Users</a></h3>
+    </div>
     <div ng-if="!hasAccess">
         <h3>Sorry, you don't have permissions to manage hours</h3>
     </div>
