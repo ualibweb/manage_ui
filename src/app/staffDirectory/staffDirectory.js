@@ -531,7 +531,7 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
 
     .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', 'lazyLoad',
     function staffDirProfileCtrl($scope, sdFactory, userData, lazyLoad){
-        $scope.$broadcast('$tinymce:refresh');
+        $scope.$emit('$tinymce:refresh');
         $scope.userProfile = {};
         $scope.tinymceOptions = {
             onChange: function(e) {
