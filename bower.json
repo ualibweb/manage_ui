@@ -1,6 +1,6 @@
 {
   "name": "manage_ui",
-  "version": "5.0.4",
+  "version": "5.0.5",
   "license": "ECL-2.0",
   "private": true,
   "main": [
@@ -15,7 +15,8 @@
   "dependencies": {
     "angular-ui-bootstrap-bower": "~0.12.1",
     "ng-file-upload": "~7.0.0",
-    "angular-ui-tinymce": "latest"
+    "angular-ui-tinymce": "latest",
+    "oclazyload": "~1.0.5"
   },
   "devDependencies": {
     "fontawesome": "~4.3.0",

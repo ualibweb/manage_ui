@@ -1,4 +1,4 @@
-angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
+angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce', 'oc.lazyLoad'])
     .constant('NEWS_GROUP', 256)
 
     .config(['$routeProvider', function($routeProvider){
@@ -13,11 +13,12 @@ angular.module('manage.manageNews', ['ngFileUpload', 'ui.tinymce'])
         });
     }])
 
-    .controller('manageNewsCtrl', ['$scope', '$window', 'newsFactory', 'userData', 'NEWS_GROUP',
-        function manageNewsCtrl($scope, $window, newsFactory, userData, NEWS_GROUP){
+    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', '$ocLazyLoad',
+        function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, $ocLazyLoad){
+            $ocLazyLoad.load('https://tinymce.cachefly.net/4.0/tinymce.min.js');
             $scope.data = {};
             $scope.newNews = {};
-            $scope.newNews.creator = $window.author;
+            $scope.newNews.creator = $scope.userInfo.login;
             $scope.newNews.selectedFiles = [];
             $scope.newNews.picFile = [];
             $scope.sortModes = [

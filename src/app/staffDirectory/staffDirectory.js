@@ -1,4 +1,4 @@
-angular.module('manage.staffDirectory', ['ui.tinymce'])
+angular.module('manage.staffDirectory', ['ui.tinymce', 'oc.lazyLoad'])
     .constant('STAFF_DIR_RANKS', [
         "",
         "Prof.",
@@ -526,8 +526,9 @@ angular.module('manage.staffDirectory', ['ui.tinymce'])
         };
     }])
 
-    .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData',
-    function staffDirProfileCtrl($scope, sdFactory, userData){
+    .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', '$ocLazyLoad',
+    function staffDirProfileCtrl($scope, sdFactory, userData, $ocLazyLoad){
+        $ocLazyLoad.load('https://tinymce.cachefly.net/4.0/tinymce.min.js');
         $scope.userProfile = {};
         $scope.tinymceOptions = {
             onChange: function(e) {
