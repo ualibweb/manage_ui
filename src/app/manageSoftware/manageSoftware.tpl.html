@@ -1,21 +1,23 @@
-<h2>Manage Software</h2>
+<div class="container">
+    <h2>Manage Software</h2>
 
-<tabset justified="true" ng-if="hasAccess">
-    <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
-        <div ng-if="tab.number == 0">
-            <div software-manage-list>
+    <tabset justified="true" ng-if="hasAccess">
+        <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
+            <div ng-if="tab.number == 0">
+                <div software-manage-list>
+                </div>
             </div>
-        </div>
-        <div ng-if="tab.number == 1" >
-            <div software-manage-loc-cat>
+            <div ng-if="tab.number == 1" >
+                <div software-manage-loc-cat>
+                </div>
             </div>
-        </div>
-        <div ng-if="tab.number == 2" >
-            <div software-manage-computer-maps>
+            <div ng-if="tab.number == 2" >
+                <div software-manage-computer-maps>
+                </div>
             </div>
-        </div>
-    </tab>
-</tabset>
-<div ng-if="!hasAccess">
-    <h3>Sorry, you don't have permissions to edit software</h3>
+        </tab>
+    </tabset>
+    <div ng-if="!hasAccess">
+        <h3>Sorry, you don't have permissions to edit software</h3>
+    </div>
 </div>

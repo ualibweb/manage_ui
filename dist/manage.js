@@ -1371,26 +1371,28 @@ angular.module("manageOneSearch/oneSearchStat.tpl.html", []).run(["$templateCach
 
 angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("manageSoftware/manageSoftware.tpl.html",
-    "<h2>Manage Software</h2>\n" +
+    "<div class=\"container\">\n" +
+    "    <h2>Manage Software</h2>\n" +
     "\n" +
-    "<tabset justified=\"true\" ng-if=\"hasAccess\">\n" +
-    "    <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
-    "        <div ng-if=\"tab.number == 0\">\n" +
-    "            <div software-manage-list>\n" +
+    "    <tabset justified=\"true\" ng-if=\"hasAccess\">\n" +
+    "        <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
+    "            <div ng-if=\"tab.number == 0\">\n" +
+    "                <div software-manage-list>\n" +
+    "                </div>\n" +
     "            </div>\n" +
-    "        </div>\n" +
-    "        <div ng-if=\"tab.number == 1\" >\n" +
-    "            <div software-manage-loc-cat>\n" +
+    "            <div ng-if=\"tab.number == 1\" >\n" +
+    "                <div software-manage-loc-cat>\n" +
+    "                </div>\n" +
     "            </div>\n" +
-    "        </div>\n" +
-    "        <div ng-if=\"tab.number == 2\" >\n" +
-    "            <div software-manage-computer-maps>\n" +
+    "            <div ng-if=\"tab.number == 2\" >\n" +
+    "                <div software-manage-computer-maps>\n" +
+    "                </div>\n" +
     "            </div>\n" +
-    "        </div>\n" +
-    "    </tab>\n" +
-    "</tabset>\n" +
-    "<div ng-if=\"!hasAccess\">\n" +
-    "    <h3>Sorry, you don't have permissions to edit software</h3>\n" +
+    "        </tab>\n" +
+    "    </tabset>\n" +
+    "    <div ng-if=\"!hasAccess\">\n" +
+    "        <h3>Sorry, you don't have permissions to edit software</h3>\n" +
+    "    </div>\n" +
     "</div>");
 }]);
 
