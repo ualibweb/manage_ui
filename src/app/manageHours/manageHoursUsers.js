@@ -29,14 +29,21 @@ angular.module('manage.manageHoursUsers', [])
 
             wpUsersFactory.getAllUsersWP()
                 .success(function(data) {
+                    //remove admin accounts
                     for (var i = 0; i < data.length; i++) {
+                        if (data[i].last_name.length < 1) {
+                            data.splice(i, 1);
+                        }
+                    }
+                    for (i = 0; i < data.length; i++) {
                         data[i].fullName = data[i].last_name + ", " + data[i].first_name + " (" + data[i].nickname + ")";
                     }
                     $scope.wpUsers = data;
+                    $scope.newUser = $scope.wpUsers[0];
                     console.dir(data);
                     hmFactory.getData("users")
                         .success(function(data2){
-                            for (var i = 0; i < data2.users.length; i++)
+                            for (i = 0; i < data2.users.length; i++)
                                 for (var j = 0; j < $scope.wpUsers.length; j++)
                                     if (data2.users[i].name === $scope.wpUsers[j].nickname) {
                                         data2.users[i].fullName = $scope.wpUsers[j].fullName;
@@ -69,7 +76,6 @@ angular.module('manage.manageHoursUsers', [])
     .controller('hrsUserListCtrl', ['$scope', 'hmFactory', function hrsUserListCtrl($scope, hmFactory) {
         $scope.expUser = -1;
         $scope.expUserIndex = -1;
-        $scope.newUser = $scope.wpUsers[0];
         $scope.newUserAdmin = false;
         $scope.newUserAccess = [false, false, false, false, false, false, false, false, false, false, false, false];
 
