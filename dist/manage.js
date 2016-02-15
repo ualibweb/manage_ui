@@ -3199,10 +3199,11 @@ angular.module('common.manage', [])
                     url: API + 'users',
                     method: 'GET',
                     transformResponse: appendTransform($http.defaults.transformResponse, function (data) {
-                        console.dir(data);
-                        var stripHTML = data.replace(/<\/?[^>]+(>|$)/g, "");
-                        console.log(stripHTML);
-                        return stripHTML;
+                        if (typeof data === 'string') {
+                            data = angular.fromJson(data.replace(/<\/?[^>]+(>|$)/g, ""));
+                            console.dir(data);
+                        }
+                        return data;
                     })
                 })
             }
