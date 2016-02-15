@@ -1076,7 +1076,7 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-12 form-group\">\n" +
     "        <label>Detailed Description</label>\n" +
-    "        <textarea ui-tinymce=\"tinymceOptions\" ng-model=\"news.description\" rows=\"5\" maxlength=\"64000\" ng-if=\"tinymceOptions\" required></textarea>\n" +
+    "        <textarea ui-tinymce=\"tinymceOptions\" ng-model=\"news.description\" rows=\"5\" maxlength=\"64000\" required></textarea>\n" +
     "    </div>\n" +
     "</div>\n" +
     "<div class=\"row form-group\">\n" +
@@ -2799,7 +2799,7 @@ angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templ
     "                    <code>\n" +
     "                        &lt;h3&gt;, &lt;h4&gt;, &lt;a&gt;, &lt;img&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;\n" +
     "                    </code>)</label>\n" +
-    "                <textarea ui-tinymce=\"tinymceOptions\" ng-model=\"userProfile.person.profile\" rows=\"10\" ng-if=\"tinymceOptions\"\n" +
+    "                <textarea ui-tinymce=\"tinymceOptions\" ng-model=\"userProfile.person.profile\" rows=\"10\"\n" +
     "                          maxlength=\"64000\"></textarea>\n" +
     "            </div>\n" +
     "            <div class=\"col-md-12 text-center form-group\">\n" +
@@ -6167,9 +6167,9 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
                     userData: function(tokenReceiver){
                         return tokenReceiver.getPromise();
                     },
-                    lazyLoad: function($ocLazyLoad) {
+                    lazyLoad: ['$ocLazyLoad', function($ocLazyLoad) {
                         return $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
-                    }
+                    }]
                 }
             });
     }])

@@ -25,9 +25,9 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
                     userData: function(tokenReceiver){
                         return tokenReceiver.getPromise();
                     },
-                    lazyLoad: function($ocLazyLoad) {
+                    lazyLoad: ['$ocLazyLoad', function($ocLazyLoad) {
                         return $ocLazyLoad.load('https://cdn.tinymce.com/4/tinymce.min.js');
-                    }
+                    }]
                 }
             });
     }])
