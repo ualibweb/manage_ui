@@ -6023,7 +6023,8 @@ angular.module('manage.manageUserGroups', [])
                 }
                 $scope.wpUsers = data;
                 $scope.newUser = $scope.wpUsers[0];
-                console.log("WP user list received");
+                console.log("WP user list received:");
+                console.dir(data);
                 ugFactory.getData()
                     .success(function(data2) {
                         if (angular.isDefined(data2.users) && angular.isDefined(data2.apps)) {
@@ -6032,7 +6033,7 @@ angular.module('manage.manageUserGroups', [])
                             for (i = 0; i < $scope.apps.length; i++)
                                 $scope.newUserAccess[i] = false;
                             $scope.isLoading = false;
-                            console.log("User groups received");
+                            console.log("User groups received.");
                         } else {
                             console.dir(data2);
                         }
