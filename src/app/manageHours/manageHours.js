@@ -55,8 +55,9 @@ angular.module('manage.manageHours', [])
         });
     }])
 
-    .controller('manageHrsCtrl', ['$scope', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT', 'userData', 'HOURS_GROUP',
-        function manageHrsCtrl($scope, $animate, hmFactory, hoursFrom, hoursTo, dpFormat, userData, HOURS_GROUP){
+    .controller('manageHrsCtrl', ['$scope', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT', 'userData', 'HOURS_GROUP', 'AuthService',
+        function manageHrsCtrl($scope, $animate, hmFactory, hoursFrom, hoursTo, dpFormat, userData, HOURS_GROUP, AuthService){
+            $scope.userInfo = AuthService.isAuthorized();
             $scope.allowedLibraries = [];
             $scope.format = dpFormat;
             $scope.hrsFrom = hoursFrom;

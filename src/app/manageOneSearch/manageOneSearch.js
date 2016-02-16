@@ -13,25 +13,26 @@ angular.module('manage.manageOneSearch', [])
         });
     }])
 
-    .controller('mainOneSearchCtrl', ['$scope', 'userData', 'ONESEARCH_GROUP',
-        function mainOneSearchCtrl($scope, userData, ONESEARCH_GROUP){
-            $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & ONESEARCH_GROUP === ONESEARCH_GROUP) {
-                    $scope.hasAccess = true;
-                }
+    .controller('mainOneSearchCtrl', ['$scope', 'userData', 'ONESEARCH_GROUP', 'AuthService',
+    function mainOneSearchCtrl($scope, userData, ONESEARCH_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & ONESEARCH_GROUP === ONESEARCH_GROUP) {
+                $scope.hasAccess = true;
             }
-            $scope.tabs = [
-                { name: 'Recommended Links',
-                    number: 0,
-                    active: true
-                },
-                { name: 'Search Statistics',
-                    number: 1,
-                    active: false
-                }
-            ];
-        }])
+        }
+        $scope.tabs = [
+            { name: 'Recommended Links',
+                number: 0,
+                active: true
+            },
+            { name: 'Search Statistics',
+                number: 1,
+                active: false
+            }
+        ];
+    }])
 
     .controller('manageOneSearchCtrl', ['$scope', 'osFactory',
         function manageOneSearchCtrl($scope, osFactory){

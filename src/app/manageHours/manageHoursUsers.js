@@ -13,8 +13,9 @@ angular.module('manage.manageHoursUsers', [])
         });
     }])
 
-    .controller('manageHrsUsersCtrl', ['$scope', '$animate', 'wpUsersFactory', 'hmFactory', 'userData', 'HOURS_GROUP',
-        function manageHrsUsersCtrl($scope, $animate, wpUsersFactory, hmFactory, userData, HOURS_GROUP){
+    .controller('manageHrsUsersCtrl', ['$scope', '$animate', 'wpUsersFactory', 'hmFactory', 'userData', 'HOURS_GROUP', 'AuthService',
+        function manageHrsUsersCtrl($scope, $animate, wpUsersFactory, hmFactory, userData, HOURS_GROUP, AuthService){
+            $scope.userInfo = AuthService.isAuthorized();
             $scope.isLoading = true;
             $scope.dataUL = {};
             $scope.dataUL.users = [];

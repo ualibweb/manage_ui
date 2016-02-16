@@ -13,8 +13,9 @@ angular.module('manage.manageUserGroups', [])
         });
     }])
 
-    .controller('userGroupsCtrl', ['$scope', 'wpUsersFactory', 'ugFactory', 'userData', 'USERS_GROUP',
-    function userGroupsCtrl($scope, wpUsersFactory, ugFactory, userData, USERS_GROUP){
+    .controller('userGroupsCtrl', ['$scope', 'wpUsersFactory', 'ugFactory', 'userData', 'USERS_GROUP', 'AuthService',
+    function userGroupsCtrl($scope, wpUsersFactory, ugFactory, userData, USERS_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
         $scope.isLoading = true;
         $scope.expUser = -1;
         $scope.wpUsers = [];

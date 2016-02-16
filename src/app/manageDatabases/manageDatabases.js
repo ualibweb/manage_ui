@@ -12,8 +12,9 @@ angular.module('manage.manageDatabases', [])
             }
         });
     }])
-    .controller('manageDBCtrl', ['$scope', 'mdbFactory', 'userData', 'DATABASES_GROUP',
-        function manageDBCtrl($scope, mdbFactory, userData, DATABASES_GROUP){
+    .controller('manageDBCtrl', ['$scope', 'mdbFactory', 'userData', 'DATABASES_GROUP', 'AuthService',
+        function manageDBCtrl($scope, mdbFactory, userData, DATABASES_GROUP, AuthService){
+            $scope.userInfo = AuthService.isAuthorized();
             $scope.DBList = {};
             $scope.titleFilter = '';
             $scope.titleStartFilter = '';

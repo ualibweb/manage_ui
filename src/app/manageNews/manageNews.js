@@ -16,62 +16,63 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
         });
     }])
 
-    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', 'lazyLoad',
-        function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, lazyLoad){
-            $scope.data = {};
-            $scope.newNews = {};
-            $scope.newNews.creator = $scope.userInfo.login;
-            $scope.newNews.selectedFiles = [];
-            $scope.newNews.picFile = [];
-            $scope.sortModes = [
-                {by:'title', reverse:false},
-                {by:'created', reverse:true}
-            ];
+    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', 'lazyLoad', 'AuthService',
+    function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, lazyLoad, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
+        $scope.data = {};
+        $scope.newNews = {};
+        $scope.newNews.creator = $scope.userInfo.login;
+        $scope.newNews.selectedFiles = [];
+        $scope.newNews.picFile = [];
+        $scope.sortModes = [
+            {by:'title', reverse:false},
+            {by:'created', reverse:true}
+        ];
 
-            $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & NEWS_GROUP === NEWS_GROUP) {
-                    $scope.hasAccess = true;
-                }
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & NEWS_GROUP === NEWS_GROUP) {
+                $scope.hasAccess = true;
             }
+        }
 
-            newsFactory.getData("all")
-                .success(function(data) {
-                    console.dir(data);
-                    for (var i = 0; i < data.news.length; i++){
-                        data.news[i].created = new Date(data.news[i].created * 1000);
-                        if (data.news[i].activeFrom !== null)
-                            data.news[i].activeFrom = new Date(data.news[i].activeFrom * 1000);
-                        if (data.news[i].activeUntil !== null)
-                            data.news[i].activeUntil = new Date(data.news[i].activeUntil * 1000);
-                        for (var j = 0; j < data.people.length; j++)
-                            if (data.news[i].contactID.uid === data.people[j].uid){
-                                data.news[i].contactID = data.people[j];
-                                break;
-                            }
-                        data.news[i].show = false;
-                        data.news[i].class = "";
-                        data.news[i].dpFrom = false;
-                        data.news[i].dpUntil = false;
-                        data.news[i].selectedFiles = [];
-                    }
-                    $scope.newNews.contactID = data.people[0];
-                    $scope.data = data;
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
+        newsFactory.getData("all")
+            .success(function(data) {
+                console.dir(data);
+                for (var i = 0; i < data.news.length; i++){
+                    data.news[i].created = new Date(data.news[i].created * 1000);
+                    if (data.news[i].activeFrom !== null)
+                        data.news[i].activeFrom = new Date(data.news[i].activeFrom * 1000);
+                    if (data.news[i].activeUntil !== null)
+                        data.news[i].activeUntil = new Date(data.news[i].activeUntil * 1000);
+                    for (var j = 0; j < data.people.length; j++)
+                        if (data.news[i].contactID.uid === data.people[j].uid){
+                            data.news[i].contactID = data.people[j];
+                            break;
+                        }
+                    data.news[i].show = false;
+                    data.news[i].class = "";
+                    data.news[i].dpFrom = false;
+                    data.news[i].dpUntil = false;
+                    data.news[i].selectedFiles = [];
+                }
+                $scope.newNews.contactID = data.people[0];
+                $scope.data = data;
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
 
-            $scope.tabs = [
-                { name: 'News and Exhibits',
-                    number: 0,
-                    active: true
-                },
-                { name: 'Admins',
-                    number: 1,
-                    active: false
-                }];
-        }])
+        $scope.tabs = [
+            { name: 'News and Exhibits',
+                number: 0,
+                active: true
+            },
+            { name: 'Admins',
+                number: 1,
+                active: false
+            }];
+    }])
 
     .controller('manageNewsListCtrl', ['$scope', '$timeout', 'Upload', 'newsFactory', 'NEWS_URL',
         function manageNewsListCtrl($scope, $timeout, Upload, newsFactory, appURL){

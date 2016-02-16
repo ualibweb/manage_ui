@@ -18,8 +18,9 @@ angular.module('manage.manageAlerts', [])
         });
     }])
 
-    .controller('manageAlertsCtrl', ['$scope', 'alertFactory', 'TYPES', 'userData', 'ALERTS_GROUP',
-    function manageAlertsCtrl($scope, alertFactory, TYPES, userData, ALERTS_GROUP){
+    .controller('manageAlertsCtrl', ['$scope', 'alertFactory', 'TYPES', 'userData', 'ALERTS_GROUP', 'AuthService',
+    function manageAlertsCtrl($scope, alertFactory, TYPES, userData, ALERTS_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
         $scope.data = {};
         $scope.newAlert = {};
         $scope.newAlert.message = "";

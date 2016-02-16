@@ -12,53 +12,54 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
             }
         });
     }])
-    .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'formFactory', 'userData', 'FORMS_GROUP',
-        function manageSubFormsCtrl($scope, $timeout, formFactory, userData, FORMS_GROUP){
-            $scope.data = {};
-            $scope.currentPage = 1;
-            $scope.maxPageSize = 10;
-            $scope.perPage = 20;
-            $scope.titleFilter = '';
-            $scope.sortModes = [
-                {by:'title', reverse:false},
-                {by:'status', reverse:false},
-                {by:'created', reverse:true}
-            ];
-            $scope.sortMode = 2;
-            $scope.sortButton = $scope.sortMode;
-            $scope.mOver = 0;
+    .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'formFactory', 'userData', 'FORMS_GROUP', 'AuthService',
+    function manageSubFormsCtrl($scope, $timeout, formFactory, userData, FORMS_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
+        $scope.data = {};
+        $scope.currentPage = 1;
+        $scope.maxPageSize = 10;
+        $scope.perPage = 20;
+        $scope.titleFilter = '';
+        $scope.sortModes = [
+            {by:'title', reverse:false},
+            {by:'status', reverse:false},
+            {by:'created', reverse:true}
+        ];
+        $scope.sortMode = 2;
+        $scope.sortButton = $scope.sortMode;
+        $scope.mOver = 0;
 
-            $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & FORMS_GROUP === FORMS_GROUP) {
-                    $scope.hasAccess = true;
-                }
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & FORMS_GROUP === FORMS_GROUP) {
+                $scope.hasAccess = true;
             }
+        }
 
-            formFactory.getData()
-                .success(function(data) {
-                    console.dir(data);
-                    for (var i = 0; i < data.forms.length; i++){
-                        data.forms[i].show = false;
-                        data.forms[i].class = "";
-                    }
-                    $scope.data = data;
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
+        formFactory.getData()
+            .success(function(data) {
+                console.dir(data);
+                for (var i = 0; i < data.forms.length; i++){
+                    data.forms[i].show = false;
+                    data.forms[i].class = "";
+                }
+                $scope.data = data;
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
 
-            $scope.toggleForms = function(form){
-                $scope.data.forms[$scope.data.forms.indexOf(form)].show =
-                    !$scope.data.forms[$scope.data.forms.indexOf(form)].show;
-            };
-            $scope.sortBy = function(by){
-                if ($scope.sortMode === by)
-                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
-                else
-                    $scope.sortMode = by;
-            };
-        }])
+        $scope.toggleForms = function(form){
+            $scope.data.forms[$scope.data.forms.indexOf(form)].show =
+                !$scope.data.forms[$scope.data.forms.indexOf(form)].show;
+        };
+        $scope.sortBy = function(by){
+            if ($scope.sortMode === by)
+                $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
+            else
+                $scope.sortMode = by;
+        };
+    }])
 
     .filter('startFrom', [ function() {
         return function(input, start) {

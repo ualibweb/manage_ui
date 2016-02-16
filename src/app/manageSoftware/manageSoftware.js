@@ -17,70 +17,71 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         });
     }])
 
-    .controller('manageSWCtrl', ['$scope', 'swFactory', 'OS', 'userData', 'SOFTWARE_GROUP',
-        function manageSWCtrl($scope, swFactory, OS, userData, SOFTWARE_GROUP){
-            $scope.SWList = {};
-            $scope.newSW = {};
-            $scope.newComp = {};
-            $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & SOFTWARE_GROUP === SOFTWARE_GROUP) {
-                    $scope.hasAccess = true;
-                }
+    .controller('manageSWCtrl', ['$scope', 'swFactory', 'OS', 'userData', 'SOFTWARE_GROUP', 'AuthService',
+    function manageSWCtrl($scope, swFactory, OS, userData, SOFTWARE_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
+        $scope.SWList = {};
+        $scope.newSW = {};
+        $scope.newComp = {};
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & SOFTWARE_GROUP === SOFTWARE_GROUP) {
+                $scope.hasAccess = true;
             }
+        }
 
-            swFactory.getData("all/backend")
-                .success(function(data) {
-                    console.dir(data);
-                    for (var i = 0; i < data.software.length; i++){
-                        data.software[i].show = false;
-                        data.software[i].class = "";
-                        data.software[i].selCat = data.categories[0];
-                        data.software[i].newVer = {};
-                        data.software[i].newVer.version = "";
-                        data.software[i].newVer.selOS = OS[0];
-                        for (var j = 0; j < data.software[i].versions.length; j++){
-                            data.software[i].versions[j].newLoc = {};
-                            data.software[i].versions[j].newLoc.selLoc = data.locations[0];
-                            data.software[i].versions[j].newLoc.devices = [];
-                            for (var k = 0; k < data.devices.length; k++)
-                                data.software[i].versions[j].newLoc.devices[k] = false;
-                        }
-                        for (var j = 0; j < data.licenseModes.length; j++)
-                            if (data.licenseModes[j].lmid === data.software[i].lmid){
-                                data.software[i].selMode = data.licenseModes[j];
-                            }
-                        data.software[i].newLink = {};
-                        data.software[i].newLink.description = "";
-                        data.software[i].newLink.title = "";
-                        data.software[i].newLink.url = "";
+        swFactory.getData("all/backend")
+            .success(function(data) {
+                console.dir(data);
+                for (var i = 0; i < data.software.length; i++){
+                    data.software[i].show = false;
+                    data.software[i].class = "";
+                    data.software[i].selCat = data.categories[0];
+                    data.software[i].newVer = {};
+                    data.software[i].newVer.version = "";
+                    data.software[i].newVer.selOS = OS[0];
+                    for (var j = 0; j < data.software[i].versions.length; j++){
+                        data.software[i].versions[j].newLoc = {};
+                        data.software[i].versions[j].newLoc.selLoc = data.locations[0];
+                        data.software[i].versions[j].newLoc.devices = [];
+                        for (var k = 0; k < data.devices.length; k++)
+                            data.software[i].versions[j].newLoc.devices[k] = false;
                     }
-                    $scope.newSW.selCat = data.categories[0];
-                    $scope.newSW.selMode = data.licenseModes[0];
-                    $scope.selMap = data.maps[3];
-                    $scope.newComp.selLoc = data.locations[0];
-
-                    $scope.SWList = data;
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
-
-            $scope.tabs = [
-                { name: 'Software List',
-                    number: 0,
-                    active: true
-                },
-                { name: 'Locations and Categories',
-                    number: 1,
-                    active: false
-                },
-                { name: 'Computer Maps',
-                    number: 2,
-                    active: false
+                    for (var j = 0; j < data.licenseModes.length; j++)
+                        if (data.licenseModes[j].lmid === data.software[i].lmid){
+                            data.software[i].selMode = data.licenseModes[j];
+                        }
+                    data.software[i].newLink = {};
+                    data.software[i].newLink.description = "";
+                    data.software[i].newLink.title = "";
+                    data.software[i].newLink.url = "";
                 }
-            ];
-        }])
+                $scope.newSW.selCat = data.categories[0];
+                $scope.newSW.selMode = data.licenseModes[0];
+                $scope.selMap = data.maps[3];
+                $scope.newComp.selLoc = data.locations[0];
+
+                $scope.SWList = data;
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
+
+        $scope.tabs = [
+            { name: 'Software List',
+                number: 0,
+                active: true
+            },
+            { name: 'Locations and Categories',
+                number: 1,
+                active: false
+            },
+            { name: 'Computer Maps',
+                number: 2,
+                active: false
+            }
+        ];
+    }])
 
     .controller('manageSWListCtrl', ['$scope', '$timeout', 'Upload', 'swFactory', 'SOFTWARE_URL', 'OS',
         function manageSWListCtrl($scope, $timeout, Upload, swFactory, appURL, OS){

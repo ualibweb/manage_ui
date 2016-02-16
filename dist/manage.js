@@ -3215,7 +3215,6 @@ angular.module('common.manage', [])
     .run(['$rootScope', 'tokenReceiver', '$location', 'AuthService',
     function($rootScope, tokenReceiver, $location, AuthService) {
         $rootScope.userInfo = {};
-        $rootScope.userInfo = AuthService.isAuthorized();
     }]);
 
 angular.module('manage.manageAlerts', [])
@@ -3238,8 +3237,9 @@ angular.module('manage.manageAlerts', [])
         });
     }])
 
-    .controller('manageAlertsCtrl', ['$scope', 'alertFactory', 'TYPES', 'userData', 'ALERTS_GROUP',
-    function manageAlertsCtrl($scope, alertFactory, TYPES, userData, ALERTS_GROUP){
+    .controller('manageAlertsCtrl', ['$scope', 'alertFactory', 'TYPES', 'userData', 'ALERTS_GROUP', 'AuthService',
+    function manageAlertsCtrl($scope, alertFactory, TYPES, userData, ALERTS_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
         $scope.data = {};
         $scope.newAlert = {};
         $scope.newAlert.message = "";
@@ -3456,8 +3456,9 @@ angular.module('manage.manageDatabases', [])
             }
         });
     }])
-    .controller('manageDBCtrl', ['$scope', 'mdbFactory', 'userData', 'DATABASES_GROUP',
-        function manageDBCtrl($scope, mdbFactory, userData, DATABASES_GROUP){
+    .controller('manageDBCtrl', ['$scope', 'mdbFactory', 'userData', 'DATABASES_GROUP', 'AuthService',
+        function manageDBCtrl($scope, mdbFactory, userData, DATABASES_GROUP, AuthService){
+            $scope.userInfo = AuthService.isAuthorized();
             $scope.DBList = {};
             $scope.titleFilter = '';
             $scope.titleStartFilter = '';
@@ -3819,8 +3820,9 @@ angular.module('manage.manageHours', [])
         });
     }])
 
-    .controller('manageHrsCtrl', ['$scope', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT', 'userData', 'HOURS_GROUP',
-        function manageHrsCtrl($scope, $animate, hmFactory, hoursFrom, hoursTo, dpFormat, userData, HOURS_GROUP){
+    .controller('manageHrsCtrl', ['$scope', '$animate', 'hmFactory', 'HOURS_FROM', 'HOURS_TO', 'DP_FORMAT', 'userData', 'HOURS_GROUP', 'AuthService',
+        function manageHrsCtrl($scope, $animate, hmFactory, hoursFrom, hoursTo, dpFormat, userData, HOURS_GROUP, AuthService){
+            $scope.userInfo = AuthService.isAuthorized();
             $scope.allowedLibraries = [];
             $scope.format = dpFormat;
             $scope.hrsFrom = hoursFrom;
@@ -4149,8 +4151,9 @@ angular.module('manage.manageHoursUsers', [])
         });
     }])
 
-    .controller('manageHrsUsersCtrl', ['$scope', '$animate', 'wpUsersFactory', 'hmFactory', 'userData', 'HOURS_GROUP',
-        function manageHrsUsersCtrl($scope, $animate, wpUsersFactory, hmFactory, userData, HOURS_GROUP){
+    .controller('manageHrsUsersCtrl', ['$scope', '$animate', 'wpUsersFactory', 'hmFactory', 'userData', 'HOURS_GROUP', 'AuthService',
+        function manageHrsUsersCtrl($scope, $animate, wpUsersFactory, hmFactory, userData, HOURS_GROUP, AuthService){
+            $scope.userInfo = AuthService.isAuthorized();
             $scope.isLoading = true;
             $scope.dataUL = {};
             $scope.dataUL.users = [];
@@ -4376,62 +4379,63 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
         });
     }])
 
-    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', 'lazyLoad',
-        function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, lazyLoad){
-            $scope.data = {};
-            $scope.newNews = {};
-            $scope.newNews.creator = $scope.userInfo.login;
-            $scope.newNews.selectedFiles = [];
-            $scope.newNews.picFile = [];
-            $scope.sortModes = [
-                {by:'title', reverse:false},
-                {by:'created', reverse:true}
-            ];
+    .controller('manageNewsCtrl', ['$scope', 'newsFactory', 'userData', 'NEWS_GROUP', 'lazyLoad', 'AuthService',
+    function manageNewsCtrl($scope, newsFactory, userData, NEWS_GROUP, lazyLoad, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
+        $scope.data = {};
+        $scope.newNews = {};
+        $scope.newNews.creator = $scope.userInfo.login;
+        $scope.newNews.selectedFiles = [];
+        $scope.newNews.picFile = [];
+        $scope.sortModes = [
+            {by:'title', reverse:false},
+            {by:'created', reverse:true}
+        ];
 
-            $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & NEWS_GROUP === NEWS_GROUP) {
-                    $scope.hasAccess = true;
-                }
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & NEWS_GROUP === NEWS_GROUP) {
+                $scope.hasAccess = true;
             }
+        }
 
-            newsFactory.getData("all")
-                .success(function(data) {
-                    console.dir(data);
-                    for (var i = 0; i < data.news.length; i++){
-                        data.news[i].created = new Date(data.news[i].created * 1000);
-                        if (data.news[i].activeFrom !== null)
-                            data.news[i].activeFrom = new Date(data.news[i].activeFrom * 1000);
-                        if (data.news[i].activeUntil !== null)
-                            data.news[i].activeUntil = new Date(data.news[i].activeUntil * 1000);
-                        for (var j = 0; j < data.people.length; j++)
-                            if (data.news[i].contactID.uid === data.people[j].uid){
-                                data.news[i].contactID = data.people[j];
-                                break;
-                            }
-                        data.news[i].show = false;
-                        data.news[i].class = "";
-                        data.news[i].dpFrom = false;
-                        data.news[i].dpUntil = false;
-                        data.news[i].selectedFiles = [];
-                    }
-                    $scope.newNews.contactID = data.people[0];
-                    $scope.data = data;
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
+        newsFactory.getData("all")
+            .success(function(data) {
+                console.dir(data);
+                for (var i = 0; i < data.news.length; i++){
+                    data.news[i].created = new Date(data.news[i].created * 1000);
+                    if (data.news[i].activeFrom !== null)
+                        data.news[i].activeFrom = new Date(data.news[i].activeFrom * 1000);
+                    if (data.news[i].activeUntil !== null)
+                        data.news[i].activeUntil = new Date(data.news[i].activeUntil * 1000);
+                    for (var j = 0; j < data.people.length; j++)
+                        if (data.news[i].contactID.uid === data.people[j].uid){
+                            data.news[i].contactID = data.people[j];
+                            break;
+                        }
+                    data.news[i].show = false;
+                    data.news[i].class = "";
+                    data.news[i].dpFrom = false;
+                    data.news[i].dpUntil = false;
+                    data.news[i].selectedFiles = [];
+                }
+                $scope.newNews.contactID = data.people[0];
+                $scope.data = data;
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
 
-            $scope.tabs = [
-                { name: 'News and Exhibits',
-                    number: 0,
-                    active: true
-                },
-                { name: 'Admins',
-                    number: 1,
-                    active: false
-                }];
-        }])
+        $scope.tabs = [
+            { name: 'News and Exhibits',
+                number: 0,
+                active: true
+            },
+            { name: 'Admins',
+                number: 1,
+                active: false
+            }];
+    }])
 
     .controller('manageNewsListCtrl', ['$scope', '$timeout', 'Upload', 'newsFactory', 'NEWS_URL',
         function manageNewsListCtrl($scope, $timeout, Upload, newsFactory, appURL){
@@ -4846,25 +4850,26 @@ angular.module('manage.manageOneSearch', [])
         });
     }])
 
-    .controller('mainOneSearchCtrl', ['$scope', 'userData', 'ONESEARCH_GROUP',
-        function mainOneSearchCtrl($scope, userData, ONESEARCH_GROUP){
-            $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & ONESEARCH_GROUP === ONESEARCH_GROUP) {
-                    $scope.hasAccess = true;
-                }
+    .controller('mainOneSearchCtrl', ['$scope', 'userData', 'ONESEARCH_GROUP', 'AuthService',
+    function mainOneSearchCtrl($scope, userData, ONESEARCH_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & ONESEARCH_GROUP === ONESEARCH_GROUP) {
+                $scope.hasAccess = true;
             }
-            $scope.tabs = [
-                { name: 'Recommended Links',
-                    number: 0,
-                    active: true
-                },
-                { name: 'Search Statistics',
-                    number: 1,
-                    active: false
-                }
-            ];
-        }])
+        }
+        $scope.tabs = [
+            { name: 'Recommended Links',
+                number: 0,
+                active: true
+            },
+            { name: 'Search Statistics',
+                number: 1,
+                active: false
+            }
+        ];
+    }])
 
     .controller('manageOneSearchCtrl', ['$scope', 'osFactory',
         function manageOneSearchCtrl($scope, osFactory){
@@ -4998,70 +5003,71 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         });
     }])
 
-    .controller('manageSWCtrl', ['$scope', 'swFactory', 'OS', 'userData', 'SOFTWARE_GROUP',
-        function manageSWCtrl($scope, swFactory, OS, userData, SOFTWARE_GROUP){
-            $scope.SWList = {};
-            $scope.newSW = {};
-            $scope.newComp = {};
-            $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & SOFTWARE_GROUP === SOFTWARE_GROUP) {
-                    $scope.hasAccess = true;
-                }
+    .controller('manageSWCtrl', ['$scope', 'swFactory', 'OS', 'userData', 'SOFTWARE_GROUP', 'AuthService',
+    function manageSWCtrl($scope, swFactory, OS, userData, SOFTWARE_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
+        $scope.SWList = {};
+        $scope.newSW = {};
+        $scope.newComp = {};
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & SOFTWARE_GROUP === SOFTWARE_GROUP) {
+                $scope.hasAccess = true;
             }
+        }
 
-            swFactory.getData("all/backend")
-                .success(function(data) {
-                    console.dir(data);
-                    for (var i = 0; i < data.software.length; i++){
-                        data.software[i].show = false;
-                        data.software[i].class = "";
-                        data.software[i].selCat = data.categories[0];
-                        data.software[i].newVer = {};
-                        data.software[i].newVer.version = "";
-                        data.software[i].newVer.selOS = OS[0];
-                        for (var j = 0; j < data.software[i].versions.length; j++){
-                            data.software[i].versions[j].newLoc = {};
-                            data.software[i].versions[j].newLoc.selLoc = data.locations[0];
-                            data.software[i].versions[j].newLoc.devices = [];
-                            for (var k = 0; k < data.devices.length; k++)
-                                data.software[i].versions[j].newLoc.devices[k] = false;
-                        }
-                        for (var j = 0; j < data.licenseModes.length; j++)
-                            if (data.licenseModes[j].lmid === data.software[i].lmid){
-                                data.software[i].selMode = data.licenseModes[j];
-                            }
-                        data.software[i].newLink = {};
-                        data.software[i].newLink.description = "";
-                        data.software[i].newLink.title = "";
-                        data.software[i].newLink.url = "";
+        swFactory.getData("all/backend")
+            .success(function(data) {
+                console.dir(data);
+                for (var i = 0; i < data.software.length; i++){
+                    data.software[i].show = false;
+                    data.software[i].class = "";
+                    data.software[i].selCat = data.categories[0];
+                    data.software[i].newVer = {};
+                    data.software[i].newVer.version = "";
+                    data.software[i].newVer.selOS = OS[0];
+                    for (var j = 0; j < data.software[i].versions.length; j++){
+                        data.software[i].versions[j].newLoc = {};
+                        data.software[i].versions[j].newLoc.selLoc = data.locations[0];
+                        data.software[i].versions[j].newLoc.devices = [];
+                        for (var k = 0; k < data.devices.length; k++)
+                            data.software[i].versions[j].newLoc.devices[k] = false;
                     }
-                    $scope.newSW.selCat = data.categories[0];
-                    $scope.newSW.selMode = data.licenseModes[0];
-                    $scope.selMap = data.maps[3];
-                    $scope.newComp.selLoc = data.locations[0];
-
-                    $scope.SWList = data;
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
-
-            $scope.tabs = [
-                { name: 'Software List',
-                    number: 0,
-                    active: true
-                },
-                { name: 'Locations and Categories',
-                    number: 1,
-                    active: false
-                },
-                { name: 'Computer Maps',
-                    number: 2,
-                    active: false
+                    for (var j = 0; j < data.licenseModes.length; j++)
+                        if (data.licenseModes[j].lmid === data.software[i].lmid){
+                            data.software[i].selMode = data.licenseModes[j];
+                        }
+                    data.software[i].newLink = {};
+                    data.software[i].newLink.description = "";
+                    data.software[i].newLink.title = "";
+                    data.software[i].newLink.url = "";
                 }
-            ];
-        }])
+                $scope.newSW.selCat = data.categories[0];
+                $scope.newSW.selMode = data.licenseModes[0];
+                $scope.selMap = data.maps[3];
+                $scope.newComp.selLoc = data.locations[0];
+
+                $scope.SWList = data;
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
+
+        $scope.tabs = [
+            { name: 'Software List',
+                number: 0,
+                active: true
+            },
+            { name: 'Locations and Categories',
+                number: 1,
+                active: false
+            },
+            { name: 'Computer Maps',
+                number: 2,
+                active: false
+            }
+        ];
+    }])
 
     .controller('manageSWListCtrl', ['$scope', '$timeout', 'Upload', 'swFactory', 'SOFTWARE_URL', 'OS',
         function manageSWListCtrl($scope, $timeout, Upload, swFactory, appURL, OS){
@@ -5977,8 +5983,9 @@ angular.module('manage.manageUserGroups', [])
         });
     }])
 
-    .controller('userGroupsCtrl', ['$scope', 'wpUsersFactory', 'ugFactory', 'userData', 'USERS_GROUP',
-    function userGroupsCtrl($scope, wpUsersFactory, ugFactory, userData, USERS_GROUP){
+    .controller('userGroupsCtrl', ['$scope', 'wpUsersFactory', 'ugFactory', 'userData', 'USERS_GROUP', 'AuthService',
+    function userGroupsCtrl($scope, wpUsersFactory, ugFactory, userData, USERS_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
         $scope.isLoading = true;
         $scope.expUser = -1;
         $scope.wpUsers = [];
@@ -6179,97 +6186,98 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
             });
     }])
 
-    .controller('staffDirCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_URL', 'userData', 'STAFFDIR_GROUP',
-        function staffDirCtrl($scope, sdFactory, appUrl, userData, STAFFDIR_GROUP){
-            $scope.Directory = {};
-            $scope.newPerson = {};
-            $scope.newDept = {};
+    .controller('staffDirCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_URL', 'userData', 'STAFFDIR_GROUP', 'AuthService',
+    function staffDirCtrl($scope, sdFactory, appUrl, userData, STAFFDIR_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
+        $scope.Directory = {};
+        $scope.newPerson = {};
+        $scope.newDept = {};
 
-            $scope.tabs = [
-                { name: 'Directory',
-                    number: 0,
-                    active: true
-                },
-                { name: 'Subjects',
-                    number: 1,
-                    active: false
-                },
-                { name: 'Departments/Locations',
-                    number: 2,
-                    active: false
-                }
-            ];
-            $scope.subjectTypes = [
-                {name: 'Specialist', value: 1},
-                {name: 'Instructor', value: 2},
-                {name: 'Both', value: 3}
-            ];
-            $scope.sortModes = [
-                {by:'lastname', reverse:false},
-                {by:'title', reverse:false},
-                {by:'department', reverse:false}
-            ];
-            $scope.sortMode = $scope.sortModes[0];
-            $scope.sortBy = function(by){
-                if ($scope.sortMode === by)
-                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
-                else
-                    $scope.sortMode = by;
-            };
-
-            $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & STAFFDIR_GROUP === STAFFDIR_GROUP) {
-                    $scope.hasAccess = true;
-                }
+        $scope.tabs = [
+            { name: 'Directory',
+                number: 0,
+                active: true
+            },
+            { name: 'Subjects',
+                number: 1,
+                active: false
+            },
+            { name: 'Departments/Locations',
+                number: 2,
+                active: false
             }
+        ];
+        $scope.subjectTypes = [
+            {name: 'Specialist', value: 1},
+            {name: 'Instructor', value: 2},
+            {name: 'Both', value: 3}
+        ];
+        $scope.sortModes = [
+            {by:'lastname', reverse:false},
+            {by:'title', reverse:false},
+            {by:'department', reverse:false}
+        ];
+        $scope.sortMode = $scope.sortModes[0];
+        $scope.sortBy = function(by){
+            if ($scope.sortMode === by)
+                $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
+            else
+                $scope.sortMode = by;
+        };
 
-            sdFactory.getData()
-                .success(function(data) {
-                    console.dir(data);
-                    $scope.Directory = data;
-                    for (var i = 0; i < $scope.Directory.list.length; i++){
-                        $scope.Directory.list[i].selSubj = $scope.Directory.subjects[0];
-                        $scope.Directory.list[i].selType = $scope.subjectTypes[0];
-                        for (var j = 0; j < $scope.Directory.departments.length; j++)
-                            if ($scope.Directory.departments[j].depid == $scope.Directory.list[i].dept){
-                                $scope.Directory.list[i].selDept = $scope.Directory.departments[j];
-                                break;
-                            }
-                        for (var j = 0; j < $scope.Directory.divisions.length; j++)
-                            if ($scope.Directory.divisions[j].divid == $scope.Directory.list[i].divis){
-                                $scope.Directory.list[i].selDiv = $scope.Directory.divisions[j];
-                                break;
-                            }
-                        $scope.Directory.list[i].class = "";
-                        $scope.Directory.list[i].show = false;
-                        $scope.Directory.list[i].image = appUrl + "staffImages/" + $scope.Directory.list[i].id + ".jpg";
-                    }
-                    $scope.newPerson.selSubj = $scope.Directory.subjects[0];
-                    for (var i = 0; i < $scope.Directory.subjects.length; i++)
-                        $scope.Directory.subjects[i].show = false;
-                    $scope.newPerson.selDept = $scope.Directory.departments[0];
-                    for (var i = 0; i < $scope.Directory.departments.length; i++){
-                        $scope.Directory.departments[i].show = false;
-                        for (var j = 0; j < $scope.Directory.libraries.length; j++)
-                            if ($scope.Directory.libraries[j].lid == $scope.Directory.departments[i].library){
-                                $scope.Directory.departments[i].selLib = $scope.Directory.libraries[j];
-                            }
-                    }
-                    $scope.newPerson.selDiv = $scope.Directory.divisions[0];
-                    for (var i = 0; i < $scope.Directory.libraries.length; i++)
-                        $scope.Directory.libraries[i].show = false;
-                    for (var i = 0; i < $scope.Directory.divisions.length; i++)
-                        $scope.Directory.divisions[i].show = false;
-                    $scope.newDept.selLib = $scope.Directory.libraries[0];
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & STAFFDIR_GROUP === STAFFDIR_GROUP) {
+                $scope.hasAccess = true;
+            }
+        }
 
-                    $scope.sortBy(0);
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
+        sdFactory.getData()
+            .success(function(data) {
+                console.dir(data);
+                $scope.Directory = data;
+                for (var i = 0; i < $scope.Directory.list.length; i++){
+                    $scope.Directory.list[i].selSubj = $scope.Directory.subjects[0];
+                    $scope.Directory.list[i].selType = $scope.subjectTypes[0];
+                    for (var j = 0; j < $scope.Directory.departments.length; j++)
+                        if ($scope.Directory.departments[j].depid == $scope.Directory.list[i].dept){
+                            $scope.Directory.list[i].selDept = $scope.Directory.departments[j];
+                            break;
+                        }
+                    for (var j = 0; j < $scope.Directory.divisions.length; j++)
+                        if ($scope.Directory.divisions[j].divid == $scope.Directory.list[i].divis){
+                            $scope.Directory.list[i].selDiv = $scope.Directory.divisions[j];
+                            break;
+                        }
+                    $scope.Directory.list[i].class = "";
+                    $scope.Directory.list[i].show = false;
+                    $scope.Directory.list[i].image = appUrl + "staffImages/" + $scope.Directory.list[i].id + ".jpg";
+                }
+                $scope.newPerson.selSubj = $scope.Directory.subjects[0];
+                for (var i = 0; i < $scope.Directory.subjects.length; i++)
+                    $scope.Directory.subjects[i].show = false;
+                $scope.newPerson.selDept = $scope.Directory.departments[0];
+                for (var i = 0; i < $scope.Directory.departments.length; i++){
+                    $scope.Directory.departments[i].show = false;
+                    for (var j = 0; j < $scope.Directory.libraries.length; j++)
+                        if ($scope.Directory.libraries[j].lid == $scope.Directory.departments[i].library){
+                            $scope.Directory.departments[i].selLib = $scope.Directory.libraries[j];
+                        }
+                }
+                $scope.newPerson.selDiv = $scope.Directory.divisions[0];
+                for (var i = 0; i < $scope.Directory.libraries.length; i++)
+                    $scope.Directory.libraries[i].show = false;
+                for (var i = 0; i < $scope.Directory.divisions.length; i++)
+                    $scope.Directory.divisions[i].show = false;
+                $scope.newDept.selLib = $scope.Directory.libraries[0];
 
-        }])
+                $scope.sortBy(0);
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
+
+    }])
 
     .controller('staffDirPeopleCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_URL',
         function staffDirPeopleCtrl($scope, sdFactory, ranks, appUrl){
@@ -6676,8 +6684,9 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
         };
     }])
 
-    .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', 'lazyLoad',
-    function staffDirProfileCtrl($scope, sdFactory, userData, lazyLoad){
+    .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', 'lazyLoad', 'AuthService',
+    function staffDirProfileCtrl($scope, sdFactory, userData, lazyLoad, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
         $scope.userProfile = {};
         $scope.tinymceOptions = {
             onChange: function(e) {
@@ -6725,53 +6734,54 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
             }
         });
     }])
-    .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'formFactory', 'userData', 'FORMS_GROUP',
-        function manageSubFormsCtrl($scope, $timeout, formFactory, userData, FORMS_GROUP){
-            $scope.data = {};
-            $scope.currentPage = 1;
-            $scope.maxPageSize = 10;
-            $scope.perPage = 20;
-            $scope.titleFilter = '';
-            $scope.sortModes = [
-                {by:'title', reverse:false},
-                {by:'status', reverse:false},
-                {by:'created', reverse:true}
-            ];
-            $scope.sortMode = 2;
-            $scope.sortButton = $scope.sortMode;
-            $scope.mOver = 0;
+    .controller('manageSubFormsCtrl', ['$scope', '$timeout', 'formFactory', 'userData', 'FORMS_GROUP', 'AuthService',
+    function manageSubFormsCtrl($scope, $timeout, formFactory, userData, FORMS_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
+        $scope.data = {};
+        $scope.currentPage = 1;
+        $scope.maxPageSize = 10;
+        $scope.perPage = 20;
+        $scope.titleFilter = '';
+        $scope.sortModes = [
+            {by:'title', reverse:false},
+            {by:'status', reverse:false},
+            {by:'created', reverse:true}
+        ];
+        $scope.sortMode = 2;
+        $scope.sortButton = $scope.sortMode;
+        $scope.mOver = 0;
 
-            $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & FORMS_GROUP === FORMS_GROUP) {
-                    $scope.hasAccess = true;
-                }
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & FORMS_GROUP === FORMS_GROUP) {
+                $scope.hasAccess = true;
             }
+        }
 
-            formFactory.getData()
-                .success(function(data) {
-                    console.dir(data);
-                    for (var i = 0; i < data.forms.length; i++){
-                        data.forms[i].show = false;
-                        data.forms[i].class = "";
-                    }
-                    $scope.data = data;
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
+        formFactory.getData()
+            .success(function(data) {
+                console.dir(data);
+                for (var i = 0; i < data.forms.length; i++){
+                    data.forms[i].show = false;
+                    data.forms[i].class = "";
+                }
+                $scope.data = data;
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
 
-            $scope.toggleForms = function(form){
-                $scope.data.forms[$scope.data.forms.indexOf(form)].show =
-                    !$scope.data.forms[$scope.data.forms.indexOf(form)].show;
-            };
-            $scope.sortBy = function(by){
-                if ($scope.sortMode === by)
-                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
-                else
-                    $scope.sortMode = by;
-            };
-        }])
+        $scope.toggleForms = function(form){
+            $scope.data.forms[$scope.data.forms.indexOf(form)].show =
+                !$scope.data.forms[$scope.data.forms.indexOf(form)].show;
+        };
+        $scope.sortBy = function(by){
+            if ($scope.sortMode === by)
+                $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
+            else
+                $scope.sortMode = by;
+        };
+    }])
 
     .filter('startFrom', [ function() {
         return function(input, start) {

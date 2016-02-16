@@ -206,5 +206,4 @@ angular.module('common.manage', [])
     .run(['$rootScope', 'tokenReceiver', '$location', 'AuthService',
     function($rootScope, tokenReceiver, $location, AuthService) {
         $rootScope.userInfo = {};
-        $rootScope.userInfo = AuthService.isAuthorized();
     }]);

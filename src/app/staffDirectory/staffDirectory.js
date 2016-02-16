@@ -32,97 +32,98 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
             });
     }])
 
-    .controller('staffDirCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_URL', 'userData', 'STAFFDIR_GROUP',
-        function staffDirCtrl($scope, sdFactory, appUrl, userData, STAFFDIR_GROUP){
-            $scope.Directory = {};
-            $scope.newPerson = {};
-            $scope.newDept = {};
+    .controller('staffDirCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_URL', 'userData', 'STAFFDIR_GROUP', 'AuthService',
+    function staffDirCtrl($scope, sdFactory, appUrl, userData, STAFFDIR_GROUP, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
+        $scope.Directory = {};
+        $scope.newPerson = {};
+        $scope.newDept = {};
 
-            $scope.tabs = [
-                { name: 'Directory',
-                    number: 0,
-                    active: true
-                },
-                { name: 'Subjects',
-                    number: 1,
-                    active: false
-                },
-                { name: 'Departments/Locations',
-                    number: 2,
-                    active: false
-                }
-            ];
-            $scope.subjectTypes = [
-                {name: 'Specialist', value: 1},
-                {name: 'Instructor', value: 2},
-                {name: 'Both', value: 3}
-            ];
-            $scope.sortModes = [
-                {by:'lastname', reverse:false},
-                {by:'title', reverse:false},
-                {by:'department', reverse:false}
-            ];
-            $scope.sortMode = $scope.sortModes[0];
-            $scope.sortBy = function(by){
-                if ($scope.sortMode === by)
-                    $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
-                else
-                    $scope.sortMode = by;
-            };
-
-            $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & STAFFDIR_GROUP === STAFFDIR_GROUP) {
-                    $scope.hasAccess = true;
-                }
+        $scope.tabs = [
+            { name: 'Directory',
+                number: 0,
+                active: true
+            },
+            { name: 'Subjects',
+                number: 1,
+                active: false
+            },
+            { name: 'Departments/Locations',
+                number: 2,
+                active: false
             }
+        ];
+        $scope.subjectTypes = [
+            {name: 'Specialist', value: 1},
+            {name: 'Instructor', value: 2},
+            {name: 'Both', value: 3}
+        ];
+        $scope.sortModes = [
+            {by:'lastname', reverse:false},
+            {by:'title', reverse:false},
+            {by:'department', reverse:false}
+        ];
+        $scope.sortMode = $scope.sortModes[0];
+        $scope.sortBy = function(by){
+            if ($scope.sortMode === by)
+                $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
+            else
+                $scope.sortMode = by;
+        };
 
-            sdFactory.getData()
-                .success(function(data) {
-                    console.dir(data);
-                    $scope.Directory = data;
-                    for (var i = 0; i < $scope.Directory.list.length; i++){
-                        $scope.Directory.list[i].selSubj = $scope.Directory.subjects[0];
-                        $scope.Directory.list[i].selType = $scope.subjectTypes[0];
-                        for (var j = 0; j < $scope.Directory.departments.length; j++)
-                            if ($scope.Directory.departments[j].depid == $scope.Directory.list[i].dept){
-                                $scope.Directory.list[i].selDept = $scope.Directory.departments[j];
-                                break;
-                            }
-                        for (var j = 0; j < $scope.Directory.divisions.length; j++)
-                            if ($scope.Directory.divisions[j].divid == $scope.Directory.list[i].divis){
-                                $scope.Directory.list[i].selDiv = $scope.Directory.divisions[j];
-                                break;
-                            }
-                        $scope.Directory.list[i].class = "";
-                        $scope.Directory.list[i].show = false;
-                        $scope.Directory.list[i].image = appUrl + "staffImages/" + $scope.Directory.list[i].id + ".jpg";
-                    }
-                    $scope.newPerson.selSubj = $scope.Directory.subjects[0];
-                    for (var i = 0; i < $scope.Directory.subjects.length; i++)
-                        $scope.Directory.subjects[i].show = false;
-                    $scope.newPerson.selDept = $scope.Directory.departments[0];
-                    for (var i = 0; i < $scope.Directory.departments.length; i++){
-                        $scope.Directory.departments[i].show = false;
-                        for (var j = 0; j < $scope.Directory.libraries.length; j++)
-                            if ($scope.Directory.libraries[j].lid == $scope.Directory.departments[i].library){
-                                $scope.Directory.departments[i].selLib = $scope.Directory.libraries[j];
-                            }
-                    }
-                    $scope.newPerson.selDiv = $scope.Directory.divisions[0];
-                    for (var i = 0; i < $scope.Directory.libraries.length; i++)
-                        $scope.Directory.libraries[i].show = false;
-                    for (var i = 0; i < $scope.Directory.divisions.length; i++)
-                        $scope.Directory.divisions[i].show = false;
-                    $scope.newDept.selLib = $scope.Directory.libraries[0];
+        $scope.hasAccess = false;
+        if (angular.isDefined($scope.userInfo.group)) {
+            if ($scope.userInfo.group & STAFFDIR_GROUP === STAFFDIR_GROUP) {
+                $scope.hasAccess = true;
+            }
+        }
 
-                    $scope.sortBy(0);
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                });
+        sdFactory.getData()
+            .success(function(data) {
+                console.dir(data);
+                $scope.Directory = data;
+                for (var i = 0; i < $scope.Directory.list.length; i++){
+                    $scope.Directory.list[i].selSubj = $scope.Directory.subjects[0];
+                    $scope.Directory.list[i].selType = $scope.subjectTypes[0];
+                    for (var j = 0; j < $scope.Directory.departments.length; j++)
+                        if ($scope.Directory.departments[j].depid == $scope.Directory.list[i].dept){
+                            $scope.Directory.list[i].selDept = $scope.Directory.departments[j];
+                            break;
+                        }
+                    for (var j = 0; j < $scope.Directory.divisions.length; j++)
+                        if ($scope.Directory.divisions[j].divid == $scope.Directory.list[i].divis){
+                            $scope.Directory.list[i].selDiv = $scope.Directory.divisions[j];
+                            break;
+                        }
+                    $scope.Directory.list[i].class = "";
+                    $scope.Directory.list[i].show = false;
+                    $scope.Directory.list[i].image = appUrl + "staffImages/" + $scope.Directory.list[i].id + ".jpg";
+                }
+                $scope.newPerson.selSubj = $scope.Directory.subjects[0];
+                for (var i = 0; i < $scope.Directory.subjects.length; i++)
+                    $scope.Directory.subjects[i].show = false;
+                $scope.newPerson.selDept = $scope.Directory.departments[0];
+                for (var i = 0; i < $scope.Directory.departments.length; i++){
+                    $scope.Directory.departments[i].show = false;
+                    for (var j = 0; j < $scope.Directory.libraries.length; j++)
+                        if ($scope.Directory.libraries[j].lid == $scope.Directory.departments[i].library){
+                            $scope.Directory.departments[i].selLib = $scope.Directory.libraries[j];
+                        }
+                }
+                $scope.newPerson.selDiv = $scope.Directory.divisions[0];
+                for (var i = 0; i < $scope.Directory.libraries.length; i++)
+                    $scope.Directory.libraries[i].show = false;
+                for (var i = 0; i < $scope.Directory.divisions.length; i++)
+                    $scope.Directory.divisions[i].show = false;
+                $scope.newDept.selLib = $scope.Directory.libraries[0];
 
-        }])
+                $scope.sortBy(0);
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
+
+    }])
 
     .controller('staffDirPeopleCtrl', ['$scope', 'sdFactory', 'STAFF_DIR_RANKS', 'STAFF_DIR_URL',
         function staffDirPeopleCtrl($scope, sdFactory, ranks, appUrl){
@@ -529,8 +530,9 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
         };
     }])
 
-    .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', 'lazyLoad',
-    function staffDirProfileCtrl($scope, sdFactory, userData, lazyLoad){
+    .controller('staffDirProfileCtrl', ['$scope', 'sdFactory', 'userData', 'lazyLoad', 'AuthService',
+    function staffDirProfileCtrl($scope, sdFactory, userData, lazyLoad, AuthService){
+        $scope.userInfo = AuthService.isAuthorized();
         $scope.userProfile = {};
         $scope.tinymceOptions = {
             onChange: function(e) {
