@@ -3037,8 +3037,8 @@ angular.module('common.manage', [])
 
             // If a token was sent back, save it
             response: function(res) {
-                if(res.config.url.indexOf("https://wwwdev2.lib.ua.edu/") === 0 && res.data.token) {
-                    AuthService.saveToken(res.data.token);
+                if(res.config.url.indexOf("https://wwwdev2.lib.ua.edu/") === 0 && res.data.data.token) {
+                    AuthService.saveToken(res.data.data.token);
                 }
                 return res;
             }
