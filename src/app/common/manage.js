@@ -192,7 +192,6 @@ angular.module('common.manage', [])
                     transformResponse: appendTransform($http.defaults.transformResponse, function (data) {
                         if (typeof data === 'string') {
                             data = angular.fromJson(data.replace(/<\/?[^>]+(>|$)/g, ""));
-                            console.dir(data);
                         }
                         return data;
                     })

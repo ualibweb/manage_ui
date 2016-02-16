@@ -41,15 +41,19 @@ angular.module('manage.manageUserGroups', [])
                 }
                 $scope.wpUsers = data;
                 $scope.newUser = $scope.wpUsers[0];
-                console.dir(data);
+                console.log("WP user list received");
                 ugFactory.getData()
                     .success(function(data2) {
-                        $scope.users = data2.users;
-                        $scope.apps = data2.apps;
-                        for (i = 0; i < $scope.apps.length; i++)
-                            $scope.newUserAccess[i] = false;
-                        $scope.isLoading = false;
-                        console.dir(data2);
+                        if (angular.isDefined(data2.users) && angular.isDefined(data2.apps)) {
+                            $scope.users = data2.users;
+                            $scope.apps = data2.apps;
+                            for (i = 0; i < $scope.apps.length; i++)
+                                $scope.newUserAccess[i] = false;
+                            $scope.isLoading = false;
+                            console.log("User groups received");
+                        } else {
+                            console.dir(data2);
+                        }
                     })
                     .error(function(data2, status, headers, config) {
                         $scope.result = "Error! Could not retrieve user data! " + data2;
