@@ -3066,7 +3066,6 @@ angular.module('common.manage', [])
                 var params = self.parseJWT(token);
                 if (Math.round(new Date().getTime() / 1000) <= params.exp) {
                     console.log('Authenticated.');
-                    console.dir(params.user);
                     return params.user;
                 }
             }
@@ -6007,7 +6006,6 @@ angular.module('manage.manageUserGroups', [])
                 $scope.wpUsers = data;
                 $scope.newUser = $scope.wpUsers[0];
                 console.log("WP user list received:");
-                console.dir(data);
                 ugFactory.getData()
                     .success(function(data2) {
                         if (angular.isDefined(data2.users) && angular.isDefined(data2.apps)) {

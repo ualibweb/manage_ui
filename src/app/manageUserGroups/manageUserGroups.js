@@ -42,7 +42,6 @@ angular.module('manage.manageUserGroups', [])
                 $scope.wpUsers = data;
                 $scope.newUser = $scope.wpUsers[0];
                 console.log("WP user list received:");
-                console.dir(data);
                 ugFactory.getData()
                     .success(function(data2) {
                         if (angular.isDefined(data2.users) && angular.isDefined(data2.apps)) {
