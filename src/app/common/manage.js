@@ -28,10 +28,8 @@ angular.module('common.manage', [])
 
             // If a token was sent back, save it
             response: function(res) {
-                console.log("Response:");
-                console.dir(res);
-                if(res.config.url.indexOf("https://wwwdev2.lib.ua.edu/") === 0 && angular.isDefined(res.data.data.token)) {
-                    AuthService.saveToken(res.data.data.token);
+                if(res.config.url.indexOf("https://wwwdev2.lib.ua.edu/") === 0 && angular.isDefined(res.data.token)) {
+                    AuthService.saveToken(res.data.token);
                 }
                 return res;
             }
