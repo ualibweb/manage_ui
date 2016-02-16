@@ -176,26 +176,9 @@ angular.module('common.manage', [])
         };
     }])
     .factory('wpUsersFactory', ['$http', 'API', function wpUsersFactory($http, API){
-        function appendTransform(defaults, transform) {
-
-            // We can't guarantee that the default transformation is an array
-            defaults = angular.isArray(defaults) ? defaults : [defaults];
-            //console.log(defaults.concat(transform));
-            // Append the new transformation to the defaults
-            return defaults.concat(transform);
-        }
         return {
             getAllUsersWP : function(){
-                return $http({
-                    url: API + 'users',
-                    method: 'GET',
-                    transformResponse: appendTransform($http.defaults.transformResponse, function (data) {
-                        if (typeof data === 'string') {
-                            data = angular.fromJson(data.replace(/<\/?[^>]+(>|$)/g, ""));
-                        }
-                        return data;
-                    })
-                })
+                return $http.get(API + 'users');
             }
         };
     }])
