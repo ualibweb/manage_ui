@@ -1,7 +1,7 @@
 <div class="container">
     <h2>Profile Management</h2>
 
-    <div ng-if="userProfile.person.uid > 0">
+    <div ng-if="userProfile.person.uid > 0 && userInfo.login">
         <div class="row">
             <div class="col-md-3">
                 <img class="staff-portrait thumbnail" ng-src="{{userProfile.person.photo}}" ng-if="userProfile.person.photo != null"
@@ -85,5 +85,8 @@
         </div>
     </div>
 
-    <h4 ng-hide="userProfile.person.uid > 0">Can not find your profile!</h4>
+    <h4 ng-if="!userProfile.person && userInfo.login">Can not find your profile!</h4>
+    <div ng-if="!userInfo.login">
+        <h3>Sorry, you don't have permissions to manage staff directory</h3>
+    </div>
 </div>

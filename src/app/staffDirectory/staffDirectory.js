@@ -544,14 +544,16 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
             theme : 'modern'
         };
 
-        sdFactory.getProfile($scope.userInfo.login)
-            .success(function(data) {
-                $scope.userProfile = data;
-                console.dir(data);
-            })
-            .error(function(data, status, headers, config) {
-                console.log(data);
-            });
+        if (angular.isDefined($scope.userInfo.login)) {
+            sdFactory.getProfile($scope.userInfo.login)
+                .success(function (data) {
+                    $scope.userProfile = data;
+                    console.dir(data);
+                })
+                .error(function (data, status, headers, config) {
+                    console.log(data);
+                });
+        }
 
         $scope.update = function(){
             $scope.userProfile.person.login = $scope.userInfo.login;
