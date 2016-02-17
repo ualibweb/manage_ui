@@ -25,7 +25,7 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
         $scope.newComp = {};
         $scope.hasAccess = false;
         if (angular.isDefined($scope.userInfo.group)) {
-            if ($scope.userInfo.group & SOFTWARE_GROUP === SOFTWARE_GROUP) {
+            if ((parseInt($scope.userInfo.group) & SOFTWARE_GROUP) === SOFTWARE_GROUP) {
                 $scope.hasAccess = true;
             }
         }

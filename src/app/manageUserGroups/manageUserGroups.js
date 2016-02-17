@@ -24,7 +24,7 @@ angular.module('manage.manageUserGroups', [])
         $scope.newUserAccess = [];
         $scope.hasAccess = false;
         if (angular.isDefined($scope.userInfo.group)) {
-            if ($scope.userInfo.group & USERS_GROUP === USERS_GROUP) {
+            if ((parseInt($scope.userInfo.group) & USERS_GROUP) === USERS_GROUP) {
                 $scope.hasAccess = true;
             }
         }

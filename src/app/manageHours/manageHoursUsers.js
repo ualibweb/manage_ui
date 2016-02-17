@@ -23,7 +23,7 @@ angular.module('manage.manageHoursUsers', [])
             $scope.wpUsers = [];
             $scope.hasAccess = false;
             if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & HOURS_GROUP === HOURS_GROUP) {
+                if ((parseInt($scope.userInfo.group) & HOURS_GROUP) === HOURS_GROUP) {
                     $scope.hasAccess = true;
                 }
             }

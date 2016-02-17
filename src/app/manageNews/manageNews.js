@@ -31,7 +31,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
 
         $scope.hasAccess = false;
         if (angular.isDefined($scope.userInfo.group)) {
-            if ($scope.userInfo.group & NEWS_GROUP === NEWS_GROUP) {
+            if ((parseInt($scope.userInfo.group) & NEWS_GROUP) === NEWS_GROUP) {
                 $scope.hasAccess = true;
             }
         }

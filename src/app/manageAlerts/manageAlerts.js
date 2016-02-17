@@ -55,7 +55,7 @@ angular.module('manage.manageAlerts', [])
 
         $scope.hasAccess = false;
         if (angular.isDefined($scope.userInfo.group)) {
-            if ($scope.userInfo.group & ALERTS_GROUP === ALERTS_GROUP) {
+            if ((parseInt($scope.userInfo.group) & ALERTS_GROUP) === ALERTS_GROUP) {
                 $scope.hasAccess = true;
             }
         }

@@ -52,7 +52,7 @@ angular.module('manage.manageDatabases', [])
 
             $scope.hasAccess = false;
             if (angular.isDefined($scope.userInfo.group)) {
-                if ($scope.userInfo.group & DATABASES_GROUP === DATABASES_GROUP) {
+                if ((parseInt($scope.userInfo.group) & DATABASES_GROUP) === DATABASES_GROUP) {
                     $scope.hasAccess = true;
                     $scope.newDB.updatedBy = $scope.userInfo.login;
                 }

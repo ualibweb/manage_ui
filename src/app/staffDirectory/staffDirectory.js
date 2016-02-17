@@ -73,7 +73,7 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
 
         $scope.hasAccess = false;
         if (angular.isDefined($scope.userInfo.group)) {
-            if ($scope.userInfo.group & STAFFDIR_GROUP === STAFFDIR_GROUP) {
+            if ((parseInt($scope.userInfo.group) & STAFFDIR_GROUP) === STAFFDIR_GROUP) {
                 $scope.hasAccess = true;
             }
         }

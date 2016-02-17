@@ -18,7 +18,7 @@ angular.module('manage.manageOneSearch', [])
         $scope.userInfo = AuthService.isAuthorized();
         $scope.hasAccess = false;
         if (angular.isDefined($scope.userInfo.group)) {
-            if ($scope.userInfo.group & ONESEARCH_GROUP === ONESEARCH_GROUP) {
+            if ((parseInt($scope.userInfo.group) & ONESEARCH_GROUP) === ONESEARCH_GROUP) {
                 $scope.hasAccess = true;
             }
         }

@@ -31,7 +31,7 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
 
         $scope.hasAccess = false;
         if (angular.isDefined($scope.userInfo.group)) {
-            if ($scope.userInfo.group & FORMS_GROUP === FORMS_GROUP) {
+            if ((parseInt($scope.userInfo.group) & FORMS_GROUP) === FORMS_GROUP) {
                 $scope.hasAccess = true;
             }
         }
