@@ -4527,6 +4527,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
                 if ($scope.data.news[$scope.data.news.indexOf(news)].formResponse.length > 0)
                     return false;
                 $scope.uploading = true;
+                news.title = news.title.replace(/\//g, '');
                 if (news.type < 1) {
                     news.activeFrom = null;
                     news.activeUntil = null;
@@ -4602,6 +4603,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
                 if ($scope.newNews.formResponse.length > 0)
                     return false;
                 $scope.uploading = true;
+                $scope.newNews.title = $scope.newNews.title.replace(/\//g, '');
                 if ($scope.newNews.type < 1) {
                     $scope.newNews.activeFrom = null;
                     $scope.newNews.activeUntil = null;
