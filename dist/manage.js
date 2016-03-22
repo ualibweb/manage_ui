@@ -3374,9 +3374,9 @@ angular.module('manage.manageAlerts', [])
             }
         };
         $scope.updateAlert = function(alert){
-            $scope.uploading = true;
             alert.formResponse = $scope.validateAlert(alert);
             if (alert.formResponse.length < 1) {
+                $scope.uploading = true;
                 alert.tsStart = alert.dateStart.valueOf() / 1000;
                 alert.tsEnd = alert.dateEnd.valueOf() / 1000;
                 alertFactory.postData({action: 2}, alert)
@@ -3397,10 +3397,10 @@ angular.module('manage.manageAlerts', [])
             }
         };
         $scope.createAlert = function(alert) {
-            $scope.uploading = true;
             $scope.newAlert.formResponse = "";
             $scope.newAlert.formResponse = $scope.validateAlert(alert);
             if ($scope.newAlert.formResponse.length < 1) {
+                $scope.uploading = true;
                 alert.tsStart = alert.dateStart.valueOf() / 1000;
                 alert.tsEnd = alert.dateEnd.valueOf() / 1000;
                 alertFactory.postData({action: 3}, alert)
