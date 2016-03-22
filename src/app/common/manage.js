@@ -174,6 +174,13 @@ angular.module('common.manage', [])
             }
         };
     }])
+    .factory('errorsFactory', ['$http', 'ERRORS_URL', function errorsFactory($http, url){
+        return {
+            getData: function(){
+                return $http({method: 'GET', url: url + "api/all", params: {}})
+            }
+        };
+    }])
     .factory('wpUsersFactory', ['$http', 'API', function wpUsersFactory($http, API){
         return {
             getAllUsersWP : function(){

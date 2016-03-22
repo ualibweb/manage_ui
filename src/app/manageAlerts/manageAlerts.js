@@ -94,6 +94,20 @@ angular.module('manage.manageAlerts', [])
                 !$scope.data.alerts[$scope.data.alerts.indexOf(alert)].show;
         };
 
+        $scope.validateAlert = function(alert) {
+            if (!angular.isDefined(alert.dateStart)) {
+                return "Please enter Active From date!";
+            }
+            if (!angular.isDefined(alert.dateEnd)) {
+                return "Please enter Active Until date!";
+            }
+            if (angular.isDefined(alert.message) && alert.message.length > 10) {
+                return "";
+            } else {
+                return "Please enter alert Message, minimum 10 characters!";
+            }
+        };
+
         $scope.deleteAlert = function(alert){
             if (confirm("Delete alert permanently?") == true){
                 $scope.uploading = true;
@@ -117,56 +131,61 @@ angular.module('manage.manageAlerts', [])
         };
         $scope.updateAlert = function(alert){
             $scope.uploading = true;
-            alert.formResponse = "";
-            alert.tsStart = alert.dateStart.valueOf() / 1000;
-            alert.tsEnd = alert.dateEnd.valueOf() / 1000;
-            alertFactory.postData({action : 2}, alert)
-                .success(function(data, status, headers, config) {
-                    if (data == 1){
-                        alert.formResponse = "Alert has been updated!";
-                    } else {
-                        alert.formResponse = "Error: Can not update alert! " + data;
-                    }
-                    $scope.uploading = false;
-                    console.log(data);
-                })
-                .error(function(data, status, headers, config) {
-                    alert.formResponse = "Error: Could not update alert! " + data;
-                    $scope.uploading = false;
-                    console.log(data);
-                });
+            alert.formResponse = $scope.validateAlert(alert);
+            if (alert.formResponse.length < 1) {
+                alert.tsStart = alert.dateStart.valueOf() / 1000;
+                alert.tsEnd = alert.dateEnd.valueOf() / 1000;
+                alertFactory.postData({action: 2}, alert)
+                    .success(function (data, status, headers, config) {
+                        if (data == 1) {
+                            alert.formResponse = "Alert has been updated!";
+                        } else {
+                            alert.formResponse = "Error: Can not update alert! " + data;
+                        }
+                        $scope.uploading = false;
+                        console.log(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        alert.formResponse = "Error: Could not update alert! " + data;
+                        $scope.uploading = false;
+                        console.log(data);
+                    });
+            }
         };
         $scope.createAlert = function(alert) {
             $scope.uploading = true;
             $scope.newAlert.formResponse = "";
-            alert.tsStart = alert.dateStart.valueOf() / 1000;
-            alert.tsEnd = alert.dateEnd.valueOf() / 1000;
-            alertFactory.postData({action : 3}, alert)
-                .success(function(data, status, headers, config) {
-                    if ((typeof data === 'object') && (data !== null)){
-                        var newAlert = {};
-                        newAlert = angular.copy(alert);
-                        newAlert.aid = data.id;
-                        newAlert.show = false;
-                        newAlert.selType = TYPES[0];
-                        for (var j = 1; j < TYPES.length; j++)
-                            if (TYPES[j].value == alert.type){
-                                newAlert.selType = TYPES[j];
-                                break;
-                            }
-                        $scope.data.alerts.push(newAlert);
-                        $scope.newAlert.formResponse = "Alert has been created.";
-                    } else {
-                        $scope.newAlert.formResponse = "Error: Can not create alert! " + data;
-                    }
-                    console.dir(data);
-                    $scope.uploading = false;
-                })
-                .error(function(data, status, headers, config) {
-                    $scope.newAlert.formResponse = "Error: Could not create alert! " + data;
-                    console.log(data);
-                    $scope.uploading = false;
-                });
+            $scope.newAlert.formResponse = $scope.validateAlert(alert);
+            if ($scope.newAlert.formResponse.length < 1) {
+                alert.tsStart = alert.dateStart.valueOf() / 1000;
+                alert.tsEnd = alert.dateEnd.valueOf() / 1000;
+                alertFactory.postData({action: 3}, alert)
+                    .success(function (data, status, headers, config) {
+                        if ((typeof data === 'object') && (data !== null)) {
+                            var newAlert = {};
+                            newAlert = angular.copy(alert);
+                            newAlert.aid = data.id;
+                            newAlert.show = false;
+                            newAlert.selType = TYPES[0];
+                            for (var j = 1; j < TYPES.length; j++)
+                                if (TYPES[j].value == alert.type) {
+                                    newAlert.selType = TYPES[j];
+                                    break;
+                                }
+                            $scope.data.alerts.push(newAlert);
+                            $scope.newAlert.formResponse = "Alert has been created.";
+                        } else {
+                            $scope.newAlert.formResponse = "Error: Can not create alert! " + data;
+                        }
+                        console.dir(data);
+                        $scope.uploading = false;
+                    })
+                    .error(function (data, status, headers, config) {
+                        $scope.newAlert.formResponse = "Error: Could not create alert! " + data;
+                        console.log(data);
+                        $scope.uploading = false;
+                    });
+            }
         };
     }])
 

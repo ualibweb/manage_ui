@@ -1,5 +1,6 @@
 angular.module('manage', [
     'ngAnimate',
+    'ngRoute',
     'ui.bootstrap',
     'manage.common',
     'manage.templates',
@@ -12,7 +13,8 @@ angular.module('manage', [
     'manage.manageSoftware',
     'manage.manageNews',
     'manage.submittedForms',
-    'manage.manageAlerts'
+    'manage.manageAlerts',
+    'manage.oneSearchErrors'
 ])
 
     .constant('HOURS_MANAGE_URL', 'https://wwwdev2.lib.ua.edu/libhours2/')
@@ -24,4 +26,5 @@ angular.module('manage', [
     .constant('SOFTWARE_URL', 'https://wwwdev2.lib.ua.edu/softwareList/')
     .constant('FORMS_URL', '//wwwdev2.lib.ua.edu/form/')
     .constant('NEWS_URL', 'https://wwwdev2.lib.ua.edu/newsApp/')
-    .constant('ALERTS_URL', 'https://wwwdev2.lib.ua.edu/alerts/');
+    .constant('ALERTS_URL', 'https://wwwdev2.lib.ua.edu/alerts/')
+    .constant('ERRORS_URL', 'https://wwwdev2.lib.ua.edu/errors/');
