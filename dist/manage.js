@@ -586,13 +586,13 @@ angular.module("manageERCarousel/manageSlideFields.tpl.html", []).run(["$templat
     "    <div class=\"col-xs-12 col-sm-6 form-group\">\n" +
     "        <label for=\"url\">URL</label>\n" +
     "        <input type=\"text\" class=\"form-control\" placeholder=\"Link URK\" ng-model=\"slide.url\"\n" +
-    "               id=\"url\" maxlength=\"1024\">\n" +
+    "               id=\"url\" maxlength=\"1024\" required>\n" +
     "    </div>\n" +
     "</div>\n" +
     "<div class=\"row\">\n" +
     "    <div class=\"col-xs-6 col-sm-3 form-group\">\n" +
     "        <label for=\"priority\">Priority</label>\n" +
-    "        <input type=\"number\" class=\"form-control\" placeholder=\"13\" ng-model=\"slide.priority\"\n" +
+    "        <input type=\"number\" class=\"form-control\" placeholder=\"13\" ng-model=\"slide.tmpPriority\"\n" +
     "               id=\"priority\" required>\n" +
     "    </div>\n" +
     "    <div class=\"col-xs-6 col-sm-3 form-group\">\n" +
@@ -666,7 +666,7 @@ angular.module("manageERCarousel/manageSlideList.tpl.html", []).run(["$templateC
     "                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSlide(slide)\">\n" +
     "                        <span class=\"fa fa-trash-o\"></span> Delete Slide\n" +
     "                    </button><br>\n" +
-    "                    {{news.formResponse}}\n" +
+    "                    {{slide.formResponse}}\n" +
     "                </div>\n" +
     "            </form>\n" +
     "        </div>\n" +
@@ -3979,6 +3979,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                     data.slides[i].priority = parseInt(data.slides[i].priority);
                     data.slides[i].show = false;
                     data.slides[i].selectedFiles = [];
+                    data.slides[i].tmpPriority = data.slides[i].priority;
                 }
                 $scope.slides = data.slides;
                 $scope.numShow = data.numShow;
@@ -3995,7 +3996,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
             $scope.uploading = false;
 
             $scope.newSlide.title = '';
-            $scope.newSlide.priority = 0;
+            $scope.newSlide.tmpPriority = 0;
             $scope.newSlide.url = '';
 
             $scope.toggleSlide = function(slide){
@@ -4045,6 +4046,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                     return false;
                 $scope.uploading = true;
                 slide.title = slide.title.replace(/\//g, '');
+                slide.priority = slide.tmpPriority;
                 if (slide.selectedFiles.length < 1){
                     ercFactory.slides().save({slideID: slide.sid}, slide)
                         .$promise.then(function(data){
@@ -4093,6 +4095,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                     return false;
                 $scope.uploading = true;
                 slide.title = slide.title.replace(/\//g, '');
+                slide.priority = slide.tmpPriority;
                 if (slide.selectedFiles.length < 1){
                     ercFactory.slides().save({}, slide)
                         .$promise.then(function(data){

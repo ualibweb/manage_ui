@@ -39,6 +39,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                     data.slides[i].priority = parseInt(data.slides[i].priority);
                     data.slides[i].show = false;
                     data.slides[i].selectedFiles = [];
+                    data.slides[i].tmpPriority = data.slides[i].priority;
                 }
                 $scope.slides = data.slides;
                 $scope.numShow = data.numShow;
@@ -55,7 +56,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
             $scope.uploading = false;
 
             $scope.newSlide.title = '';
-            $scope.newSlide.priority = 0;
+            $scope.newSlide.tmpPriority = 0;
             $scope.newSlide.url = '';
 
             $scope.toggleSlide = function(slide){
@@ -105,6 +106,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                     return false;
                 $scope.uploading = true;
                 slide.title = slide.title.replace(/\//g, '');
+                slide.priority = slide.tmpPriority;
                 if (slide.selectedFiles.length < 1){
                     ercFactory.slides().save({slideID: slide.sid}, slide)
                         .$promise.then(function(data){
@@ -153,6 +155,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                     return false;
                 $scope.uploading = true;
                 slide.title = slide.title.replace(/\//g, '');
+                slide.priority = slide.tmpPriority;
                 if (slide.selectedFiles.length < 1){
                     ercFactory.slides().save({}, slide)
                         .$promise.then(function(data){
