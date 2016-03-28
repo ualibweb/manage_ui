@@ -232,11 +232,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
             $scope.generateThumb = function(files, slide) {
                 if (files.length > 0 && files !== null) {
                     for (var i = 0; i < files.length; i++){
-                        if (angular.isDefined(slide.sid)) {
-                            $scope.slides[$scope.slides.indexOf(slide)].selectedFiles.push(files[i]);
-                        } else {
-                            $scope.slide.selectedFiles.push(files[i]);
-                        }
+                        $scope.slide.selectedFiles.push(files[i]);
                         if ($scope.fileReaderSupported && files[i].type.indexOf('image') > -1) {
                             $timeout(function() {
                                 var fileReader = new FileReader();
