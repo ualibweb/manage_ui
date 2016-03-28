@@ -585,7 +585,7 @@ angular.module("manageERCarousel/manageSlideFields.tpl.html", []).run(["$templat
     "    </div>\n" +
     "    <div class=\"col-xs-12 col-sm-6 form-group\">\n" +
     "        <label for=\"url\">URL</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Link URK\" ng-model=\"slide.url\"\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"Link URL\" ng-model=\"slide.url\"\n" +
     "               id=\"url\" maxlength=\"1024\" required>\n" +
     "    </div>\n" +
     "</div>\n" +
@@ -4041,11 +4041,12 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                 }
             };
             $scope.updateSlide = function(slide){
+                console.dir(slide);
                 $scope.slides[$scope.slides.indexOf(slide)].formResponse = $scope.validateSlide(slide);
                 if ($scope.slides[$scope.slides.indexOf(slide)].formResponse.length > 0)
                     return false;
                 $scope.uploading = true;
-                slide.title = slide.title.replace(/\//g, '');
+                slide.title = slide.title.replace(/\//g, ' ');
                 slide.priority = slide.tmpPriority;
                 if (slide.selectedFiles.length < 1){
                     ercFactory.slides().save({slideID: slide.sid}, slide)
@@ -4094,7 +4095,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                 if (slide.formResponse.length > 0)
                     return false;
                 $scope.uploading = true;
-                slide.title = slide.title.replace(/\//g, '');
+                slide.title = slide.title.replace(/\//g, ' ');
                 slide.priority = slide.tmpPriority;
                 if (slide.selectedFiles.length < 1){
                     ercFactory.slides().save({}, slide)

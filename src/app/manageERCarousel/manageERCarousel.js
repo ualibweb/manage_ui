@@ -101,11 +101,12 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                 }
             };
             $scope.updateSlide = function(slide){
+                console.dir(slide);
                 $scope.slides[$scope.slides.indexOf(slide)].formResponse = $scope.validateSlide(slide);
                 if ($scope.slides[$scope.slides.indexOf(slide)].formResponse.length > 0)
                     return false;
                 $scope.uploading = true;
-                slide.title = slide.title.replace(/\//g, '');
+                slide.title = slide.title.replace(/\//g, ' ');
                 slide.priority = slide.tmpPriority;
                 if (slide.selectedFiles.length < 1){
                     ercFactory.slides().save({slideID: slide.sid}, slide)
@@ -154,7 +155,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                 if (slide.formResponse.length > 0)
                     return false;
                 $scope.uploading = true;
-                slide.title = slide.title.replace(/\//g, '');
+                slide.title = slide.title.replace(/\//g, ' ');
                 slide.priority = slide.tmpPriority;
                 if (slide.selectedFiles.length < 1){
                     ercFactory.slides().save({}, slide)
