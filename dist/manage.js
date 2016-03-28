@@ -599,7 +599,7 @@ angular.module("manageERCarousel/manageSlideFields.tpl.html", []).run(["$templat
     "        <label for=\"browse\">Select Image</label>\n" +
     "        <div id=\"browse\">\n" +
     "            <button type=\"file\" ngf-select=\"\" ng-model=\"slide.picFile\" accept=\"image/*\" ngf-multiple=\"false\"\n" +
-    "                    ngf-change=\"generateThumb($files, slide)\" class=\"btn btn-success\">\n" +
+    "                    ngf-change=\"generateThumb($files, slide)\" class=\"btn btn-primary\">\n" +
     "                <span class=\"fa fa-fw fa-plus\"></span>Browse\n" +
     "            </button>\n" +
     "        </div>\n" +
