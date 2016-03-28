@@ -1,4 +1,5 @@
 angular.module('manage', [
+    'ngResource',
     'ngAnimate',
     'ngRoute',
     'ui.bootstrap',
@@ -14,7 +15,8 @@ angular.module('manage', [
     'manage.manageNews',
     'manage.submittedForms',
     'manage.manageAlerts',
-    'manage.oneSearchErrors'
+    'manage.oneSearchErrors',
+    'manage.manageERCarousel'
 ])
 
     .constant('HOURS_MANAGE_URL', 'https://wwwdev2.lib.ua.edu/libhours2/')
@@ -27,4 +29,5 @@ angular.module('manage', [
     .constant('FORMS_URL', '//wwwdev2.lib.ua.edu/form/')
     .constant('NEWS_URL', 'https://wwwdev2.lib.ua.edu/newsApp/')
     .constant('ALERTS_URL', 'https://wwwdev2.lib.ua.edu/alerts/')
-    .constant('ERRORS_URL', 'https://wwwdev2.lib.ua.edu/errors/');
+    .constant('ERRORS_URL', 'https://wwwdev2.lib.ua.edu/errors/')
+    .constant('ERCAROUSEL_URL', 'https://wwwdev2.lib.ua.edu/erCarousel/api/');

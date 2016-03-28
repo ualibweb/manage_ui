@@ -1,0 +1,51 @@
+<div>
+    <form ng-submit="createSlide(newSlide)">
+        <div class="sdOpen">
+            <h3>Add News Slide</h3>
+            <div slide-fields-list slide="newSlide"></div>
+            <div class="row text-center form-group">
+                <button type="submit" class="btn btn-success" ng-disabled="uploading">
+                    <span class="fa fa-plus"></span> Create New Slide
+                </button><br>
+                {{newSlide.formResponse}}
+            </div>
+        </div>
+    </form>
+
+    <h3>Slides</h3>
+    <div class="row" ng-repeat="slide in slides | orderBy:'priority':true">
+        <div class="col-xs-2 col-sm-1">
+            <span class="label label-success" ng-if="$index < numShow">{{$index + 1}}</span>
+        </div>
+        <div class="col-xs-10 col-sm-4 col-md-3">
+            <a class="thumbnail" ng-click="toggleSlide(slide)">
+                <img ng-src="{{slide.image}}" alt="Click to edit slide">
+            </a><br>
+            <button type="button" class="btn btn-danger" ng-click="approveSlide(slide)"
+                    ng-if="slide.status < 1 && admin">
+                <span class="fa fa-thumbs-o-up"></span> Approve
+            </button>
+            <span class="label label-warning" ng-if="slide.status < 1 && !admin">Approval Pending</span>
+        </div>
+        <div class="col-xs-12 col-sm-7 col-md-8 clickable" ng-hide="slide.show" ng-click="toggleSlide(slide)">
+            <h4><a>{{slide.title}}</a></h4>
+            <h5><a>{{slide.url}}</a></h5>
+        </div>
+        <div class="col-xs-12 col-sm-7 col-md-8" ng-show="slide.show">
+            <form ng-submit="updateSlide(slide)">
+                <div slide-fields-list slide="slide"></div>
+                <div class="row text-center">
+                    <button type="submit" class="btn btn-success" ng-disabled="uploading">
+                        <span class="fa fa-save"></span> Update Slide
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="deleteSlide(slide)">
+                        <span class="fa fa-trash-o"></span> Delete Slide
+                    </button><br>
+                    {{news.formResponse}}
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+

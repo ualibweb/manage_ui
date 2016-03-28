@@ -69,6 +69,18 @@ angular.module('common.manage', [])
         };
     }])
 
+    .factory('ercFactory', ['$resource', 'ERCAROUSEL_URL', function($resource, API){
+        return {
+            slides: function(){
+                console.log("ercFactory.Slides");
+                return $resource(
+                    API + '/slides/:slideID',
+                    {slideID:'@slideID'}
+                );
+            }
+        };
+    }])
+
     .factory('hmFactory', ['$http', 'HOURS_MANAGE_URL', function hmFactory($http, url){
         return {
             getData: function(pPoint){
