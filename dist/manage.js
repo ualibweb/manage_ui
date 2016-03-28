@@ -624,7 +624,7 @@ angular.module("manageERCarousel/manageSlideList.tpl.html", []).run(["$templateC
     "<div>\n" +
     "    <form ng-submit=\"createSlide(newSlide)\">\n" +
     "        <div class=\"sdOpen\">\n" +
-    "            <h3>Add News Slide</h3>\n" +
+    "            <h3>Add New Slide</h3>\n" +
     "            <div slide-fields-list slide=\"newSlide\"></div>\n" +
     "            <div class=\"row text-center form-group\">\n" +
     "                <button type=\"submit\" class=\"btn btn-success\" ng-disabled=\"uploading\">\n" +
@@ -4165,8 +4165,8 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
         };
     }])
 
-    .controller('SlideFieldsCtrl', ['$scope', '$timeout', 'Upload',
-        function SlideFieldsCtrl($scope, $timeout, Upload){
+    .controller('slideFieldsCtrl', ['$scope', '$timeout', 'Upload',
+        function slideFieldsCtrl($scope, $timeout, Upload){
             $scope.generateThumb = function(files, slide) {
                 if (files.length > 0 && files !== null) {
                     for (var i = 0; i < files.length; i++){
@@ -4187,13 +4187,13 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
             };
         }])
 
-    .directive('SlideFieldsList', ['$timeout', function($timeout) {
+    .directive('slideFieldsList', ['$timeout', function($timeout) {
         return {
             restrict: 'AC',
             scope: {
                 slide: '='
             },
-            controller: 'SlideFieldsCtrl',
+            controller: 'slideFieldsCtrl',
             link: function(scope, elm, attrs){
             },
             templateUrl: 'manageERCarousel/manageSlideFields.tpl.html'

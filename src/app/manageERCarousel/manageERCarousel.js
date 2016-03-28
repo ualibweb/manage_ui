@@ -227,8 +227,8 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
         };
     }])
 
-    .controller('SlideFieldsCtrl', ['$scope', '$timeout', 'Upload',
-        function SlideFieldsCtrl($scope, $timeout, Upload){
+    .controller('slideFieldsCtrl', ['$scope', '$timeout', 'Upload',
+        function slideFieldsCtrl($scope, $timeout, Upload){
             $scope.generateThumb = function(files, slide) {
                 if (files.length > 0 && files !== null) {
                     for (var i = 0; i < files.length; i++){
@@ -249,13 +249,13 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
             };
         }])
 
-    .directive('SlideFieldsList', ['$timeout', function($timeout) {
+    .directive('slideFieldsList', ['$timeout', function($timeout) {
         return {
             restrict: 'AC',
             scope: {
                 slide: '='
             },
-            controller: 'SlideFieldsCtrl',
+            controller: 'slideFieldsCtrl',
             link: function(scope, elm, attrs){
             },
             templateUrl: 'manageERCarousel/manageSlideFields.tpl.html'
