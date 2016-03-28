@@ -67,7 +67,8 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
             $scope.validateSlide = function(slide){
                 if (slide.title.length < 1)
                     return "Form error: Please fill out Title!";
-
+                if (slide.url.length < 11)
+                    return "Form error: Please fill out URL!";
                 return "";
             };
             $scope.approveSlide = function(slide){

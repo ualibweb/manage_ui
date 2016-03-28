@@ -12,9 +12,9 @@
         </div>
     </form>
 
-    <h3>Slides</h3>
+    <h3>Slides (only top <span class="label label-info">{{numShow}}</span> slides will be shown)</h3>
     <div class="row" ng-repeat="slide in slides | orderBy:'priority':true">
-        <div class="col-xs-2 col-sm-1 clickable">
+        <div class="col-xs-2 col-sm-1 clickable" ng-click="toggleSlide(slide)">
             <h2>
                 <span class="label label-success" ng-if="$index < numShow">{{$index + 1}}</span>
             </h2>

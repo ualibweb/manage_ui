@@ -585,7 +585,7 @@ angular.module("manageERCarousel/manageSlideFields.tpl.html", []).run(["$templat
     "    </div>\n" +
     "    <div class=\"col-xs-12 col-sm-6 form-group\">\n" +
     "        <label for=\"url\">URL</label>\n" +
-    "        <input type=\"text\" class=\"form-control\" placeholder=\"Link URL\" ng-model=\"slide.url\"\n" +
+    "        <input type=\"text\" class=\"form-control\" placeholder=\"http://www.example.com\" ng-model=\"slide.url\"\n" +
     "               id=\"url\" maxlength=\"1024\" required>\n" +
     "    </div>\n" +
     "</div>\n" +
@@ -635,9 +635,9 @@ angular.module("manageERCarousel/manageSlideList.tpl.html", []).run(["$templateC
     "        </div>\n" +
     "    </form>\n" +
     "\n" +
-    "    <h3>Slides</h3>\n" +
+    "    <h3>Slides (only top <span class=\"label label-info\">{{numShow}}</span> slides will be shown)</h3>\n" +
     "    <div class=\"row\" ng-repeat=\"slide in slides | orderBy:'priority':true\">\n" +
-    "        <div class=\"col-xs-2 col-sm-1 clickable\">\n" +
+    "        <div class=\"col-xs-2 col-sm-1 clickable\" ng-click=\"toggleSlide(slide)\">\n" +
     "            <h2>\n" +
     "                <span class=\"label label-success\" ng-if=\"$index < numShow\">{{$index + 1}}</span>\n" +
     "            </h2>\n" +
@@ -4007,7 +4007,8 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
             $scope.validateSlide = function(slide){
                 if (slide.title.length < 1)
                     return "Form error: Please fill out Title!";
-
+                if (slide.url.length < 11)
+                    return "Form error: Please fill out URL!";
                 return "";
             };
             $scope.approveSlide = function(slide){
