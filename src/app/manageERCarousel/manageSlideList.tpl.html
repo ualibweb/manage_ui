@@ -14,11 +14,13 @@
 
     <h3>Slides</h3>
     <div class="row" ng-repeat="slide in slides | orderBy:'priority':true">
-        <div class="col-xs-2 col-sm-1">
-            <span class="label label-success" ng-if="$index < numShow">{{$index + 1}}</span>
+        <div class="col-xs-2 col-sm-1 clickable">
+            <h2>
+                <span class="label label-success" ng-if="$index < numShow">{{$index + 1}}</span>
+            </h2>
         </div>
         <div class="col-xs-10 col-sm-4 col-md-3">
-            <a class="thumbnail" ng-click="toggleSlide(slide)">
+            <a class="thumbnail clickable" ng-click="toggleSlide(slide)">
                 <img ng-src="{{slide.image}}" alt="Click to edit slide">
             </a><br>
             <button type="button" class="btn btn-danger" ng-click="approveSlide(slide)"

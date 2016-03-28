@@ -637,11 +637,13 @@ angular.module("manageERCarousel/manageSlideList.tpl.html", []).run(["$templateC
     "\n" +
     "    <h3>Slides</h3>\n" +
     "    <div class=\"row\" ng-repeat=\"slide in slides | orderBy:'priority':true\">\n" +
-    "        <div class=\"col-xs-2 col-sm-1\">\n" +
-    "            <span class=\"label label-success\" ng-if=\"$index < numShow\">{{$index + 1}}</span>\n" +
+    "        <div class=\"col-xs-2 col-sm-1 clickable\">\n" +
+    "            <h2>\n" +
+    "                <span class=\"label label-success\" ng-if=\"$index < numShow\">{{$index + 1}}</span>\n" +
+    "            </h2>\n" +
     "        </div>\n" +
     "        <div class=\"col-xs-10 col-sm-4 col-md-3\">\n" +
-    "            <a class=\"thumbnail\" ng-click=\"toggleSlide(slide)\">\n" +
+    "            <a class=\"thumbnail clickable\" ng-click=\"toggleSlide(slide)\">\n" +
     "                <img ng-src=\"{{slide.image}}\" alt=\"Click to edit slide\">\n" +
     "            </a><br>\n" +
     "            <button type=\"button\" class=\"btn btn-danger\" ng-click=\"approveSlide(slide)\"\n" +
@@ -3974,6 +3976,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                 $scope.updating = false;
                 console.dir(data.slides);
                 for (var i = 0; i < data.slides.length; i++) {
+                    data.slides[i].priority = parseInt(data.slides[i].priority);
                     data.slides[i].show = false;
                 }
                 $scope.slides = data.slides;
@@ -4099,7 +4102,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                                 newSlide.status = data.status;
                                 newSlide.image = data.image;
                                 newSlide.title = slide.title;
-                                newSlide.priority = data.sid;
+                                newSlide.priority = slide.priority;
                                 newSlide.url = slide.url;
                                 newSlide.show = false;
                                 newSlide.selectedFiles = [];
@@ -4133,7 +4136,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                                 newSlide.status = res.data.status;
                                 newSlide.image = res.data.image;
                                 newSlide.title = slide.title;
-                                newSlide.priority = res.data.sid;
+                                newSlide.priority = slide.priority;
                                 newSlide.url = slide.url;
                                 newSlide.show = false;
                                 newSlide.selectedFiles = [];

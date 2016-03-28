@@ -36,6 +36,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                 $scope.updating = false;
                 console.dir(data.slides);
                 for (var i = 0; i < data.slides.length; i++) {
+                    data.slides[i].priority = parseInt(data.slides[i].priority);
                     data.slides[i].show = false;
                 }
                 $scope.slides = data.slides;
@@ -161,7 +162,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                                 newSlide.status = data.status;
                                 newSlide.image = data.image;
                                 newSlide.title = slide.title;
-                                newSlide.priority = data.sid;
+                                newSlide.priority = slide.priority;
                                 newSlide.url = slide.url;
                                 newSlide.show = false;
                                 newSlide.selectedFiles = [];
@@ -195,7 +196,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                                 newSlide.status = res.data.status;
                                 newSlide.image = res.data.image;
                                 newSlide.title = slide.title;
-                                newSlide.priority = res.data.sid;
+                                newSlide.priority = slide.priority;
                                 newSlide.url = slide.url;
                                 newSlide.show = false;
                                 newSlide.selectedFiles = [];
