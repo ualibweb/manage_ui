@@ -3978,6 +3978,7 @@ angular.module('manage.manageERCarousel', ['ngFileUpload'])
                 for (var i = 0; i < data.slides.length; i++) {
                     data.slides[i].priority = parseInt(data.slides[i].priority);
                     data.slides[i].show = false;
+                    data.slides[i].selectedFiles = [];
                 }
                 $scope.slides = data.slides;
                 $scope.numShow = data.numShow;
