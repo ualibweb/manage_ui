@@ -217,7 +217,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     rect.transition()
                         .duration(500)
                         .delay(function(d, i) { return i * 10; })
-                        .attr("x", function(d, i, j) { return x(d.x) + x.rangeBand() / n * j; })
+                        .attr("x", function(d, i, j) { return x(d.x) + ( width / m ) / n * j; })
                         .attr("width", x.rangeBand() / n)
                         .transition()
                         .attr("y", function(d) { return y(d.y); })
@@ -235,7 +235,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                         .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
                         .transition()
                         .attr("x", function(d) { return x(d.x); })
-                        .attr("width", x.rangeBand());
+                        .attr("width", width / m);
                 }
 
                 transitionStacked();
