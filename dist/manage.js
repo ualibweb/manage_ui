@@ -6613,7 +6613,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
         $scope.errors = {};
         $scope.errors.tree = {};
         $scope.errors.list = [];
-        $scope.errors.mapped = [];
+        $scope.errors.mapped = {};
         $scope.errors.mapped.today = [];
         $scope.errors.mapped.month = [];
         $scope.errors.mapped.year = [];
@@ -6649,6 +6649,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                             break;
                     }
                     for (i = 0; i < curData.length; i++) {
+                        curData[i] = curData[i].replace(/-/g,'/');
                         var dt = new Date(curData[i]);
                         if (!angular.isDefined(tree[j][dt.getFullYear()])) {
                             tree[j][dt.getFullYear()] = {};
