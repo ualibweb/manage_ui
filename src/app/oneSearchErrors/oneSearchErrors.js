@@ -109,10 +109,6 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
             { name: 'This Year',
                 number: 2,
                 active: false
-            },
-            { name: 'All Time',
-                number: 3,
-                active: false
             }
         ];
     }])

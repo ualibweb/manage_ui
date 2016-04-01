@@ -2423,9 +2423,6 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "            <div ng-if=\"tab.number == 2\" >\n" +
     "                <div error-graph errors=\"errors\" range=\"year\"></div>\n" +
     "            </div>\n" +
-    "            <div ng-if=\"tab.number == 3\" >\n" +
-    "                <div error-graph errors=\"errors\" range=\"all\"></div>\n" +
-    "            </div>\n" +
     "        </tab>\n" +
     "    </tabset>\n" +
     "</div>");
@@ -6706,10 +6703,6 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
             },
             { name: 'This Year',
                 number: 2,
-                active: false
-            },
-            { name: 'All Time',
-                number: 3,
                 active: false
             }
         ];
