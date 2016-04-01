@@ -114,7 +114,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
             controller: 'errorGraphCtrl',
             link: function(scope, elm, attrs){
                 var n = 3; // number of layers
-                var m = 24; // number of samples per layer
+                var m = 0; // number of samples per layer
                 var today = new Date();
                 var stack = d3.layout.stack();
                 var layers;
@@ -132,8 +132,11 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                         layers = stack(scope.errors.mapped.year);
                         break;
                     default:
+                        m = 24;
+                        layers = stack(scope.errors.mapped.today);
                         break;
                 }
+                console.log(scope.range + " : " + m);
                 var yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
                     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
