@@ -115,6 +115,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
             },
             controller: 'errorGraphCtrl',
             link: function(scope, elm, attrs){
+                var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
                 var n = 3; // number of layers
                 var m = 0; // number of samples per layer
                 var today = new Date();
@@ -183,7 +184,22 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var rect = layer.selectAll("rect")
                     .data(function(d) { return d; })
                     .enter().append("rect")
-                    .attr("x", function(d) { return x(d.x); })
+                    .attr("x", function(d) {
+                        switch (scope.range) {
+                            case 'today':
+                                return x(d.x);
+                                break;
+                            case 'month':
+                                return x(d.x) + 1;
+                                break;
+                            case 'year':
+                                return months[x(d.x)];
+                                break;
+                            default:
+                                return x(d.x);
+                                break;
+                        }
+                    })
                     .attr("y", height)
                     .attr("width", x.rangeBand())
                     .attr("height", 0);
