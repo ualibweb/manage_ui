@@ -6722,6 +6722,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var layers;
                 var x;
                 var xAxis;
+                var axisX = 0, axisY = height;
                 switch (scope.range) {
                     case 'today':
                         m = 24;
@@ -6750,6 +6751,8 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     case 'year':
                     default:
                         m = 12;
+                        axisX = 44;
+                        axisY = height - 16;
                         layers = stack(scope.errors.mapped.year);
                         x = d3.scale.ordinal()
                             .domain(d3.range(m))
@@ -6776,7 +6779,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var yAxis = d3.svg.axis()
                     .scale(y)
                     .ticks(yGroupMax)
-                    .orient("left");
+                    .orient("right");
 
                 var color = d3.scale.linear()
                     .domain([0, n - 1])
@@ -6809,7 +6812,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
 
                 svg.append("g")
                     .attr("class", "x axis")
-                    .attr("transform", "translate(50," + ( height - 16 ) + ")")
+                    .attr("transform", "translate("+ axisX +"," + axisY + ")")
                     .call(xAxis);
 
                 svg.append("g")
