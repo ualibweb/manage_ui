@@ -153,11 +153,14 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     default:
                         m = 12;
                         layers = stack(scope.errors.mapped.year);
-                        x = d3.time.scale()
+                        x = d3.scale.ordinal()
+                            .domain(d3.range(m))
+                            .rangeRoundBands([0, width], .08);
+                        var xD = d3.time.scale()
                             .domain([new Date(2015, 0, 1), new Date(2015, 11, 31)])
                             .range([0, width]);
                         xAxis = d3.svg.axis()
-                            .scale(x)
+                            .scale(xD)
                             .orient("bottom")
                             .ticks(d3.time.months)
                             .tickSize(16, 0)
@@ -167,10 +170,6 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 console.log(scope.range + " : " + m);
                 var yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
                     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
-
-                console.log("yGroupMax = " + yGroupMax);
-                console.log("yStackMax = " + yStackMax);
-                console.log("Height = " + height);
 
                 var y = d3.scale.linear()
                     .domain([0, yStackMax])
@@ -197,7 +196,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     .enter().append("rect")
                     .attr("x", function(d) { return x(d.x); })
                     .attr("y", height)
-                    .attr("width", width / m)
+                    .attr("width", x.rangeBand())
                     .attr("height", 0);
 
                 rect.transition()
@@ -217,7 +216,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     rect.transition()
                         .duration(500)
                         .delay(function(d, i) { return i * 10; })
-                        .attr("x", function(d, i, j) { return x(d.x) + ( width / m ) / n * j; })
+                        .attr("x", function(d, i, j) { return x(d.x) + x.rangeBand() / n * j; })
                         .attr("width", x.rangeBand() / n)
                         .transition()
                         .attr("y", function(d) { return y(d.y); })
@@ -235,7 +234,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                         .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
                         .transition()
                         .attr("x", function(d) { return x(d.x); })
-                        .attr("width", width / m);
+                        .attr("width", x.rangeBand());
                 }
 
                 transitionStacked();
