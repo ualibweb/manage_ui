@@ -138,11 +138,10 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                         }
                         break;
                     case 'year':
+                    default:
                         m = 12;
                         layers = stack(scope.errors.mapped.year);
                         axisValues = months;
-                        break;
-                    default:
                         break;
                 }
                 console.log(scope.range + " : " + m);
@@ -234,7 +233,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                         .attr("width", x.rangeBand());
                 }
 
-                transitionGrouped();
+                transitionStacked();
             },
             template: '<div></div>'
         };
