@@ -6742,6 +6742,10 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     width = 960 - margin.left - margin.right,
                     height = 500 - margin.top - margin.bottom;
 
+                console.log("yGroupMax = " + yGroupMax);
+                console.log("yStackMax = " + yStackMax);
+                console.log("Height = " + height);
+
                 var x = d3.scale.ordinal()
                     .domain(d3.range(m))
                     .rangeRoundBands([0, width], .08);
