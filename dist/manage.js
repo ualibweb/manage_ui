@@ -6804,7 +6804,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
 
                 svg.append("g")
                     .attr("class", "x axis")
-                    .attr("transform", "translate(0," + height + ")")
+                    .attr("transform", "translate(20," + ( height - 20 ) + ")")
                     .call(xAxis);
 
                 function transitionGrouped() {
