@@ -178,7 +178,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var yAxis = d3.svg.axis()
                     .scale(y)
                     .ticks(4)
-                    .orient("left");
+                    .orient("right");
 
                 var color = d3.scale.linear()
                     .domain([0, n - 1])
@@ -211,12 +211,12 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
 
                 svg.append("g")
                     .attr("class", "x axis")
-                    .attr("transform", "translate(30," + ( height - 16 ) + ")")
+                    .attr("transform", "translate(40," + ( height - 16 ) + ")")
                     .call(xAxis);
 
                 svg.append("g")
                     .attr("class", "y axis")
-                    .attr("transform", "translate(" + width + ",0)")
+                    .attr("transform", "translate(0, 0)")
                     .call(yAxis);
 
                 function transitionGrouped() {
