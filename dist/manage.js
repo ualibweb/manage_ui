@@ -2415,16 +2415,16 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "    <tabset>\n" +
     "        <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
     "            <div ng-if=\"tab.number == 0\">\n" +
-    "                <div error-graph errors=\"errors\" range=\"today\"></div>\n" +
+    "                <div error-graph errors=\"errors\" range=\"'today'\"></div>\n" +
     "            </div>\n" +
     "            <div ng-if=\"tab.number == 1\" >\n" +
-    "                <div error-graph errors=\"errors\" range=\"month\"></div>\n" +
+    "                <div error-graph errors=\"errors\" range=\"'month'\"></div>\n" +
     "            </div>\n" +
     "            <div ng-if=\"tab.number == 2\" >\n" +
-    "                <div error-graph errors=\"errors\" range=\"year\"></div>\n" +
+    "                <div error-graph errors=\"errors\" range=\"'year'\"></div>\n" +
     "            </div>\n" +
     "            <div ng-if=\"tab.number == 3\" >\n" +
-    "                <div error-graph errors=\"errors\" range=\"all\"></div>\n" +
+    "                <div error-graph errors=\"errors\" range=\"'all'\"></div>\n" +
     "            </div>\n" +
     "        </tab>\n" +
     "    </tabset>\n" +
