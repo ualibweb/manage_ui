@@ -6717,7 +6717,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var m = 0; // number of samples per layer
                 var margin = {top: 40, right: 10, bottom: 20, left: 10},
                     width = 960 - margin.left - margin.right,
-                    height = 500 - margin.top - margin.bottom;
+                    height = 540 - margin.top - margin.bottom;
                 var stack = d3.layout.stack();
                 var layers;
                 var x;
