@@ -47,7 +47,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
             .success(function(data) {
                 var today = new Date();
                 var tree = [];
-                for (var j = 0; j < 2; j++) {
+                for (var j = 0; j < 3; j++) {
                     tree = {};
                     var curData = {};
                     switch (j) {
