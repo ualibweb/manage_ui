@@ -6719,15 +6719,15 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 switch (scope.range) {
                     case 'today':
                         m = 24;
-                        stack(scope.errors.mapped.today);
+                        layers = stack(scope.errors.mapped.today);
                         break;
                     case 'month':
                         m = 31;
-                        stack(scope.errors.mapped.month);
+                        layers = stack(scope.errors.mapped.month);
                         break;
                     case 'year':
                         m = 12;
-                        stack(scope.errors.mapped.year);
+                        layers = stack(scope.errors.mapped.year);
                         break;
                     default:
                         break;
