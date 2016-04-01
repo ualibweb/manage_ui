@@ -6716,7 +6716,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var today = new Date();
                 var stack = d3.layout.stack();
                 var layers;
-                switch (range) {
+                switch (scope.range) {
                     case 'today':
                         m = 24;
                         stack(scope.errors.mapped.today);
