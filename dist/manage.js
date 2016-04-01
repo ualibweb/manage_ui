@@ -6643,14 +6643,14 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
         errorsFactory.getData()
             .success(function(data) {
                 var today = new Date();
-                var tree = {};
+                var tree = [];
                 for (i = 0; i < data.scout.length; i++){
                     var dt = new Date(data.scout[i]);
                     if (!angular.isDefined(tree[dt.getFullYear()])){
-                        tree[dt.getFullYear()] = {};
+                        tree[dt.getFullYear()] = [];
                     }
                     if (!angular.isDefined(tree[dt.getFullYear()][dt.getMonth()])){
-                        tree[dt.getFullYear()][dt.getMonth()] = {};
+                        tree[dt.getFullYear()][dt.getMonth()] = [];
                     }
                     if (!angular.isDefined(tree[dt.getFullYear()][dt.getMonth()][dt.getDate()])){
                         tree[dt.getFullYear()][dt.getMonth()][dt.getDate()] = {counter: 0, errors: []};
