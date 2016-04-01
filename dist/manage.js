@@ -6773,6 +6773,11 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     .domain([0, yStackMax])
                     .range([height, 0]);
 
+                var yAxis = d3.svg.axis()
+                    .scale(y)
+                    .ticks(4)
+                    .orient("left");
+
                 var color = d3.scale.linear()
                     .domain([0, n - 1])
                     .range(["#aad", "#556"]);
@@ -6804,8 +6809,13 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
 
                 svg.append("g")
                     .attr("class", "x axis")
-                    .attr("transform", "translate(20," + ( height - 20 ) + ")")
+                    .attr("transform", "translate(30," + ( height - 16 ) + ")")
                     .call(xAxis);
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .attr("transform", "translate(" + width + ",0)")
+                    .call(yAxis);
 
                 function transitionGrouped() {
                     console.log("drawing grouped");
