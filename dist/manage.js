@@ -2412,7 +2412,7 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "<div class=\"container\">\n" +
     "    <h2>OneSearch Errors</h2>\n" +
     "\n" +
-    "    <tabset>\n" +
+    "    <tabset ng-if=\"dataProcessed\">\n" +
     "        <tab ng-repeat=\"tab in tabs\" heading=\"{{tab.name}}\" active=\"tab.active\">\n" +
     "            <div ng-if=\"tab.number == 0\">\n" +
     "                <div error-graph errors=\"errors\" range=\"today\"></div>\n" +
@@ -6612,6 +6612,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
 
     .controller('oneSearchErrorsCtrl', ['$scope', 'errorsFactory', 'lazyLoad',
     function oneSearchErrorsCtrl($scope, errorsFactory, lazyLoad){
+        $scope.dataProcessed = false;
         $scope.errors = {};
         $scope.errors.tree = {};
         $scope.errors.list = [];
@@ -6672,6 +6673,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 }
                 $scope.errors.list = data.scout;
                 $scope.errors.tree = tree;
+                $scope.dataProcessed = true;
                 console.dir($scope.errors);
             })
             .error(function(data, status, headers, config) {

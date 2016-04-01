@@ -14,6 +14,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
 
     .controller('oneSearchErrorsCtrl', ['$scope', 'errorsFactory', 'lazyLoad',
     function oneSearchErrorsCtrl($scope, errorsFactory, lazyLoad){
+        $scope.dataProcessed = false;
         $scope.errors = {};
         $scope.errors.tree = {};
         $scope.errors.list = [];
@@ -74,6 +75,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 }
                 $scope.errors.list = data.scout;
                 $scope.errors.tree = tree;
+                $scope.dataProcessed = true;
                 console.dir($scope.errors);
             })
             .error(function(data, status, headers, config) {
