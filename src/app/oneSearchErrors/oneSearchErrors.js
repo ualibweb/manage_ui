@@ -28,7 +28,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var today = new Date();
                 var tree = [];
                 for (var j = 0; j < 3; j++) {
-                    tree[j] = {};
+                    tree[j] = [];
                     $scope.errors.mapped.today[j] = [];
                     $scope.errors.mapped.month[j] = [];
                     $scope.errors.mapped.year[j] = [];
@@ -41,7 +41,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     for (i = 0; i < 12; i++) {
                         $scope.errors.mapped.year[j].push({"x": i, "y": 0});
                     }
-                    var curData = {};
+                    var curData = [];
                     switch (j) {
                         case 0:
                             curData = data.scout;
