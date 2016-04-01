@@ -119,24 +119,30 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var n = 3; // number of layers
                 var m = 0; // number of samples per layer
                 var today = new Date();
+                var axisValues = [];
                 var stack = d3.layout.stack();
                 var layers;
                 switch (scope.range) {
                     case 'today':
                         m = 24;
                         layers = stack(scope.errors.mapped.today);
+                        for (var i = 0; i < 24; i++) {
+                            axisValues[i] = i;
+                        }
                         break;
                     case 'month':
                         m = 31;
                         layers = stack(scope.errors.mapped.month);
+                        for (var i = 0; i < 24; i++) {
+                            axisValues[i] = i + 1;
+                        }
                         break;
                     case 'year':
                         m = 12;
                         layers = stack(scope.errors.mapped.year);
+                        axisValues = months;
                         break;
                     default:
-                        m = 24;
-                        layers = stack(scope.errors.mapped.today);
                         break;
                 }
                 console.log(scope.range + " : " + m);
@@ -167,7 +173,8 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     .scale(x)
                     .tickSize(0)
                     .tickPadding(6)
-                    .orient("bottom");
+                    .orient("bottom")
+                    .tickValues(axisValues);
 
                 var svg = d3.select(elm[0]).append("svg")
                     .attr("width", width + margin.left + margin.right)
@@ -184,22 +191,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var rect = layer.selectAll("rect")
                     .data(function(d) { return d; })
                     .enter().append("rect")
-                    .attr("x", function(d) {
-                        switch (scope.range) {
-                            case 'today':
-                                return x(d.x);
-                                break;
-                            case 'month':
-                                return x(d.x) + 1;
-                                break;
-                            case 'year':
-                                return months[x(d.x)];
-                                break;
-                            default:
-                                return x(d.x);
-                                break;
-                        }
-                    })
+                    .attr("x", function(d) { return x(d.x); })
                     .attr("y", height)
                     .attr("width", x.rangeBand())
                     .attr("height", 0);
