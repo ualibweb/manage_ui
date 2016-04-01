@@ -115,50 +115,62 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
             },
             controller: 'errorGraphCtrl',
             link: function(scope, elm, attrs){
-                var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
                 var n = 3; // number of layers
                 var m = 0; // number of samples per layer
-                var today = new Date();
-                var axisValues = [];
+                var margin = {top: 40, right: 10, bottom: 20, left: 10},
+                    width = 960 - margin.left - margin.right,
+                    height = 500 - margin.top - margin.bottom;
                 var stack = d3.layout.stack();
                 var layers;
+                var x;
+                var xAxis;
                 switch (scope.range) {
                     case 'today':
                         m = 24;
                         layers = stack(scope.errors.mapped.today);
-                        for (var i = 0; i < 24; i++) {
-                            axisValues[i] = i;
-                        }
+                        x = d3.scale.ordinal()
+                            .domain(d3.range(m))
+                            .rangeRoundBands([0, width], .08);
+                        xAxis = d3.svg.axis()
+                            .scale(x)
+                            .tickSize(0)
+                            .tickPadding(6)
+                            .orient("bottom");
                         break;
                     case 'month':
                         m = 31;
                         layers = stack(scope.errors.mapped.month);
-                        for (var i = 0; i < 24; i++) {
-                            axisValues[i] = i + 1;
-                        }
+                        x = d3.scale.ordinal()
+                            .domain(d3.range(1, m + 1))
+                            .rangeRoundBands([0, width], .08);
+                        xAxis = d3.svg.axis()
+                            .scale(x)
+                            .tickSize(0)
+                            .tickPadding(6)
+                            .orient("bottom");
                         break;
                     case 'year':
                     default:
                         m = 12;
                         layers = stack(scope.errors.mapped.year);
-                        axisValues = months;
+                        x = d3.time.scale()
+                            .domain([new Date(2015, 0, 1), new Date(2015, 11, 31)])
+                            .range([0, width]);
+                        xAxis = d3.svg.axis()
+                            .scale(x)
+                            .orient("bottom")
+                            .ticks(d3.time.months)
+                            .tickSize(16, 0)
+                            .tickFormat(d3.time.format("%B"));
                         break;
                 }
                 console.log(scope.range + " : " + m);
                 var yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
                     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
-                var margin = {top: 40, right: 10, bottom: 20, left: 10},
-                    width = 960 - margin.left - margin.right,
-                    height = 500 - margin.top - margin.bottom;
-
                 console.log("yGroupMax = " + yGroupMax);
                 console.log("yStackMax = " + yStackMax);
                 console.log("Height = " + height);
-
-                var x = d3.scale.ordinal()
-                    .domain(d3.range(m))
-                    .rangeRoundBands([0, width], .08);
 
                 var y = d3.scale.linear()
                     .domain([0, yStackMax])
@@ -167,13 +179,6 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var color = d3.scale.linear()
                     .domain([0, n - 1])
                     .range(["#aad", "#556"]);
-
-                var xAxis = d3.svg.axis()
-                    .scale(x)
-                    .tickSize(0)
-                    .tickPadding(6)
-                    .orient("bottom")
-                    .tickValues(axisValues);
 
                 var svg = d3.select(elm[0]).append("svg")
                     .attr("width", width + margin.left + margin.right)
