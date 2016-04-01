@@ -4,16 +4,16 @@
     <tabset>
         <tab ng-repeat="tab in tabs" heading="{{tab.name}}" active="tab.active">
             <div ng-if="tab.number == 0">
-                <div error-graph errors="errors" range="'today'"></div>
+                <div error-graph errors="errors" range="today"></div>
             </div>
             <div ng-if="tab.number == 1" >
-                <div error-graph errors="errors" range="'month'"></div>
+                <div error-graph errors="errors" range="month"></div>
             </div>
             <div ng-if="tab.number == 2" >
-                <div error-graph errors="errors" range="'year'"></div>
+                <div error-graph errors="errors" range="year"></div>
             </div>
             <div ng-if="tab.number == 3" >
-                <div error-graph errors="errors" range="'all'"></div>
+                <div error-graph errors="errors" range="all"></div>
             </div>
         </tab>
     </tabset>
