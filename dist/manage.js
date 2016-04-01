@@ -6751,7 +6751,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     default:
                         m = 12;
                         layers = stack(scope.errors.mapped.year);
-                        x = d3.time.scale.ordinal()
+                        x = d3.time.scale()
                             .domain([new Date(2015, 0, 1), new Date(2015, 11, 31)])
                             .range([0, width]);
                         xAxis = d3.svg.axis()
@@ -6795,7 +6795,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     .enter().append("rect")
                     .attr("x", function(d) { return x(d.x); })
                     .attr("y", height)
-                    .attr("width", x.rangeBand())
+                    .attr("width", width / m)
                     .attr("height", 0);
 
                 rect.transition()
