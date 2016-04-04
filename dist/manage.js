@@ -2446,7 +2446,7 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"1\">Catalog</label>\n" +
     "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"2\">eJournals</label>\n" +
     "    </div>\n" +
-    "    <div class=\"row\" ng-repeat=\"year in errors.tree[engine]\">\n" +
+    "    <div class=\"row\" ng-repeat=\"year in errors.tree[engine].years\">\n" +
     "        <h4><a ng-click=\"year.open = !year.open\">{year.name}}</a><small>{{year.counter}}</small></h4>\n" +
     "        <div class=\"col-xs-12\" ng-repeat=\"month in year.months\" ng-if=\"year.open\">\n" +
     "            <h5><a ng-click=\"month.open = !month.open\">{month.name}}</a><small>{{month.counter}}</small></h5>\n" +
@@ -6658,7 +6658,8 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var today = new Date();
                 var tree = [];
                 for (var j = 0; j < 3; j++) {
-                    tree[j] = [];
+                    tree[j] = {};
+                    tree[j].years = [];
                     $scope.errors.mapped.today[j] = [];
                     $scope.errors.mapped.month[j] = [];
                     $scope.errors.mapped.year[j] = [];
@@ -6688,8 +6689,8 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                         var dt = new Date(curData[i]);
                         var isPresent = false;
                         var y = 0, m = 0, d = 0;
-                        for (y = 0; y < tree[j].length; y++) {
-                            if (tree[j][y].year === dt.getFullYear()) {
+                        for (y = 0; y < tree[j].years.length; y++) {
+                            if (tree[j].years[y].year === dt.getFullYear()) {
                                 isPresent = true;
                                 break;
                             }
@@ -6700,12 +6701,12 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                             year.counter = 0;
                             year.name = dt.getFullYear();
                             year.months = [];
-                            tree[j].push(year);
-                            y = tree[j].length - 1;
+                            tree[j].years.push(year);
+                            y = tree[j].years.length - 1;
                         }
                         isPresent = false;
-                        for (m = 0; m < tree[j][y].months.length; m++) {
-                            if (tree[j][y].months[m].mm === dt.getMonth()) {
+                        for (m = 0; m < tree[j].years[y].months.length; m++) {
+                            if (tree[j].years[y].months[m].mm === dt.getMonth()) {
                                 isPresent = true;
                                 break;
                             }
@@ -6717,12 +6718,12 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                             month.mm = dt.getMonth();
                             month.name = months[month.mm];
                             month.days = [];
-                            tree[j][y].months.push(month);
-                            m = tree[j][y].months.length - 1;
+                            tree[j].years[y].months.push(month);
+                            m = tree[j].years[y].months.length - 1;
                         }
                         isPresent = false;
-                        for (d = 0; d < tree[j][y].months[m].days.length; d++) {
-                            if (tree[j][y].months[m].days[d].day === dt.getDate()) {
+                        for (d = 0; d < tree[j].years[y].months[m].days.length; d++) {
+                            if (tree[j].years[y].months[m].days[d].day === dt.getDate()) {
                                 isPresent = true;
                                 break;
                             }
@@ -6733,13 +6734,13 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                             day.day = dt.getDate();
                             day.counter = 0;
                             day.errors = [];
-                            tree[j][y].months[m].days.push(day);
-                            d = tree[j][y].months[m].days.length - 1;
+                            tree[j].years[y].months[m].days.push(day);
+                            d = tree[j].years[y].months[m].days.length - 1;
                         }
-                        tree[j][y].counter++;
-                        tree[j][y].months[m].counter++;
-                        tree[j][y].months[m].days[d].counter++;
-                        tree[j][y].months[m].days[d].errors.push(dt);
+                        tree[j].years[y].counter++;
+                        tree[j].years[y].months[m].counter++;
+                        tree[j].years[y].months[m].days[d].counter++;
+                        tree[j].years[y].months[m].days[d].errors.push(dt);
 
                         if (dt.getFullYear() === today.getFullYear()) {
                             $scope.errors.mapped.year[j][dt.getMonth()].y++;
