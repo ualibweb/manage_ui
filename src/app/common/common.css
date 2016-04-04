@@ -21,3 +21,6 @@
     width: 30px;
     background-color: rgb(85, 85, 102);
 }
+.table-colors td {
+    border: 0px none;
+}

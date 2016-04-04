@@ -2425,7 +2425,7 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "            </div>\n" +
     "        </tab>\n" +
     "    </tabset>\n" +
-    "    <table class=\"table\">\n" +
+    "    <table class=\"table table-colors\">\n" +
     "        <tr>\n" +
     "            <td class=\"table-ebsco\"></td>\n" +
     "            <td>EBSCO API errors</td>\n" +
