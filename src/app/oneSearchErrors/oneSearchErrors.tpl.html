@@ -32,9 +32,9 @@
     <div class="row">
         <h3>Detailed Error List</h3>
         <div class="btn-group">
-            <label class="btn btn-primary" ng-model="eEngine.engine" uib-btn-radio="0">EBSCO</label>
-            <label class="btn btn-primary" ng-model="eEngine.engine" uib-btn-radio="1">Catalog</label>
-            <label class="btn btn-primary" ng-model="eEngine.engine" uib-btn-radio="2">eJournals</label>
+            <label class="btn btn-primary" ng-model="eEngine.engine" btn-radio="0">EBSCO</label>
+            <label class="btn btn-primary" ng-model="eEngine.engine" btn-radio="1">Catalog</label>
+            <label class="btn btn-primary" ng-model="eEngine.engine" btn-radio="2">eJournals</label>
         </div>
         <div class="col-xs-12" ng-repeat="year in errors.tree[eEngine.engine].years">
             <h4 class="clickable" ng-click="year.open = !year.open">

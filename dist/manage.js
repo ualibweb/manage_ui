@@ -2443,9 +2443,9 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "    <div class=\"row\">\n" +
     "        <h3>Detailed Error List</h3>\n" +
     "        <div class=\"btn-group\">\n" +
-    "            <label class=\"btn btn-primary\" ng-model=\"eEngine.engine\" uib-btn-radio=\"0\">EBSCO</label>\n" +
-    "            <label class=\"btn btn-primary\" ng-model=\"eEngine.engine\" uib-btn-radio=\"1\">Catalog</label>\n" +
-    "            <label class=\"btn btn-primary\" ng-model=\"eEngine.engine\" uib-btn-radio=\"2\">eJournals</label>\n" +
+    "            <label class=\"btn btn-primary\" ng-model=\"eEngine.engine\" btn-radio=\"0\">EBSCO</label>\n" +
+    "            <label class=\"btn btn-primary\" ng-model=\"eEngine.engine\" btn-radio=\"1\">Catalog</label>\n" +
+    "            <label class=\"btn btn-primary\" ng-model=\"eEngine.engine\" btn-radio=\"2\">eJournals</label>\n" +
     "        </div>\n" +
     "        <div class=\"col-xs-12\" ng-repeat=\"year in errors.tree[eEngine.engine].years\">\n" +
     "            <h4 class=\"clickable\" ng-click=\"year.open = !year.open\">\n" +
