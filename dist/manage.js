@@ -2440,32 +2440,34 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "        </tr>\n" +
     "    </table>\n" +
     "\n" +
-    "    <h3>Detailed Error List</h3>\n" +
-    "    <div class=\"btn-group\">\n" +
-    "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"'0'\">EBSCO</label>\n" +
-    "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"'1'\">Catalog</label>\n" +
-    "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"'2'\">eJournals</label>\n" +
-    "    </div>\n" +
-    "    <div class=\"row\" ng-repeat=\"year in errors.tree[engine].years\">\n" +
-    "        <h4 class=\"clickable\" ng-click=\"year.open = !year.open\">\n" +
-    "            <a>{{year.name}}</a>\n" +
-    "            <span class=\"label label-warning\">{{year.counter}}</span>\n" +
-    "        </h4>\n" +
-    "        <div class=\"col-xs-12\" ng-repeat=\"month in year.months\" ng-if=\"year.open\">\n" +
-    "            <h5 class=\"clickable\" ng-click=\"month.open = !month.open\">\n" +
-    "                <a>{{month.name}}</a>\n" +
-    "                <span class=\"label label-warning\">{{month.counter}}</span>\n" +
-    "            </h5>\n" +
-    "            <div class=\"col-xs-12\" ng-repeat=\"day in month.days\" ng-if=\"month.open\">\n" +
-    "                <h6 class=\"clickable\"  ng-click=\"day.open = !day.open\">\n" +
-    "                    <a>{{day.day}}</a>\n" +
-    "                    <span class=\"label label-warning\">{{day.counter}}</span>\n" +
-    "                </h6>\n" +
-    "                <p>\n" +
-    "                    <span class=\"label label-info\" ng-repeat=\"error in day.errors\" ng-if=\"day.open\">\n" +
-    "                        {{error}}\n" +
-    "                    </span>\n" +
-    "                </p>\n" +
+    "    <div class=\"row\">\n" +
+    "        <h3>Detailed Error List</h3>\n" +
+    "        <div class=\"btn-group\">\n" +
+    "            <label class=\"btn btn-primary\" ng-model=\"eEngine.engine\" uib-btn-radio=\"0\">EBSCO</label>\n" +
+    "            <label class=\"btn btn-primary\" ng-model=\"eEngine.engine\" uib-btn-radio=\"1\">Catalog</label>\n" +
+    "            <label class=\"btn btn-primary\" ng-model=\"eEngine.engine\" uib-btn-radio=\"2\">eJournals</label>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-xs-12\" ng-repeat=\"year in errors.tree[engine].years\">\n" +
+    "            <h4 class=\"clickable\" ng-click=\"year.open = !year.open\">\n" +
+    "                <a>{{year.name}}</a>\n" +
+    "                <span class=\"label label-warning\">{{year.counter}}</span>\n" +
+    "            </h4>\n" +
+    "            <div class=\"col-xs-12\" ng-repeat=\"month in year.months\" ng-if=\"year.open\">\n" +
+    "                <h5 class=\"clickable\" ng-click=\"month.open = !month.open\">\n" +
+    "                    <a>{{month.name}}</a>\n" +
+    "                    <span class=\"label label-warning\">{{month.counter}}</span>\n" +
+    "                </h5>\n" +
+    "                <div class=\"col-xs-12\" ng-repeat=\"day in month.days\" ng-if=\"month.open\">\n" +
+    "                    <h6 class=\"clickable\"  ng-click=\"day.open = !day.open\">\n" +
+    "                        <a>{{day.day}}</a>\n" +
+    "                        <span class=\"label label-warning\">{{day.counter}}</span>\n" +
+    "                    </h6>\n" +
+    "                    <p ng-repeat=\"error in day.errors\" ng-if=\"day.open\">\n" +
+    "                        <span class=\"label label-info\">\n" +
+    "                            {{error}}\n" +
+    "                        </span>\n" +
+    "                    </p>\n" +
+    "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -6661,7 +6663,8 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
         $scope.errors.mapped.today = [];
         $scope.errors.mapped.month = [];
         $scope.errors.mapped.year = [];
-        $scope.engine = '0';
+        $scope.eEngine = {};
+        $scope.eEngine.engine = 0;
 
         errorsFactory.getData()
             .success(function(data) {
