@@ -36,7 +36,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                         $scope.errors.mapped.today[j].push({"x": i, "y": 0});
                     }
                     for (i = 0; i < 31; i++) {
-                        $scope.errors.mapped.month[j].push({"x": i, "y": 0});
+                        $scope.errors.mapped.month[j].push({"x": i + 1, "y": 0});
                     }
                     for (i = 0; i < 12; i++) {
                         $scope.errors.mapped.year[j].push({"x": i, "y": 0});
@@ -212,14 +212,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     .data(function(d) { return d; })
                     .enter().append("rect")
                     .attr("x", function(d) {
-                        switch (scope.range) {
-                            case 'month':
-                                return x(d.x + 1);
-                                break;
-                            default:
-                                return x(d.x);
-                                break;
-                        }
+                        return x(d.x);
                     })
                     .attr("y", height)
                     .attr("width", x.rangeBand())
