@@ -6777,9 +6777,14 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                     .domain([0, yStackMax])
                     .range([height, 0]);
 
+                var yTicks = 20;
+                if (yTicks > yGroupMax) {
+                    yTicks = yGroupMax;
+                }
+
                 var yAxis = d3.svg.axis()
                     .scale(y)
-                    .ticks(yGroupMax)
+                    .ticks(yTicks)
                     .orient("right");
 
                 var color = d3.scale.linear()
@@ -6801,7 +6806,16 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                 var rect = layer.selectAll("rect")
                     .data(function(d) { return d; })
                     .enter().append("rect")
-                    .attr("x", function(d) { return x(d.x); })
+                    .attr("x", function(d) {
+                        switch (scope.range) {
+                            case 'month':
+                                return x(d.x + 1);
+                                break;
+                            default:
+                                return x(d.x);
+                                break;
+                        }
+                    })
                     .attr("y", height)
                     .attr("width", x.rangeBand())
                     .attr("height", 0);
