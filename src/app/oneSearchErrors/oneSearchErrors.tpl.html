@@ -14,7 +14,7 @@
             </div>
         </tab>
     </tabset>
-    <table class="table table-colors">
+    <table class="table-colors">
         <tr>
             <td class="table-ebsco"></td>
             <td>EBSCO API errors</td>
@@ -28,4 +28,14 @@
             <td>Serial Solutions eJournals errors</td>
         </tr>
     </table>
+
+    <h3>Detailed Error List</h3>
+    <div class="btn-group">
+        <label class="btn btn-primary" ng-model="engine" uib-btn-radio="0">EBSCO</label>
+        <label class="btn btn-primary" ng-model="engine" uib-btn-radio="1">Catalog</label>
+        <label class="btn btn-primary" ng-model="engine" uib-btn-radio="2">eJournals</label>
+    </div>
+    <div class="row" ng-repeat="year in errors.tree[engine]">
+        <h4>{{$index}}</h4>
+    </div>
 </div>
