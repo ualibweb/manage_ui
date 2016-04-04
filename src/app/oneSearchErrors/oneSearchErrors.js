@@ -62,7 +62,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                         var isPresent = false;
                         var y = 0, m = 0, d = 0;
                         for (y = 0; y < tree[j].years.length; y++) {
-                            if (tree[j].years[y].year === dt.getFullYear()) {
+                            if (tree[j].years[y].name === dt.getFullYear()) {
                                 isPresent = true;
                                 break;
                             }

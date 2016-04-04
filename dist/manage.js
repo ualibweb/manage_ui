@@ -2447,11 +2447,11 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"2\">eJournals</label>\n" +
     "    </div>\n" +
     "    <div class=\"row\" ng-repeat=\"year in errors.tree[engine].years\">\n" +
-    "        <h4><a ng-click=\"year.open = !year.open\">{year.name}}</a><small>{{year.counter}}</small></h4>\n" +
+    "        <h4><a ng-click=\"year.open = !year.open\">{{year.name}}</a><small>{{year.counter}}</small></h4>\n" +
     "        <div class=\"col-xs-12\" ng-repeat=\"month in year.months\" ng-if=\"year.open\">\n" +
-    "            <h5><a ng-click=\"month.open = !month.open\">{month.name}}</a><small>{{month.counter}}</small></h5>\n" +
+    "            <h5><a ng-click=\"month.open = !month.open\">{{month.name}}</a><small>{{month.counter}}</small></h5>\n" +
     "            <div class=\"col-xs-12\" ng-repeat=\"day in month.days\" ng-if=\"month.open\">\n" +
-    "                <h6><a ng-click=\"day.open = !day.open\">{day.day}}</a><small>{{day.counter}}</small></h6>\n" +
+    "                <h6><a ng-click=\"day.open = !day.open\">{{day.day}}</a><small>{{day.counter}}</small></h6>\n" +
     "                <span class=\"label label-info\" ng-repeat=\"error in day.errors\" ng-if=\"day.open\">\n" +
     "                    {{error}}\n" +
     "                </span>\n" +
@@ -6690,7 +6690,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                         var isPresent = false;
                         var y = 0, m = 0, d = 0;
                         for (y = 0; y < tree[j].years.length; y++) {
-                            if (tree[j].years[y].year === dt.getFullYear()) {
+                            if (tree[j].years[y].name === dt.getFullYear()) {
                                 isPresent = true;
                                 break;
                             }
