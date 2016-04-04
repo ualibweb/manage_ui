@@ -2442,19 +2442,30 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "\n" +
     "    <h3>Detailed Error List</h3>\n" +
     "    <div class=\"btn-group\">\n" +
-    "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"0\">EBSCO</label>\n" +
-    "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"1\">Catalog</label>\n" +
-    "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"2\">eJournals</label>\n" +
+    "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"'0'\">EBSCO</label>\n" +
+    "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"'1'\">Catalog</label>\n" +
+    "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"'2'\">eJournals</label>\n" +
     "    </div>\n" +
-    "    <div class=\"row\" ng-repeat=\"year in errors.tree[engine].years\">\n" +
-    "        <h4><a ng-click=\"year.open = !year.open\">{{year.name}}</a><small>{{year.counter}}</small></h4>\n" +
+    "    <div class=\"row\" ng-repeat=\"year in errors.tree[parseInt(engine)].years\">\n" +
+    "        <h4 class=\"clickable\" ng-click=\"year.open = !year.open\">\n" +
+    "            <a>{{year.name}}</a>\n" +
+    "            <span class=\"label label-warning\">{{year.counter}}</span>\n" +
+    "        </h4>\n" +
     "        <div class=\"col-xs-12\" ng-repeat=\"month in year.months\" ng-if=\"year.open\">\n" +
-    "            <h5><a ng-click=\"month.open = !month.open\">{{month.name}}</a><small>{{month.counter}}</small></h5>\n" +
+    "            <h5 class=\"clickable\" ng-click=\"month.open = !month.open\">\n" +
+    "                <a>{{month.name}}</a>\n" +
+    "                <span class=\"label label-warning\">{{month.counter}}</span>\n" +
+    "            </h5>\n" +
     "            <div class=\"col-xs-12\" ng-repeat=\"day in month.days\" ng-if=\"month.open\">\n" +
-    "                <h6><a ng-click=\"day.open = !day.open\">{{day.day}}</a><small>{{day.counter}}</small></h6>\n" +
-    "                <span class=\"label label-info\" ng-repeat=\"error in day.errors\" ng-if=\"day.open\">\n" +
-    "                    {{error}}\n" +
-    "                </span>\n" +
+    "                <h6 class=\"clickable\"  ng-click=\"day.open = !day.open\">\n" +
+    "                    <a>{{day.day}}</a>\n" +
+    "                    <span class=\"label label-warning\">{{day.counter}}</span>\n" +
+    "                </h6>\n" +
+    "                <p>\n" +
+    "                    <span class=\"label label-info\" ng-repeat=\"error in day.errors\" ng-if=\"day.open\">\n" +
+    "                        {{error}}\n" +
+    "                    </span>\n" +
+    "                </p>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -6650,7 +6661,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
         $scope.errors.mapped.today = [];
         $scope.errors.mapped.month = [];
         $scope.errors.mapped.year = [];
-        $scope.engine = 0;
+        $scope.engine = '0';
 
         errorsFactory.getData()
             .success(function(data) {

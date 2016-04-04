@@ -22,7 +22,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
         $scope.errors.mapped.today = [];
         $scope.errors.mapped.month = [];
         $scope.errors.mapped.year = [];
-        $scope.engine = 0;
+        $scope.engine = '0';
 
         errorsFactory.getData()
             .success(function(data) {
