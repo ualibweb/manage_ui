@@ -2446,7 +2446,7 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"'1'\">Catalog</label>\n" +
     "        <label class=\"btn btn-primary\" ng-model=\"engine\" uib-btn-radio=\"'2'\">eJournals</label>\n" +
     "    </div>\n" +
-    "    <div class=\"row\" ng-repeat=\"year in errors.tree[parseInt(engine)].years\">\n" +
+    "    <div class=\"row\" ng-repeat=\"year in errors.tree[engine].years\">\n" +
     "        <h4 class=\"clickable\" ng-click=\"year.open = !year.open\">\n" +
     "            <a>{{year.name}}</a>\n" +
     "            <span class=\"label label-warning\">{{year.counter}}</span>\n" +

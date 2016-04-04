@@ -35,7 +35,7 @@
         <label class="btn btn-primary" ng-model="engine" uib-btn-radio="'1'">Catalog</label>
         <label class="btn btn-primary" ng-model="engine" uib-btn-radio="'2'">eJournals</label>
     </div>
-    <div class="row" ng-repeat="year in errors.tree[parseInt(engine)].years">
+    <div class="row" ng-repeat="year in errors.tree[engine].years">
         <h4 class="clickable" ng-click="year.open = !year.open">
             <a>{{year.name}}</a>
             <span class="label label-warning">{{year.counter}}</span>
