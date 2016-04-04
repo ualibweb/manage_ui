@@ -308,7 +308,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                         .attr("width", x.rangeBand());
                 }
 
-                transitionGrouped();
+                transitionStacked();
             },
             template: '<div></div>'
         };
