@@ -2425,6 +2425,20 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "            </div>\n" +
     "        </tab>\n" +
     "    </tabset>\n" +
+    "    <table class=\"table\">\n" +
+    "        <tr>\n" +
+    "            <td class=\"table-ebsco\"></td>\n" +
+    "            <td>EBSCO API errors</td>\n" +
+    "        </tr>\n" +
+    "        <tr>\n" +
+    "            <td class=\"table-catalog\"></td>\n" +
+    "            <td>Catalog API errors</td>\n" +
+    "        </tr>\n" +
+    "        <tr>\n" +
+    "            <td class=\"table-eJournals\"></td>\n" +
+    "            <td>Serial Solutions eJournals errors</td>\n" +
+    "        </tr>\n" +
+    "    </table>\n" +
     "</div>");
 }]);
 
