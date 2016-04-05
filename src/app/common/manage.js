@@ -222,7 +222,6 @@ angular.module('common.manage', [])
         };
     }])
 
-    .run(['$rootScope', 'tokenReceiver', '$location', 'AuthService',
-    function($rootScope, tokenReceiver, $location, AuthService) {
+    .run(['$rootScope', function($rootScope) {
         $rootScope.userInfo = {};
     }]);

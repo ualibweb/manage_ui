@@ -53,8 +53,9 @@
                     </h6>
                     <p ng-repeat="error in day.errors" ng-if="day.open">
                         <span class="label label-info">
-                            {{error}}
+                            {{error.recorded | date : 'hh:mm a'}}
                         </span>
+                        {{error.description}}
                     </p>
                 </div>
             </div>
