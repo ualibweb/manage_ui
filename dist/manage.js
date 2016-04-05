@@ -6699,7 +6699,7 @@ angular.module('manage.oneSearchErrors', ['oc.lazyLoad'])
                             break;
                     }
                     for (i = 0; i < curData.length; i++) {
-                        curData[i] = curData[i].recorded.replace(/-/g,'/');
+                        curData[i].recorded = curData[i].recorded.replace(/-/g,'/');
                         var dt = new Date(curData[i].recorded);
                         var isPresent = false;
                         var y = 0, m = 0, d = 0;
