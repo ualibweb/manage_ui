@@ -14,20 +14,20 @@
 
     <h3>Slides (only top <span class="label label-info">{{numShow}}</span> slides will be shown)</h3>
     <div class="row" ng-repeat="slide in slides | orderBy:'priority':true">
-        <div class="col-xs-2 col-sm-1 clickable" ng-click="toggleSlide(slide)">
-            <h2>
+        <div class="col-xs-2 col-sm-1">
+            <h2 class="clickable" ng-click="toggleSlide(slide)">
                 <span class="label label-success" ng-if="$index < numShow">{{$index + 1}}</span>
             </h2>
-        </div>
-        <div class="col-xs-10 col-sm-4 col-md-3">
-            <a class="thumbnail clickable" ng-click="toggleSlide(slide)">
-                <img ng-src="{{slide.image}}" alt="Click to edit slide">
-            </a><br>
             <button type="button" class="btn btn-danger" ng-click="approveSlide(slide)"
                     ng-if="slide.status < 1 && admin">
                 <span class="fa fa-thumbs-o-up"></span> Approve
             </button>
             <span class="label label-warning" ng-if="slide.status < 1 && !admin">Approval Pending</span>
+        </div>
+        <div class="col-xs-10 col-sm-4 col-md-3">
+            <a class="thumbnail clickable" ng-click="toggleSlide(slide)">
+                <img ng-src="{{slide.image}}" alt="Click to edit slide">
+            </a>
         </div>
         <div class="col-xs-12 col-sm-7 col-md-8 clickable" ng-hide="slide.show" ng-click="toggleSlide(slide)">
             <h4><a>{{slide.title}}</a></h4>
