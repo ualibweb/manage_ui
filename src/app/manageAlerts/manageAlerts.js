@@ -189,15 +189,6 @@ angular.module('manage.manageAlerts', [])
         };
     }])
 
-    .filter('startFrom', [ function() {
-        return function(input, start) {
-            start = +start; //parse to int
-            if (typeof input == 'undefined')
-                return input;
-            return input.slice(start);
-        }
-    }])
-
     .controller('manageAlertFieldsCtrl', ['$scope', 'TYPES',
     function manageAlertFieldsCtrl($scope, TYPES){
         $scope.types = TYPES;

@@ -7,34 +7,34 @@
                 <div class="form-group col-md-12">
                     <label for="filterBy">Filter <small>{{filteredDB.length}}</small> results by</label>
                     <div id="filterBy">
-                        <input type="text" class="form-control" placeholder="Title starts with" ng-model="titleStartFilter">
-                        <input type="text" class="form-control" placeholder="Title contains" ng-model="titleFilter">
-                        <input type="text" class="form-control" placeholder="Description contains" ng-model="descrFilter">
-                        <input type="text" class="form-control" placeholder="Subjects contain" ng-model="subjectFilter">
-                        <input type="text" class="form-control" placeholder="Media Types contain" ng-model="typeFilter">
-                        <input type="text" class="form-control" placeholder="Publisher contains" ng-model="publisherFilter">
-                        <input type="text" class="form-control" placeholder="Vendor contains" ng-model="vendorFilter">
-                        <select class="form-control" ng-model="disFilter" ng-options="val.name for val in disValues">
+                        <input type="text" class="form-control" placeholder="Title starts with" ng-model="filters.titleStart">
+                        <input type="text" class="form-control" placeholder="Title contains" ng-model="filters.title">
+                        <input type="text" class="form-control" placeholder="Description contains" ng-model="filters.description">
+                        <input type="text" class="form-control" placeholder="Subjects contain" ng-model="filters.subjects">
+                        <input type="text" class="form-control" placeholder="Media Types contain" ng-model="filters.types">
+                        <input type="text" class="form-control" placeholder="Publisher contains" ng-model="filters.publisher">
+                        <input type="text" class="form-control" placeholder="Vendor contains" ng-model="filters.vendor">
+                        <select class="form-control" ng-model="filters.disabled" ng-options="val.value as val.name for val in disValues">
                         </select>
                     </div>
                     <label for="sortBy">Sort by</label>
                     <div id="sortBy">
-                        <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="0" ng-click="sortBy(0)">
+                        <button type="button" class="btn btn-default" ng-model="sortMode" btn-radio="0" ng-click="sortBy(0)">
                             Title
                             <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[0].reverse"></span>
                             <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[0].reverse"></span>
                         </button>
-                        <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="1" ng-click="sortBy(1)">
+                        <button type="button" class="btn btn-default" ng-model="sortMode" btn-radio="1" ng-click="sortBy(1)">
                             Creation Date
                             <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[1].reverse"></span>
                             <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[1].reverse"></span>
                         </button>
-                        <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="2" ng-click="sortBy(2)">
+                        <button type="button" class="btn btn-default" ng-model="sortMode" btn-radio="2" ng-click="sortBy(2)">
                             Last Modified
                             <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[2].reverse"></span>
                             <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[2].reverse"></span>
                         </button>
-                        <button type="button" class="btn btn-default" ng-model="sortButton" btn-radio="3" ng-click="sortBy(3)">
+                        <button type="button" class="btn btn-default" ng-model="sortMode" btn-radio="3" ng-click="sortBy(3)">
                             Temporary Disabled
                             <span class="fa fa-fw fa-long-arrow-down" ng-show="!sortModes[3].reverse"></span>
                             <span class="fa fa-fw fa-long-arrow-up" ng-show="sortModes[3].reverse"></span>
@@ -48,16 +48,7 @@
                             boundary-links="true" rotate="false" items-per-page="perPage" ng-show="filteredDB.length > perPage"></pagination>
             </div>
             <div class="row row-clickable"
-                 ng-repeat="db in filteredDB = (DBList.databases | filter:{title:titleStartFilter}:startTitle
-                                                                 | filter:{title:titleFilter}
-                                                                 | filter:{description:descrFilter}
-                                                                 | filter:{subjects:subjectFilter}
-                                                                 | filter:{types:typeFilter}
-                                                                 | filter:{publisher:publisherFilter}
-                                                                 | filter:{vendor:vendorFilter}
-                                                                 | filter:{disabled:disFilter.value}
-                                                                 | orderBy:sortModes[sortMode].by:sortModes[sortMode].reverse)
-                | startFrom:(currentPage-1)*perPage | limitTo:perPage"
+                 ng-repeat="db in filteredDB | startFrom:(currentPage-1)*perPage | limitTo:perPage track by $index"
                  ng-class="{sdOpen: db.show}">
                 <div class="col-md-12" ng-click="toggleDB(db)" style="cursor: pointer;">
                     <div class="col-md-10">
@@ -80,7 +71,7 @@
                         <h4 ng-show="db.disabled == 1 || db.tmpDisabled == 1"><small><span class="label label-danger">Disabled</span></small></h4>
                     </div>
                 </div>
-                <div class="col-md-12" ng-show="db.show">
+                <div class="col-md-12" ng-if="db.show">
                     <form ng-submit="updateDB(db)">
                         <div class="col-md-6 form-group">
                             <label for="{{db.id}}_title">Title</label>
@@ -188,41 +179,45 @@
                                    id="{{db.id}}_tmpDisable" ng-change="changed(db)">
                         </div>
                         <div class="col-md-12">
-                            <div class="col-md-6 form-group">
-                                <label for="{{db.id}}_subjects">Subjects</label>
-                                <ul class="list-group" id="{{db.id}}_subjects">
-                                    <li class="list-group-item" ng-repeat="subject in db.subjects">
-                                        <button type="button" class="btn btn-danger" ng-click="deleteSubject(db,subject)">Delete</button>
-                                        {{subject.subject}} : {{subject.type}}
-                                    </li>
-                                    <li class="list-group-item col-md-12">
-                                        <div class="col-md-7">
-                                            <select class="form-control" ng-model="db.selSubj" ng-options="sub.subject for sub in DBList.subjects">
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="{{db.id}}_subjects">Subjects</label>
+                                    <ul class="list-group" id="{{db.id}}_subjects">
+                                        <li class="list-group-item" ng-repeat="subject in db.subjects">
+                                            <button type="button" class="btn btn-danger" ng-click="deleteSubject(db,subject)">Delete</button>
+                                            {{subject.subject}} : {{subject.type}}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    <select class="form-control" ng-model="db.selSubj" ng-options="sub.subject for sub in subjects">
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <select class="form-control" ng-model="db.subjType" ng-options="val for val in subjectValues">
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="button" class="btn btn-success" ng-click="addSubject(db)">Add Subject</button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="{{db.id}}_types">Types</label>
+                                    <ul class="list-group" id="{{db.id}}_types">
+                                        <li class="list-group-item" ng-repeat="type in db.types">
+                                            <button type="button" class="btn btn-danger" ng-click="deleteType(db,type)">Delete</button>
+                                            {{type.type}}
+                                        </li>
+                                        <li class="list-group-item form-inline">
+                                            <select class="form-control" ng-model="db.selType" ng-options="typ.type for typ in types">
                                             </select>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <select class="form-control" ng-model="db.subjType" ng-options="val for val in subjectValues">
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button type="button" class="btn btn-success" ng-click="addSubject(db)">Add Subject</button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label for="{{db.id}}_types">Types</label>
-                                <ul class="list-group" id="{{db.id}}_types">
-                                    <li class="list-group-item" ng-repeat="type in db.types">
-                                        <button type="button" class="btn btn-danger" ng-click="deleteType(db,type)">Delete</button>
-                                        {{type.type}}
-                                    </li>
-                                    <li class="list-group-item form-inline">
-                                        <select class="form-control" ng-model="db.selType" ng-options="typ.type for typ in DBList.types">
-                                        </select>
-                                        <button type="button" class="btn btn-success" ng-click="addType(db)">Add Type</button>
-                                    </li>
-                                </ul>
+                                            <button type="button" class="btn btn-success" ng-click="addType(db)">Add Type</button>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12 text-center">
@@ -350,7 +345,7 @@
                                 </li>
                                 <li class="list-group-item col-md-12">
                                     <div class="col-md-7">
-                                        <select class="form-control" ng-model="newDB.selSubj" ng-options="sub.subject for sub in DBList.subjects">
+                                        <select class="form-control" ng-model="newDB.selSubj" ng-options="sub.subject for sub in subjects">
                                         </select>
                                     </div>
                                     <div class="col-md-2">
@@ -371,7 +366,7 @@
                                     {{type.type}}
                                 </li>
                                 <li class="list-group-item form-inline">
-                                    <select class="form-control" ng-model="newDB.selType" ng-options="typ.type for typ in DBList.types">
+                                    <select class="form-control" ng-model="newDB.selType" ng-options="typ.type for typ in types">
                                     </select>
                                     <button type="button" class="btn btn-success" ng-click="addTypeNewDB()">Add Type</button>
                                 </li>

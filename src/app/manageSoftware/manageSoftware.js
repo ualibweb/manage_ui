@@ -403,14 +403,6 @@ angular.module('manage.manageSoftware', ['ngFileUpload'])
             templateUrl: 'manageSoftware/manageSoftwareList.tpl.html'
         };
     }])
-    .filter('startFrom', [ function() {
-        return function(input, start) {
-            start = +start; //parse to int
-            if (typeof input == 'undefined')
-                return input;
-            return input.slice(start);
-        }
-    }])
 
     .controller('SWItemFieldsCtrl', ['$scope', '$timeout', 'Upload', 'OS',
     function SWItemFieldsCtrl($scope, $timeout, Upload, OS){

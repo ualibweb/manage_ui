@@ -269,12 +269,6 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
             templateUrl: 'staffDirectory/staffDirectoryPeople.tpl.html'
         };
     }])
-    .filter('startFrom', [ function() {
-        return function(input, start) {
-            start = +start; //parse to int
-            return input.slice(start);
-        }
-    }])
 
     .controller('staffDirSubjectsCtrl', ['$scope', 'sdFactory',
         function staffDirSubjectsCtrl($scope, sdFactory){

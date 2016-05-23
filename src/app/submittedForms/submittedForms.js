@@ -61,15 +61,6 @@ angular.module('manage.submittedForms', ['ngFileUpload'])
         };
     }])
 
-    .filter('startFrom', [ function() {
-        return function(input, start) {
-            start = +start; //parse to int
-            if (typeof input == 'undefined')
-                return input;
-            return input.slice(start);
-        }
-    }])
-
     .controller('customFormCtrl', ['$scope', '$timeout', 'formFactory', 'Upload', 'FORMS_URL',
     function customFormCtrl($scope, $timeout, formFactory, Upload, API){
         $scope.mailToLib = 0;

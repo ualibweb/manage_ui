@@ -367,14 +367,6 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
             templateUrl: 'manageNews/manageNewsList.tpl.html'
         };
     }])
-    .filter('startFrom', [ function() {
-        return function(input, start) {
-            start = +start; //parse to int
-            if (typeof input == 'undefined')
-                return input;
-            return input.slice(start);
-        }
-    }])
 
     .controller('NewsItemFieldsCtrl', ['$scope', '$timeout', 'Upload',
         function NewsItemFieldsCtrl($scope, $timeout, Upload){

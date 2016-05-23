@@ -12,31 +12,35 @@ angular.module('manage.manageDatabases', [])
             }
         });
     }])
-    .controller('manageDBCtrl', ['$scope', 'mdbFactory', 'userData', 'DATABASES_GROUP', 'AuthService',
-        function manageDBCtrl($scope, mdbFactory, userData, DATABASES_GROUP, AuthService){
+    .controller('manageDBCtrl', ['$scope', '$filter', 'mdbFactory', 'userData', 'DATABASES_GROUP', 'AuthService',
+        function manageDBCtrl($scope, $filter, mdbFactory, userData, DATABASES_GROUP, AuthService){
             $scope.userInfo = AuthService.isAuthorized();
-            $scope.DBList = {};
-            $scope.titleFilter = '';
-            $scope.titleStartFilter = '';
-            $scope.descrFilter = '';
-            $scope.subjectFilter = '';
-            $scope.typeFilter = '';
-            $scope.publisherFilter = '';
-            $scope.vendorFilter = '';
+
+            var DBList = {};
+            $scope.filters = {
+                titleStart: '',
+                title: '',
+                description: '',
+                subjects: '',
+                types: '',
+                publisher: '',
+                vendor: '',
+                disabled: '',
+                sort: {}
+            };
+            $scope.filteredDB = null;
             $scope.disValues = [
                 {name:'Show all', value:''},
                 {name:'Enabled only', value:'0'},
                 {name:'Disabled only', value:'1'}
             ];
-            $scope.disFilter = $scope.disValues[0];
             $scope.sortMode = 0;
             $scope.sortModes = [
                 {by:'title', reverse:false},
                 {by:'dateCreated', reverse:false},
                 {by:'lastModified', reverse:false},
                 {by:'tmpDisabled', reverse:true}
-                ];
-            $scope.sortButton = $scope.sortMode;
+            ];
             $scope.newDB = {};
             $scope.newDB.subjects = [];
             $scope.newDB.types = [];
@@ -51,16 +55,15 @@ angular.module('manage.manageDatabases', [])
             $scope.inEDSValues = [ "", "Y", "P" ];
 
             $scope.hasAccess = false;
-            if (angular.isDefined($scope.userInfo.group)) {
+             if (angular.isDefined($scope.userInfo.group)) {
                 if ((parseInt($scope.userInfo.group) & DATABASES_GROUP) === DATABASES_GROUP) {
                     $scope.hasAccess = true;
                     $scope.newDB.updatedBy = $scope.userInfo.login;
                 }
-            }
+             }
 
             mdbFactory.getData()
                 .success(function(data) {
-                    console.dir(data);
                     for (var i = 0; i < data.databases.length; i++){
                         data.databases[i].show = false;
                         data.databases[i].changed = false;
@@ -72,31 +75,65 @@ angular.module('manage.manageDatabases', [])
                     $scope.newDB.selSubj = data.subjects[0];
                     $scope.newDB.subjType = 1;
                     $scope.newDB.selType = data.types[0];
-                    $scope.DBList = data;
+
+                    $scope.types = angular.copy(data.types);
+                    $scope.subjects = angular.copy(data.subjects);
+                    DBList = angular.copy(data);
+                    $scope.filteredDB = angular.copy(data.databases);
+                    $scope.filters.sort = {by:'title', reverse:false};
                 })
                 .error(function(data, status, headers, config) {
                     console.log(data);
                 });
 
-            $scope.startTitle = function(actual, expected){
+            $scope.$watchCollection('filters', processFilters);
+
+            function processFilters(newVal, oldVal){
+                var db = angular.copy(DBList.databases);
+
+                for(var filter in newVal){
+                    if (oldVal === undefined || newVal[filter] !== oldVal[filter] || filter === 'sort'){
+                        switch(filter){
+                            case 'sort':
+                                db = $filter('orderBy')(db, newVal[filter].by, newVal[filter].reverse);
+                                break;
+                            case 'titleStart':
+                                db = $filter('filter')(db, {title:newVal[filter]}, startTitle);
+                                break;
+                            default:
+                                var f = {};
+                                f[filter] = newVal[filter];
+                                db = $filter('filter')(db, f);
+                        }
+                    }
+                }
+
+                $scope.filteredDB = angular.copy(db);
+            }
+
+
+            function startTitle(actual, expected){
                 if (!expected)
                     return true;
                 if (actual.toLowerCase().indexOf(expected.toLowerCase()) == 0)
                     return true;
                 return false;
-            };
-            $scope.toggleDB = function(db){
-                $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].show =
-                    !$scope.DBList.databases[$scope.DBList.databases.indexOf(db)].show;
-            };
+            }
+
             $scope.sortBy = function(by){
                 if ($scope.sortMode === by)
                     $scope.sortModes[by].reverse = !$scope.sortModes[by].reverse;
                 else
                     $scope.sortMode = by;
+                $scope.filters.sort = angular.copy($scope.sortModes[by]);
             };
+
+            $scope.toggleDB = function(db){
+                db.show = !db.show;
+            };
+
             $scope.changed = function(db){
-                $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].changed = true;
+                db.changed = true;
             };
 
             $scope.deleteDB = function(db){
@@ -104,7 +141,8 @@ angular.module('manage.manageDatabases', [])
                     mdbFactory.postData({action : 1}, db)
                         .success(function(data, status, headers, config) {
                             if (data == 1){
-                                $scope.DBList.databases.splice($scope.DBList.databases.indexOf(db), 1);
+                                //$scope.DBList.databases.splice($scope.DBList.databases.indexOf(db), 1);
+                                $scope.filteredDB.splice($scope.filteredDB.indexOf(db), 1);
                                 $scope.formResponse = "Database has been deleted.";
                             } else {
                                 $scope.formResponse = "Error: Can not delete database! " + data;
@@ -140,8 +178,13 @@ angular.module('manage.manageDatabases', [])
                         } else {
                             $scope.formResponse = "Error: Can not update database! " + data;
                         }
-                        $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].changed = false;
+                        db.changed = false;
+
                         alert($scope.formResponse);
+                        DBList.databases = DBList.databases.filter(function(item){
+                            return item.id !== db.id;
+                        });
+                        DBList.databases.push(angular.copy(db));
                         console.log(data);
                     })
                     .error(function(data, status, headers, config) {
@@ -150,6 +193,9 @@ angular.module('manage.manageDatabases', [])
                         console.log(data);
                     });
             };
+
+
+
             $scope.createDB = function(){
                 console.dir($scope.newDB);
                 mdbFactory.postData({action : 3}, $scope.newDB)
@@ -166,7 +212,8 @@ angular.module('manage.manageDatabases', [])
                             newDB.selSubj = data.subjects[0];
                             newDB.subjType = 1;
                             newDB.selType = data.types[0];
-                            $scope.DBList.databases.push(newDB);
+                            DBList.databases.push(newDB);
+                            processFilters($scope.filters);
                             $scope.formResponse = "Database has been created.";
                         } else {
                             $scope.formResponse = "Error: Can not create database! " + data;
@@ -190,9 +237,9 @@ angular.module('manage.manageDatabases', [])
                     .success(function(data, status, headers, config) {
                         if ((typeof data === 'object') && (data !== null)){
                             newSubject.id = data.id;
-                            if (typeof $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].subjects == 'undefined')
-                                $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].subjects = [];
-                            $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].subjects.push(newSubject);
+                            if (typeof db.subjects == 'undefined')
+                                db.subjects = [];
+                            db.subjects.push(newSubject);
                             $scope.formResponse = "Subject has been added.";
                         } else {
                             $scope.formResponse = "Error: Can not add subject! " + data;
@@ -212,8 +259,8 @@ angular.module('manage.manageDatabases', [])
                 mdbFactory.postData({action : 5}, subject)
                     .success(function(data, status, headers, config) {
                         if (data == 1){
-                            $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].subjects.splice(
-                                $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].subjects.indexOf(subject),1
+                            db.subjects.splice(
+                                db.subjects.indexOf(subject),1
                             );
                             $scope.formResponse = "Subject has been deleted.";
                         } else {
@@ -236,9 +283,9 @@ angular.module('manage.manageDatabases', [])
                     .success(function(data, status, headers, config) {
                         if ((typeof data === 'object') && (data !== null)){
                             newType.id = data.id;
-                            if (typeof $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].types == 'undefined')
-                                $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].types = [];
-                            $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].types.push(newType);
+                            if (typeof db.types == 'undefined')
+                                db.types = [];
+                            db.types.push(newType);
                             $scope.formResponse = "Type has been added.";
                         } else {
                             $scope.formResponse = "Error: Can not add type! " + data;
@@ -256,8 +303,8 @@ angular.module('manage.manageDatabases', [])
                 mdbFactory.postData({action : 7}, type)
                     .success(function(data, status, headers, config) {
                         if (data == 1){
-                            $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].types.splice(
-                                $scope.DBList.databases[$scope.DBList.databases.indexOf(db)].types.indexOf(type),1
+                            db.types.splice(
+                                db.types.indexOf(type),1
                             );
                             $scope.formResponse = "Type has been deleted.";
                         } else {
@@ -309,12 +356,3 @@ angular.module('manage.manageDatabases', [])
                     $scope.newDB.types.push(newType);
             };
         }])
-
-    .filter('startFrom', [ function() {
-        return function(input, start) {
-            start = +start; //parse to int
-            if (typeof input == 'undefined')
-                return input;
-            return input.slice(start);
-        }
-    }])
