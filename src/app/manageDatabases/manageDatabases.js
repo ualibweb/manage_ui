@@ -89,6 +89,7 @@ angular.module('manage.manageDatabases', [])
             $scope.$watchCollection('filters', processFilters);
 
             function processFilters(newVal, oldVal){
+                newVal = angular.isUndefined(newVal) ? angular.copy($scope.filters) : newVal;
                 var db = angular.copy(DBList.databases);
 
                 for(var filter in newVal){
@@ -143,6 +144,9 @@ angular.module('manage.manageDatabases', [])
                             if (data == 1){
                                 //$scope.DBList.databases.splice($scope.DBList.databases.indexOf(db), 1);
                                 $scope.filteredDB.splice($scope.filteredDB.indexOf(db), 1);
+                                DBList.databases = DBList.databases.filter(function(item){
+                                    return item.id !== db.id;
+                                });
                                 $scope.formResponse = "Database has been deleted.";
                             } else {
                                 $scope.formResponse = "Error: Can not delete database! " + data;
@@ -197,12 +201,11 @@ angular.module('manage.manageDatabases', [])
 
 
             $scope.createDB = function(){
-                console.dir($scope.newDB);
                 mdbFactory.postData({action : 3}, $scope.newDB)
                     .success(function(data, status, headers, config) {
                         if ((typeof data === 'object') && (data !== null)){
                             var newDB = {};
-                            newDB = angular.copy($scope.newDB);
+                            newDB = angular.extend({publisher: '', vendor:'', disabled: 0}, $scope.newDB);
                             newDB.id = data.id;
                             newDB.subjects = angular.copy(data.subjects);
                             newDB.types = angular.copy(data.types);
@@ -213,7 +216,7 @@ angular.module('manage.manageDatabases', [])
                             newDB.subjType = 1;
                             newDB.selType = data.types[0];
                             DBList.databases.push(newDB);
-                            processFilters($scope.filters);
+                            processFilters();
                             $scope.formResponse = "Database has been created.";
                         } else {
                             $scope.formResponse = "Error: Can not create database! " + data;
