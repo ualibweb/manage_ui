@@ -37,12 +37,12 @@
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <select class="form-control" ng-model="exception.from">
-                            <option ng-repeat="hours in hrsFrom" ng-selected="{{exception.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                            <option ng-repeat="hours in hrsFrom" ng-selected="exception.from == hours.value" ng-value="hours.value">{{hours.name}}</option>
                         </select>
                     </div>
                     <div class="col-md-6 form-group">
                         <select class="form-control" ng-model="exception.to">
-                            <option ng-repeat="hours in hrsTo" ng-selected="{{exception.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                            <option ng-repeat="hours in hrsTo" ng-selected="exception.to == hours.value" ng-value="hours.value">{{hours.name}}</option>
                         </select>
                     </div>
                 </div>
@@ -76,12 +76,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <select class="form-control" ng-model="newException.from">
-                            <option ng-repeat="hours in hrsFrom" ng-selected="{{newException.from == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                            <option ng-repeat="hours in hrsFrom" ng-selected="newException.from == hours.value" ng-value="hours.value">{{hours.name}}</option>
                         </select>
                     </div>
                     <div class="col-md-6">
                         <select class="form-control" ng-model="newException.to">
-                            <option ng-repeat="hours in hrsTo" ng-selected="{{newException.to == hours.value}}" ng-value="{{hours.value}}">{{hours.name}}</option>
+                            <option ng-repeat="hours in hrsTo" ng-selected="newException.to == hours.value" ng-value="hours.value">{{hours.name}}</option>
                         </select>
                     </div>
                 </div>

@@ -713,12 +713,12 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "                <div class=\"row\">\n" +
     "                    <div class=\"col-md-6 form-group\">\n" +
     "                        <select class=\"form-control\" ng-model=\"exception.from\">\n" +
-    "                            <option ng-repeat=\"hours in hrsFrom\" ng-selected=\"{{exception.from == hours.value}}\" ng-value=\"{{hours.value}}\">{{hours.name}}</option>\n" +
+    "                            <option ng-repeat=\"hours in hrsFrom\" ng-selected=\"exception.from == hours.value\" ng-value=\"hours.value\">{{hours.name}}</option>\n" +
     "                        </select>\n" +
     "                    </div>\n" +
     "                    <div class=\"col-md-6 form-group\">\n" +
     "                        <select class=\"form-control\" ng-model=\"exception.to\">\n" +
-    "                            <option ng-repeat=\"hours in hrsTo\" ng-selected=\"{{exception.to == hours.value}}\" ng-value=\"{{hours.value}}\">{{hours.name}}</option>\n" +
+    "                            <option ng-repeat=\"hours in hrsTo\" ng-selected=\"exception.to == hours.value\" ng-value=\"hours.value\">{{hours.name}}</option>\n" +
     "                        </select>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -752,12 +752,12 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "                <div class=\"row\">\n" +
     "                    <div class=\"col-md-6\">\n" +
     "                        <select class=\"form-control\" ng-model=\"newException.from\">\n" +
-    "                            <option ng-repeat=\"hours in hrsFrom\" ng-selected=\"{{newException.from == hours.value}}\" ng-value=\"{{hours.value}}\">{{hours.name}}</option>\n" +
+    "                            <option ng-repeat=\"hours in hrsFrom\" ng-selected=\"newException.from == hours.value\" ng-value=\"hours.value\">{{hours.name}}</option>\n" +
     "                        </select>\n" +
     "                    </div>\n" +
     "                    <div class=\"col-md-6\">\n" +
     "                        <select class=\"form-control\" ng-model=\"newException.to\">\n" +
-    "                            <option ng-repeat=\"hours in hrsTo\" ng-selected=\"{{newException.to == hours.value}}\" ng-value=\"{{hours.value}}\">{{hours.name}}</option>\n" +
+    "                            <option ng-repeat=\"hours in hrsTo\" ng-selected=\"newException.to == hours.value\" ng-value=\"hours.value\">{{hours.name}}</option>\n" +
     "                        </select>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -936,10 +936,10 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "                </div>\n" +
     "                <div ng-if=\"isExpSem(sem.dsid)\">\n" +
     "                    <select class=\"form-control\" ng-model=\"day.from\">\n" +
-    "                        <option ng-repeat=\"hours in hrsFrom\" ng-selected=\"{{day.from == hours.value}}\" ng-value=\"{{hours.value}}\">{{hours.name}}</option>\n" +
+    "                        <option ng-repeat=\"hours in hrsFrom\" ng-selected=\"day.from == hours.value\" ng-value=\"hours.value\">{{hours.name}}</option>\n" +
     "                    </select>\n" +
     "                    <select class=\"form-control\" ng-model=\"day.to\">\n" +
-    "                        <option ng-repeat=\"hours in hrsTo\" ng-selected=\"{{day.to == hours.value}}\" ng-value=\"{{hours.value}}\">{{hours.name}}</option>\n" +
+    "                        <option ng-repeat=\"hours in hrsTo\" ng-selected=\"day.to == hours.value\" ng-value=\"hours.value\">{{hours.name}}</option>\n" +
     "                    </select>\n" +
     "                </div>\n" +
     "            </td>\n" +
@@ -979,10 +979,10 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "                </th>\n" +
     "                <td class=\"text-center\" style=\"width:11%\" ng-repeat=\"day in newSemester.dow\">\n" +
     "                    <select class=\"form-control\" ng-model=\"day.from\">\n" +
-    "                        <option ng-repeat=\"hours in hrsFrom\" ng-selected=\"{{day.from == hours.value}}\" ng-value=\"{{hours.value}}\">{{hours.name}}</option>\n" +
+    "                        <option ng-repeat=\"hours in hrsFrom\" ng-selected=\"day.from == hours.value\" ng-value=\"hours.value\">{{hours.name}}</option>\n" +
     "                    </select>\n" +
     "                    <select class=\"form-control\" ng-model=\"day.to\">\n" +
-    "                        <option ng-repeat=\"hours in hrsTo\" ng-selected=\"{{day.to == hours.value}}\" ng-value=\"{{hours.value}}\">{{hours.name}}</option>\n" +
+    "                        <option ng-repeat=\"hours in hrsTo\" ng-selected=\"day.to == hours.value\" ng-value=\"hours.value\">{{hours.name}}</option>\n" +
     "                    </select>\n" +
     "                </td>\n" +
     "            </tr>\n" +
