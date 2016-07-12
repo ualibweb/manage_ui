@@ -12,6 +12,8 @@ angular.module('manage.manageHours', [])
         {name:'11:00 am', value:'1100'},
         {name:'Noon', value:'1200'},
         {name:'1:00 pm', value:'1300'},
+        {name:'2:00 pm', value:'1400'},
+        {name:'2:30 pm', value:'1450'},
         {name:'3:00 pm', value:'1500'},
         {name:'6:00 pm', value:'1800'}
     ])
