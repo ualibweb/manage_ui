@@ -196,7 +196,7 @@ angular.module('common.manage', [])
     .factory('wpUsersFactory', ['$http', 'API', function wpUsersFactory($http, API){
         return {
             getAllUsersWP : function(){
-                return $http.get(API + 'users');
+                return $http.get(API + 'users?per_page=100');
             }
         };
     }])
