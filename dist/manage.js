@@ -2831,10 +2831,10 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                        </select>\n" +
     "                    </div>\n" +
     "                    <div class=\"row form-group\" ng-show=\"person.show\">\n" +
-    "                        <div class=\"col-md-8\">\n" +
+    "                        <div class=\"col-md-8\" style=\"display: none;\">\n" +
     "                            <label for=\"{{person.id}}_addType\">Select Subject Type</label>\n" +
     "                            <select class=\"form-control\" id=\"{{person.id}}_addType\" ng-model=\"person.selType\"\n" +
-    "                                    ng-options=\"type.name for type in subjectTypes\">\n" +
+    "                                    <option value=\"2\" selected=\"selected\"></option>\n" +
     "                            </select>\n" +
     "                        </div>\n" +
     "                        <div class=\"col-md-4\">\n" +
@@ -2885,13 +2885,14 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "                        <div id=\"{{person.id}}_subj\">\n" +
     "                            <div class=\"row form-group\" ng-repeat=\"subject in person.subjects\">\n" +
     "                                <div class=\"col-md-2\">\n" +
+    "                                <div class=\"col-md-2\">\n" +
     "                                    <button type=\"button\" class=\"btn btn-danger\" ng-click=\"deleteSubject(person, subject, $index)\">\n" +
     "                                        <span class=\"fa fa-fw fa-close\"></span>\n" +
     "                                    </button>\n" +
     "                                </div>\n" +
     "                                <div class=\"col-md-10\">\n" +
     "                                    <a href=\"{{subject.link}}\">{{subject.subject}}</a><br>\n" +
-    "                                    <small>{{subjectTypes[subject.type - 1].name}}</small>\n" +
+    "\n" +
     "                                </div>\n" +
     "                            </div>\n" +
     "                        </div>\n" +

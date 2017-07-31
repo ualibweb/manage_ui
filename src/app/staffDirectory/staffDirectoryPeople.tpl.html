@@ -179,10 +179,10 @@
                         </select>
                     </div>
                     <div class="row form-group" ng-show="person.show">
-                        <div class="col-md-8">
+                        <div class="col-md-8" style="display: none;">
                             <label for="{{person.id}}_addType">Select Subject Type</label>
                             <select class="form-control" id="{{person.id}}_addType" ng-model="person.selType"
-                                    ng-options="type.name for type in subjectTypes">
+                                    <option value="2" selected="selected"></option>
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -233,13 +233,14 @@
                         <div id="{{person.id}}_subj">
                             <div class="row form-group" ng-repeat="subject in person.subjects">
                                 <div class="col-md-2">
+                                <div class="col-md-2">
                                     <button type="button" class="btn btn-danger" ng-click="deleteSubject(person, subject, $index)">
                                         <span class="fa fa-fw fa-close"></span>
                                     </button>
                                 </div>
                                 <div class="col-md-10">
                                     <a href="{{subject.link}}">{{subject.subject}}</a><br>
-                                    <small>{{subjectTypes[subject.type - 1].name}}</small>
+
                                 </div>
                             </div>
                         </div>
