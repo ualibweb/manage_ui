@@ -189,6 +189,8 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
                     newSubj.sid = person.selSubj.sid;
                     newSubj.subject = person.selSubj.subject;
                     newSubj.link = person.selSubj.link;
+
+                    //This is set to "both" becuase the selector / instructor distinction no longer exists.  It has been replaced with the liaison program as of Summer 2017.
                     newSubj.type = person.selType.value;
                     $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects.push(newSubj);
                 }
