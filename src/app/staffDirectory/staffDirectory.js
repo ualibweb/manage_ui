@@ -189,7 +189,7 @@ angular.module('manage.staffDirectory', ['oc.lazyLoad', 'ui.tinymce'])
                     newSubj.sid = person.selSubj.sid;
                     newSubj.subject = person.selSubj.subject;
                     newSubj.link = person.selSubj.link;
-                    newSubj.type = person.selType.value;
+                    newSubj.type = 3;
                     $scope.Directory.list[$scope.Directory.list.indexOf(person)].subjects.push(newSubj);
                 }
             };
