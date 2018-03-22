@@ -24,6 +24,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
         $scope.newNews.creator = $scope.userInfo.login;
         $scope.newNews.selectedFiles = [];
         $scope.newNews.picFile = [];
+        $scope.newNews.altText;
         $scope.sortModes = [
             {by:'title', reverse:false},
             {by:'created', reverse:true}
@@ -255,6 +256,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
                                 var newNews = {};
                                 newNews.nid = data.id;
                                 newNews.images = angular.copy(data.images);
+                                newNews.altText = $scope.newNews.altText
                                 newNews.title = $scope.newNews.title;
                                 newNews.description = $scope.newNews.description;
                                 if ($scope.newNews.activeFrom > 0)

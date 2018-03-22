@@ -1160,16 +1160,16 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "</div>\n" +
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-2 form-group\">\n" +
-    "        <label for=\"browse\">Select Images</label>\n" +
+    "        <label for=\"browse\">Select Image</label>\n" +
     "        <div id=\"browse\">\n" +
-    "            <button type=\"file\" ngf-select=\"\" ng-model=\"news.picFile\" accept=\"image/*\" ngf-multiple=\"true\"\n" +
+    "            <button type=\"file\" ngf-select=\"\" ng-model=\"news.picFile\" acept=\"image/*\" ngf-multiple=\"true\"\n" +
     "                    ngf-change=\"generateThumb($files, news)\" class=\"btn btn-success\">\n" +
     "                <span class=\"fa fa-fw fa-plus\"></span>Browse\n" +
     "            </button>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"col-md-10 form-group\">\n" +
-    "        <label for=\"selected\">Selected Images</label>\n" +
+    "    <div class=\"col-md-4 form-group\">\n" +
+    "        <label for=\"selected\">Selected Image</label>\n" +
     "        <div id=\"selected\">\n" +
     "            <div class=\"col-md-3\" ng-repeat=\"img in news.images\">\n" +
     "                <img ng-src=\"{{img.image}}\" width=\"150px\" height=\"100px\">\n" +
@@ -1183,6 +1183,12 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "                    <span class=\"fa fa-fw fa-close\"></span>\n" +
     "                </button>\n" +
     "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-6 form-group\">\n" +
+    "        <label for=\"altText\">Alternative text (required for accessibliity)</label>\n" +
+    "        <div id=\"altText\">\n" +
+    "            <input ng-model=\"news.altText\" ng-model-=\"news.altText\"></input>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
@@ -4913,6 +4919,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
         $scope.newNews.creator = $scope.userInfo.login;
         $scope.newNews.selectedFiles = [];
         $scope.newNews.picFile = [];
+        $scope.newNews.altText;
         $scope.sortModes = [
             {by:'title', reverse:false},
             {by:'created', reverse:true}
@@ -5144,6 +5151,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
                                 var newNews = {};
                                 newNews.nid = data.id;
                                 newNews.images = angular.copy(data.images);
+                                newNews.altText = $scope.newNews.altText
                                 newNews.title = $scope.newNews.title;
                                 newNews.description = $scope.newNews.description;
                                 if ($scope.newNews.activeFrom > 0)

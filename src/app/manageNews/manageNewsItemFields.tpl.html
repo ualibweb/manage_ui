@@ -35,16 +35,16 @@
 </div>
 <div class="row">
     <div class="col-md-2 form-group">
-        <label for="browse">Select Images</label>
+        <label for="browse">Select Image</label>
         <div id="browse">
-            <button type="file" ngf-select="" ng-model="news.picFile" accept="image/*" ngf-multiple="true"
+            <button type="file" ngf-select="" ng-model="news.picFile" acept="image/*" ngf-multiple="true"
                     ngf-change="generateThumb($files, news)" class="btn btn-success">
                 <span class="fa fa-fw fa-plus"></span>Browse
             </button>
         </div>
     </div>
-    <div class="col-md-10 form-group">
-        <label for="selected">Selected Images</label>
+    <div class="col-md-4 form-group">
+        <label for="selected">Selected Image</label>
         <div id="selected">
             <div class="col-md-3" ng-repeat="img in news.images">
                 <img ng-src="{{img.image}}" width="150px" height="100px">
@@ -58,6 +58,12 @@
                     <span class="fa fa-fw fa-close"></span>
                 </button>
             </div>
+        </div>
+    </div>
+    <div class="col-md-6 form-group">
+        <label for="altText">Alternative text (required for accessibliity)</label>
+        <div id="altText">
+            <input ng-model="news.altText" ng-model-="news.altText"></input>
         </div>
     </div>
 </div>
