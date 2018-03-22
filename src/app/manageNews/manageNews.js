@@ -24,7 +24,6 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
         $scope.newNews.creator = $scope.userInfo.login;
         $scope.newNews.selectedFiles = [];
         $scope.newNews.picFile = [];
-        $scope.newNews.altText;
         $scope.sortModes = [
             {by:'title', reverse:false},
             {by:'created', reverse:true}
