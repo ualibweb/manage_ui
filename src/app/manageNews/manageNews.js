@@ -313,6 +313,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
                                 var newNews = {};
                                 newNews.nid = response.data.id;
                                 newNews.images = angular.copy(response.data.images);
+                                newNews.altText = $scope.newNews.altText;
                                 newNews.title = $scope.newNews.title;
                                 newNews.description = $scope.newNews.description;
                                 if ($scope.newNews.activeFrom > 0)

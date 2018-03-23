@@ -1185,10 +1185,10 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"col-md-6 form-group\">\n" +
+    "    <div class=\"col-md-6 form-group\" ng-repeat=\"img in news.images\">\n" +
     "        <label for=\"altText\">Alternative text (note: required for accessibliity)</label>\n" +
     "        <div id=\"altText\">\n" +
-    "            <input ng-model=\"news.images.altText\"></input>\n" +
+    "            <input ng-model=\"news.altText\"></input>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
@@ -5208,6 +5208,7 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
                                 var newNews = {};
                                 newNews.nid = response.data.id;
                                 newNews.images = angular.copy(response.data.images);
+                                newNews.altText = $scope.newNews.altText;
                                 newNews.title = $scope.newNews.title;
                                 newNews.description = $scope.newNews.description;
                                 if ($scope.newNews.activeFrom > 0)

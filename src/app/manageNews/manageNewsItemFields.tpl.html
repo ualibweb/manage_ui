@@ -60,10 +60,10 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 form-group">
+    <div class="col-md-6 form-group" ng-repeat="img in news.images">
         <label for="altText">Alternative text (note: required for accessibliity)</label>
         <div id="altText">
-            <input ng-model="news.images.altText"></input>
+            <input ng-model="news.altText"></input>
         </div>
     </div>
 </div>
