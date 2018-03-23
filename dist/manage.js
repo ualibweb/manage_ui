@@ -1186,9 +1186,9 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"col-md-6 form-group\">\n" +
-    "        <label for=\"altText\">Alternative text (required for accessibliity)</label>\n" +
+    "        <label for=\"altText\">Alternative text (note: required for accessibliity)</label>\n" +
     "        <div id=\"altText\">\n" +
-    "            <input ng-model=\"news.altText\"></input>\n" +
+    "            <input ng-model=\"news.images.altText\"></input>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
