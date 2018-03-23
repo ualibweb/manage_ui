@@ -1188,7 +1188,7 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "    <div class=\"col-md-6 form-group\">\n" +
     "        <label for=\"altText\">Alternative text (required for accessibliity)</label>\n" +
     "        <div id=\"altText\">\n" +
-    "            <input ng-model=\"news.altText\" ng-model-=\"news.altText\"></input>\n" +
+    "            <input ng-model=\"news.altText\"></input>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
@@ -4919,7 +4919,6 @@ angular.module('manage.manageNews', ['ngFileUpload', 'oc.lazyLoad', 'ui.tinymce'
         $scope.newNews.creator = $scope.userInfo.login;
         $scope.newNews.selectedFiles = [];
         $scope.newNews.picFile = [];
-        $scope.newNews.altText;
         $scope.sortModes = [
             {by:'title', reverse:false},
             {by:'created', reverse:true}
