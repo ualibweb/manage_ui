@@ -1162,7 +1162,7 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "    <div class=\"col-md-2 form-group\">\n" +
     "        <label for=\"browse\">Select Image</label>\n" +
     "        <div id=\"browse\">\n" +
-    "            <button type=\"file\" ngf-select=\"\" ng-model=\"news.picFile\" acept=\"image/*\"\n" +
+    "            <button type=\"file\" ngf-select=\"\" ng-model=\"news.picFile\" ngf-multiple=\"false\" accept=\"image/*\"\n" +
     "                    ngf-change=\"generateThumb($files, news)\" class=\"btn btn-success\">\n" +
     "                <span class=\"fa fa-fw fa-plus\"></span>Browse\n" +
     "            </button>\n" +
