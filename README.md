@@ -10,5 +10,6 @@ UI for the University Libraries manage web app, which manages back end admin int
 1. `grunt` 
   - runs build
 1. edit away!
-1. run `grunt` before you push to github
+1. run `grunt live-build` before you push to github
+  - builds the min files
 
