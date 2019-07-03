@@ -3086,6 +3086,7 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
     "    <h2>Manage Submitted Forms</h2>\n" +
     "\n" +
     "    <div ng-if=\"hasAccess\">\n" +
+    "      <!-- removed 3 july 2019; php memory issue\n" +
     "        <div class=\"row form-inline\">\n" +
     "            <div class=\"form-group col-md-12\">\n" +
     "                <label for=\"filterBy\">Filter <small>{{filteredForms.length}}</small> results by</label>\n" +
@@ -3112,6 +3113,10 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
+    "      -->\n" +
+    "      <div class=\"row\">\n" +
+    "        <div class=\"alert alert-warning\"><span class=\"fa fa-exclamation-triangle\"></span> If you need assistance with form data, please contact <a class=\"alert-link\" href=\"https://www.lib.ua.edu/library-help/kacecontact-form/\">Web Services</a>.</div>\n" +
+    "      </div>\n" +
     "\n" +
     "        <div class=\"text-center\">\n" +
     "            <pagination total-items=\"filteredForms.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
@@ -3166,7 +3171,8 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
     "    <div ng-if=\"!hasAccess\">\n" +
     "        <h3>Sorry, you don't have permissions to manage submitted forms</h3>\n" +
     "    </div>\n" +
-    "</div>");
+    "</div>\n" +
+    "");
 }]);
 
 angular.module('manage', [
