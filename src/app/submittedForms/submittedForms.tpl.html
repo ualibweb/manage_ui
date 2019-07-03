@@ -2,6 +2,7 @@
     <h2>Manage Submitted Forms</h2>
 
     <div ng-if="hasAccess">
+      <!-- removed 3 july 2019; php memory issue
         <div class="row form-inline">
             <div class="form-group col-md-12">
                 <label for="filterBy">Filter <small>{{filteredForms.length}}</small> results by</label>
@@ -28,6 +29,10 @@
                 </div>
             </div>
         </div>
+      -->
+      <div class="row">
+        <div class="alert alert-warning"><span class="fa fa-exclamation-triangle"></span> If you need assistance with form data, please contact <a class="alert-link" href="https://www.lib.ua.edu/library-help/kacecontact-form/">Web Services</a>.</div>
+      </div>
 
         <div class="text-center">
             <pagination total-items="filteredForms.length" ng-model="currentPage" max-size="maxPageSize" class="pagination-sm"

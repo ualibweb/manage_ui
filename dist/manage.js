@@ -1,6 +1,6 @@
 angular.module('manage.templates', ['manageAlerts/manageAlerts.tpl.html', 'manageAlerts/manageAlertsItemFields.tpl.html', 'manageDatabases/manageDatabases.tpl.html', 'manageERCarousel/manageERCarousel.tpl.html', 'manageERCarousel/manageSlideFields.tpl.html', 'manageERCarousel/manageSlideList.tpl.html', 'manageHours/manageEx.tpl.html', 'manageHours/manageHours.tpl.html', 'manageHours/manageHoursUsers.tpl.html', 'manageHours/manageLoc.tpl.html', 'manageHours/manageSem.tpl.html', 'manageHours/manageUsers.tpl.html', 'manageNews/manageNews.tpl.html', 'manageNews/manageNewsAdmins.tpl.html', 'manageNews/manageNewsItemFields.tpl.html', 'manageNews/manageNewsList.tpl.html', 'manageOneSearch/mainOneSearch.tpl.html', 'manageOneSearch/manageOneSearch.tpl.html', 'manageOneSearch/oneSearchStat.tpl.html', 'manageSoftware/manageSoftware.tpl.html', 'manageSoftware/manageSoftwareComputerMaps.tpl.html', 'manageSoftware/manageSoftwareItemFields.tpl.html', 'manageSoftware/manageSoftwareList.tpl.html', 'manageSoftware/manageSoftwareLocCat.tpl.html', 'manageUserGroups/manageUG.tpl.html', 'manageUserGroups/viewMyWebApps.tpl.html', 'oneSearchErrors/oneSearchErrors.tpl.html', 'staffDirectory/staffDirectory.tpl.html', 'staffDirectory/staffDirectoryDepartments.tpl.html', 'staffDirectory/staffDirectoryPeople.tpl.html', 'staffDirectory/staffDirectoryProfile.tpl.html', 'staffDirectory/staffDirectorySubjects.tpl.html', 'submittedForms/submittedForms.tpl.html']);
 
-angular.module("manageAlerts/manageAlerts.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageAlerts/manageAlerts.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageAlerts/manageAlerts.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Manage Website Alerts</h2>\n" +
@@ -129,7 +129,7 @@ angular.module("manageAlerts/manageAlerts.tpl.html", []).run(["$templateCache", 
     "</div>");
 }]);
 
-angular.module("manageAlerts/manageAlertsItemFields.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageAlerts/manageAlertsItemFields.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageAlerts/manageAlertsItemFields.tpl.html",
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-2 form-group\">\n" +
@@ -165,7 +165,7 @@ angular.module("manageAlerts/manageAlertsItemFields.tpl.html", []).run(["$templa
     "");
 }]);
 
-angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageDatabases/manageDatabases.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Manage Databases</h2>\n" +
@@ -556,7 +556,7 @@ angular.module("manageDatabases/manageDatabases.tpl.html", []).run(["$templateCa
     "</div>");
 }]);
 
-angular.module("manageERCarousel/manageERCarousel.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageERCarousel/manageERCarousel.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageERCarousel/manageERCarousel.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Manage ER Carousel Slides</h2>\n" +
@@ -570,7 +570,7 @@ angular.module("manageERCarousel/manageERCarousel.tpl.html", []).run(["$template
     "</div>");
 }]);
 
-angular.module("manageERCarousel/manageSlideFields.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageERCarousel/manageSlideFields.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageERCarousel/manageSlideFields.tpl.html",
     "<div class=\"row\">\n" +
     "    <div class=\"col-xs-12 col-sm-6 form-group\">\n" +
@@ -614,7 +614,7 @@ angular.module("manageERCarousel/manageSlideFields.tpl.html", []).run(["$templat
     "");
 }]);
 
-angular.module("manageERCarousel/manageSlideList.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageERCarousel/manageSlideList.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageERCarousel/manageSlideList.tpl.html",
     "<div>\n" +
     "    <form ng-submit=\"createSlide(newSlide)\">\n" +
@@ -672,7 +672,7 @@ angular.module("manageERCarousel/manageSlideList.tpl.html", []).run(["$templateC
     "");
 }]);
 
-angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageHours/manageEx.tpl.html",
     "<div>\n" +
     "    <h3>List of Exceptions</h3>\n" +
@@ -777,7 +777,7 @@ angular.module("manageHours/manageEx.tpl.html", []).run(["$templateCache", funct
     "</div>");
 }]);
 
-angular.module("manageHours/manageHours.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageHours/manageHours.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageHours/manageHours.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>\n" +
@@ -821,7 +821,7 @@ angular.module("manageHours/manageHours.tpl.html", []).run(["$templateCache", fu
     "</div>");
 }]);
 
-angular.module("manageHours/manageHoursUsers.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageHours/manageHoursUsers.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageHours/manageHoursUsers.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Manage Hours Users</h2>\n" +
@@ -844,7 +844,7 @@ angular.module("manageHours/manageHoursUsers.tpl.html", []).run(["$templateCache
     "</div>");
 }]);
 
-angular.module("manageHours/manageLoc.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageHours/manageLoc.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageHours/manageLoc.tpl.html",
     "<table class=\"table table-hover table-condensed\">\n" +
     "    <thead>\n" +
@@ -888,7 +888,7 @@ angular.module("manageHours/manageLoc.tpl.html", []).run(["$templateCache", func
     "");
 }]);
 
-angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageHours/manageSem.tpl.html",
     "<div>\n" +
     "    <h3>Semester List</h3>\n" +
@@ -991,7 +991,7 @@ angular.module("manageHours/manageSem.tpl.html", []).run(["$templateCache", func
     "</div>");
 }]);
 
-angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageHours/manageUsers.tpl.html",
     "<table class=\"table table-hover table-condensed\">\n" +
     "    <thead>\n" +
@@ -1061,7 +1061,7 @@ angular.module("manageHours/manageUsers.tpl.html", []).run(["$templateCache", fu
     "");
 }]);
 
-angular.module("manageNews/manageNews.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageNews/manageNews.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageNews/manageNews.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Manage News and Exhibitions</h2>\n" +
@@ -1084,7 +1084,7 @@ angular.module("manageNews/manageNews.tpl.html", []).run(["$templateCache", func
     "</div>");
 }]);
 
-angular.module("manageNews/manageNewsAdmins.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageNews/manageNewsAdmins.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageNews/manageNewsAdmins.tpl.html",
     "<div class=\"row\" ng-if=\"userInfo.news.admin\">\n" +
     "    <div class=\"col-md-12\">\n" +
@@ -1121,7 +1121,7 @@ angular.module("manageNews/manageNewsAdmins.tpl.html", []).run(["$templateCache"
     "</div>");
 }]);
 
-angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageNews/manageNewsItemFields.tpl.html",
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-6 form-group\">\n" +
@@ -1229,7 +1229,7 @@ angular.module("manageNews/manageNewsItemFields.tpl.html", []).run(["$templateCa
     "");
 }]);
 
-angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageNews/manageNewsList.tpl.html",
     "<div>\n" +
     "    <form name=\"addNewsExh\" ng-submit=\"createNews()\">\n" +
@@ -1349,7 +1349,7 @@ angular.module("manageNews/manageNewsList.tpl.html", []).run(["$templateCache", 
     "");
 }]);
 
-angular.module("manageOneSearch/mainOneSearch.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageOneSearch/mainOneSearch.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageOneSearch/mainOneSearch.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Manage OneSearch</h2>\n" +
@@ -1372,7 +1372,7 @@ angular.module("manageOneSearch/mainOneSearch.tpl.html", []).run(["$templateCach
     "</div>");
 }]);
 
-angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageOneSearch/manageOneSearch.tpl.html",
     "<h3>OneSearch Recommended Links</h3>\n" +
     "\n" +
@@ -1485,7 +1485,7 @@ angular.module("manageOneSearch/manageOneSearch.tpl.html", []).run(["$templateCa
     "");
 }]);
 
-angular.module("manageOneSearch/oneSearchStat.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageOneSearch/oneSearchStat.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageOneSearch/oneSearchStat.tpl.html",
     "<h3>OneSearch Statistics</h3>\n" +
     "\n" +
@@ -1523,7 +1523,7 @@ angular.module("manageOneSearch/oneSearchStat.tpl.html", []).run(["$templateCach
     "");
 }]);
 
-angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageSoftware/manageSoftware.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Manage Software</h2>\n" +
@@ -1550,7 +1550,7 @@ angular.module("manageSoftware/manageSoftware.tpl.html", []).run(["$templateCach
     "</div>");
 }]);
 
-angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageSoftware/manageSoftwareComputerMaps.tpl.html",
     "<div>\n" +
     "    <div class=\"row\">\n" +
@@ -1699,7 +1699,7 @@ angular.module("manageSoftware/manageSoftwareComputerMaps.tpl.html", []).run(["$
     "</div>");
 }]);
 
-angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageSoftware/manageSoftwareItemFields.tpl.html",
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-6 form-group\">\n" +
@@ -2051,7 +2051,7 @@ angular.module("manageSoftware/manageSoftwareItemFields.tpl.html", []).run(["$te
     "");
 }]);
 
-angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageSoftware/manageSoftwareList.tpl.html",
     "<div>\n" +
     "    <div class=\"row form-inline\">\n" +
@@ -2168,7 +2168,7 @@ angular.module("manageSoftware/manageSoftwareList.tpl.html", []).run(["$template
     "");
 }]);
 
-angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageSoftware/manageSoftwareLocCat.tpl.html",
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-6\">\n" +
@@ -2289,7 +2289,7 @@ angular.module("manageSoftware/manageSoftwareLocCat.tpl.html", []).run(["$templa
     "");
 }]);
 
-angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageUserGroups/manageUG.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Web Applications Admin Interface</h2>\n" +
@@ -2388,7 +2388,7 @@ angular.module("manageUserGroups/manageUG.tpl.html", []).run(["$templateCache", 
     "</div>");
 }]);
 
-angular.module("manageUserGroups/viewMyWebApps.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("manageUserGroups/viewMyWebApps.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("manageUserGroups/viewMyWebApps.tpl.html",
     "<h3>My Web Applications</h3>\n" +
     "\n" +
@@ -2408,7 +2408,7 @@ angular.module("manageUserGroups/viewMyWebApps.tpl.html", []).run(["$templateCac
     "</div>");
 }]);
 
-angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("oneSearchErrors/oneSearchErrors.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>OneSearch Errors</h2>\n" +
@@ -2476,7 +2476,7 @@ angular.module("oneSearchErrors/oneSearchErrors.tpl.html", []).run(["$templateCa
     "</div>");
 }]);
 
-angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("staffDirectory/staffDirectory.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Library Staff Directory Management</h2>\n" +
@@ -2503,7 +2503,7 @@ angular.module("staffDirectory/staffDirectory.tpl.html", []).run(["$templateCach
     "</div>");
 }]);
 
-angular.module("staffDirectory/staffDirectoryDepartments.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("staffDirectory/staffDirectoryDepartments.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("staffDirectory/staffDirectoryDepartments.tpl.html",
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-6\">\n" +
@@ -2654,7 +2654,7 @@ angular.module("staffDirectory/staffDirectoryDepartments.tpl.html", []).run(["$t
     "");
 }]);
 
-angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("staffDirectory/staffDirectoryPeople.tpl.html",
     "<div>\n" +
     "    <h3>Add New Person</h3>\n" +
@@ -2918,7 +2918,7 @@ angular.module("staffDirectory/staffDirectoryPeople.tpl.html", []).run(["$templa
     "</div>");
 }]);
 
-angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("staffDirectory/staffDirectoryProfile.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Profile Management</h2>\n" +
@@ -3015,7 +3015,7 @@ angular.module("staffDirectory/staffDirectoryProfile.tpl.html", []).run(["$templ
     "");
 }]);
 
-angular.module("staffDirectory/staffDirectorySubjects.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("staffDirectory/staffDirectorySubjects.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("staffDirectory/staffDirectorySubjects.tpl.html",
     "<div>\n" +
     "    <h3>Manage Subjects</h3>\n" +
@@ -3080,12 +3080,13 @@ angular.module("staffDirectory/staffDirectorySubjects.tpl.html", []).run(["$temp
     "</div>");
 }]);
 
-angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCache", function($templateCache) {
+angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("submittedForms/submittedForms.tpl.html",
     "<div class=\"container\">\n" +
     "    <h2>Manage Submitted Forms</h2>\n" +
     "\n" +
     "    <div ng-if=\"hasAccess\">\n" +
+    "      <!-- removed 3 july 2019; php memory issue\n" +
     "        <div class=\"row form-inline\">\n" +
     "            <div class=\"form-group col-md-12\">\n" +
     "                <label for=\"filterBy\">Filter <small>{{filteredForms.length}}</small> results by</label>\n" +
@@ -3112,6 +3113,10 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
+    "      -->\n" +
+    "      <div class=\"row\">\n" +
+    "        <div class=\"alert alert-warning\"><span class=\"fa fa-exclamation-triangle\"></span> If you need assistance with form data, please contact <a class=\"alert-link\" href=\"https://www.lib.ua.edu/library-help/kacecontact-form/\">Web Services</a>.</div>\n" +
+    "      </div>\n" +
     "\n" +
     "        <div class=\"text-center\">\n" +
     "            <pagination total-items=\"filteredForms.length\" ng-model=\"currentPage\" max-size=\"maxPageSize\" class=\"pagination-sm\"\n" +
@@ -3166,7 +3171,8 @@ angular.module("submittedForms/submittedForms.tpl.html", []).run(["$templateCach
     "    <div ng-if=\"!hasAccess\">\n" +
     "        <h3>Sorry, you don't have permissions to manage submitted forms</h3>\n" +
     "    </div>\n" +
-    "</div>");
+    "</div>\n" +
+    "");
 }]);
 
 angular.module('manage', [
