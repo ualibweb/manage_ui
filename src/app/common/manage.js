@@ -5,7 +5,7 @@ angular.module('common.manage', [])
         $httpProvider.interceptors.push('AuthInterceptor');
     }])
 
-    .factory('AuthInterceptor', ['AuthService', function (AuthService) {
+    .factory('AuthInterceptor', ['AuthService', 'API', function (AuthService, API) {
         return {
             // automatically attach Authorization header
             request: function(config) {
@@ -18,11 +18,14 @@ angular.module('common.manage', [])
                 }
 
                 //interceptor for WordPress nonce headers
-                if (typeof myLocalized !== 'undefined') {
-                    config.headers['X-WP-Nonce'] = myLocalized.nonce;
-                } else {
-                    console.log("myLocalized is not defined.");
+                if (config.url.indexOf(API) === 0) {
+                    if (typeof myLocalized !== 'undefined') {
+                        config.headers['X-WP-Nonce'] = myLocalized.nonce;
+                    } else {
+                        console.log("myLocalized is not defined.");
+                    }
                 }
+
                 return config;
             },
 
