@@ -63,14 +63,14 @@
     <div class="col-md-6 form-group">
         <label for="altText">Alternative text (note: required for accessibliity)</label>
         <div id="altText">
-            <input ng-model="news.altText" style="width: 100%;"></input>
+            <input ng-model="news.altText" style="width: 100%;" class="form-control"></input>
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12 form-group">
-        <label for="news_description">Detailed Description</label>
-        <textarea id="news_description" ng-model="news.description" rows="5" maxlength="64000" required></textarea>
+    <div class="col-md-6 form-group">
+        <label for="news_description" style="display:block;">Detailed Description</label>
+        <textarea class="form-control" id="news_description" ng-model="news.description" rows="5" maxlength="64000" required></textarea>
     </div>
 </div>
 <div class="row form-group">
